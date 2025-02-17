@@ -11,7 +11,6 @@ const createWindow = () => {
   })
 
   win.loadFile('index.html');
-  console.log('index.html');
 
   ipcMain.handle('dark-mode:toggle', () => {
     console.log('ipcMain');
