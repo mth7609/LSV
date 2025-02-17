@@ -9,7 +9,7 @@
     "make": "electron-forge make",
     "publish": "electron-forge publish"
   },
-  "author": "Me",
+  "author": "Michael Thiele",
   "license": "ISC",
   "description": "Archiv der Jugendzeitschriften",
   "devDependencies": {
