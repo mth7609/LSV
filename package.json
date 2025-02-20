@@ -25,6 +25,19 @@
     "electron": "^31.7.7"
   },
   "dependencies": {
-    "electron-squirrel-startup": "^1.0.1"
-  }
+    "bootstrap": "^5.3.3",
+    "electron-squirrel-startup": "^1.0.1",
+    "git": "^0.1.5",
+    "hugo-extended": "^0.144.1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mth7609/LSV.git"
+  },
+  "keywords": [],
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/mth7609/LSV/issues"
+  },
+  "homepage": "https://github.com/mth7609/LSV#readme"
 }

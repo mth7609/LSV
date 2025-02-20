@@ -1,6 +1,8 @@
 const { app, BrowserWindow, ipcMain, nativeTheme } = require('electron')
 const path = require('node:path')
 
+
+
 const createWindow = () => {
   const win = new BrowserWindow({
     width: 800,
