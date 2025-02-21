@@ -1,32 +1,24 @@
-const { app, BrowserWindow, ipcMain, nativeTheme } = require('electron')
+const { app, BrowserWindow} = require('electron')
 const path = require('node:path')
 
 
 
 const createWindow = () => {
   const win = new BrowserWindow({
-    width: 800,
+    width: 1024,
     height: 600,
-    webPreferences: {
-      preload: path.join(__dirname, 'preload.js')
-    }
   })
 
+  win.setBackgroundColor('#ff00a3');
   win.loadFile('index.html');
 
-  ipcMain.handle('dark-mode:toggle', () => {
-    console.log('ipcMain');
-    if (nativeTheme.shouldUseDarkColors) {
-      nativeTheme.themeSource = 'light'
-    } else {
-      nativeTheme.themeSource = 'dark'
-    }
-    return nativeTheme.shouldUseDarkColors
+
+  const win2 = new BrowserWindow({
+    width: 1024,
+    height: 600,
   })
 
-  ipcMain.handle('dark-mode:system', () => {
-    nativeTheme.themeSource = 'system'
-  })
+  win2.loadFile('debug.html');
 }
 
 app.whenReady().then(() => {
