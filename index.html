@@ -26,7 +26,25 @@
     }
 </style>
 
+
+
 <body>
+
+<script>
+    const btn = document.getElementById('dropdownMenuButtonJahr')
+    const dropdownPr = document.getElementsByClassName('dropdown')[0]
+
+    app.console.log('This will output to the main process console.');
+
+    dropdownPr.addEventListener('show.bs.dropdown', () => {
+        myConsole.log('show instance method called');
+    })
+
+    dropdownPr.addEventListener('shown.bs.dropdown', () => {
+        console.log('dropdown completely visible');
+    })
+</script>
+
     <div class="m-3 position-absolute z-n0">
         <img src="images/lsv-logo.png"></img>
     </div>
@@ -48,7 +66,7 @@
                 <div class="dropdown btn-outline-primary" style="width:80px" id="jahr">
                     <button class="btn btn-outline-primary col-sm-12 dropdown-toggle" id="dropdownMenuButtonJahr" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expande d="false">Jahr</button>
                     <ul class="dropdown-menu pre-scrollable" aria-labelledby="dropdownMenuButtonJahr">
-                        <li><a class="dropdown-item" href="#">1970</a></li>
+                        <li><a class="dropdown-item" href="">1970</a></li>
                         <li><a class="dropdown-item" href="#">1971</a></li>
                         <li><a class="dropdown-item" href="#">1972</a></li>
                         <li><a class="dropdown-item" href="#">1973</a></li>

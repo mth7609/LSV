@@ -1,48 +1,48 @@
 <!DOCTYPE html>
-<html lang='en' class=''>
+<html lang="en">
 
 <head>
-
-    <meta charset='UTF-8'>
-    <title>CodePen Demo</title>
-
-    <meta name="robots" content="noindex">
-
-
-
-
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.3/css/bootstrap.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous">
+    </script>
 </head>
 
-<body>
-    <div class="container">
-        <div class="row">
-            <div class="col mt-4">
-                <div class="dropdown"> 
-                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expande d="false">
-                        Dropdown button </button>
-                    <div class="dropdown-menu pre-scrollable" aria-labelledby="dropdownMenuButton">
-                        <a class="dropdown-item" href="#">Foo</a>
-                        <a class="dropdown-item" href="#">Thing</a>
-                        <a class="dropdown-item" href="#">Something</a>
-                        <a class="dropdown-item" href="#">Dudes</a>
-                        <a class="dropdown-item" href="#">Birds</a>
-                        <a class="dropdown-item" href="#">Nikes</a>
-                        <a class="dropdown-item" href="#">Marsh mellows</a> <a class="dropdown-item" href="#">Apples</a>
-                        <a class="dropdown-item" href="#">Dingles</a> <a class="dropdown-item" href="#">Berries</a> <a
-                            class="dropdown-item" href="#">What not</a> <a class="dropdown-item" href="#">Something else
-                            here</a> <a class="dropdown-item" href="#">Action</a> <a class="dropdown-item"
-                            href="#">Another action</a> <a class="dropdown-item" href="#">Something else here</a>
-                    </div>
-                </div>
-            </div>
-        </div>
+<body class="m-2">
+    <h1 style="color:green">Dummy</h1>
+    <div class="dropdown">
+        <button class="btn btn-secondary dropdown-toggle" id="dropdown" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+            GFG Dropdown
+        </button>
+        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+            <li><a class="dropdown-item" href="#">
+                    label 1
+                </a>
+            </li>
+            <li><a class="dropdown-item" href="#">
+                    label 2
+                </a>
+            </li>
+            <li><a class="dropdown-item" href="#">
+                    label 3
+                </a>
+            </li>
+        </ul>
     </div>
 
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script>
+        const btn = document.getElementById('btn')
+        const dropdownPr = document.getElementsByClassName('dropdown-menu')[0]
 
+        dropdownPr.addEventListener('click', function(e) {
+            alert('Click');
+        })
+
+        dropdownPr.addEventListener('shown.bs.dropdown', () => {
+            alert('dropdown completely visible');
+        })
+
+        
+    </script>
 </body>
 
 </html>
