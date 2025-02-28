@@ -10,9 +10,6 @@ const createWindow = () => {
   win.loadFile('index.html');
   }
 
-
-
-
   const createDebug = () => {
   const win = new BrowserWindow({
     width: 1200,
@@ -23,7 +20,7 @@ win.webContents.openDevTools();
   }
 app.whenReady().then(() => {
   createWindow();
-  createDebug();
+  //createDebug();
   
   app.on('activate', () => {
     if (BrowserWindow.getAllWindows().length === 0) {
