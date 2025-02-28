@@ -2,15 +2,16 @@ const { app, BrowserWindow} = require('electron')
 const path = require('node:path')
 
 
-
 const createWindow = () => {
   const win = new BrowserWindow({
     width: 1200,
     height: 800,
   })
-
   win.loadFile('index.html');
   }
+
+
+
 
   const createDebug = () => {
   const win = new BrowserWindow({
@@ -35,4 +36,6 @@ app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') {
     app.quit()
   }
-})
+}
+
+)

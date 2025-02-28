@@ -5,43 +5,38 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous">
     </script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 </head>
 
 <body class="m-2">
     <h1 style="color:green">Dummy</h1>
-    <div class="dropdown">
-        <button class="btn btn-secondary dropdown-toggle" id="dropdown" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+    <div class="btn-group" style="width:200px">
+        <button class="btn btn-secondary dd" id="dropdown1" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
             GFG Dropdown
         </button>
         <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-            <li><a class="dropdown-item" href="#">
-                    label 1
-                </a>
+            <li><a class="dropdown-item" href="#">label 1</a>
             </li>
-            <li><a class="dropdown-item" href="#">
-                    label 2
-                </a>
+            <li><a class="dropdown-item" href="#">label 2</a>
             </li>
-            <li><a class="dropdown-item" href="#">
-                    label 3
-                </a>
+            <li><a class="dropdown-item" href="#">label 3</a>
             </li>
         </ul>
     </div>
 
     <script>
-        const btn = document.getElementById('btn')
-        const dropdownPr = document.getElementsByClassName('dropdown-menu')[0]
+                var selectedDropdown = "";
+        $(".dropdown-menu li a ").click(updateValue);
 
-        dropdownPr.addEventListener('click', function(e) {
-            alert('Click');
-        })
+        function updateValue(str)
+        {            
+            alert($(this).find('.dd').val());
 
-        dropdownPr.addEventListener('shown.bs.dropdown', () => {
-            alert('dropdown completely visible');
-        })
 
-        
+            var selText = $(this).text();
+            document.querySelector('.dd').innerText = selText;
+        }
+
     </script>
 </body>
 

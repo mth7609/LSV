@@ -9,8 +9,8 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.3/css/bootstrap.min.css">
-    </script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.3/css/bootstrap.min.css"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 </head>
 
 <style type="text/css">
@@ -27,29 +27,31 @@
 </style>
 
 
-
 <body>
 
-<script>
-    const btn = document.getElementById('dropdownMenuButtonJahr')
-    const dropdownPr = document.getElementsByClassName('dropdown')[0]
+<!--    <script>
+        const btn = document.getElementById('dropdownMenuButtonJahr')
+        const dropdownPr = document.getElementsByClassName('dropdown')[0]
 
-    app.console.log('This will output to the main process console.');
+        app.console.log('This will output to the main process console.');
 
-    dropdownPr.addEventListener('show.bs.dropdown', () => {
-        myConsole.log('show instance method called');
-    })
+        dropdownPr.addEventListener('show.bs.dropdown', () => {
+            myConsole.log('show instance method called');
+        })
 
-    dropdownPr.addEventListener('shown.bs.dropdown', () => {
-        console.log('dropdown completely visible');
-    })
-</script>
+        dropdownPr.addEventListener('shown.bs.dropdown', () => {
+            console.log('dropdown completely visible');
+        })
+    </script>
+-->
+
+
 
     <div class="m-3 position-absolute z-n0">
         <img src="images/lsv-logo.png"></img>
     </div>
 
-    <p class="text-center fs-2 p-1 fw-bold"><br>Archive der Jugendzeitschriften</p>
+    <p class="text-center fs-2 p-1 fw-bold"><br>Archiv der Jugendzeitschriften</p>
 
     <form style="background-color:#dddddd" method="POST" class=" m-3 p-3 border rounded-4">
         <div class="form-group row">
@@ -64,9 +66,9 @@
             <div class="col-sm-1">
                 <label for="text" class="col-form-label">Jahr</label>
                 <div class="dropdown btn-outline-primary" style="width:80px" id="jahr">
-                    <button class="btn btn-outline-primary col-sm-12 dropdown-toggle" id="dropdownMenuButtonJahr" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expande d="false">Jahr</button>
-                    <ul class="dropdown-menu pre-scrollable" aria-labelledby="dropdownMenuButtonJahr">
-                        <li><a class="dropdown-item" href="">1970</a></li>
+                    <button class="btn btn-outline-primary col-sm-12 d1" id="dropdownJahr" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expande d="false">Jahr</button>
+                    <ul class="dropdown-menu pre-scrollable" aria-labelledby="dropdownJahr">
+                        <li><a class="dropdown-item" href="#">1970</a></li>
                         <li><a class="dropdown-item" href="#">1971</a></li>
                         <li><a class="dropdown-item" href="#">1972</a></li>
                         <li><a class="dropdown-item" href="#">1973</a></li>
@@ -156,9 +158,9 @@
             </div>
             <div class="col-sm-4">
                 <label for="text" class="col-form-label">Land</label>
-                <div class="dropdown btn-outline-primary" id="land">
-                    <button class="col-sm-12 btn btn-outline-primary dropdown-toggle" id="dropdownMenuButton" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expande d="false">Bitte wählen</button>
-                    <ul class="dropdown-menu pre-scrollable" aria-labelledby="dropdownMenuButton">
+                <div class="dropdown btn-outline-primary land">
+                    <button class="col-sm-12 btn btn-outline-primary d2" id="dropdownLand" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expande d="false">Bitte wählen</button>
+                    <ul class="dropdown-menu pre-scrollable" aria-labelledby="dropdownLand">
                         <li><a class="dropdown-item" href="#">Baden-Württemberg</a></li>
                         <li><a class="dropdown-item" href="#">Bayern</a></li>
                         <li><a class="dropdown-item" href="#">Berlin</a></li>
@@ -186,6 +188,33 @@
         </div>
     </form>
 
+    <script>
+        var selectedDropdown = 0;
+
+        $("#dropdownLand").click(sel1);
+        $("#dropdownJahr").click(sel2);
+        $(".dropdown-menu li a").click(updateValue);
+
+        function sel1(str) {
+            selectedDropdown = 1;
+        }
+
+        function sel2(str) {
+            selectedDropdown = 2;
+        }
+
+        function updateValue(str) {
+            var selText = $(this).text();
+
+            if (selectedDropdown == 1) {
+                document.querySelector('.d2').innerText = selText;
+            }
+
+            if (selectedDropdown == 2) {
+                document.querySelector('.d1').innerText = selText;
+            }
+        }
+    </script>
 </body>
 
 </html>

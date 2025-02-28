@@ -25,10 +25,14 @@
     "electron": "^31.7.7"
   },
   "dependencies": {
-    "bootstrap": "^5.3.3",
+    "@popperjs/core": "^2.11.8",
+    "bootstrap": "^4.6.0",
     "electron-squirrel-startup": "^1.0.1",
     "git": "^0.1.5",
-    "hugo-extended": "^0.144.1"
+    "hugo-extended": "^0.144.1",
+    "i": "^0.3.7",
+    "jquery": "^3.7.1",
+    "npm": "^11.1.0"
   },
   "repository": {
     "type": "git",
