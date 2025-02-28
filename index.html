@@ -41,14 +41,14 @@
                 <input type="text" class="form-control" id="name">
             </div>
             <div class="col-sm-1">
-                <label for="text" class="col-form-label">Nr.</label>
-                <input style="width:80px" type="text" class="form-control" id="nr">
+                <label for="text" class="col-form-label px-1">Nr.</label>
+                <input style="width:80px" type="text" class="form-control mx-1" id="no">
             </div>
             <div class="col-sm-1">
                 <label for="text" class="col-form-label">Jahr</label>
-                <div class="dropdown btn-outline-primary" style="width:80px" id="jahr">
-                    <button class="btn btn-outline-primary col-sm-12 d1" id="dropdownJahr" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expande d="false">Jahr</button>
-                    <ul class="dropdown-menu pre-scrollable" aria-labelledby="dropdownJahr">
+                <div class="dropdown btn-outline-primary" style="width:80px" id="year">
+                    <button class="btn btn-outline-primary col-sm-12 d1" id="dropdown-year" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expande d="false">Jahr</button>
+                    <ul class="dropdown-menu pre-scrollable" aria-labelledby="dropdown-year">
                         <li><a class="dropdown-item" href="#">1970</a></li>
                         <li><a class="dropdown-item" href="#">1971</a></li>
                         <li><a class="dropdown-item" href="#">1972</a></li>
@@ -111,11 +111,11 @@
 
             <div class="col-sm-4">
                 <label for="text" class="col-form-label">Ort</label>
-                <input type="text" class="form-control" id="ort">
+                <input type="text" class="form-control" id="city">
             </div>
             <div class="col-sm-2">
                 <label for="text" class="col-form-label">Ergebnisse</label>
-                <input type="text" class="form-control" id="ergebnisse">
+                <input type="text" class="form-control" id="results">
             </div>
         </div>
 
@@ -124,24 +124,24 @@
                 <label for="text" class="col-form-label mx-0">
                     <nobr>Schule / Herausgeber</nobr>
                 </label>
-                <input type="text" class="form-control" id="schuleHerausgeber">
+                <input type="text" class="form-control" id="schoolPublisher">
             </div>
-            <div class="col-sm-2" role="group" aria-label="group" id="SchuleFrei">
-                <div class="col-sm-2 p-0">
-                    <label for="text" class="col-form-label mx-1">Herausgeber</label>
+            <div class="col-sm-2" role="group" aria-label="group" id="publisherIs">
+                <div class="col-sm-2 px-1 py-0">
+                    <label for="text" class="col-form-label"><nobr>Herausgeber ist</nobr></label>
                 </div>
-                <span class="col-sm-2 p-0">
+                <span class="col-sm-2 mx-1 px-0 py-0">
                     <input type="radio" class="btn-check" name="btnradio" id="btnradio1" autocomplete="off">
-                    <label style="width:60px" class="mx-1 p-1 btn btn-outline-primary" for="btnradio1">Schule</label>
+                    <label style="width:60px" class="btn px-0 btn-outline-primary" for="btnradio1">Schule</label>
                     <input type="radio" class="btn-check" name="btnradio" id="btnradio2" autocomplete="off">
-                    <label style="width:60px" class="mx-1 p-1 btn btn-outline-primary" for="btnradio2">Frei</label>
+                    <label style="width:60px" class="btn btn-outline-primary" for="btnradio2">Frei</label>
                 </span>
             </div>
             <div class="col-sm-4">
                 <label for="text" class="col-form-label">Land</label>
-                <div class="dropdown btn-outline-primary land">
-                    <button class="col-sm-12 btn btn-outline-primary d2" id="dropdownLand" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expande d="false">Bitte wählen</button>
-                    <ul class="dropdown-menu pre-scrollable" aria-labelledby="dropdownLand">
+                <div class="dropdown btn-outline-primary state">
+                    <button class="col-sm-12 btn btn-outline-primary d2" id="dropdown-state" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expande d="false">Land</button>
+                    <ul class="dropdown-menu pre-scrollable" aria-labelledby="dropdown-state">
                         <li><a class="dropdown-item" href="#">Baden-Württemberg</a></li>
                         <li><a class="dropdown-item" href="#">Bayern</a></li>
                         <li><a class="dropdown-item" href="#">Berlin</a></li>
@@ -158,23 +158,68 @@
                         <li><a class="dropdown-item" href="#">Sachsen</a></li>
                         <li><a class="dropdown-item" href="#">Schleswig-Holstein</a></li>
                         <li><a class="dropdown-item" href="#">Thüringen</a></li>
+                        <li><a class="dropdown-item" href="#">Ausland</a></li>
                     </ul>
                 </div>
             </div>
             <div class="col-sm-2">
                 <label for="text" class="col-form-label">&nbsp;</label>
-                <input type="button" class="form-control btn btn-outline-secondary fw-bold" id="suchen" value="Suchen">
+                <input type="button" class="form-control doSearch btn btn-outline-secondary fw-bold" id="search" value="Suchen">
             </div>
 
         </div>
     </form>
 
-    <script>
-        var selectedDropdown = 0;
+<div class="container">
+    <div class="row mx-3 my-0 p-0">
+        <label class="mx-0 col-sm-2">Name:</label>
+        <label class="mx-0 col-sm-2" id="name-Read"> ...</label>
+    </div>
+    <div class="row mx-3 my-0 p-0">
+        <label class="mx-0 col-sm-2">Nr.:</label>
+        <label class="mx-0 col-sm-2" id="no-Read"> ...</label>
+    </div>
+    <div class="row mx-3 my-0 p-0">
+        <label class="mx-0 col-sm-2">Jahr:</label>
+        <label class="mx-0 col-sm-2" id="year-Read"> ...</label>
+    </div>
+    <div class="row mx-3 my-0 p-0">
+        <label class="mx-0 col-sm-2">Ort:</label>
+        <label class="mx-0 col-sm-2" id="city-Read"> ...</label>
+    </div>
+    <div class="row mx-3 my-0 p-0">
+        <label class="mx-0 col-sm-2">Schule / Herausgeber:</label>
+        <label class="mx-0 col-sm-2" id="schoolPublisher-Read"> ...</label>
+    </div>
+    <div class="row mx-3 my-0 p-0">
+        <label class="mx-0 col-sm-2">Herausgeber ist:</label>
+        <label class="mx-0 col-sm-2" id="publisherIs-Read"> ...</label>
+    </div>
+    <div class="row mx-3 my-0 p-0">
+        <label class="mx-0 col-sm-2">Land:</label>
+        <label class="mx-0 col-sm-2" id="state-Read"> ...</label>
+    </div>
+</div>
 
-        $("#dropdownLand").click(sel1);
-        $("#dropdownJahr").click(sel2);
+
+<script>
+    var selectedDropdown = 0;
+    var publisherIs = "";
+
         $(".dropdown-menu li a").click(updateValue);
+        $(".doSearch").click(doSearch);
+        $("#dropdown-state").click(sel1);
+        $("#dropdown-year").click(sel2);
+        $("#btnradio1").click(publisherSchool);
+        $("#btnradio2").click(publisherFree);
+
+        function publisherSchool(str) {
+            publisherIs = "Schule";
+        }
+
+        function publisherFree(str) {
+            publisherIs = "Frei";
+        }
 
         function sel1(str) {
             selectedDropdown = 1;
@@ -186,7 +231,7 @@
 
         function updateValue(str) {
             var selText = $(this).text();
-
+ 
             if (selectedDropdown == 1) {
                 document.querySelector('.d2').innerText = selText;
             }
@@ -195,7 +240,19 @@
                 document.querySelector('.d1').innerText = selText;
             }
         }
-    </script>
+
+    function doSearch() {
+        $('#name-Read').text($('#name').val());
+        $('#schoolPublisher-Read').text($('#schoolPublisher').val());
+        $('#city-Read').text($('#city').val());
+        $('#state-Read').text(document.querySelector('.d2').innerText);
+        $('#publisherIs-Read').text(publisherIs);
+        $('#year-Read').text(document.querySelector('.d1').innerText);
+        $('#no-Read').text($('#no').val());
+    }
+
+
+</script>
 </body>
 
 </html>
