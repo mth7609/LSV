@@ -9,7 +9,8 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.3/css/bootstrap.min.css"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.3/css/bootstrap.min.css">
+    </script>
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 </head>
 
@@ -28,13 +29,13 @@
 
 
 <body>
-    <div class="m-3 position-absolute z-n0">
-        <img src="images/lsv-logo.png"></img>
+    <div class="m-4 position-absolute z-n0">
+        <img src="images/LOGO1_blau_300.gif"></img>
     </div>
 
     <p class="text-center fs-2 p-1 fw-bold"><br>Archiv der Jugendzeitschriften</p>
 
-    <form style="background-color:#dddddd" method="POST" class=" m-3 p-3 border rounded-4">
+    <form style="background-color:#dddddd" method="POST" class=" mx-3 p-3 border rounded-4">
         <div class="form-group row">
             <div class="col-sm-4">
                 <label for="text" class="col-form-label">Name</label>
@@ -45,7 +46,7 @@
                 <input style="width:80px" type="text" class="form-control mx-1" id="no">
             </div>
             <div class="col-sm-1">
-                <label for="text" class="col-form-label">Jahr</label>
+                <label for="text" class="col-form-label ">Jahr</label>
                 <div class="dropdown btn-outline-primary" style="width:80px" id="year">
                     <button class="btn btn-outline-primary col-sm-12 d1" id="dropdown-year" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expande d="false">Jahr</button>
                     <ul class="dropdown-menu pre-scrollable" aria-labelledby="dropdown-year">
@@ -128,7 +129,9 @@
             </div>
             <div class="col-sm-2" role="group" aria-label="group" id="publisherIs">
                 <div class="col-sm-2 px-1 py-0">
-                    <label for="text" class="col-form-label"><nobr>Herausgeber ist</nobr></label>
+                    <label for="text" class="col-form-label">
+                        <nobr>Herausgeber ist</nobr>
+                    </label>
                 </div>
                 <span class="col-sm-2 mx-1 px-0 py-0">
                     <input type="radio" class="btn-check" name="btnradio" id="btnradio1" autocomplete="off">
@@ -162,49 +165,85 @@
                     </ul>
                 </div>
             </div>
-            <div class="col-sm-2">
-                <label for="text" class="col-form-label">&nbsp;</label>
-                <input type="button" class="form-control doSearch btn btn-outline-secondary fw-bold" id="search" value="Suchen">
+            <div class="col-sm-2 py-2">
+                <input type="range" class="form-range my-0 px-0" min="0" max="10" id="customRange1">
+                <input type="button" class="px-1 form-control doSearch btn btn-outline-secondary fw-bold" id="search" value="Suchen">
             </div>
+            <div class="col-sm-2">
 
+            </div>
         </div>
     </form>
 
-<div class="container">
-    <div class="row mx-3 my-0 p-0">
-        <label class="mx-0 col-sm-3">Name:</label>
-        <label class="mx-0 col-sm-5" id="name-Read"><nobr>...</nobr></label>
+    <div class="container py-3">
+        <div class="row mx-3 my-0 p-0">
+            <label class="mx-0 col-sm-3">Name:</label>
+            <label class="mx-0 col-sm-5" id="name-Read">
+                <nobr>...</nobr>
+            </label>
+        </div>
+        <div class="row mx-3 my-0 p-0">
+            <label class="mx-0 col-sm-3">Nr.:</label>
+            <label class="mx-0 col-sm-5" id="no-Read">
+                <nobr>...</nobr>
+            </label>
+        </div>
+        <div class="row mx-3 my-0 p-0">
+            <label class="mx-0 col-sm-3">Jahr:</label>
+            <label class="mx-0 col-sm-5" id="year-Read">
+                <nobr>...</nobr>
+            </label>
+        </div>
+        <div class="row mx-3 my-0 p-0">
+            <label class="mx-0 col-sm-3">Ort:</label>
+            <label class="mx-0 col-sm-5" id="city-Read">
+                <nobr>...</nobr>
+            </label>
+        </div>
+        <div class="row mx-3 my-0 p-0">
+            <label class="mx-0 col-sm-3">
+                <nobr>Schule / Herausgeber:</nobr>
+            </label>
+            <label class="mx-0 col-sm-5" id="schoolPublisher-Read">
+                <nobr>...</nobr>
+            </label>
+        </div>
+        <div class="row mx-3 my-0 p-0">
+            <label class="mx-0 col-sm-3">Herausgeber ist:</label>
+            <label class="mx-0 col-sm-5" id="publisherIs-Read">
+                <nobr>...</nobr>
+            </label>
+        </div>
+        <div class="row mx-3 my-0 p-0">
+            <label class="mx-0 col-sm-3">Land:</label>
+            <label class="mx-0 col-sm-5" id="state-Read">
+                <nobr>...</nobr>
+            </label>
+        </div>
+        <div class="row mx-3 my-0 p-0">
+            <label class="mx-0 col-sm-3">Sucheinträge:</label>
+            <label class="mx-0 col-sm-5" id="searchCnt">
+                <nobr>...</nobr>
+            </label>
+        </div>
+        <div class="row mx-3 my-0 p-0">
+            <label class="mx-0 col-sm-3">Sucheintrag:</label>
+            <label class="mx-0 col-sm-5" id="debug">
+                <nobr>...</nobr>
+            </label>
+        </div>
     </div>
-    <div class="row mx-3 my-0 p-0">
-        <label class="mx-0 col-sm-3">Nr.:</label>
-        <label class="mx-0 col-sm-5" id="no-Read"><nobr>...</nobr></label>
-    </div>
-    <div class="row mx-3 my-0 p-0">
-        <label class="mx-0 col-sm-3">Jahr:</label>
-        <label class="mx-0 col-sm-5" id="year-Read"><nobr>...</nobr></label>
-    </div>
-    <div class="row mx-3 my-0 p-0">
-        <label class="mx-0 col-sm-3">Ort:</label>
-        <label class="mx-0 col-sm-5" id="city-Read"><nobr>...</nobr></label>
-    </div>
-    <div class="row mx-3 my-0 p-0">
-        <label class="mx-0 col-sm-3"><nobr>Schule / Herausgeber:</nobr></label>
-        <label class="mx-0 col-sm-5" id="schoolPublisher-Read"><nobr>...</nobr></label>
-    </div>
-    <div class="row mx-3 my-0 p-0">
-        <label class="mx-0 col-sm-3">Herausgeber ist:</label>
-        <label class="mx-0 col-sm-5" id="publisherIs-Read"><nobr>...</nobr></label>
-    </div>
-    <div class="row mx-3 my-0 p-0">
-        <label class="mx-0 col-sm-3">Land:</label>
-        <label class="mx-0 col-sm-5" id="state-Read"><nobr>...</nobr></label>
-    </div>
-</div>
 
 
-<script>
-    var selectedDropdown = 0;
-    var publisherIs = "";
+    <script>
+        var selectedDropdown = 0;
+        var publisherIs = "";
+        let searchCnt = 0;
+        elementsOnForm = 7;
+        maxSearchSets = 10;
+
+
+        const searchItems = Array.from({ length: maxSearchSets }, () => new Array(elementsOnForm).fill(0));
 
         $(".dropdown-menu li a").click(updateValue);
         $(".doSearch").click(doSearch);
@@ -212,6 +251,11 @@
         $("#dropdown-year").click(sel2);
         $("#btnradio1").click(publisherSchool);
         $("#btnradio2").click(publisherFree);
+        $(".form-range").click(updateRange);
+
+        function updateRange(str) {
+            $('#debug').text($(".form-range").val());;
+        }
 
         function publisherSchool(str) {
             publisherIs = "Schule";
@@ -231,7 +275,7 @@
 
         function updateValue(str) {
             var selText = $(this).text();
- 
+
             if (selectedDropdown == 1) {
                 document.querySelector('.d2').innerText = selText;
             }
@@ -241,18 +285,31 @@
             }
         }
 
-    function doSearch() {
-        $('#name-Read').text($('#name').val());
-        $('#schoolPublisher-Read').text($('#schoolPublisher').val());
-        $('#city-Read').text($('#city').val());
-        $('#state-Read').text(document.querySelector('.d2').innerText);
-        $('#publisherIs-Read').text(publisherIs);
-        $('#year-Read').text(document.querySelector('.d1').innerText);
-        $('#no-Read').text($('#no').val());
-    }
+        function doSearch() {
+            searchItems[searchCnt][0] = $('#name').val();
+            searchItems[searchCnt][1] = $('#schoolPublisher').val();
+            searchItems[searchCnt][2] = $('#city').val();
+            searchItems[searchCnt][3] = document.querySelector('.d2').innerText;
+            searchItems[searchCnt][4] = publisherIs;
+            searchItems[searchCnt][5] = document.querySelector('.d1').innerText;
+            searchItems[searchCnt][6] = $('#no').val();
+
+            $('#name-Read').text(searchItems[searchCnt][0]);
+            $('#schoolPublisher-Read').text(searchItems[searchCnt][1]);
+            $('#city-Read').text(searchItems[searchCnt][2]);
+            $('#state-Read').text(searchItems[searchCnt][3]);
+            $('#publisherIs-Read').text(searchItems[searchCnt][4]);
+            $('#year-Read').text(searchItems[searchCnt][5]);
+            $('#no-Read').text(searchItems[searchCnt][6]);
+            $('#searchCnt').text(searchCnt);
+
+            $('#debug').text($(".form-range").val());
+            searchCnt = searchCnt + 1;
+
+        }
 
 
-</script>
+    </script>
 </body>
 
 </html>
