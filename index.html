@@ -12,6 +12,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.3/css/bootstrap.min.css">
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 
+
 </head>
 
 <style type="text/css">
@@ -29,7 +30,7 @@
 
 
 <body>
-    MySQL
+
     <div class="m-4 position-absolute z-n0">
         <img src="images/LOGO1_blau_300.gif"></img>
     </div>
@@ -237,94 +238,7 @@
 
     <div id="myRangeSlider"></div>
 
-
-    <script>
-        var selectedDropdown = 0;
-        var publisherIs = "";
-        let searchCnt = 1;
-        elementsOnForm = 7;
-        maxSearchSets = 11;
-
-        changeRange(searchCnt);
-
-        const searchItems = Array.from({ length: maxSearchSets }, () => new Array(elementsOnForm).fill(0));
-
-        $(".dropdown-menu li a").click(updateValue);
-        $(".doSearch").click(doSearch);
-        $("#dropdown-state").click(sel1);
-        $("#dropdown-year").click(sel2);
-        $("#btnradio1").click(publisherSchool);
-        $("#btnradio2").click(publisherFree);
-        $(".r1").click(updateRange);
-
-        function updateRange(str) {
-            $('#debug').text($(".r1").val());
-        }
-
-        function changeRange(str) {
-            let r = document.getElementById('r1');
-            console.log(r.attributes[3].name);
-            r.attributes[3].value = str;
-        }
-
-        function publisherSchool(str) {
-            publisherIs = "Schule";
-        }
-
-        function publisherFree(str) {
-            publisherIs = "Frei";
-        }
-
-        function sel1(str) {
-            selectedDropdown = 1;
-        }
-
-        function sel2(str) {
-            selectedDropdown = 2;
-        }
-
-        function updateValue(str) {
-            var selText = $(this).text();
-
-            if (selectedDropdown == 1) {
-                document.querySelector('.d2').innerText = selText;
-            }
-
-            if (selectedDropdown == 2) {
-                document.querySelector('.d1').innerText = selText;
-            }
-        }
-
-        function doSearch() {
-            searchItems[searchCnt][0] = $('#name').val();
-            searchItems[searchCnt][1] = $('#schoolPublisher').val();
-            searchItems[searchCnt][2] = $('#city').val();
-            searchItems[searchCnt][3] = document.querySelector('.d2').innerText;
-            searchItems[searchCnt][4] = publisherIs;
-            searchItems[searchCnt][5] = document.querySelector('.d1').innerText;
-            searchItems[searchCnt][6] = $('#no').val();
-
-            $('#name-Read').text(searchItems[searchCnt][0]);
-            $('#schoolPublisher-Read').text(searchItems[searchCnt][1]);
-            $('#city-Read').text(searchItems[searchCnt][2]);
-            $('#state-Read').text(searchItems[searchCnt][3]);
-            $('#publisherIs-Read').text(searchItems[searchCnt][4]);
-            $('#year-Read').text(searchItems[searchCnt][5]);
-            $('#no-Read').text(searchItems[searchCnt][6]);
-            $('#searchCnt').text(searchCnt);
-
-            $('#debug').text($(".form-range").val());
-
-            if(searchCnt < maxSearchSets){
-                searchCnt = searchCnt + 1;
-                changeRange(searchCnt - 1);
-            }
-            else
-                searchCnt = 1;
-        }
-
-
-    </script>
+    <script type="text/javascript" src="/Projects/Electron/LSV/scripts.js"></script>
 </body>
 
 </html>
