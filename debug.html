@@ -2,296 +2,38 @@
 <html lang="en">
 
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Archiv der Jugendzeitschrifter</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.3/css/bootstrap.min.css">
-    </script>
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bootstrap5 Range Min and Max</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" />
 </head>
 
-<style type="text/css">
-    body {
-        background: #f5f8e4 !important;
-        overflow: hidden;
-    }
-
-    #logo1 {
-        left: 4em;
-        top: 8em;
-        z-index: -2;
-    }
-</style>
-
-
 <body>
-    <div class="m-4 position-absolute z-n0">
-        <img src="images/LOGO1_blau_300.gif"></img>
-    </div>
-
-    <p class="text-center fs-2 p-1 fw-bold"><br>Archiv der Jugendzeitschriften</p>
-
-    <form style="background-color:#dddddd" method="POST" class=" m-3 p-3 border rounded-4">
-        <div class="form-group row">
-            <div class="col-sm-4">
-                <label for="text" class="col-form-label">Name</label>
-                <input type="text" class="form-control" id="name">
-            </div>
-            <div class="col-sm-1">
-                <label for="text" class="col-form-label px-1">Nr.</label>
-                <input style="width:80px" type="text" class="form-control mx-1" id="no">
-            </div>
-            <div class="col-sm-1">
-                <label for="text" class="col-form-label ">Jahr</label>
-                <div class="dropdown btn-outline-primary" style="width:80px" id="year">
-                    <button class="btn btn-outline-primary col-sm-12 d1" id="dropdown-year" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expande d="false">Jahr</button>
-                    <ul class="dropdown-menu pre-scrollable" aria-labelledby="dropdown-year">
-                        <li><a class="dropdown-item" href="#">1970</a></li>
-                        <li><a class="dropdown-item" href="#">1971</a></li>
-                        <li><a class="dropdown-item" href="#">1972</a></li>
-                        <li><a class="dropdown-item" href="#">1973</a></li>
-                        <li><a class="dropdown-item" href="#">1974</a></li>
-                        <li><a class="dropdown-item" href="#">1975</a></li>
-                        <li><a class="dropdown-item" href="#">1976</a></li>
-                        <li><a class="dropdown-item" href="#">1977</a></li>
-                        <li><a class="dropdown-item" href="#">1978</a></li>
-                        <li><a class="dropdown-item" href="#">1979</a></li>
-                        <li><a class="dropdown-item" href="#">1980</a></li>
-                        <li><a class="dropdown-item" href="#">1981</a></li>
-                        <li><a class="dropdown-item" href="#">1982</a></li>
-                        <li><a class="dropdown-item" href="#">1983</a></li>
-                        <li><a class="dropdown-item" href="#">1984</a></li>
-                        <li><a class="dropdown-item" href="#">1985</a></li>
-                        <li><a class="dropdown-item" href="#">1986</a></li>
-                        <li><a class="dropdown-item" href="#">1987</a></li>
-                        <li><a class="dropdown-item" href="#">1988</a></li>
-                        <li><a class="dropdown-item" href="#">1989</a></li>
-                        <li><a class="dropdown-item" href="#">1990</a></li>
-                        <li><a class="dropdown-item" href="#">1991</a></li>
-                        <li><a class="dropdown-item" href="#">1992</a></li>
-                        <li><a class="dropdown-item" href="#">1993</a></li>
-                        <li><a class="dropdown-item" href="#">1994</a></li>
-                        <li><a class="dropdown-item" href="#">1995</a></li>
-                        <li><a class="dropdown-item" href="#">1996</a></li>
-                        <li><a class="dropdown-item" href="#">1997</a></li>
-                        <li><a class="dropdown-item" href="#">1998</a></li>
-                        <li><a class="dropdown-item" href="#">1999</a></li>
-                        <li><a class="dropdown-item" href="#">2000</a></li>
-                        <li><a class="dropdown-item" href="#">2001</a></li>
-                        <li><a class="dropdown-item" href="#">2002</a></li>
-                        <li><a class="dropdown-item" href="#">2003</a></li>
-                        <li><a class="dropdown-item" href="#">2004</a></li>
-                        <li><a class="dropdown-item" href="#">2005</a></li>
-                        <li><a class="dropdown-item" href="#">2006</a></li>
-                        <li><a class="dropdown-item" href="#">2007</a></li>
-                        <li><a class="dropdown-item" href="#">2008</a></li>
-                        <li><a class="dropdown-item" href="#">2009</a></li>
-                        <li><a class="dropdown-item" href="#">2010</a></li>
-                        <li><a class="dropdown-item" href="#">2011</a></li>
-                        <li><a class="dropdown-item" href="#">2012</a></li>
-                        <li><a class="dropdown-item" href="#">2013</a></li>
-                        <li><a class="dropdown-item" href="#">2014</a></li>
-                        <li><a class="dropdown-item" href="#">2015</a></li>
-                        <li><a class="dropdown-item" href="#">2016</a></li>
-                        <li><a class="dropdown-item" href="#">2017</a></li>
-                        <li><a class="dropdown-item" href="#">2018</a></li>
-                        <li><a class="dropdown-item" href="#">2019</a></li>
-                        <li><a class="dropdown-item" href="#">2020</a></li>
-                        <li><a class="dropdown-item" href="#">2021</a></li>
-                        <li><a class="dropdown-item" href="#">2022</a></li>
-                        <li><a class="dropdown-item" href="#">2023</a></li>
-                        <li><a class="dropdown-item" href="#">2024</a></li>
-                        <li><a class="dropdown-item" href="#">2025</a></li>
-                    </ul>
-                </div>
-            </div>
-
-            <div class="col-sm-4">
-                <label for="text" class="col-form-label">Ort</label>
-                <input type="text" class="form-control" id="city">
-            </div>
-            <div class="col-sm-2">
-                <label for="text" class="col-form-label">Ergebnisse</label>
-                <input type="text" class="form-control" id="results">
-            </div>
-        </div>
-
-        <div class="form-group row nobr">
-            <div class="col-sm-4">
-                <label for="text" class="col-form-label mx-0">
-                    <nobr>Schule / Herausgeber</nobr>
-                </label>
-                <input type="text" class="form-control" id="schoolPublisher">
-            </div>
-            <div class="col-sm-2" role="group" aria-label="group" id="publisherIs">
-                <div class="col-sm-2 px-1 py-0">
-                    <label for="text" class="col-form-label">
-                        <nobr>Herausgeber ist</nobr>
-                    </label>
-                </div>
-                <span class="col-sm-2 mx-1 px-0 py-0">
-                    <input type="radio" class="btn-check" name="btnradio" id="btnradio1" autocomplete="off">
-                    <label style="width:60px" class="btn px-0 btn-outline-primary" for="btnradio1">Schule</label>
-                    <input type="radio" class="btn-check" name="btnradio" id="btnradio2" autocomplete="off">
-                    <label style="width:60px" class="btn btn-outline-primary" for="btnradio2">Frei</label>
-                </span>
-            </div>
-            <div class="col-sm-4">
-                <label for="text" class="col-form-label">Land</label>
-                <div class="dropdown btn-outline-primary state">
-                    <button class="col-sm-12 btn btn-outline-primary d2" id="dropdown-state" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expande d="false">Land</button>
-                    <ul class="dropdown-menu pre-scrollable" aria-labelledby="dropdown-state">
-                        <li><a class="dropdown-item" href="#">Baden-Württemberg</a></li>
-                        <li><a class="dropdown-item" href="#">Bayern</a></li>
-                        <li><a class="dropdown-item" href="#">Berlin</a></li>
-                        <li><a class="dropdown-item" href="#">Brandenburg</a></li>
-                        <li><a class="dropdown-item" href="#">Bremen</a></li>
-                        <li><a class="dropdown-item" href="#">Hamburg</a></li>
-                        <li><a class="dropdown-item" href="#">Hessen</a></li>
-                        <li><a class="dropdown-item" href="#">Mecklenburg-Vorpommern</a></li>
-                        <li><a class="dropdown-item" href="#">Niedersachsen</a></li>
-                        <li><a class="dropdown-item" href="#">Nordrhein-Westfalen</a></li>
-                        <li><a class="dropdown-item" href="#">Rheinland-Pfalz</a></li>
-                        <li><a class="dropdown-item" href="#">Saarland</a></li>
-                        <li><a class="dropdown-item" href="#">Sachsen-Anhalt</a></li>
-                        <li><a class="dropdown-item" href="#">Sachsen</a></li>
-                        <li><a class="dropdown-item" href="#">Schleswig-Holstein</a></li>
-                        <li><a class="dropdown-item" href="#">Thüringen</a></li>
-                        <li><a class="dropdown-item" href="#">Ausland</a></li>
-                    </ul>
-                </div>
-            </div>
-            <div class="col-sm-2">
-                <label for="text" class="col-form-label">&nbsp;</label>
-                <input type="button" class="form-control doSearch btn btn-outline-secondary fw-bold" id="search" value="Suchen">
-            </div>
-
-        </div>
-    </form>
-
     <div class="container">
-        <div class="row mx-3 my-0 p-0">
-            <label class="mx-0 col-sm-3">Name:</label>
-            <label class="mx-0 col-sm-5" id="name-Read">
-                <nobr>...</nobr>
-            </label>
+        <div class="mt-5">
+            <h1 class="text-success text-center">
+                GeeksforGeeks
+            </h1>
+            <h4 class="text-center">
+                Bootstrap5 Range Min and Max
+            </h4>
         </div>
-        <div class="row mx-3 my-0 p-0">
-            <label class="mx-0 col-sm-3">Nr.:</label>
-            <label class="mx-0 col-sm-5" id="no-Read">
-                <nobr>...</nobr>
-            </label>
-        </div>
-        <div class="row mx-3 my-0 p-0">
-            <label class="mx-0 col-sm-3">Jahr:</label>
-            <label class="mx-0 col-sm-5" id="year-Read">
-                <nobr>...</nobr>
-            </label>
-        </div>
-        <div class="row mx-3 my-0 p-0">
-            <label class="mx-0 col-sm-3">Ort:</label>
-            <label class="mx-0 col-sm-5" id="city-Read">
-                <nobr>...</nobr>
-            </label>
-        </div>
-        <div class="row mx-3 my-0 p-0">
-            <label class="mx-0 col-sm-3">
-                <nobr>Schule / Herausgeber:</nobr>
-            </label>
-            <label class="mx-0 col-sm-5" id="schoolPublisher-Read">
-                <nobr>...</nobr>
-            </label>
-        </div>
-        <div class="row mx-3 my-0 p-0">
-            <label class="mx-0 col-sm-3">Herausgeber ist:</label>
-            <label class="mx-0 col-sm-5" id="publisherIs-Read">
-                <nobr>...</nobr>
-            </label>
-        </div>
-        <div class="row mx-3 my-0 p-0">
-            <label class="mx-0 col-sm-3">Land:</label>
-            <label class="mx-0 col-sm-5" id="state-Read">
-                <nobr>...</nobr>
-            </label>
-        </div>
-        <div class="row mx-3 my-0 p-0">
-            <label class="mx-0 col-sm-3">searchCnt:</label>
-            <label class="mx-0 col-sm-5" id="searchCnt">
-                <nobr>...</nobr>
-            </label>
-        </div>
-    </div>
 
+        <input id="range1" min="5" max="10" type="range" class="form-range" />
+        <h4>
+            Current Value:
+            <span id="curr"></span>
+        </h4>
+    </div>
 
     <script>
-        var selectedDropdown = 0;
-        var publisherIs = "";
-        var searchCnt = 0;
-        var searchItems = [[], []];
-
-        $(".dropdown-menu li a").click(updateValue);
-        $(".doSearch").click(doSearch);
-        $("#dropdown-state").click(sel1);
-        $("#dropdown-year").click(sel2);
-        $("#btnradio1").click(publisherSchool);
-        $("#btnradio2").click(publisherFree);
-
-        function publisherSchool(str) {
-            publisherIs = "Schule";
-        }
-
-        function publisherFree(str) {
-            publisherIs = "Frei";
-        }
-
-        function sel1(str) {
-            selectedDropdown = 1;
-        }
-
-        function sel2(str) {
-            selectedDropdown = 2;
-        }
-
-        function updateValue(str) {
-            var selText = $(this).text();
-
-            if (selectedDropdown == 1) {
-                document.querySelector('.d2').innerText = selText;
-            }
-
-            if (selectedDropdown == 2) {
-                document.querySelector('.d1').innerText = selText;
-            }
-        }
-
-        function doSearch() {
-            searchItems[searchCnt][0] = $('#name').val();
-            searchItems[searchCnt][1] = $('#schoolPublisher').val();
-            searchItems[searchCnt][2] = $('#city').val();
-            searchItems[searchCnt][3] = document.querySelector('.d2').innerText;
-            searchItems[searchCnt][4] = publisherIs;
-            searchItems[searchCnt][5] = document.querySelector('.d1').innerText;
-            searchItems[searchCnt][6] = $('#no').val();
-
-            $('#name-Read').text(searchItems[searchCnt][0]);
-            $('#schoolPublisher-Read').text(searchItems[searchCnt][1]);
-            $('#city-Read').text(searchItems[searchCnt][2]);
-            $('#state-Read').text(searchItems[searchCnt][3]);
-            $('#publisherIs-Read').text(searchItems[searchCnt][4]);
-            $('#year-Read').text(searchItems[searchCnt][5]);
-            $('#no-Read').text(searchItems[searchCnt][6]);
-            $('#searchCnt').text(searchCnt);
-            searchCnt = searchCnt + 1;
-
-            alert(searchCnt);
-
-        }
-
-
+        var el = document.getElementById('curr');
+        var r = document.getElementById('range1');
+        el.innerText = r.valueAsNumber;
+        r.addEventListener('change', () => {
+            el.innerText = r.valueAsNumber;
+        }) 
     </script>
 </body>
 
