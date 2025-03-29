@@ -1,0 +1,1 @@
+powershell net stop mySQL80

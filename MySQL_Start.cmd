@@ -1,0 +1,1 @@
+powershell net start mySQL80
