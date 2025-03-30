@@ -1,4 +1,4 @@
-const { app, BrowserWindow, Menu, MenuItem } = require('electron')
+const { app, BrowserWindow, Menu, globalShortcut } = require('electron')
 const path = require('node:path')
 const mysql = require('mysql2')
 const dbFunctions = require('./lsv_modules/SQLQueries');
@@ -9,47 +9,9 @@ const createWindow = () => {
     width: 1200,
     height: 800,
   })
-  var currentZoom = win.webContents.getZoomFactor();
-  win.webContents.zoomFactor = currentZoom + 0.1;
   win.loadFile('index.html');
 }
 
-
-/*win.webContents.setZoomFactor(1.0);
-
-// Upper Limit is working of 500 %
-win.webContents
-  .setVisualZoomLevelLimits(1, 5)
-  .then(console.log("Zoom Levels Have been Set between 100% and 500%"))
-  .catch((err) => console.log(err));
-
-win.webContents.on("zoom-changed", (event, zoomDirection) => {
-  console.log(zoomDirection);
-  var currentZoom = win.webContents.getZoomFactor();
-  console.log("Current Zoom Factor - ", currentZoom);
-  // console.log('Current Zoom Level at - '
-  // , win.webContents.getZoomLevel());
-  console.log("Current Zoom Level at - ", win.webContents.zoomLevel);
-
-  if (zoomDirection === "in") {
-
-    // win.webContents.setZoomFactor(currentZoom + 0.20);
-    win.webContents.zoomFactor = currentZoom + 0.2;
-
-    console.log("Zoom Factor Increased to - "
-      , win.webContents.zoomFactor * 100, "%");
-  }
-  if (zoomDirection === "out") {
-
-    // win.webContents.setZoomFactor(currentZoom - 0.20);
-    win.webContents.zoomFactor = currentZoom - 0.2;
-
-    console.log("Zoom Factor Decreased to - "
-      , win.webContents.zoomFactor * 100, "%");
-  }
-});
-
-*/
 
 /*
 const menu = new Menu()
@@ -76,6 +38,11 @@ const createDebugWindow = () => {
 app.whenReady().then(() => {
   serverFunctions.serverOpen();
   console.log("Local HTTP server started");
+
+  globalShortcut.register('CommandOrControl+Y', () => {
+    console.log("CTRL-Y");
+  })
+
 
   //setTimeout(() => {
   //  serverFunctions.startMySqlService();
@@ -119,6 +86,11 @@ app.on('window-all-closed', () => {
 
 }
 ) // on
+
+m = Menu.getApplicationMenu();
+
+
+
 
 
 // electron-packager . Archiv --overwrite --asar=true --platform=win32 --arch=ia32 --icon=assets / icons / win / icon.ico --prune=true --out=release-builds --version-string.CompanyName=CE --version-string.FileDescription=CE --version-string.ProductName="ArchivDerJugendzeitschriften"
