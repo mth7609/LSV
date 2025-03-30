@@ -1,4 +1,4 @@
-import { changeStatus1, changeHeadlines} from "./ArchivScripts.js";
+import { changeStatus1, changeHeadlines } from "./ArchivScripts.js";
 import { globalStates, globalTopicHeadlines } from "./Globals.js";
 
 var statesList = "";
@@ -6,22 +6,22 @@ var titles = ""
 
 
 export function getSetStates() {
-        $.ajax({
-            type: 'GET',
-            url: 'http://localhost:8080/getStates',
-            async: false,
-            success: function (states) {
-                var i;
-                var s = "";
-                for (i = 0; i < states.length; i++) {
-                    s = s + "<li><a class='dropdown-item' href='#'>" + states[i]["name"] + "</a></li>\n";
-                }
-                globalStates.content = s;
-            },
-            error: function (error) {
-                console.log(`Error ${error}`);
+    $.ajax({
+        type: 'GET',
+        url: 'http://localhost:8080/getStates',
+        async: false,
+        success: function (states) {
+            var i;
+            var s = "";
+            for (i = 0; i < states.length; i++) {
+                s = s + "<li><a class='dropdown-item' href='#'>" + states[i]["name"] + "</a></li>\n";
             }
-        });
+            globalStates.content = s;
+        },
+        error: function (error) {
+            console.log(`Error ${error}`);
+        }
+    });
     document.getElementById("states").innerHTML = globalStates.content;
 }
 
@@ -62,10 +62,8 @@ export function getSetTopicHeadlines() {
     var s = [];
     var i;
 
-    for(i=0;i<globalTopicHeadlines.contentValue.length;i++)
-    {
+    for (i = 0; i < globalTopicHeadlines.contentValue.length; i++) {
         s = s + globalTopicHeadlines.contentValue[i]['headline'] + "\n";
+        console.log(globalTopicHeadlines.contentValue[i]['headline']);
     }
-    $("#tops").text(s);
-    //console.log(globalTopicHeadlines.contentValue[i]['headline']);
 }

@@ -13,10 +13,8 @@ changeRange(searchCnt);
 setYears();
 getSetStates();
 getSetTopicHeadlines();
+changeHeadlines();
 
-$(".ein").text("Erster Eintrag dynamisch erstellt");
-
-//window.onwheel = function () { windowScrollEvent() };
 
 const searchItems = Array.from({ length: maxSearchSets + 1 }, () => new Array(elementsOnForm).fill(0));
 
@@ -29,9 +27,7 @@ $("#btnradio2").on('click', publisherFree);
 $(".searchRange").on('click', updateRange);
 
 
-function windowScrollEvent() {
-    console.log("scroll event");
-}
+
 
 function updateRange(str) {
 
@@ -61,9 +57,14 @@ function updateRange(str) {
 
 }
 
-export function changeHeadlines(headlineID, str) {
-    let r = document.getElementById('topic_headline_1');
-    r.innerText = str;
+export function changeHeadlines() {
+    let i;
+    for (i = 0; i < globalTopicHeadlines.contentValue.length; i++) {
+        var el = 'topicLabel_' + i;
+        console.log(i);
+        let r = document.getElementById(el);
+        r.innerText = globalTopicHeadlines.contentValue[i]['headline'];
+    }
 }
 
 export function changeStatus1(str) {
@@ -121,7 +122,6 @@ function setYears() {
 
 
 function doSearch() {
-    //console.log(v.content);
     searchItems[searchCnt][0] = $('#name').val();
     searchItems[searchCnt][1] = $('#schoolPublisher').val();
     searchItems[searchCnt][2] = $('#city').val();
@@ -148,7 +148,6 @@ function doSearch() {
         maxReached = true;
         searchCnt = 1;
     }
-
 }
 
 

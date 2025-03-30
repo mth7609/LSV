@@ -10,29 +10,23 @@ const createWindow = () => {
     height: 800,
   })
   win.loadFile('index.html');
-}
 
+  win.webContents.setVisualZoomLevelLimits(1, 2);
 
-/*
-const menu = new Menu()
-menu.append(new MenuItem({
-  label: 'Electron',
-  submenu: [{
-    role: 'help',
-    accelerator: process.platform === 'darwin' ? 'Alt+Cmd+I' : 'Alt+Shift+I',
-    click: () => { console.log('Electron rocks!') }
-  }]
-}))
+  win.webContents.on("zoom-changed", (event, zoomDirection) => {
+    var currentZoom = win.webContents.getZoomFactor();
+    if (zoomDirection === "in" && currentZoom < 1.2) {
+      win.webContents.zoomFactor = currentZoom + 0.1;
+    }
 
-Menu.setApplicationMenu(menu);
-*/
+    if (zoomDirection === "out" && currentZoom > 0.6) {
+      win.webContents.zoomFactor = currentZoom - 0.1;
+    }
+    //console.log('Current Zoom Level at - ', win.webContents.getZoomLevel());
+    //console.log(win.webContents.getZoomFactor());
+  });
 
-const createDebugWindow = () => {
-  const win = new BrowserWindow({
-    width: 1200,
-    height: 800,
-  })
-  win.loadFile('debug.html');
+  win.webContents.zoomFactor = 1;
 }
 
 app.whenReady().then(() => {
@@ -41,6 +35,8 @@ app.whenReady().then(() => {
 
   globalShortcut.register('CommandOrControl+Y', () => {
     console.log("CTRL-Y");
+
+
   })
 
 

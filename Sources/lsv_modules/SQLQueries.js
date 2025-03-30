@@ -45,7 +45,7 @@ function getTopicHeadlines() {
   serverFunctions.appx.get('/getTopicHeadlines', (req, res) => {
     con.connect(function (err) {
       if (err) throw err;
-      con.query("SELECT * FROM titles", function (err, result, fields) {
+      con.query("SELECT headline, headline_nr FROM titles order by headline_nr", function (err, result, fields) {
         if (err) throw err;
         res.send(result);
       });
