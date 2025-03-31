@@ -1,5 +1,5 @@
 import { getDBStatus, getSetStates, getSetTopicHeadlines } from "./HTTPRequests.js";
-import { globalStates, globalTopicHeadlines } from "./Globals.js";
+import { globalStates, globalTopicHeadlines, globalTopicItems } from "./Globals.js";
 
 var selectedDropdown = 0;
 var publisherIs = "";
@@ -13,7 +13,7 @@ changeRange(searchCnt);
 setYears();
 getSetStates();
 getSetTopicHeadlines();
-changeHeadlines();
+setHeadlines();
 
 
 const searchItems = Array.from({ length: maxSearchSets + 1 }, () => new Array(elementsOnForm).fill(0));
@@ -25,9 +25,6 @@ $("#dropdown-year").on('click', sel2);
 $("#btnradio1").on('click', publisherSchool);
 $("#btnradio2").on('click', publisherFree);
 $(".searchRange").on('click', updateRange);
-
-
-
 
 function updateRange(str) {
 
@@ -57,7 +54,7 @@ function updateRange(str) {
 
 }
 
-export function changeHeadlines() {
+export function setHeadlines() {
     let i;
     for (i = 0; i < globalTopicHeadlines.contentValue.length; i++) {
         var el = 'topicLabel_' + i;
@@ -66,6 +63,17 @@ export function changeHeadlines() {
         r.innerText = globalTopicHeadlines.contentValue[i]['headline'];
     }
 }
+
+export function setTopicItems() {
+    let i;
+    for (i = 0; i < globalTopicItems.contentValue.length; i++) {
+        var el = "<input type='radio' class='form-check-input' id='topic_1_1'><label for='flexRadioCheckedDisabled' class='form-check-label topicLabel_1_1'>Name1</label><br>";
+        console.log(el);
+        //let r = document.getElementById(el);
+        //r.innerText = globalTopicHeadlines.contentValue[i]['headline'];
+    }
+}
+
 
 export function changeStatus1(str) {
     let r = document.getElementById('statusText1');

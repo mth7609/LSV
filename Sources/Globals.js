@@ -12,5 +12,6 @@ class C {
 
 let globalStates = new C();
 let globalTopicHeadlines = new C();
+let globalTopicItems = new C();
 
-export {globalStates, globalTopicHeadlines}
+export { globalStates, globalTopicHeadlines, globalTopicItems }

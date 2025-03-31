@@ -1,4 +1,4 @@
-import { changeStatus1, changeHeadlines } from "./ArchivScripts.js";
+import { changeStatus1, setHeadlines } from "./ArchivScripts.js";
 import { globalStates, globalTopicHeadlines } from "./Globals.js";
 
 var statesList = "";
@@ -64,6 +64,17 @@ export function getSetTopicHeadlines() {
 
     for (i = 0; i < globalTopicHeadlines.contentValue.length; i++) {
         s = s + globalTopicHeadlines.contentValue[i]['headline'] + "\n";
-        console.log(globalTopicHeadlines.contentValue[i]['headline']);
+        //console.log(globalTopicHeadlines.contentValue[i]['headline']);
     }
+}
+
+export function getTopicItems() {
+    $.ajax({
+        type: 'GET',
+        url: 'http://localhost:8080/education',
+        async: false,
+        success: function (data) {
+            console.log(data);
+        }
+    });
 }

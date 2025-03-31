@@ -53,7 +53,7 @@ app.whenReady().then(() => {
   setTimeout(() => {
     console.log("Starting application");
     createWindow();
-  }, 3000);
+  }, 2000);
 
   app.on('activate', () => {
     console.log("5");
@@ -78,7 +78,7 @@ app.on('window-all-closed', () => {
       app.quit();
       console.log("The End");
     }
-  }, 3000);
+  }, 2000);
 
 }
 ) // on
