@@ -12,6 +12,11 @@ class C {
 
 let globalStates = new C();
 let globalTopicHeadlines = new C();
-let globalTopicItems = new C();
+let globalTopicItems = [];
+let i;
+
+for (i = 0; i < 11; i++) {
+  globalTopicItems[i] = new C();
+}
 
 export { globalStates, globalTopicHeadlines, globalTopicItems }

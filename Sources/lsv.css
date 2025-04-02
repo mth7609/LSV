@@ -58,9 +58,11 @@ body {
 .topicsForm {
     z-index: 10;
     background: #cccccc;
+
 }
 
-/*.row>div {
-    background: lightgrey;
-    border: 1px solid grey;
-}*/
+.topicsFormBottom {
+    z-index: 12;
+    width: 80%;
+    /*background: #cccccc;*/
+}

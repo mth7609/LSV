@@ -1,5 +1,5 @@
-import { getDBStatus, getSetStates, getSetTopicHeadlines } from "./HTTPRequests.js";
-import { globalStates, globalTopicHeadlines, globalTopicItems } from "./Globals.js";
+import { getDBStatus, getStates, getTopicHeadlines, getTopicItems } from "./HTTPRequests.js";
+import { globalTopicHeadlines, globalTopicItems } from "./Globals.js";
 
 var selectedDropdown = 0;
 var publisherIs = "";
@@ -11,10 +11,10 @@ var maxReached = false;
 getDBStatus();
 changeRange(searchCnt);
 setYears();
-getSetStates();
-getSetTopicHeadlines();
+getStates();
+getTopicHeadlines();
+getTopicItems();
 setHeadlines();
-
 
 const searchItems = Array.from({ length: maxSearchSets + 1 }, () => new Array(elementsOnForm).fill(0));
 
@@ -58,20 +58,26 @@ export function setHeadlines() {
     let i;
     for (i = 0; i < globalTopicHeadlines.contentValue.length; i++) {
         var el = 'topicLabel_' + i;
-        console.log(i);
         let r = document.getElementById(el);
         r.innerText = globalTopicHeadlines.contentValue[i]['headline'];
+        setTopicItems(i)
     }
+
+    //setTopicItems(i);
+    //console.log(globalTopicItems[0].contentValue.length);
+    //document.getElementById("topicsList_0").innerText = "2222222";
+    //$('#topicList_0').text("you have no products in your shopping basket.");
 }
 
-export function setTopicItems() {
+export function setTopicItems(nr) {
     let i;
-    for (i = 0; i < globalTopicItems.contentValue.length; i++) {
-        var el = "<input type='radio' class='form-check-input' id='topic_1_1'><label for='flexRadioCheckedDisabled' class='form-check-label topicLabel_1_1'>Name1</label><br>";
-        console.log(el);
-        //let r = document.getElementById(el);
-        //r.innerText = globalTopicHeadlines.contentValue[i]['headline'];
+    let el = "";
+    for (i = 0; i < globalTopicItems[nr].contentValue.length; i++) {
+        el = el + "<nobr><input type='radio' class='form-check-input topic_" + nr + "_" + i + "' id='topic_" + nr + "_" + i + "'>\n \
+                  <label for='flexRadioCheckedDisabled' class='form-check-label topicLabel_" + nr + "_" + i + "'>" + globalTopicItems[nr].contentValue[i]["text"] + "</label><br>\n";
     }
+    //console.log(el);
+    $('#topicList_' + nr).html(el);
 }
 
 

@@ -38,19 +38,6 @@ function getDBStatus() {
   });
 }
 
-function getStates() {
-  serverFunctions.appx.get('/getStates', (req, res) => {
-    con.connect(function (err) {
-      if (err) throw err;
-      con.query("SELECT name FROM states", function (err, result, fields) {
-        if (err) throw err;
-        res.send(result);
-      });
-    });
-
-  });
-}
-
 
 getDBStatus();
 getStates();

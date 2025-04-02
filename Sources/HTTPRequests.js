@@ -1,11 +1,11 @@
 import { changeStatus1, setHeadlines } from "./ArchivScripts.js";
-import { globalStates, globalTopicHeadlines } from "./Globals.js";
+import { globalStates, globalTopicHeadlines, globalTopicItems } from "./Globals.js";
 
 var statesList = "";
 var titles = ""
 
 
-export function getSetStates() {
+export function getStates() {
     $.ajax({
         type: 'GET',
         url: 'http://localhost:8080/getStates',
@@ -46,7 +46,7 @@ export function getDBStatus() {
     });
 }
 
-export function getSetTopicHeadlines() {
+export function getTopicHeadlines() {
     $.ajax({
         type: 'GET',
         url: 'http://localhost:8080/getTopicHeadlines',
@@ -69,12 +69,18 @@ export function getSetTopicHeadlines() {
 }
 
 export function getTopicItems() {
-    $.ajax({
-        type: 'GET',
-        url: 'http://localhost:8080/education',
-        async: false,
-        success: function (data) {
-            console.log(data);
-        }
-    });
+
+    let i;
+    for (i = 0; i < 11; i++) {
+        $.ajax({
+            type: 'GET',
+            url: 'http://localhost:8080/' + i,
+            async: false,
+            success: function (data) {
+                globalTopicItems[i].contentValue = data;
+                //console.log(globalTopicItems[i].contentValue);
+            }
+        });
+    }
 }
+

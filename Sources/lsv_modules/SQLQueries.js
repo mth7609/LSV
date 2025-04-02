@@ -56,7 +56,7 @@ function getTopicHeadlines() {
 }
 
 function getTopicItems() {
-  serverFunctions.appx.get('/1', (req, res) => {
+  serverFunctions.appx.get('/0', (req, res) => {
     con.connect(function (err) {
       if (err) throw err;
       con.query("SELECT * FROM " + tableNames[0]["tablename"], function (err, result, fields) {
@@ -66,7 +66,7 @@ function getTopicItems() {
     });
   });
 
-  serverFunctions.appx.get('/2', (req, res) => {
+  serverFunctions.appx.get('/1', (req, res) => {
     con.connect(function (err) {
       if (err) throw err;
       con.query("SELECT * FROM " + tableNames[1]["tablename"], function (err, result, fields) {
@@ -75,7 +75,7 @@ function getTopicItems() {
       })
     });
   });
-  serverFunctions.appx.get('/3', (req, res) => {
+  serverFunctions.appx.get('/2', (req, res) => {
     con.connect(function (err) {
       if (err) throw err;
       con.query("SELECT * FROM " + tableNames[2]["tablename"], function (err, result, fields) {
@@ -84,7 +84,7 @@ function getTopicItems() {
       })
     });
   });
-  serverFunctions.appx.get('/4', (req, res) => {
+  serverFunctions.appx.get('/3', (req, res) => {
     con.connect(function (err) {
       if (err) throw err;
       con.query("SELECT * FROM " + tableNames[3]["tablename"], function (err, result, fields) {
@@ -93,7 +93,7 @@ function getTopicItems() {
       })
     });
   });
-  serverFunctions.appx.get('/5', (req, res) => {
+  serverFunctions.appx.get('/4', (req, res) => {
     con.connect(function (err) {
       if (err) throw err;
       con.query("SELECT * FROM " + tableNames[4]["tablename"], function (err, result, fields) {
@@ -102,7 +102,7 @@ function getTopicItems() {
       })
     });
   });
-  serverFunctions.appx.get('/6', (req, res) => {
+  serverFunctions.appx.get('/5', (req, res) => {
     con.connect(function (err) {
       if (err) throw err;
       con.query("SELECT * FROM " + tableNames[5]["tablename"], function (err, result, fields) {
@@ -111,7 +111,7 @@ function getTopicItems() {
       })
     });
   });
-  serverFunctions.appx.get('/7', (req, res) => {
+  serverFunctions.appx.get('/6', (req, res) => {
     con.connect(function (err) {
       if (err) throw err;
       con.query("SELECT * FROM " + tableNames[6]["tablename"], function (err, result, fields) {
@@ -120,7 +120,7 @@ function getTopicItems() {
       })
     });
   });
-  serverFunctions.appx.get('/8', (req, res) => {
+  serverFunctions.appx.get('/7', (req, res) => {
     con.connect(function (err) {
       if (err) throw err;
       con.query("SELECT * FROM " + tableNames[7]["tablename"], function (err, result, fields) {
@@ -129,7 +129,7 @@ function getTopicItems() {
       })
     });
   });
-  serverFunctions.appx.get('/9', (req, res) => {
+  serverFunctions.appx.get('/8', (req, res) => {
     con.connect(function (err) {
       if (err) throw err;
       con.query("SELECT * FROM " + tableNames[8]["tablename"], function (err, result, fields) {
@@ -138,7 +138,7 @@ function getTopicItems() {
       })
     });
   });
-  serverFunctions.appx.get('/10', (req, res) => {
+  serverFunctions.appx.get('/9', (req, res) => {
     con.connect(function (err) {
       if (err) throw err;
       con.query("SELECT * FROM " + tableNames[9]["tablename"], function (err, result, fields) {
@@ -147,7 +147,7 @@ function getTopicItems() {
       })
     });
   });
-  serverFunctions.appx.get('/11', (req, res) => {
+  serverFunctions.appx.get('/10', (req, res) => {
     con.connect(function (err) {
       if (err) throw err;
       con.query("SELECT * FROM " + tableNames[10]["tablename"], function (err, result, fields) {
@@ -157,6 +157,7 @@ function getTopicItems() {
     });
   });
 }
+
 
 getDBStatus();
 getStates();

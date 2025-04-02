@@ -11,7 +11,7 @@ const createWindow = () => {
   })
   win.loadFile('index.html');
 
-  win.webContents.setVisualZoomLevelLimits(1, 2);
+  win.webContents.setVisualZoomLevelLimits(1, 4);
 
   win.webContents.on("zoom-changed", (event, zoomDirection) => {
     var currentZoom = win.webContents.getZoomFactor();
@@ -33,11 +33,9 @@ app.whenReady().then(() => {
   serverFunctions.serverOpen();
   console.log("Local HTTP server started");
 
-  globalShortcut.register('CommandOrControl+Y', () => {
-    console.log("CTRL-Y");
-
-
-  })
+  //globalShortcut.register('CommandOrControl+Y', () => {
+  // console.log("CTRL-Y");
+  //})
 
 
   //setTimeout(() => {
