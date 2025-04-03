@@ -6,12 +6,13 @@ const serverFunctions = require('./lsv_modules/ServerFunctions');
 
 const createWindow = () => {
   const win = new BrowserWindow({
-    width: 1200,
+    width: 1400,
     height: 800,
   })
   win.loadFile('index.html');
 
   win.webContents.setVisualZoomLevelLimits(1, 4);
+  win.webContents.zoomFactor = 1;
 
   win.webContents.on("zoom-changed", (event, zoomDirection) => {
     var currentZoom = win.webContents.getZoomFactor();

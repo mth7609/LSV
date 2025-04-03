@@ -1,4 +1,4 @@
-const {ipcMain, dialog} = require('electron')
+const { ipcMain, dialog } = require('electron')
 
 ipcMain.on('open-information-dialog', (event) => {
   const options = {

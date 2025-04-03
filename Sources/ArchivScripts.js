@@ -20,16 +20,16 @@ const searchItems = Array.from({ length: maxSearchSets + 1 }, () => new Array(el
 
 $(".dropdown-menu li a").on('click', updateValue);
 $(".doSearch").on('click', doSearch);
-$("#dropdown-state").on('click', sel1);
-$("#dropdown-year").on('click', sel2);
+$("#dropdownState").on('click', sel1);
+$("#dropdownYear").on('click', sel2);
 $("#btnradio1").on('click', publisherSchool);
 $("#btnradio2").on('click', publisherFree);
 $(".searchRange").on('click', updateRange);
 
 function updateRange(str) {
 
-    document.getElementById('dropdown-state').innerText = searchItems[$(".searchRange").val()][3];
-    document.getElementById('dropdown-year').innerText = searchItems[$(".searchRange").val()][5];
+    document.getElementById('dropdownState').innerText = searchItems[$(".searchRange").val()][3];
+    document.getElementById('dropdownYear').innerText = searchItems[$(".searchRange").val()][5];
 
     if (searchItems[$(".searchRange").val()][4] == "Frei") {
         $('#btnradio1').prop("checked", false);
@@ -50,7 +50,7 @@ function updateRange(str) {
     document.getElementById('city').value = searchItems[$(".searchRange").val()][2];
     document.getElementById('no').value = searchItems[$(".searchRange").val()][6];
 
-    changeStatus2("Sucheingabe Nr.: " + $(".searchRange").val());
+    changeStatus3("Sucheingabe Nr.: " + $(".searchRange").val());
 
 }
 
@@ -63,20 +63,15 @@ export function setHeadlines() {
         setTopicItems(i)
     }
 
-    //setTopicItems(i);
-    //console.log(globalTopicItems[0].contentValue.length);
-    //document.getElementById("topicsList_0").innerText = "2222222";
-    //$('#topicList_0').text("you have no products in your shopping basket.");
 }
 
 export function setTopicItems(nr) {
     let i;
     let el = "";
     for (i = 0; i < globalTopicItems[nr].contentValue.length; i++) {
-        el = el + "<nobr><input type='radio' class='form-check-input topic_" + nr + "_" + i + "' id='topic_" + nr + "_" + i + "'>\n \
+        el = el + "<nobr><input type='radio' class='form-check-input topicListButton topic_" + nr + "_" + i + "' id='topic_" + nr + "_" + i + "'>\n \
                   <label for='flexRadioCheckedDisabled' class='form-check-label topicLabel_" + nr + "_" + i + "'>" + globalTopicItems[nr].contentValue[i]["text"] + "</label><br>\n";
     }
-    //console.log(el);
     $('#topicList_' + nr).html(el);
 }
 
@@ -86,8 +81,8 @@ export function changeStatus1(str) {
     r.innerText = str;
 }
 
-export function changeStatus2(str) {
-    let r = document.getElementById('statusText2');
+export function changeStatus3(str) {
+    let r = document.getElementById('statusText3');
     r.innerText = str;
 }
 
@@ -143,15 +138,7 @@ function doSearch() {
     searchItems[searchCnt][4] = publisherIs;
     searchItems[searchCnt][5] = document.querySelector('.d1').innerText;
     searchItems[searchCnt][6] = $('#no').val();
-
-    $('#name-Read').text(searchItems[searchCnt][0]);
-    $('#schoolPublisher-Read').text(searchItems[searchCnt][1]);
-    $('#city-Read').text(searchItems[searchCnt][2]);
-    $('#state-Read').text(searchItems[searchCnt][3]);
-    $('#publisherIs-Read').text(searchItems[searchCnt][4]);
-    $('#year-Read').text(searchItems[searchCnt][5]);
-    $('#no-Read').text(searchItems[searchCnt][6]);
-    $('#searchCnt').text(searchCnt);
+    //console.log(searchItems);
 
     if ((searchCnt < maxSearchSets)) {
         if (!maxReached)
