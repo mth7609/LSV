@@ -94,10 +94,16 @@ function changeRange(str) {
 
 function publisherSchool(str) {
     publisherIs = "Schule";
+    $(".freeLabel").css("backgroundColor", "#ffffff");
+    $(".schoolLabel").css("backgroundColor", "#00ffff");
+    $(".schoolLabel").css("color", "#000000");
 }
 
 function publisherFree(str) {
     publisherIs = "Frei";
+    $(".freeLabel").css("backgroundColor", "#00ffff");
+    $(".freeLabel").css("color", "#000000");
+    $(".schoolLabel").css("backgroundColor", "#ffffff");
 }
 
 function sel1(str) {

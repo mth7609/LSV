@@ -62,26 +62,8 @@ body {
     text-wrap: nowrap;
 }
 
-.infoTop {
-    position: fixed;
-    top: 30px;
-    right: 10%;
-    left: 85%;
-    padding: 10px;
-    font-weight: bold;
-    font-size: small;
-    background: #c2e2ec;
-    color: #000000;
-    border: solid 2px rgb(0, 0, 0);
-    z-index: 200;
-    overflow: hidden;
-    overflow-y: none;
-    text-wrap: nowrap;
-}
-
-
 .formTop {
-    background: #cccccc;
+    background: #056289;
     height: 210px;
 }
 
@@ -90,13 +72,21 @@ body {
     width: auto;
 }
 
+.headlinesTop {
+    font-size: 16px;
+    color: #ffffff;
+}
+
 .topicLabel {
     font-weight: bold;
     font-size: 16px;
+    color: #000000;
 }
 
 .infoLabel {
     font-size: 14px;
+    color: #eeeeee;
+    text-wrap: wrap;
 }
 
 .topicList {
@@ -105,27 +95,50 @@ body {
 }
 
 .topicListButton {
-    background: #bbbbbb;
-    border: solid 2px #888888;
+    background: #056289;
+    border: solid 2px #111111;
 }
 
 .inputField {
     background: #ffffff;
     border: solid 2px #bbbbbb;
     color: #000000;
-    height: 32px;
+    height: 30px;
 }
 
 .selectButtonSearch {
-    background: #aa0000;
+    background: #008800;
     border: solid 2px #bbbbbb;
     color: #ffffff;
-    height: 34px;
+    height: 30px;
 }
 
 .selectButton {
     background: #ffffff;
     border: solid 2px #bbbbbb;
     color: #000000;
-    height: 34px;
+    height: 30px;
+}
+
+.schoolLabel {
+    background: #ffffff;
+    border: solid 2px #bbbbbb;
+    border-style: solid;
+    color: #000000;
+    height: 30px;
+}
+
+.freeLabel {
+    background: #ffffff;
+    border: solid 2px #bbbbbb;
+    border-style: solid;
+    color: #000000;
+    height: 30px;
+}
+
+.buttonRadio1 {
+    background: #ff0000;
+    border: solid 2px #bbbbbb;
+    color: #000000;
+    height: 30px;
 }

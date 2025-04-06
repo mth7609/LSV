@@ -33,18 +33,18 @@
     <div class="container-fluid m-1 p-0">
         <div class="row">
             <div class="col-lg-9 pe-0 me-0 ps-3">
-                <form method="POST" class="form-horizontal formTop mx-3 ps-4 pe-4 pt-2 border rounded-4 nobr">
+                <form method="POST" name="ff" class="form-horizontal formTop mx-3 ps-4 pe-4 pt-2 border rounded-4 nobr">
                     <div class="form-group row nobr">
                         <div class="col-sm-4">
-                            <label for="text" class="col-form-label nameLabel topicLabel">Name</label>
+                            <label for="text" class="col-form-label nameLabel headlinesTop">Name</label>
                             <input type="text" class="form-control inputField" id="name">
                         </div>
                         <div class="col-sm-1">
-                            <label for="text" class="col-form-label px-1 noLabel topicLabel">Ausgabe</label>
+                            <label for="text" class="col-form-label px-1 noLabel headlinesTop">Ausgabe</label>
                             <input style="width:75px" type="text" class="form-control mx-1 inputField" id="no">
                         </div>
                         <div class="col-sm-1">
-                            <label for="text" class="col-form-label yearLabel topicLabel">Jahr</label>
+                            <label for="text" class="col-form-label yearLabel headlinesTop">Jahr</label>
                             <div class="dropdown btn-outline-primary" style="width:75px" id="year">
                                 <button class="btn btn-outline-primary py-0 col-sm-12 d1 selectButton" id="dropdownYear" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expande d="false">Jahr</button>
                                 <ul class="dropdown-menu pre-scrollable" id="years" aria-labelledby="dropdownYear">
@@ -52,36 +52,36 @@
                             </div>
                         </div>
                         <div class="col-sm-4">
-                            <label for="text" class="col-form-label cityLabel topicLabel">Ort</label>
+                            <label for="text" class="col-form-label cityLabel headlinesTop">Ort</label>
                             <input type="text" class="form-control inputField" id="city">
                         </div>
                         <div class="col-sm-2">
-                            <label for="text" class="col-form-label resultLabel topicLabel">Ergebnisse</label>
+                            <label for="text" class="col-form-label resultLabel headlinesTop">Ergebnisse</label>
                             <input type="text" class="form-control inputField" id="results">
                         </div>
                     </div>
                     <div class="form-group row nobr">
                         <div class="col-sm-4">
-                            <label for="text" class="col-form-label mx-0 schoolPublisherLabel topicLabel">
+                            <label for="text" class="col-form-label mx-0 schoolPublisherLabel headlinesTop">
                                 <nobr>Schule / Herausgeber</nobr>
                             </label>
                             <input type="text" class="form-control inputField" id="schoolPublisher">
                         </div>
                         <div class="col-sm-2" role="group" aria-label="group" id="publisherIs">
                             <div class="col-sm-2 px-1 py-0">
-                                <label for="text" class="col-form-label publisherIsLabel topicLabel">
+                                <label for="text" class="col-form-label publisherIsLabel headlinesTop">
                                     <nobr>Herausgeber ist</nobr>
                                 </label>
                             </div>
                             <span class="col-sm-2 ms-1 px-0">
-                                <input type="radio" class="btn-check selectButton1" name="btnradio" id="btnradio1" autocomplete="off">
-                                <label style="width:60px" class="btn p-0 my-1 btn-outline-primary schoolLabel" for="btnradio1">Schule</label>
-                                <input type="radio" class="btn-check selectButton1" name="btnradio" id="btnradio2" autocomplete="off">
-                                <label style="width:60px" class="btn p-0 my-1 btn-outline-primary freeLabel" for="btnradio2">Frei</label>
+                                <input type="radio" class="btn-check btnradio1" name="btnradio" id="btnradio1" autocomplete="off">
+                                <label style="width:60px" class="btn p-0 my-0 btn-outline-primary schoolLabel" for="btnradio1">Schule</label>
+                                <input type="radio" class="btn-check btnradio2" name="btnradio" id="btnradio2" autocomplete="off">
+                                <label style="width:60px; color:black" class="btn p-0 my-0 btn-outline-primary freeLabel" for="btnradio2">Frei</label>
                             </span>
                         </div>
                         <div class="col-sm-4">
-                            <label class="col-form-label stateLabel topicLabel">Land</label>
+                            <label class="col-form-label stateLabel headlinesTop">Land</label>
                             <div class="dropdown btn-outline-primary" id="state">
                                 <button class="col-sm-12 py-0 btn btn-outline-primary d2 selectButton" id="dropdownState" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expande d="false">Land</button>
                                 <ul class="dropdown-menu pre-scrollable" id="states" aria-labelledby="dropdownState">
@@ -96,7 +96,7 @@
                 </form>
             </div>
             <div class="col-lg-3 ms-0 p-0 pe-4">
-                <form method="POST" class="form-horizontal formTop mx-3 ps-3 pe-3 pt-0 border rounded-4">
+                <form method="POST" class="form-horizontal formTop ms-1 me-3 ps-3 pe-3 pt-0 border rounded-4">
                     <label class="col-form-label infoLabel">
                         Willkommen bei dem Archiv der Jugendzeitschriften<br><br>
                         LandesSchülerVertretung Berlin (LSV)<br>
@@ -209,7 +209,6 @@
     </div>
     <br>
 
-    <link href="topics.html" rel="import" />
 
 </body>
 
