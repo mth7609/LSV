@@ -6,7 +6,7 @@ const serverFunctions = require('./lsv_modules/ServerFunctions');
 
 const createWindow = () => {
   const win = new BrowserWindow({
-    width: 1400,
+    width: 1500,
     height: 800,
   })
   win.loadFile('index.html');

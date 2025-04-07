@@ -7,6 +7,7 @@ let searchCnt = 1;
 var elementsOnForm = 7;
 var maxSearchSets = 10;
 var maxReached = false;
+var lastTopicName = "null";
 
 getDBStatus();
 changeRange(searchCnt);
@@ -25,6 +26,31 @@ $("#dropdownYear").on('click', sel2);
 $("#btnradio1").on('click', publisherSchool);
 $("#btnradio2").on('click', publisherFree);
 $(".searchRange").on('click', updateRange);
+$(".topicListButton").on('click', topicListClick);
+
+
+function topicListClick() {
+    var topicName = this.attributes[4].value;
+
+    console.log(topicName + "    " + $(`#${topicName}`).prop("checked") + "    " + lastTopicName);
+    globalTopicItems[this.attributes[2].value].contentValue[this.attributes[3].value]["active"] = true;
+    console.log(globalTopicItems);
+
+    $(`#${topicName}`).trigger("focus");
+
+    if (topicName == lastTopicName) {
+        $(`#${topicName}`).prop("checked", false);
+        lastTopicName = "null";
+        $(`#${topicName}`).css("backgroundColor", "#056289");
+        globalTopicItems[this.attributes[2].value].contentValue[this.attributes[3].value]["active"] = false;
+    }
+    else {
+        $(`#${topicName}`).css("backgroundColor", "#00ff00");
+        lastTopicName = topicName;
+    }
+    $(`#${topicName}`).trigger("blur");
+    console.log($(`#${topicName}`).prop("checked"));
+}
 
 function updateRange(str) {
 
@@ -51,7 +77,6 @@ function updateRange(str) {
     document.getElementById('no').value = searchItems[$(".searchRange").val()][6];
 
     changeStatus3("Sucheingabe Nr.: " + $(".searchRange").val());
-
 }
 
 export function setHeadlines() {
@@ -69,12 +94,11 @@ export function setTopicItems(nr) {
     let i;
     let el = "";
     for (i = 0; i < globalTopicItems[nr].contentValue.length; i++) {
-        el = el + "<nobr><input type='radio' class='form-check-input topicListButton topic_" + nr + "_" + i + "' id='topic_" + nr + "_" + i + "'>\n \
-                  <label for='flexRadioCheckedDisabled' class='form-check-label topicLabel_" + nr + "_" + i + "'>" + globalTopicItems[nr].contentValue[i]["text"] + "</label><br>\n";
+        el = el + "<nobr><input type='radio' class='form-check-input topicListButton  topic_" + nr + "_" + i + "' topicListNo='" + nr + "' topicNoInList='" + i + "' id='topic_" + nr + "_" + i + "'>\n \
+                  <label class='form-check-label topicListLabel topicLabel_" + nr + "_" + i + "'>" + globalTopicItems[nr].contentValue[i]["text"] + "</label><br>\n";
     }
     $('#topicList_' + nr).html(el);
 }
-
 
 export function changeStatus1(str) {
     let r = document.getElementById('statusText1');
@@ -118,11 +142,11 @@ function updateValue(str) {
     var selText = $(this).text();
 
     if (selectedDropdown == 1) {
-        document.querySelector('.d2').innerText = selText;
+        document.querySelector('.dropdownState').innerText = selText;
     }
 
     if (selectedDropdown == 2) {
-        document.querySelector('.d1').innerText = selText;
+        document.querySelector('.dropdownYear').innerText = selText;
     }
 }
 
@@ -135,14 +159,13 @@ function setYears() {
     document.getElementById("years").innerHTML = str;
 }
 
-
 function doSearch() {
     searchItems[searchCnt][0] = $('#name').val();
     searchItems[searchCnt][1] = $('#schoolPublisher').val();
     searchItems[searchCnt][2] = $('#city').val();
-    searchItems[searchCnt][3] = document.querySelector('.d2').innerText;
+    searchItems[searchCnt][3] = document.querySelector('.dropdownState').innerText;
     searchItems[searchCnt][4] = publisherIs;
-    searchItems[searchCnt][5] = document.querySelector('.d1').innerText;
+    searchItems[searchCnt][5] = document.querySelector('.dropdownYear').innerText;
     searchItems[searchCnt][6] = $('#no').val();
     //console.log(searchItems);
 

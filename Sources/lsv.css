@@ -126,9 +126,42 @@ body {
     border-style: solid;
     color: #000000;
     height: 30px;
+    width: 55px
 }
 
 .freeLabel {
+    background: #ffffff;
+    border: solid 2px #bbbbbb;
+    border-style: solid;
+    color: #000000;
+    height: 30px;
+    width: 55px
+}
+
+.publishNo {
+    background: #ffffff;
+    border: solid 2px #bbbbbb;
+    border-style: solid;
+    color: #000000;
+    height: 30px;
+    width: 60px
+}
+
+.dropdownYearStyle {
+    height: 30px;
+    width: 60px;
+    z-index: 5;
+}
+
+.buttonYearStyle {
+    background: #ffffff;
+    border: solid 2px #bbbbbb;
+    color: #000000;
+    height: 30px;
+    width: 60px;
+}
+
+.dropdownState {
     background: #ffffff;
     border: solid 2px #bbbbbb;
     border-style: solid;

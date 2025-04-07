@@ -33,20 +33,20 @@
     <div class="container-fluid m-1 p-0">
         <div class="row">
             <div class="col-lg-9 pe-0 me-0 ps-3">
-                <form method="POST" name="ff" class="form-horizontal formTop mx-3 ps-4 pe-4 pt-2 border rounded-4 nobr">
+                <form method="POST" name="ff" class="form-horizontal formTop mx-3 ps-4 pe-3 pt-2 border rounded-4 nobr">
                     <div class="form-group row nobr">
                         <div class="col-sm-4">
                             <label for="text" class="col-form-label nameLabel headlinesTop">Name</label>
                             <input type="text" class="form-control inputField" id="name">
                         </div>
                         <div class="col-sm-1">
-                            <label for="text" class="col-form-label px-1 noLabel headlinesTop">Ausgabe</label>
-                            <input style="width:75px" type="text" class="form-control mx-1 inputField" id="no">
+                            <label for="text" class="col-form-label px-1 ms-0 noLabel headlinesTop">Ausgabe</label>
+                            <input type="text" class="form-control ps-1 pe-1 ms-1 me-1 publishNo" id="no">
                         </div>
-                        <div class="col-sm-1">
-                            <label for="text" class="col-form-label yearLabel headlinesTop">Jahr</label>
-                            <div class="dropdown btn-outline-primary" style="width:75px" id="year">
-                                <button class="btn btn-outline-primary py-0 col-sm-12 d1 selectButton" id="dropdownYear" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expande d="false">Jahr</button>
+                        <div class="col-sm-1 px-0">
+                            <label for="text" class="col-form-label yearLabel headlinesTop ms-1">Jahr</label>
+                            <div class="dropdown btn-outline-primary dropdownYearStyle" id="year">
+                                <button class="btn btn-outline-primary ms-1 p-0 buttonYearStyle dropdownYear" id="dropdownYear" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expande d="false">Jahr</button>
                                 <ul class="dropdown-menu pre-scrollable" id="years" aria-labelledby="dropdownYear">
                                 </ul>
                             </div>
@@ -73,17 +73,18 @@
                                     <nobr>Herausgeber ist</nobr>
                                 </label>
                             </div>
-                            <span class="col-sm-2 ms-1 px-0">
+                            <div class="px-0">
                                 <input type="radio" class="btn-check btnradio1" name="btnradio" id="btnradio1" autocomplete="off">
-                                <label style="width:60px" class="btn p-0 my-0 btn-outline-primary schoolLabel" for="btnradio1">Schule</label>
+                                <label class="btn p-0 my-0 ms-1 btn-outline-primary schoolLabel" for="btnradio1">Schule</label>
+
                                 <input type="radio" class="btn-check btnradio2" name="btnradio" id="btnradio2" autocomplete="off">
-                                <label style="width:60px; color:black" class="btn p-0 my-0 btn-outline-primary freeLabel" for="btnradio2">Frei</label>
-                            </span>
+                                <label class="btn p-0 my-0 ms-1 btn-outline-primary freeLabel" for="btnradio2">Frei</label>
+                            </div>
                         </div>
                         <div class="col-sm-4">
                             <label class="col-form-label stateLabel headlinesTop">Land</label>
                             <div class="dropdown btn-outline-primary" id="state">
-                                <button class="col-sm-12 py-0 btn btn-outline-primary d2 selectButton" id="dropdownState" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expande d="false">Land</button>
+                                <button class="col-sm-12 py-0 btn btn-outline-primary dropdownState selectButton" id="dropdownState" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expande d="false">Land</button>
                                 <ul class="dropdown-menu pre-scrollable" id="states" aria-labelledby="dropdownState">
                                 </ul>
                             </div>
