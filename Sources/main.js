@@ -11,8 +11,10 @@ const createWindow = () => {
   })
   win.loadFile('index.html');
 
-  win.webContents.setVisualZoomLevelLimits(1, 4);
-  win.webContents.zoomFactor = 1;
+
+  win.webContents.setVisualZoomLevelLimits(1, 2);
+  win.webContents.setZoomFactor(1.0);
+  win.webContents.setZoomLevel(0);
 
   win.webContents.on("zoom-changed", (event, zoomDirection) => {
     var currentZoom = win.webContents.getZoomFactor();
@@ -26,14 +28,13 @@ const createWindow = () => {
     //console.log('Current Zoom Level at - ', win.webContents.getZoomLevel());
     //console.log(win.webContents.getZoomFactor());
   });
-
-  win.webContents.zoomFactor = 1;
 }
 
 app.whenReady().then(() => {
   serverFunctions.serverOpen();
   console.log("Local HTTP server started");
-
+  app.commandLine.appendSwitch('high-dpi-support', 1)
+  app.commandLine.appendSwitch('force-device-scale-factor', 1)
   //globalShortcut.register('CommandOrControl+Y', () => {
   // console.log("CTRL-Y");
   //})

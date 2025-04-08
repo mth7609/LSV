@@ -1,5 +1,5 @@
 import { getDBStatus, getStates, getTopicHeadlines, getTopicItems } from "./HTTPRequests.js";
-import { globalTopicHeadlines, globalTopicItems } from "./Globals.js";
+import { globalTopicHeadlines, globalTopicItems, globalSearchItems } from "./Globals.js";
 
 var selectedDropdown = 0;
 var publisherIs = "";
@@ -160,14 +160,16 @@ function setYears() {
 }
 
 function doSearch() {
-    searchItems[searchCnt][0] = $('#name').val();
-    searchItems[searchCnt][1] = $('#schoolPublisher').val();
-    searchItems[searchCnt][2] = $('#city').val();
-    searchItems[searchCnt][3] = document.querySelector('.dropdownState').innerText;
-    searchItems[searchCnt][4] = publisherIs;
-    searchItems[searchCnt][5] = document.querySelector('.dropdownYear').innerText;
-    searchItems[searchCnt][6] = $('#no').val();
-    //console.log(searchItems);
+    searchItems[searchCnt][0] = globalSearchItems[0].contentValue = $('#name').val();
+    searchItems[searchCnt][1] = globalSearchItems[1].contentValue = $('#schoolPublisher').val();
+    searchItems[searchCnt][2] = globalSearchItems[2].contentValue = $('#city').val();
+    searchItems[searchCnt][3] = globalSearchItems[3].contentValue = document.querySelector('.dropdownState').innerText;
+    searchItems[searchCnt][4] = globalSearchItems[4].contentValue = publisherIs;
+    searchItems[searchCnt][5] = globalSearchItems[5].contentValue = document.querySelector('.dropdownYear').innerText;
+    searchItems[searchCnt][6] = globalSearchItems[6].contentValue = $('#no').val();
+    //console.log(globalSearchItems);
+
+    console.log("+++++++++++++++++++++++++ " + globalSearchItems[0].contentValue);
 
     if ((searchCnt < maxSearchSets)) {
         if (!maxReached)
@@ -178,7 +180,8 @@ function doSearch() {
         maxReached = true;
         searchCnt = 1;
     }
-}
 
+    window.open('debug.html');
+}
 
 
