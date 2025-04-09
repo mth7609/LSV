@@ -1,6 +1,6 @@
-import { globalSearchItems } from "./Globals.js";
 
-console.log("+++++++++++++++++++++++++ " + globalSearchItems[0].contentValue);
+let searchItems = [];
+let mainHeadline = [];
 
 updateSearchWindow();
 
@@ -8,9 +8,12 @@ function updateSearchWindow() {
     let i;
     let el = "";
 
-    console.log("::: " + globalSearchItems[0].contentValue);
-    for (i = 0; i <= 6; i++) {
-        el = el + "<label class='topicListLabel searchItem_" + i + "'>" + globalSearchItems[i].contentValue + "</label><br>\n";
+    for (i = 0; i < 7; i++) {
+        mainHeadline[i] = localStorage.getItem("mainHeadline_" + i);
+        searchItems[i] = localStorage.getItem("searchItem_" + i);
+        if (searchItems[i] != null)
+            el = el + "<nobr><b><label class='searchListLabel searchItem_" + i + "'>" + mainHeadline[i] + ": </label></b> \
+                       <label class='searchListItems searchItem_" + i + "'>" + searchItems[i] + "</label><br>\n";
     }
 
     $('#topicListLabels').html(el);

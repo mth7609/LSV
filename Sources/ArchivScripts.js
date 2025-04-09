@@ -1,5 +1,5 @@
 import { getDBStatus, getStates, getTopicHeadlines, getTopicItems } from "./HTTPRequests.js";
-import { globalTopicHeadlines, globalTopicItems, globalSearchItems } from "./Globals.js";
+import { globalTopicHeadlines, globalStates, globalTopicItems, globalSearchItems } from "./Globals.js";
 
 var selectedDropdown = 0;
 var publisherIs = "";
@@ -74,7 +74,7 @@ function updateRange(str) {
     document.getElementById('name').value = searchItems[$(".searchRange").val()][0];
     document.getElementById('schoolPublisher').value = searchItems[$(".searchRange").val()][1];
     document.getElementById('city').value = searchItems[$(".searchRange").val()][2];
-    document.getElementById('no').value = searchItems[$(".searchRange").val()][6];
+    document.getElementById('publishNo').value = searchItems[$(".searchRange").val()][6];
 
     changeStatus3("Sucheingabe Nr.: " + $(".searchRange").val());
 }
@@ -160,16 +160,30 @@ function setYears() {
 }
 
 function doSearch() {
-    searchItems[searchCnt][0] = globalSearchItems[0].contentValue = $('#name').val();
-    searchItems[searchCnt][1] = globalSearchItems[1].contentValue = $('#schoolPublisher').val();
-    searchItems[searchCnt][2] = globalSearchItems[2].contentValue = $('#city').val();
-    searchItems[searchCnt][3] = globalSearchItems[3].contentValue = document.querySelector('.dropdownState').innerText;
-    searchItems[searchCnt][4] = globalSearchItems[4].contentValue = publisherIs;
-    searchItems[searchCnt][5] = globalSearchItems[5].contentValue = document.querySelector('.dropdownYear').innerText;
-    searchItems[searchCnt][6] = globalSearchItems[6].contentValue = $('#no').val();
+    searchItems[searchCnt][0] = $('#name').val();
+    searchItems[searchCnt][1] = $('#schoolPublisher').val();
+    searchItems[searchCnt][2] = $('#city').val();
+    searchItems[searchCnt][3] = document.querySelector('.dropdownState').innerText;
+    searchItems[searchCnt][4] = publisherIs;
+    searchItems[searchCnt][5] = document.querySelector('.dropdownYear').innerText;
+    searchItems[searchCnt][6] = $('#publishNo').val();
     //console.log(globalSearchItems);
 
-    console.log("+++++++++++++++++++++++++ " + globalSearchItems[0].contentValue);
+    let i = 0;
+
+    //    for (i = 0; i < 7; i++) {
+    localStorage.setItem("mainHeadline_0", "Name");
+    localStorage.setItem("mainHeadline_1", "Schule / Herausgeber");
+    localStorage.setItem("mainHeadline_2", "Ort");
+    localStorage.setItem("mainHeadline_3", "Land");
+    localStorage.setItem("mainHeadline_4", "Herausgeber ist");
+    localStorage.setItem("mainHeadline_5", "Jahr");
+    localStorage.setItem("mainHeadline_6", "Ausgabe");
+    //  }
+
+    for (i = 0; i < 7; i++) {
+        localStorage.setItem("searchItem_" + i, searchItems[searchCnt][i]);
+    }
 
     if ((searchCnt < maxSearchSets)) {
         if (!maxReached)
@@ -181,7 +195,7 @@ function doSearch() {
         searchCnt = 1;
     }
 
-    window.open('debug.html');
+    window.open('SearchItemsList.html');
 }
 
 

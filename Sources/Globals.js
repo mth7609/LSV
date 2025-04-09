@@ -17,12 +17,11 @@ let globalSearchItems = [];
 
 let i;
 
-
 for (i = 0; i < 11; i++) {
   globalTopicItems[i] = new C();
 }
 
-for (i = 0; i < 16; i++) {
+for (i = 0; i < 32; i++) {
   globalSearchItems[i] = new C();
 }
 
