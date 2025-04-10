@@ -10,13 +10,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.3/css/bootstrap.min.css">
     <link rel="stylesheet" href="lsv.css">
-
-    <!--    <script>
-            $(function () {
-                $("#topics").load("topics.html");
-            });
-        </script>
-    -->
     <script type="module" src="HTTPRequests.js"></script>
     <script type="module" src="ArchivScripts.js"></script>
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
@@ -27,6 +20,8 @@
     <div class="m-4 position-absolute z-n0">
         <img src="images/LOGO1_blau_300.gif"></img>
     </div>
+
+    <tab-group new-tab-button="true" sortable="true"></tab-group>
 
     <p class="text-center fs-2 p-1 fw-bold"><br>Archiv der Jugendzeitschriften</p>
 
@@ -209,6 +204,12 @@
         </div>
     </div>
     <br>
+
+    Title: <input id="title" />
+    <button id="btn" type="button">Set</button>
+    <br>
+
+    <script src="renderer.js"></script>
 
 </body>
 

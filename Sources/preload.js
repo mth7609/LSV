@@ -1,8 +1,5 @@
-const { contextBridge, ipcRenderer } = require('electron')
+const { contextBridge, ipcRenderer } = require('electron/renderer')
 
-    console.log('preload');
-
-contextBridge.exposeInMainWorld('darkMode', {
-  toggle: () => ipcRenderer.invoke('dark-mode:toggle'),
-  system: () => ipcRenderer.invoke('dark-mode:system')
+contextBridge.exposeInMainWorld('electronAPI', {
+  openSearchProcess: (openSearchProcess) => ipcRenderer.send('openSearchProcessCMD', openSearchProcess)
 })

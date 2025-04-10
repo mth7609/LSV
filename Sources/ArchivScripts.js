@@ -185,6 +185,8 @@ function doSearch() {
         localStorage.setItem("searchItem_" + i, searchItems[searchCnt][i]);
     }
 
+    localStorage.setItem("searchCount", searchCnt);
+
     if ((searchCnt < maxSearchSets)) {
         if (!maxReached)
             changeRange(searchCnt);
@@ -194,8 +196,7 @@ function doSearch() {
         maxReached = true;
         searchCnt = 1;
     }
-
-    window.open('SearchItemsList.html');
+    window.electronAPI.openSearchProcess(title);
 }
 
 

@@ -1,20 +1,36 @@
-const { app, BrowserWindow, Menu, globalShortcut } = require('electron')
+const { app, BrowserWindow, Menu, globalShortcut, ipcMain } = require('electron')
 const path = require('node:path')
 const mysql = require('mysql2')
 const dbFunctions = require('./lsv_modules/SQLQueries');
 const serverFunctions = require('./lsv_modules/ServerFunctions');
 
-const createWindow = () => {
-  const win = new BrowserWindow({
+const createMainWindow = () => {
+  var win = new BrowserWindow({
     width: 1500,
     height: 800,
+    "webPreferences": {
+      "web-security": false,
+      "webviewTag": true,
+      preload: path.join(__dirname, 'preload.js')
+    }
   })
-  win.loadFile('index.html');
 
+  ipcMain.on('openSearchProcessCMD', (event, title) => {
+    //const webContents = event.sender;
+    //const win2 = BrowserWindow.fromWebContents(webContents);
+    //win2.setTitle(title);
+    createSearchItemsMainWindow().setParentWindow(win);
+  })
 
   win.webContents.setVisualZoomLevelLimits(1, 2);
   win.webContents.setZoomFactor(1.0);
   win.webContents.setZoomLevel(0);
+  win.removeMenu();
+  win.loadFile('index.html');
+
+  globalShortcut.register('CommandOrControl+D', () => {
+    win.webContents.toggleDevTools();
+  })
 
   win.webContents.on("zoom-changed", (event, zoomDirection) => {
     var currentZoom = win.webContents.getZoomFactor();
@@ -25,25 +41,47 @@ const createWindow = () => {
     if (zoomDirection === "out" && currentZoom > 0.6) {
       win.webContents.zoomFactor = currentZoom - 0.1;
     }
-    //console.log('Current Zoom Level at - ', win.webContents.getZoomLevel());
-    //console.log(win.webContents.getZoomFactor());
   });
+
 }
+
+
+
+
+const createSearchItemsMainWindow = () => {
+  var winSearch = new BrowserWindow({
+    width: 600,
+    height: 700,
+    "webPreferences": {
+      "web-security": false,
+      "webviewTag": true
+    }
+  })
+  winSearch.webContents.setVisualZoomLevelLimits(1, 2);
+  winSearch.webContents.setZoomFactor(1.0);
+  winSearch.webContents.setZoomLevel(0);
+  winSearch.removeMenu();
+  winSearch.loadFile('SearchItemsList.html');
+  globalShortcut.register('CommandOrControl+A', () => {
+    winSearch.webContents.toggleDevTools();
+  })
+  return winSearch;
+}
+
+
+
+
+
+
+
+
+
 
 app.whenReady().then(() => {
   serverFunctions.serverOpen();
   console.log("Local HTTP server started");
   app.commandLine.appendSwitch('high-dpi-support', 1)
   app.commandLine.appendSwitch('force-device-scale-factor', 1)
-  //globalShortcut.register('CommandOrControl+Y', () => {
-  // console.log("CTRL-Y");
-  //})
-
-
-  //setTimeout(() => {
-  //  serverFunctions.startMySqlService();
-  //console.log("Database service started");
-  //}, 2000);
 
   setTimeout(() => {
     dbFunctions.databaseServerConnect();
@@ -52,16 +90,20 @@ app.whenReady().then(() => {
 
   setTimeout(() => {
     console.log("Starting application");
-    createWindow();
+    createMainWindow();
   }, 2000);
 
   app.on('activate', () => {
-    console.log("5");
     if (BrowserWindow.getAllWindows().length === 0) {
-      createWindow();
+      createMainWindow();
     }
   })
 })
+
+app.on('before-quit', () => {
+  //winSearch.quit();
+});
+
 
 app.on('window-all-closed', () => {
 
@@ -80,10 +122,11 @@ app.on('window-all-closed', () => {
     }
   }, 2000);
 
-}
-) // on
 
-m = Menu.getApplicationMenu();
+}
+)
+
+
 
 
 
