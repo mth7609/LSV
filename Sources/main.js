@@ -1,4 +1,5 @@
-const { app, BrowserWindow, Menu, globalShortcut, ipcMain } = require('electron')
+const { app, BrowserWindow, Menu, shell, ipcMain } = require('electron')
+const electronLocalshortcut = require('electron-localshortcut');
 const path = require('node:path')
 const mysql = require('mysql2')
 const dbFunctions = require('./lsv_modules/SQLQueries');
@@ -7,7 +8,7 @@ const serverFunctions = require('./lsv_modules/ServerFunctions');
 const createMainWindow = () => {
   var win = new BrowserWindow({
     width: 1500,
-    height: 800,
+    height: 900,
     "webPreferences": {
       "web-security": false,
       "webviewTag": true,
@@ -15,11 +16,11 @@ const createMainWindow = () => {
     }
   })
 
-  ipcMain.on('openSearchProcessCMD', (event, title) => {
+  ipcMain.on('openSearchProcessCMD', (event) => {
     //const webContents = event.sender;
     //const win2 = BrowserWindow.fromWebContents(webContents);
     //win2.setTitle(title);
-    createSearchItemsMainWindow().setParentWindow(win);
+    createSearchResultMainWindow().setParentWindow(win);
   })
 
   win.webContents.setVisualZoomLevelLimits(1, 2);
@@ -28,8 +29,12 @@ const createMainWindow = () => {
   win.removeMenu();
   win.loadFile('index.html');
 
-  globalShortcut.register('CommandOrControl+D', () => {
+  electronLocalshortcut.register('CommandOrControl+D', () => {
     win.webContents.toggleDevTools();
+  })
+
+  electronLocalshortcut.register('CommandOrControl+R', () => {
+    win.reload();
   })
 
   win.webContents.on("zoom-changed", (event, zoomDirection) => {
@@ -43,12 +48,14 @@ const createMainWindow = () => {
     }
   });
 
+
+
 }
 
 
 
 
-const createSearchItemsMainWindow = () => {
+const createSearchResultMainWindow = () => {
   var winSearch = new BrowserWindow({
     width: 600,
     height: 700,
@@ -60,17 +67,13 @@ const createSearchItemsMainWindow = () => {
   winSearch.webContents.setVisualZoomLevelLimits(1, 2);
   winSearch.webContents.setZoomFactor(1.0);
   winSearch.webContents.setZoomLevel(0);
-  winSearch.removeMenu();
+  //winSearch.removeMenu();
   winSearch.loadFile('SearchItemsList.html');
-  globalShortcut.register('CommandOrControl+A', () => {
+  electronLocalshortcut.register('CommandOrControl+F', () => {
     winSearch.webContents.toggleDevTools();
   })
   return winSearch;
 }
-
-
-
-
 
 
 
@@ -100,11 +103,6 @@ app.whenReady().then(() => {
   })
 })
 
-app.on('before-quit', () => {
-  //winSearch.quit();
-});
-
-
 app.on('window-all-closed', () => {
 
   //serverFunctions.stopMySqlService();
@@ -125,10 +123,6 @@ app.on('window-all-closed', () => {
 
 }
 )
-
-
-
-
 
 
 

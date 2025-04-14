@@ -23,7 +23,8 @@
 
     <tab-group new-tab-button="true" sortable="true"></tab-group>
 
-    <p class="text-center fs-2 p-1 fw-bold"><br>Archiv der Jugendzeitschriften</p>
+    <br><br>
+    <p class="text-center fs-2 p-1 fw-bold mainWindowHeadline"></p>
 
     <div class="container-fluid m-1 p-0">
         <div class="row">
@@ -31,55 +32,52 @@
                 <form method="POST" name="ff" class="form-horizontal formTop mx-3 ps-4 pe-3 pt-2 border rounded-4 nobr">
                     <div class="form-group row nobr">
                         <div class="col-sm-4">
-                            <label for="text" class="col-form-label nameLabel headlinesTop">Name</label>
+                            <label for="text" class="col-form-label nameLabel headlinesTop"></label>
                             <input type="text" class="form-control inputField name" id="name">
                         </div>
                         <div class="col-sm-1">
-                            <label for="text" class="col-form-label px-1 ms-0 noLabel headlinesTop">Ausgabe</label>
+                            <label for="text" class="col-form-label px-1 ms-0 noLabel headlinesTop"></label>
                             <input type="text" class="form-control ps-1 pe-1 ms-1 me-1 publishNo" id="publishNo">
                         </div>
                         <div class="col-sm-1 px-0">
-                            <label for="text" class="col-form-label yearLabel headlinesTop ms-1">Jahr</label>
+                            <label for="text" class="col-form-label yearLabel headlinesTop ms-1"></label>
                             <div class="dropdown btn-outline-primary dropdownYearStyle year" id="year">
-                                <button class="btn btn-outline-primary ms-1 p-0 buttonYearStyle dropdownYear" id="dropdownYear" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expande d="false">Jahr</button>
+                                <button class="btn btn-outline-primary ms-1 p-0 buttonYearStyle dropdownYear" id="dropdownYear" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expande d="false">...</button>
                                 <ul class="dropdown-menu pre-scrollable" id="years" aria-labelledby="dropdownYear">
                                 </ul>
                             </div>
                         </div>
                         <div class="col-sm-4">
-                            <label for="text" class="col-form-label cityLabel headlinesTop">Ort</label>
+                            <label for="text" class="col-form-label cityLabel headlinesTop"></label>
                             <input type="text" class="form-control inputField city" id="city">
                         </div>
                         <div class="col-sm-2">
-                            <label for="text" class="col-form-label resultLabel headlinesTop">Ergebnisse</label>
+                            <label for="text" class="col-form-label resultLabel headlinesTop"></label>
                             <input type=" text" class="form-control inputField results" id="results" value="00.000">
                         </div>
                     </div>
                     <div class="form-group row nobr">
                         <div class="col-sm-4">
-                            <label for="text" class="col-form-label mx-0 schoolPublisherLabel headlinesTop">
-                                <nobr>Schule / Herausgeber</nobr>
-                            </label>
+                            <label for="text" class="col-form-label mx-0 schoolPublisherLabel headlinesTop"></label>
                             <input type="text" class="form-control inputField schoolPublisher" id="schoolPublisher">
                         </div>
                         <div class="col-sm-2" role="group" aria-label="group" id="publisherIs">
                             <div class="col-sm-2 px-1 py-0">
                                 <label for="text" class="col-form-label publisherIsLabel headlinesTop">
-                                    <nobr>Herausgeber ist</nobr>
                                 </label>
                             </div>
                             <div class="px-0">
                                 <input type="radio" class="btn-check btnradio1" name="btnradio" id="btnradio1" autocomplete="off">
-                                <label class="btn p-0 my-0 ms-1 btn-outline-primary schoolLabel" for="btnradio1">Schule</label>
+                                <label class="btn p-0 my-0 ms-1 btn-outline-primary schoolLabel" for="btnradio1"></label>
 
                                 <input type="radio" class="btn-check btnradio2" name="btnradio" id="btnradio2" autocomplete="off">
-                                <label class="btn p-0 my-0 ms-1 btn-outline-primary freeLabel" for="btnradio2">Frei</label>
+                                <label class="btn p-0 my-0 ms-1 btn-outline-primary freeLabel" for="btnradio2"></label>
                             </div>
                         </div>
                         <div class="col-sm-4">
                             <label class="col-form-label stateLabel headlinesTop">Land</label>
                             <div class="dropdown btn-outline-primary" id="state">
-                                <button class="col-sm-12 py-0 btn btn-outline-primary dropdownState selectButton" id="dropdownState" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expande d="false">Land</button>
+                                <button class="col-sm-12 py-0 btn btn-outline-primary dropdownState selectButton" id="dropdownState" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expande d="false">...</button>
                                 <ul class="dropdown-menu pre-scrollable" id="states" aria-labelledby="dropdownState">
                                 </ul>
                             </div>
@@ -111,63 +109,63 @@
         <form method="POST" class="form-horizontal">
             <div class="form-group row">
                 <div class="col-sm-3 w-auto pe-4">
-                    <label class="m-1 pt-1 topicLabel_0 topicLabel" id="topicLabel_0">
+                    <label class="m-1 pt-1 topicHeadline_0 topicHeadline" id="topicHeadline_0">
                     </label>
                     <div class="mx-1 py-0 ps-3 pe-0 topicList_0 topicList" id="topicList_0">
                     </div>
 
-                    <label class="m-1 pt-3 topicLabel_3 topicLabel" id="topicLabel_3">
+                    <label class="m-1 pt-3 topicHeadline_3 topicHeadline" id="topicHeadline_3">
                     </label>
                     <div class="mx-1 pt-0 ps-3 topicList_3 topicList" id="topicList_3">
                     </div>
                 </div>
 
                 <div class=" col-sm-3 w-auto pe-4">
-                    <label class="m-1 pt-2 topicLabel_1 topicLabel" id="topicLabel_1">
+                    <label class="m-1 pt-2 topicHeadline_1 topicHeadline" id="topicHeadline_1">
                     </label>
                     <div class="mx-1 pt-0 ps-3 topicList_1 topicList" id="topicList_1">
                     </div>
 
-                    <label class="m-1 pt-3 topicLabel_2 topicLabel" id="topicLabel_2">
+                    <label class="m-1 pt-3 topicHeadline_2 topicHeadline" id="topicHeadline_2">
                     </label>
                     <div class="mx-1 pt-0 ps-3 topicList_2 topicList" id="topicList_2">
                     </div>
 
-                    <label class="m-1 pt-3 topicLabels_4 topicLabel" id="topicLabel_4">
+                    <label class="m-1 pt-3 topicHeadlines_4 topicHeadline" id="topicHeadline_4">
                     </label>
                     <div class="mx-1 pt-0 ps-3 topicList_4 topicList" id="topicList_4">
                     </div>
                 </div>
 
                 <div class=" col-sm-3 w-auto pe-4">
-                    <label class="m-1 pt-2 topicLabel_5 topicLabel" id="topicLabel_5">
+                    <label class="m-1 pt-2 topicHeadline_5 topicHeadline" id="topicHeadline_5">
                     </label>
                     <div class="mx-1 pt-0 ps-3 topicList_5 topicList" id="topicList_5">
                     </div>
 
-                    <label class="m-1 pt-3 topicLabel_6 topicLabel" id="topicLabel_6">
+                    <label class="m-1 pt-3 topicHeadline_6 topicHeadline" id="topicHeadline_6">
                     </label>
                     <div class="mx-1 pt-0 ps-3 topicList_6 topicList" id="topicList_6">
                     </div>
 
-                    <label class="m-1 pt-3 topicLabel_7 topicLabel" id="topicLabel_7">
+                    <label class="m-1 pt-3 topicHeadline_7 topicHeadline" id="topicHeadline_7">
                     </label>
                     <div class="mx-1 pt-0 ps-3 topicList_7 topicList" id="topicList_7">
                     </div>
                 </div>
 
                 <div class="col-sm-3 w-auto pe-4">
-                    <label class="m-1 pt-2 topicLabel_9 topicLabel" id="topicLabel_9">
+                    <label class="m-1 pt-2 topicHeadline_9 topicHeadline" id="topicHeadline_9">
                     </label>
                     <div class="mx-1 pt-0 ps-3 topicList_9 topicList" id="topicList_9">
                     </div>
 
-                    <label class="m-1 pt-3 topicLabel_10 topicLabel" id="topicLabel_10">
+                    <label class="m-1 pt-3 topicHeadline_10 topicHeadline" id="topicHeadline_10">
                     </label>
                     <div class="mx-1 pt-0 ps-3 topicList_10 topicList" id="topicList_10">
                     </div>
 
-                    <label class="m-1 pt-3 topicLabel_8 topicLabel" id="topicLabel_8">
+                    <label class="m-1 pt-3 topicHeadline_8 topicHeadline" id="topicHeadline_8">
                     </label>
                     <div class="mx-1 pt-0 ps-3 topicList_8 topicList" id="topicList_8">
                     </div>
@@ -204,13 +202,6 @@
         </div>
     </div>
     <br>
-
-    Title: <input id="title" />
-    <button id="btn" type="button">Set</button>
-    <br>
-
-    <script src="renderer.js"></script>
-
 </body>
 
 </html>

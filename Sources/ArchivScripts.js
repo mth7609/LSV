@@ -1,5 +1,5 @@
-import { getDBStatus, getStates, getTopicHeadlines, getTopicItems } from "./HTTPRequests.js";
-import { globalTopicHeadlines, globalStates, globalTopicItems, globalSearchItems } from "./Globals.js";
+import { getDBStatus, getStates, getTopicHeadlinesInfo, getTopicItems, getInitValues } from "./HTTPRequests.js";
+import { globalTopicHeadlines, globalStates, globalTopicItems, globalTopHeadlines } from "./Globals.js";
 
 var selectedDropdown = 0;
 var publisherIs = "";
@@ -9,15 +9,18 @@ var maxSearchSets = 10;
 var maxReached = false;
 var lastTopicName = "null";
 
+getInitValues();
 getDBStatus();
 changeRange(searchCnt);
 setYears();
 getStates();
-getTopicHeadlines();
+getTopicHeadlinesInfo();
 getTopicItems();
-setHeadlines();
+setTopicHeadlines();
+setTopHeadlines();
+setOutputText()
 
-const searchItems = Array.from({ length: maxSearchSets + 1 }, () => new Array(elementsOnForm).fill(0));
+const searchTopItems = Array.from({ length: maxSearchSets + 1 }, () => new Array(elementsOnForm).fill(0));
 
 $(".dropdown-menu li a").on('click', updateValue);
 $(".doSearch").on('click', doSearch);
@@ -27,6 +30,23 @@ $("#btnradio1").on('click', publisherSchool);
 $("#btnradio2").on('click', publisherFree);
 $(".searchRange").on('click', updateRange);
 $(".topicListButton").on('click', topicListClick);
+
+
+function setOutputText() {
+    $('.mainWindowHeadline').html(localStorage.getItem("mainWindowHeadline"));
+    $('.searchWindowHeadline').html(localStorage.getItem("searchWindowHeadline"));
+}
+
+function setTopHeadlines() {
+    $('.nameLabel').html(localStorage.getItem("mainHeadline_0"));
+    $('.schoolPublisherLabel').html(localStorage.getItem("mainHeadline_1"));
+    $('.yearLabel').html(localStorage.getItem("mainHeadline_5"));
+    $('.noLabel').html(localStorage.getItem("mainHeadline_6"));
+    $('.cityLabel').html(localStorage.getItem("mainHeadline_2"));
+    $('.stateLabel').html(localStorage.getItem("mainHeadline_3"));
+    $('.publisherIsLabel').html("<nobr>" + localStorage.getItem("mainHeadline_4") + "</nobr>");
+    $('.resultLabel').html(localStorage.getItem("mainHeadline_7"));
+}
 
 
 function topicListClick() {
@@ -79,15 +99,15 @@ function updateRange(str) {
     changeStatus3("Sucheingabe Nr.: " + $(".searchRange").val());
 }
 
-export function setHeadlines() {
+export function setTopicHeadlines() {
     let i;
     for (i = 0; i < globalTopicHeadlines.contentValue.length; i++) {
-        var el = 'topicLabel_' + i;
+        var el = 'topicHeadline_' + i;
         let r = document.getElementById(el);
         r.innerText = globalTopicHeadlines.contentValue[i]['headline'];
+        console.log(globalTopicHeadlines.contentValue[i]['headline']);
         setTopicItems(i)
     }
-
 }
 
 export function setTopicItems(nr) {
@@ -160,29 +180,19 @@ function setYears() {
 }
 
 function doSearch() {
-    searchItems[searchCnt][0] = $('#name').val();
-    searchItems[searchCnt][1] = $('#schoolPublisher').val();
-    searchItems[searchCnt][2] = $('#city').val();
-    searchItems[searchCnt][3] = document.querySelector('.dropdownState').innerText;
-    searchItems[searchCnt][4] = publisherIs;
-    searchItems[searchCnt][5] = document.querySelector('.dropdownYear').innerText;
-    searchItems[searchCnt][6] = $('#publishNo').val();
-    //console.log(globalSearchItems);
+    searchTopItems[searchCnt][0] = $('#name').val();
+    searchTopItems[searchCnt][1] = $('#schoolPublisher').val();
+    searchTopItems[searchCnt][2] = $('#city').val();
+    searchTopItems[searchCnt][3] = document.querySelector('.dropdownState').innerText;
+    searchTopItems[searchCnt][4] = publisherIs;
+    searchTopItems[searchCnt][5] = document.querySelector('.dropdownYear').innerText;
+    searchTopItems[searchCnt][6] = $('#publishNo').val();
+    localStorage.setItem("searchTopItemCnt", 7);
 
     let i = 0;
 
-    //    for (i = 0; i < 7; i++) {
-    localStorage.setItem("mainHeadline_0", "Name");
-    localStorage.setItem("mainHeadline_1", "Schule / Herausgeber");
-    localStorage.setItem("mainHeadline_2", "Ort");
-    localStorage.setItem("mainHeadline_3", "Land");
-    localStorage.setItem("mainHeadline_4", "Herausgeber ist");
-    localStorage.setItem("mainHeadline_5", "Jahr");
-    localStorage.setItem("mainHeadline_6", "Ausgabe");
-    //  }
-
-    for (i = 0; i < 7; i++) {
-        localStorage.setItem("searchItem_" + i, searchItems[searchCnt][i]);
+    for (i = 0; i < localStorage.getItem("searchTopItemCnt"); i++) {
+        localStorage.setItem("searchItem_" + i, searchTopItems[searchCnt][i]);
     }
 
     localStorage.setItem("searchCount", searchCnt);
@@ -196,7 +206,6 @@ function doSearch() {
         maxReached = true;
         searchCnt = 1;
     }
-    window.electronAPI.openSearchProcess(title);
+    window.electronAPI.openSearchProcess();
 }
-
 

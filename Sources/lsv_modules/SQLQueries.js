@@ -42,13 +42,37 @@ function getStates() {
   });
 }
 
-function getTopicHeadlines() {
-  serverFunctions.appx.get('/getTopicHeadlines', (req, res) => {
+function getOutputText() {
+  serverFunctions.appx.get('/getOutputText', (req, res) => {
     con.connect(function (err) {
       if (err) throw err;
-      con.query("SELECT * FROM titles order by headline_nr", function (err, result, fields) {
+      con.query("SELECT * FROM output_text", function (err, result, fields) {
+        if (err) throw err;
+        res.send(result);
+      });
+    });
+  });
+}
+
+function getTopicHeadlines() {
+  serverFunctions.appx.get('/getTopicHeadlinesInfo', (req, res) => {
+    con.connect(function (err) {
+      if (err) throw err;
+      con.query("SELECT * FROM topic_headlines order by headline_nr", function (err, result, fields) {
         if (err) throw err;
         tableNames = result;
+        res.send(result);
+      });
+    });
+  });
+}
+
+function getTopHeadlines() {
+  serverFunctions.appx.get('/getTopHeadlines', (req, res) => {
+    con.connect(function (err) {
+      if (err) throw err;
+      con.query("SELECT * FROM top_headlines where label = 1 order by arraypos", function (err, result, fields) {
+        if (err) throw err;
         res.send(result);
       });
     });
@@ -162,9 +186,11 @@ function getTopicItems() {
 getDBStatus();
 getStates();
 getTopicHeadlines();
+getTopHeadlines();
 getTopicItems();
+getOutputText()
 
-module.exports = { getDBStatus, getStates, databaseServerConnect, getTopicHeadlines, getTopicItems };
+module.exports = { getDBStatus, getStates, databaseServerConnect, getTopicHeadlines, getTopHeadlines, getOutputText };
 
 
 
