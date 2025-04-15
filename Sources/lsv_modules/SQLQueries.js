@@ -71,7 +71,7 @@ function getTopHeadlines() {
   serverFunctions.appx.get('/getTopHeadlines', (req, res) => {
     con.connect(function (err) {
       if (err) throw err;
-      con.query("SELECT * FROM top_headlines where label = 1 order by arraypos", function (err, result, fields) {
+      con.query("SELECT * FROM top_headlines order by arraypos", function (err, result, fields) {
         if (err) throw err;
         res.send(result);
       });

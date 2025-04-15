@@ -18,7 +18,6 @@ export function getInitValues() {
     }
 
     getOutputText();
-
 }
 
 export function getOutputText() {

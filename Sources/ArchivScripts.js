@@ -18,7 +18,7 @@ getTopicHeadlinesInfo();
 getTopicItems();
 setTopicHeadlines();
 setTopHeadlines();
-setOutputText()
+setOutputText();
 
 const searchTopItems = Array.from({ length: maxSearchSets + 1 }, () => new Array(elementsOnForm).fill(0));
 
@@ -30,6 +30,7 @@ $("#btnradio1").on('click', publisherSchool);
 $("#btnradio2").on('click', publisherFree);
 $(".searchRange").on('click', updateRange);
 $(".topicListButton").on('click', topicListClick);
+$(".doReset").on('click', resetClick);
 
 
 function setOutputText() {
@@ -46,6 +47,21 @@ function setTopHeadlines() {
     $('.stateLabel').html(localStorage.getItem("mainHeadline_3"));
     $('.publisherIsLabel').html("<nobr>" + localStorage.getItem("mainHeadline_4") + "</nobr>");
     $('.resultLabel').html(localStorage.getItem("mainHeadline_7"));
+    $('.freeLabel').html(localStorage.getItem("free"));
+    $('.schoolLabel').html(localStorage.getItem("school"));
+    $('.doSearch').val(localStorage.getItem("search"));
+}
+
+function resetClick() {
+
+    console.log("reset");
+    localStorage.setItem("searchCount", 1);
+    searchCnt = 1;
+    let i;
+    for (i = 0; i < localStorage.getItem("searchTopItemCnt"); i++) {
+        localStorage.setItem("searchItem_" + i, "ff");
+    }
+    $(".doReset").trigger("blur");
 }
 
 
@@ -105,7 +121,7 @@ export function setTopicHeadlines() {
         var el = 'topicHeadline_' + i;
         let r = document.getElementById(el);
         r.innerText = globalTopicHeadlines.contentValue[i]['headline'];
-        console.log(globalTopicHeadlines.contentValue[i]['headline']);
+        //console.log(globalTopicHeadlines.contentValue[i]['headline']);
         setTopicItems(i)
     }
 }
@@ -206,6 +222,7 @@ function doSearch() {
         maxReached = true;
         searchCnt = 1;
     }
+    $(".doSearch").trigger("blur");
     window.electronAPI.openSearchProcess();
 }
 

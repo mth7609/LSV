@@ -51,9 +51,13 @@
                             <label for="text" class="col-form-label cityLabel headlinesTop"></label>
                             <input type="text" class="form-control inputField city" id="city">
                         </div>
-                        <div class="col-sm-2">
+                        <div class="col-sm-1">
                             <label for="text" class="col-form-label resultLabel headlinesTop"></label>
-                            <input type=" text" class="form-control inputField results" id="results" value="00.000">
+                            <input type=" text" class="ps-2 mx-0 form-control inputField result" id="results" value="00.000">
+                        </div>
+                        <div class="col-sm-1">
+                            <label class="col-form-label dummyLabel headlinesTop">&nbsp;</label>
+                            <input type="button" class="px-1 pt-0 form-control selectButtonSearch doReset btn btn-outline-secondary" value="Reset">
                         </div>
                     </div>
                     <div class="form-group row nobr">
@@ -69,13 +73,12 @@
                             <div class="px-0">
                                 <input type="radio" class="btn-check btnradio1" name="btnradio" id="btnradio1" autocomplete="off">
                                 <label class="btn p-0 my-0 ms-1 btn-outline-primary schoolLabel" for="btnradio1"></label>
-
                                 <input type="radio" class="btn-check btnradio2" name="btnradio" id="btnradio2" autocomplete="off">
                                 <label class="btn p-0 my-0 ms-1 btn-outline-primary freeLabel" for="btnradio2"></label>
                             </div>
                         </div>
                         <div class="col-sm-4">
-                            <label class="col-form-label stateLabel headlinesTop">Land</label>
+                            <label class="col-form-label stateLabel headlinesTop"></label>
                             <div class="dropdown btn-outline-primary" id="state">
                                 <button class="col-sm-12 py-0 btn btn-outline-primary dropdownState selectButton" id="dropdownState" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expande d="false">...</button>
                                 <ul class="dropdown-menu pre-scrollable" id="states" aria-labelledby="dropdownState">
@@ -84,7 +87,7 @@
                         </div>
                         <div class="col-sm-2 py-2">
                             <input type="range" class="form-range my-0 px-0 searchRange" min="1" max="10" id="searchRange">
-                            <input type="button" class="py-0 form-control doSearch btn btn-outline-secondary selectButtonSearch" id="doSearch" value="Suchen">
+                            <input type="button" class="py-0 form-control doSearch btn btn-outline-secondary selectButtonSearch" id="doSearch">
                         </div>
                     </div>
                 </form>
