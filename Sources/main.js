@@ -4,6 +4,7 @@ const path = require('node:path')
 const mysql = require('mysql2')
 const dbFunctions = require('./lsv_modules/SQLQueries');
 const serverFunctions = require('./lsv_modules/ServerFunctions');
+let winSearch;
 
 const createMainWindow = () => {
   var win = new BrowserWindow({
@@ -20,7 +21,8 @@ const createMainWindow = () => {
     //const webContents = event.sender;
     //const win2 = BrowserWindow.fromWebContents(webContents);
     //win2.setTitle(title);
-    createSearchResultMainWindow().setParentWindow(win);
+    createSearchResultMainWindow();
+    //setParentWindow(win);
   })
 
   win.webContents.setVisualZoomLevelLimits(1, 2);
@@ -47,32 +49,42 @@ const createMainWindow = () => {
       win.webContents.zoomFactor = currentZoom - 0.1;
     }
   });
-
-
-
 }
 
 
 
 
+
+
 const createSearchResultMainWindow = () => {
-  var winSearch = new BrowserWindow({
-    width: 600,
-    height: 700,
-    "webPreferences": {
-      "web-security": false,
-      "webviewTag": true
-    }
-  })
-  winSearch.webContents.setVisualZoomLevelLimits(1, 2);
-  winSearch.webContents.setZoomFactor(1.0);
-  winSearch.webContents.setZoomLevel(0);
-  //winSearch.removeMenu();
-  winSearch.loadFile('SearchItemsList.html');
-  electronLocalshortcut.register('CommandOrControl+F', () => {
-    winSearch.webContents.toggleDevTools();
-  })
-  return winSearch;
+  if (!winSearch) {
+
+    winSearch = new BrowserWindow(
+      {
+        width: 600,
+        height: 700,
+        "webPreferences": {
+          "web-security": false,
+          "webviewTag": true
+        }
+      }
+    )
+
+    winSearch.on('closed', () => {
+      winSearch = null;
+      console.log(' ---- Bye Bye Search ---- ')
+    });
+
+
+    winSearch.webContents.setVisualZoomLevelLimits(1, 2);
+    winSearch.webContents.setZoomFactor(1.0);
+    winSearch.webContents.setZoomLevel(0);
+    //winSearch.removeMenu();
+    winSearch.loadFile('SearchItemsList.html');
+    electronLocalshortcut.register('CommandOrControl+F', () => {
+      winSearch.webContents.toggleDevTools();
+    })
+  }
 }
 
 
