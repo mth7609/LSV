@@ -3,7 +3,9 @@ import { globalTopicItems, globalTopicHeadlines } from "./Globals.js";
 let searchItems = [];
 let mainHeadline = [];
 
-
+function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
 function updateSearchWindow() {
     let i;
     let el = "";
@@ -17,12 +19,12 @@ function updateSearchWindow() {
     }
 
     $('#searchWindowHeadline').html(localStorage.getItem("searchWindowHeadline"));
-    $('#searchCountText').html(localStorage.getItem("searchWindowSubheadline") + localStorage.getItem("searchCount"));
+    $('#searchCountText').html(localStorage.getItem("searchWindowSubheadline"));
+    $('#searchCount').html(localStorage.getItem("searchCount"));
     $('#topSearchItems').html(el);
 
     el = "";
     for (i = 0; i < localStorage.getItem("topicHeadlineCnt"); i++) {
-        //el = el + globalTopicHeadlines[i].contentValue["headline"] + "<br>";
     }
 
     $('#topicSearchItems').html(el);
@@ -30,3 +32,9 @@ function updateSearchWindow() {
 
 updateSearchWindow();
 
+while (true) {
+    await sleep(1000).then(() => {
+        console.log(localStorage.getItem("searchCount"));
+        $('#searchCount').html(localStorage.getItem("searchCount"));
+    });
+}
