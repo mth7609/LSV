@@ -83,6 +83,12 @@ body {
     color: #000000;
 }
 
+.mainHeadline {
+    font-weight: bold;
+    font-size: 16px;
+    color: #000000;
+}
+
 .searchListItems {
     font-size: 16px;
     color: #000000;

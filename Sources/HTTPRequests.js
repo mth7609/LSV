@@ -12,6 +12,7 @@ export function getInitValues() {
     localStorage.setItem("topicHeadlineCnt", globalTopicHeadlines.contentValue.length);
     getTopHeadlines();
     localStorage.setItem("topHeadlineCnt", globalTopHeadlines.contentValue.length);
+
     let i;
     for (i = 0; i < localStorage.getItem("topHeadlineCnt"); i++) {
         localStorage.setItem("mainHeadline_" + globalTopHeadlines.contentValue[i]["arraypos"], globalTopHeadlines.contentValue[i]["names"]);

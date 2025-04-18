@@ -5,9 +5,10 @@ const mysql = require('mysql2')
 const dbFunctions = require('./lsv_modules/SQLQueries');
 const serverFunctions = require('./lsv_modules/ServerFunctions');
 let winSearch;
+let winMain;
 
 const createMainWindow = () => {
-  var win = new BrowserWindow({
+  var winMain = new BrowserWindow({
     width: 1500,
     height: 900,
     "webPreferences": {
@@ -19,34 +20,39 @@ const createMainWindow = () => {
 
   ipcMain.on('openSearchProcessCMD', (event) => {
     //const webContents = event.sender;
-    //const win2 = BrowserWindow.fromWebContents(webContents);
+    //constwinMain2 = BrowserWindow.fromWebContents(webContents);
     //win2.setTitle(title);
     createSearchResultMainWindow();
-    //setParentWindow(win);
   })
 
-  win.webContents.setVisualZoomLevelLimits(1, 2);
-  win.webContents.setZoomFactor(1.0);
-  win.webContents.setZoomLevel(0);
-  win.removeMenu();
-  win.loadFile('index.html');
+  winMain.webContents.setVisualZoomLevelLimits(1, 2);
+  winMain.webContents.setZoomFactor(1.0);
+  winMain.webContents.setZoomLevel(0);
+  winMain.removeMenu();
+  winMain.loadFile('index.html');
+
+  winMain.on('closed', () => {
+    if (winSearch)
+      winSearch.close();
+    console.log(' ---- Bye Bye Main ---- ')
+  });
 
   electronLocalshortcut.register('CommandOrControl+D', () => {
-    win.webContents.toggleDevTools();
+    winMain.webContents.toggleDevTools();
   })
 
   electronLocalshortcut.register('CommandOrControl+R', () => {
-    win.reload();
+    winMain.reload();
   })
 
-  win.webContents.on("zoom-changed", (event, zoomDirection) => {
-    var currentZoom = win.webContents.getZoomFactor();
+  winMain.webContents.on("zoom-changed", (event, zoomDirection) => {
+    var currentZoom = winMain.webContents.getZoomFactor();
     if (zoomDirection === "in" && currentZoom < 1.2) {
-      win.webContents.zoomFactor = currentZoom + 0.1;
+      winMain.webContents.zoomFactor = currentZoom + 0.1;
     }
 
     if (zoomDirection === "out" && currentZoom > 0.6) {
-      win.webContents.zoomFactor = currentZoom - 0.1;
+      winMain.webContents.zoomFactor = currentZoom - 0.1;
     }
   });
 }
@@ -57,12 +63,12 @@ const createMainWindow = () => {
 
 
 const createSearchResultMainWindow = () => {
-  if (!winSearch) {
 
+  if (!winSearch) {
     winSearch = new BrowserWindow(
       {
         width: 600,
-        height: 700,
+        height: 800,
         "webPreferences": {
           "web-security": false,
           "webviewTag": true
@@ -84,11 +90,11 @@ const createSearchResultMainWindow = () => {
     electronLocalshortcut.register('CommandOrControl+F', () => {
       winSearch.webContents.toggleDevTools();
     })
+    winSearch.show();
   }
+  else
+    winSearch.show();
 }
-
-
-
 
 
 
@@ -115,6 +121,8 @@ app.whenReady().then(() => {
   })
 })
 
+
+
 app.on('window-all-closed', () => {
 
   //serverFunctions.stopMySqlService();
@@ -138,7 +146,7 @@ app.on('window-all-closed', () => {
 
 
 
-// electron-packager . Archiv --overwrite --asar=true --platform=win32 --arch=ia32 --icon=assets / icons / win / icon.ico --prune=true --out=release-builds --version-string.CompanyName=CE --version-string.FileDescription=CE --version-string.ProductName="ArchivDerJugendzeitschriften"
+// electron-packager . Archiv --overwrite --asar=true --platform=win32 --arch=ia32 --icon=assets / icons /winMain / icon.ico --prune=true --out=release-builds --version-string.CompanyName=CE --version-string.FileDescription=CE --version-string.ProductName="ArchivDerJugendzeitschriften"
 // Build EXE in C:\Projects\Electron\LSV\
 // Result in c:\Projects\Electron\LSV\release-builds\
 

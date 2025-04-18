@@ -8,6 +8,9 @@ var elementsOnForm = 7;
 var maxSearchSets = 10;
 var maxReached = false;
 var lastTopicName = "null";
+var topicChecked = [];
+var topicHeadlineChecked = [];
+
 
 getInitValues();
 getDBStatus();
@@ -70,7 +73,9 @@ function topicListClick() {
 
     console.log(topicName + "    " + $(`#${topicName}`).prop("checked") + "    " + lastTopicName);
     globalTopicItems[this.attributes[2].value].contentValue[this.attributes[3].value]["active"] = true;
-    console.log(globalTopicItems);
+    localStorage.setItem("checked_" + topicName, "checked");
+
+    //console.log(globalTopicItems);
 
     $(`#${topicName}`).trigger("focus");
 
@@ -79,13 +84,15 @@ function topicListClick() {
         lastTopicName = "null";
         $(`#${topicName}`).css("backgroundColor", "#056289");
         globalTopicItems[this.attributes[2].value].contentValue[this.attributes[3].value]["active"] = false;
+        localStorage.setItem("checked_" + topicName, "unchecked");
     }
     else {
         $(`#${topicName}`).css("backgroundColor", "#00ff00");
         lastTopicName = topicName;
     }
     $(`#${topicName}`).trigger("blur");
-    console.log($(`#${topicName}`).prop("checked"));
+
+    //console.log($(`#${topicName}`).prop("checked"));
 }
 
 function updateRange(str) {
@@ -111,8 +118,7 @@ function updateRange(str) {
     document.getElementById('schoolPublisher').value = searchItems[$(".searchRange").val()][1];
     document.getElementById('city').value = searchItems[$(".searchRange").val()][2];
     document.getElementById('publishNo').value = searchItems[$(".searchRange").val()][6];
-
-    changeStatus3("Sucheingabe Nr.: " + $(".searchRange").val());
+    changeStatus3(localStorage.getItem("statusSearchEntry" + " ") + $(".searchRange").val());
 }
 
 export function setTopicHeadlines() {
@@ -121,6 +127,7 @@ export function setTopicHeadlines() {
         var el = 'topicHeadline_' + i;
         let r = document.getElementById(el);
         r.innerText = globalTopicHeadlines.contentValue[i]['headline'];
+        localStorage.setItem("amountTopicsHeadline_" + i, globalTopicHeadlines.contentValue[i]['amount_topics']);
         //console.log(globalTopicHeadlines.contentValue[i]['headline']);
         setTopicItems(i)
     }
@@ -206,12 +213,31 @@ function doSearch() {
     localStorage.setItem("searchTopItemCnt", 7);
 
     let i = 0;
+    let n = 0;
 
     for (i = 0; i < localStorage.getItem("searchTopItemCnt"); i++) {
         localStorage.setItem("searchItem_" + i, searchTopItems[searchCnt][i]);
     }
 
     localStorage.setItem("searchCount", searchCnt);
+
+    for (n = 0; n < globalTopicHeadlines.contentValue.length; n++) {
+        localStorage.setItem("topicHeadline_" + n, globalTopicHeadlines.contentValue[n]['headline']);
+        for (i = 0; i < globalTopicItems[n].contentValue.length; i++) {
+            localStorage.setItem("topic_" + n + "_" + i, globalTopicItems[n].contentValue[i]["text"]);
+        }
+
+
+        //console.log(globalTopicHeadlines.contentValue[i]['headline']);
+        //topicChecked = [];
+        //topicHeadlineChecked = [];
+    }
+
+
+
+
+
+
 
     if ((searchCnt < maxSearchSets)) {
         if (!maxReached)
