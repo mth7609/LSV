@@ -29,13 +29,11 @@ function updateSearchWindow() {
 
     el = "";
     for (n = 0; n < localStorage.getItem("topicHeadlineCnt"); n++) {
+        el = el + "<b>" + localStorage.getItem("topicHeadline_" + n) + "</b><br>";
         for (i = 0; i < localStorage.getItem("amountTopicsHeadline_" + n); i++) {
-            //console.log(n + "    " + localStorage.getItem("amountTopicsHeadline_" + n));
-            el = el + localStorage.getItem("topic_" + n + "_" + i) + "<br>";
-
-            hier weiter
+            if (localStorage.getItem("checked_topic_" + n + "_" + i) == "checked")
+                el = el + "&nbsp; &nbsp; " + localStorage.getItem("topic_" + n + "_" + i) + "<br>";
         }
-
     }
 
     $('#topicSearchItems').html(el);

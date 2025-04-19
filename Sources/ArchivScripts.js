@@ -61,9 +61,23 @@ function resetClick() {
     localStorage.setItem("searchCount", 1);
     searchCnt = 1;
     let i;
-    for (i = 0; i < localStorage.getItem("searchTopItemCnt"); i++) {
-        localStorage.setItem("searchItem_" + i, "ff");
+    let ff;
+    let n;
+    ff = document.querySelector('.formTop');
+    ff.reset();
+
+    for (n = 0; n < localStorage.getItem("topicHeadlineCnt"); n++) {
+        for (i = 0; i < localStorage.getItem("amountTopicsHeadline_" + n); i++) {
+            localStorage.removeItem("checked_topic_" + n + "_" + i);
+            //$("#topic_" + n + "_" + i).trigger("blur");
+            $("#topic_" + n + "_" + i).prop("checked", false);
+            $("#topic_" + n + "_" + i).css("backgroundColor", "#056289");
+        }
     }
+
+    hier weiter mit jahr, land und schule / frei
+
+    window.electronAPI.closeSearchProcess();
     $(".doReset").trigger("blur");
 }
 
@@ -74,8 +88,6 @@ function topicListClick() {
     console.log(topicName + "    " + $(`#${topicName}`).prop("checked") + "    " + lastTopicName);
     globalTopicItems[this.attributes[2].value].contentValue[this.attributes[3].value]["active"] = true;
     localStorage.setItem("checked_" + topicName, "checked");
-
-    //console.log(globalTopicItems);
 
     $(`#${topicName}`).trigger("focus");
 

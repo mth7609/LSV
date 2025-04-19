@@ -19,10 +19,12 @@ const createMainWindow = () => {
   })
 
   ipcMain.on('openSearchProcessCMD', (event) => {
-    //const webContents = event.sender;
-    //constwinMain2 = BrowserWindow.fromWebContents(webContents);
-    //win2.setTitle(title);
     createSearchResultMainWindow();
+  })
+
+  ipcMain.on('closeSearchProcessCMD', (event) => {
+    if (winSearch)
+      winSearch.close();
   })
 
   winMain.webContents.setVisualZoomLevelLimits(1, 2);
