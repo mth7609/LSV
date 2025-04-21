@@ -11,7 +11,6 @@ var lastTopicName = "null";
 var topicChecked = [];
 var topicHeadlineChecked = [];
 
-
 getInitValues();
 getDBStatus();
 changeRange(searchCnt);
@@ -25,10 +24,14 @@ setOutputText();
 
 const searchTopItems = Array.from({ length: maxSearchSets + 1 }, () => new Array(elementsOnForm).fill(0));
 
+function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
+
 $(".dropdown-menu li a").on('click', updateValue);
 $(".doSearch").on('click', doSearch);
-$("#dropdownState").on('click', sel1);
-$("#dropdownYear").on('click', sel2);
+$("#dropdownState").on('click', stateSel);
+$("#dropdownYear").on('click', yearSel);
 $("#btnradio1").on('click', publisherSchool);
 $("#btnradio2").on('click', publisherFree);
 $(".searchRange").on('click', updateRange);
@@ -56,15 +59,16 @@ function setTopHeadlines() {
 }
 
 function resetClick() {
-
-    console.log("reset");
-    localStorage.setItem("searchCount", 1);
-    searchCnt = 1;
+    //    localStorage.setItem("searchCount", 1);
+    //    searchCnt = 1;
     let i;
-    let ff;
+    let formTop;
     let n;
-    ff = document.querySelector('.formTop');
-    ff.reset();
+    formTop = document.querySelector('.formTop');
+    formTop.reset();
+    publisherReset();
+    yearReset();
+    stateReset();
 
     for (n = 0; n < localStorage.getItem("topicHeadlineCnt"); n++) {
         for (i = 0; i < localStorage.getItem("amountTopicsHeadline_" + n); i++) {
@@ -75,12 +79,9 @@ function resetClick() {
         }
     }
 
-    hier weiter mit jahr, land und schule / frei
-
     window.electronAPI.closeSearchProcess();
     $(".doReset").trigger("blur");
 }
-
 
 function topicListClick() {
     var topicName = this.attributes[4].value;
@@ -160,6 +161,11 @@ export function changeStatus1(str) {
     r.innerText = str;
 }
 
+export function changeStatus2(str) {
+    let r = document.getElementById('statusText2');
+    r.innerText = str;
+}
+
 export function changeStatus3(str) {
     let r = document.getElementById('statusText3');
     r.innerText = str;
@@ -185,12 +191,26 @@ function publisherFree(str) {
     $(".schoolLabel").css("backgroundColor", "#ffffff");
 }
 
-function sel1(str) {
+function publisherReset() {
+    publisherIs = "";
+    $(".schoolLabel").css("backgroundColor", "#ffffff");
+    $(".freeLabel").css("backgroundColor", "#ffffff");
+}
+
+function stateSel(str) {
     selectedDropdown = 1;
 }
 
-function sel2(str) {
+function stateReset() {
+    document.querySelector('.dropdownState').innerText = "...";
+}
+
+function yearSel(str) {
     selectedDropdown = 2;
+}
+
+function yearReset() {
+    document.querySelector('.dropdownYear').innerText = "...";
 }
 
 function updateValue(str) {
@@ -213,6 +233,8 @@ function setYears() {
     }
     document.getElementById("years").innerHTML = str;
 }
+
+
 
 function doSearch() {
     searchTopItems[searchCnt][0] = $('#name').val();
@@ -239,7 +261,6 @@ function doSearch() {
             localStorage.setItem("topic_" + n + "_" + i, globalTopicItems[n].contentValue[i]["text"]);
         }
 
-
         //console.log(globalTopicHeadlines.contentValue[i]['headline']);
         //topicChecked = [];
         //topicHeadlineChecked = [];
@@ -264,3 +285,11 @@ function doSearch() {
     window.electronAPI.openSearchProcess();
 }
 
+
+while (true) {
+    await sleep(2000).then(() => {
+        $('.statusbar2').html(localStorage.getItem("searchCount"));
+    });
+}
+
+//$('#searchCount').html(localStorage.getItem("searchCount"));

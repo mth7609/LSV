@@ -14,7 +14,7 @@ body {
     position: fixed;
     bottom: 0px;
     left: 15px;
-    right: 22%;
+    right: 25%;
     height: 23px;
     padding: 10px;
     font-weight: bold;
@@ -28,25 +28,25 @@ body {
     text-wrap: nowrap;
 }
 
-.statusButton {
+.statusbar2 {
     position: fixed;
     bottom: 0px;
-    left: 78%;
-    width: 4%;
+    left: 74%;
+    width: 8%;
     padding: 0px;
     font-weight: bold;
     font-size: small;
-    background: #aa0000;
+    background: #c2e2ec;
     z-index: 201;
-    border: solid 2px #000000;
-    color: #ffffff;
+    border: solid 2px rgb(0, 0, 0);
+    color: #0000;
     height: 23px;
 }
 
 .statusbar3 {
     position: fixed;
     bottom: 0px;
-    left: 82%;
+    left: 81%;
     right: 15px;
     height: 23px;
     padding: 10px;
