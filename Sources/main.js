@@ -81,21 +81,23 @@ const createSearchResultMainWindow = () => {
     winSearch.on('closed', () => {
       winSearch = null;
       console.log(' ---- Bye Bye Search ---- ')
-    });
-
+    })
 
     winSearch.webContents.setVisualZoomLevelLimits(1, 2);
     winSearch.webContents.setZoomFactor(1.0);
     winSearch.webContents.setZoomLevel(0);
-    //winSearch.removeMenu();
+    winSearch.removeMenu();
     winSearch.loadFile('SearchItemsList.html');
     electronLocalshortcut.register('CommandOrControl+F', () => {
       winSearch.webContents.toggleDevTools();
     })
     winSearch.show();
+    console.log(' ---- Hello Search ---- ')
   }
-  else
+  else {
+    winSearch.reload();
     winSearch.show();
+  }
 }
 
 

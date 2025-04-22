@@ -4,12 +4,11 @@ import { globalTopicHeadlines, globalStates, globalTopicItems, globalTopHeadline
 var selectedDropdown = 0;
 var publisherIs = "";
 let searchCnt = 1;
-var elementsOnForm = 7;
+let itemCnt = 1;
+var elementsOnForm = 1;
 var maxSearchSets = 10;
 var maxReached = false;
 var lastTopicName = "null";
-var topicChecked = [];
-var topicHeadlineChecked = [];
 
 getInitValues();
 getDBStatus();
@@ -23,6 +22,7 @@ setTopHeadlines();
 setOutputText();
 
 const searchTopItems = Array.from({ length: maxSearchSets + 1 }, () => new Array(elementsOnForm).fill(0));
+const searchTopicsItems = Array.from({ length: maxSearchSets + 1 }, () => new Array(elementsOnForm).fill(0));
 
 function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
@@ -73,7 +73,6 @@ function resetClick() {
     for (n = 0; n < localStorage.getItem("topicHeadlineCnt"); n++) {
         for (i = 0; i < localStorage.getItem("amountTopicsHeadline_" + n); i++) {
             localStorage.removeItem("checked_topic_" + n + "_" + i);
-            //$("#topic_" + n + "_" + i).trigger("blur");
             $("#topic_" + n + "_" + i).prop("checked", false);
             $("#topic_" + n + "_" + i).css("backgroundColor", "#056289");
         }
@@ -86,7 +85,7 @@ function resetClick() {
 function topicListClick() {
     var topicName = this.attributes[4].value;
 
-    console.log(topicName + "    " + $(`#${topicName}`).prop("checked") + "    " + lastTopicName);
+    //console.log(topicName + "    " + $(`#${topicName}`).prop("checked") + "    " + lastTopicName);
     globalTopicItems[this.attributes[2].value].contentValue[this.attributes[3].value]["active"] = true;
     localStorage.setItem("checked_" + topicName, "checked");
 
@@ -105,20 +104,20 @@ function topicListClick() {
     }
     $(`#${topicName}`).trigger("blur");
 
-    //console.log($(`#${topicName}`).prop("checked"));
 }
 
 function updateRange(str) {
+    let n, i, k;
 
-    document.getElementById('dropdownState').innerText = searchItems[$(".searchRange").val()][3];
-    document.getElementById('dropdownYear').innerText = searchItems[$(".searchRange").val()][5];
+    $('#dropdownState').html(searchTopItems[$(".searchRange").val()][3]);
+    $('#dropdownYear').html(searchTopItems[$(".searchRange").val()][5]);
 
-    if (searchItems[$(".searchRange").val()][4] == "Frei") {
+    if (searchTopItems[$(".searchRange").val()][4] == "Frei") {
         $('#btnradio1').prop("checked", false);
         $('#btnradio2').prop("checked", true);
     }
     else
-        if (searchItems[$(".searchRange").val()][4] == "Schule") {
+        if (searchTopItems[$(".searchRange").val()][4] == "Schule") {
             $('#btnradio1').prop("checked", true);
             $('#btnradio2').prop("checked", false);
         }
@@ -127,11 +126,35 @@ function updateRange(str) {
             $('#btnradio2').prop("checked", false);
         }
 
-    document.getElementById('name').value = searchItems[$(".searchRange").val()][0];
-    document.getElementById('schoolPublisher').value = searchItems[$(".searchRange").val()][1];
-    document.getElementById('city').value = searchItems[$(".searchRange").val()][2];
-    document.getElementById('publishNo').value = searchItems[$(".searchRange").val()][6];
-    changeStatus3(localStorage.getItem("statusSearchEntry" + " ") + $(".searchRange").val());
+    $('#name').val(searchTopItems[$(".searchRange").val()][0]);
+    $('#schoolPublisher').val(searchTopItems[$(".searchRange").val()][1]);
+    $('#city').val(searchTopItems[$(".searchRange").val()][2]);
+    $('#publishNo').val(searchTopItems[$(".searchRange").val()][6]);
+
+    for (n = 0; n < localStorage.getItem("topicHeadlineCnt"); n++) {        // reset topics
+        for (i = 0; i < localStorage.getItem("amountTopicsHeadline_" + n); i++) {
+            $("#topic_" + n + "_" + i).css("backgroundColor", "#056289").css("border", "solid 2px #111111");
+        }
+    }
+
+    console.log(searchTopicsItems[$(".searchRange").val()]);
+
+    for (i = 0; i < 32; i++) {
+        if (searchTopicsItems[$(".searchRange").val()][i])
+            console.log(" i: " + i + " " + searchTopicsItems[$(".searchRange").val()][i]);
+    }
+
+
+    //searchTopicsItems[searchCnt][itemCnt] = "topic_" + n + "_" + i;
+    //for (i = 0; i < searchTopicsItems[$(".searchRange").val()].length; i++) {
+    //    if (searchTopicsItems[$(".searchRange").val()][i] != 0)
+    //        console.log(searchTopicsItems[i]);
+    //}
+
+    //console.log(searchTopicsItems[$(".searchRange").val()].length);
+
+    console.log($(".searchRange").val());
+    changeStatus3(localStorage.getItem("statusSearchEntry") + " " + $(".searchRange").val());
 }
 
 export function setTopicHeadlines() {
@@ -147,13 +170,20 @@ export function setTopicHeadlines() {
 }
 
 export function setTopicItems(nr) {
-    let i;
+    let i, n;
     let el = "";
     for (i = 0; i < globalTopicItems[nr].contentValue.length; i++) {
         el = el + "<nobr><input type='radio' class='form-check-input topicListButton  topic_" + nr + "_" + i + "' topicListNo='" + nr + "' topicNoInList='" + i + "' id='topic_" + nr + "_" + i + "'>\n \
                   <label class='form-check-label topicListLabel topicLabel_" + nr + "_" + i + "'>" + globalTopicItems[nr].contentValue[i]["text"] + "</label><br>\n";
     }
     $('#topicList_' + nr).html(el);
+
+    for (n = 0; n < globalTopicHeadlines.contentValue.length; n++) {            // copy the item headlines and the items from DB objects to local storage
+        localStorage.setItem("topicHeadline_" + n, globalTopicHeadlines.contentValue[n]['headline']);
+        for (i = 0; i < globalTopicItems[n].contentValue.length; i++) {
+            localStorage.setItem("topic_" + n + "_" + i, globalTopicItems[n].contentValue[i]["text"]);
+        }
+    }
 }
 
 export function changeStatus1(str) {
@@ -237,7 +267,7 @@ function setYears() {
 
 
 function doSearch() {
-    searchTopItems[searchCnt][0] = $('#name').val();
+    searchTopItems[searchCnt][0] = $('#name').val();        // Save top item values in the top-item search array
     searchTopItems[searchCnt][1] = $('#schoolPublisher').val();
     searchTopItems[searchCnt][2] = $('#city').val();
     searchTopItems[searchCnt][3] = document.querySelector('.dropdownState').innerText;
@@ -246,8 +276,7 @@ function doSearch() {
     searchTopItems[searchCnt][6] = $('#publishNo').val();
     localStorage.setItem("searchTopItemCnt", 7);
 
-    let i = 0;
-    let n = 0;
+    let i = 0, n = 0, itemCnt = 0;
 
     for (i = 0; i < localStorage.getItem("searchTopItemCnt"); i++) {
         localStorage.setItem("searchItem_" + i, searchTopItems[searchCnt][i]);
@@ -255,22 +284,16 @@ function doSearch() {
 
     localStorage.setItem("searchCount", searchCnt);
 
-    for (n = 0; n < globalTopicHeadlines.contentValue.length; n++) {
-        localStorage.setItem("topicHeadline_" + n, globalTopicHeadlines.contentValue[n]['headline']);
+    for (n = 0; n < globalTopicHeadlines.contentValue.length; n++) {        // Save selected topics in the topics search array 
         for (i = 0; i < globalTopicItems[n].contentValue.length; i++) {
-            localStorage.setItem("topic_" + n + "_" + i, globalTopicItems[n].contentValue[i]["text"]);
+            if (localStorage.getItem("checked_topic_" + n + "_" + i) == "checked") {
+                searchTopicsItems[searchCnt][itemCnt] = "topic_" + n + "_" + i;
+                itemCnt++;
+            }
         }
-
-        //console.log(globalTopicHeadlines.contentValue[i]['headline']);
-        //topicChecked = [];
-        //topicHeadlineChecked = [];
     }
 
-
-
-
-
-
+    //console.log(searchTopicsItems);
 
     if ((searchCnt < maxSearchSets)) {
         if (!maxReached)
