@@ -140,20 +140,11 @@ function updateRange(str) {
     console.log(searchTopicsItems[$(".searchRange").val()]);
 
     for (i = 0; i < 32; i++) {
-        if (searchTopicsItems[$(".searchRange").val()][i])
-            console.log(" i: " + i + " " + searchTopicsItems[$(".searchRange").val()][i]);
+        if (searchTopicsItems[$(".searchRange").val()][i]) {                // set saved topics according to the range position
+            $("#" + searchTopicsItems[$(".searchRange").val()][i]).css("backgroundColor", "#00ff00").css("border", "solid 2px #111111");
+        }
     }
 
-
-    //searchTopicsItems[searchCnt][itemCnt] = "topic_" + n + "_" + i;
-    //for (i = 0; i < searchTopicsItems[$(".searchRange").val()].length; i++) {
-    //    if (searchTopicsItems[$(".searchRange").val()][i] != 0)
-    //        console.log(searchTopicsItems[i]);
-    //}
-
-    //console.log(searchTopicsItems[$(".searchRange").val()].length);
-
-    console.log($(".searchRange").val());
     changeStatus3(localStorage.getItem("statusSearchEntry") + " " + $(".searchRange").val());
 }
 
@@ -164,7 +155,6 @@ export function setTopicHeadlines() {
         let r = document.getElementById(el);
         r.innerText = globalTopicHeadlines.contentValue[i]['headline'];
         localStorage.setItem("amountTopicsHeadline_" + i, globalTopicHeadlines.contentValue[i]['amount_topics']);
-        //console.log(globalTopicHeadlines.contentValue[i]['headline']);
         setTopicItems(i)
     }
 }
