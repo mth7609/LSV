@@ -2,6 +2,7 @@ import { globalTopicItems, globalTopicHeadlines } from "./Globals.js";
 
 let searchItems = [];
 let mainHeadline = [];
+let oldSearchCount = 0;
 
 function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
@@ -26,7 +27,6 @@ function updateSearchWindow() {
     $('#searchCount').html(localStorage.getItem("searchCount"));
     $('#topSearchItems').html(el);
 
-
     el = "";
     for (n = 0; n < localStorage.getItem("topicHeadlineCnt"); n++) {
         el = el + "<b>" + localStorage.getItem("topicHeadline_" + n) + "</b><br>";
@@ -43,6 +43,11 @@ updateSearchWindow();
 
 while (true) {
     await sleep(1000).then(() => {
-        $('#searchCount').html(localStorage.getItem("searchCount"));
+        let c = localStorage.getItem("searchCount");
+        if (oldSearchCount != c) {
+            oldSearchCount = c;
+            console.log(c);
+            updateSearchWindow();
+        }
     });
 }

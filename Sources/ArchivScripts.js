@@ -35,7 +35,7 @@ $("#dropdownYear").on('click', yearSel);
 $("#btnradio1").on('click', publisherSchool);
 $("#btnradio2").on('click', publisherFree);
 $(".searchRange").on('click', updateRange);
-$(".topicListButton").on('click', topicListClick);
+$(".topicListButton").on('click', topicListButtonClick);
 $(".doReset").on('click', resetClick);
 
 
@@ -82,7 +82,7 @@ function resetClick() {
     $(".doReset").trigger("blur");
 }
 
-function topicListClick() {
+function topicListButtonClick() {
     var topicName = this.attributes[4].value;
 
     //console.log(topicName + "    " + $(`#${topicName}`).prop("checked") + "    " + lastTopicName);
@@ -99,12 +99,13 @@ function topicListClick() {
         localStorage.setItem("checked_" + topicName, "unchecked");
     }
     else {
-        $(`#${topicName}`).css("backgroundColor", "#00ff00");
+        $(`#${topicName}`).css("backgroundColor", "#00ee00");
         lastTopicName = topicName;
     }
     $(`#${topicName}`).trigger("blur");
 
 }
+
 
 function updateRange(str) {
     let n, i, k;
@@ -134,18 +135,26 @@ function updateRange(str) {
     for (n = 0; n < localStorage.getItem("topicHeadlineCnt"); n++) {        // reset topics
         for (i = 0; i < localStorage.getItem("amountTopicsHeadline_" + n); i++) {
             $("#topic_" + n + "_" + i).css("backgroundColor", "#056289").css("border", "solid 2px #111111");
+            localStorage.setItem("checked_" + "topic_" + n + "_" + i, "unchecked");  alles auf unchecked ist hier nicht die Lösung
         }
     }
-
-    console.log(searchTopicsItems[$(".searchRange").val()]);
 
     for (i = 0; i < 32; i++) {
         if (searchTopicsItems[$(".searchRange").val()][i]) {                // set saved topics according to the range position
-            $("#" + searchTopicsItems[$(".searchRange").val()][i]).css("backgroundColor", "#00ff00").css("border", "solid 2px #111111");
+            $("#" + searchTopicsItems[$(".searchRange").val()][i]).css("backgroundColor", "#00ee00").css("border", "solid 2px #111111");
         }
     }
 
-    changeStatus3(localStorage.getItem("statusSearchEntry") + " " + $(".searchRange").val());
+    for (i = 0; i < localStorage.getItem("searchTopItemCnt"); i++) {
+        localStorage.setItem("searchItem_" + i, searchTopItems[$(".searchRange").val()][i]);
+    }
+
+    changeStatus3(" " + localStorage.getItem("statusSearchEntry") + " " + $(".searchRange").val());
+
+    localStorage.setItem("searchCount", $(".searchRange").val());
+
+    window.electronAPI.openSearchProcess();
+
 }
 
 export function setTopicHeadlines() {
@@ -164,7 +173,7 @@ export function setTopicItems(nr) {
     let el = "";
     for (i = 0; i < globalTopicItems[nr].contentValue.length; i++) {
         el = el + "<nobr><input type='radio' class='form-check-input topicListButton  topic_" + nr + "_" + i + "' topicListNo='" + nr + "' topicNoInList='" + i + "' id='topic_" + nr + "_" + i + "'>\n \
-                  <label class='form-check-label topicListLabel topicLabel_" + nr + "_" + i + "'>" + globalTopicItems[nr].contentValue[i]["text"] + "</label><br>\n";
+                  <label class='form-check-label topicListLabel topicLabel_" + nr + "_" + i + "' id='topicLabel_" + nr + "_" + i + "'>" + globalTopicItems[nr].contentValue[i]["text"] + "</label><br>\n";
     }
     $('#topicList_' + nr).html(el);
 
@@ -254,10 +263,8 @@ function setYears() {
     document.getElementById("years").innerHTML = str;
 }
 
-
-
 function doSearch() {
-    searchTopItems[searchCnt][0] = $('#name').val();        // Save top item values in the top-item search array
+    searchTopItems[searchCnt][0] = $('#name').val();        // Save top item values in the top-item search array (not local storage)
     searchTopItems[searchCnt][1] = $('#schoolPublisher').val();
     searchTopItems[searchCnt][2] = $('#city').val();
     searchTopItems[searchCnt][3] = document.querySelector('.dropdownState').innerText;
@@ -267,10 +274,6 @@ function doSearch() {
     localStorage.setItem("searchTopItemCnt", 7);
 
     let i = 0, n = 0, itemCnt = 0;
-
-    for (i = 0; i < localStorage.getItem("searchTopItemCnt"); i++) {
-        localStorage.setItem("searchItem_" + i, searchTopItems[searchCnt][i]);
-    }
 
     localStorage.setItem("searchCount", searchCnt);
 
@@ -283,7 +286,9 @@ function doSearch() {
         }
     }
 
-    //console.log(searchTopicsItems);
+    for (i = 0; i < localStorage.getItem("searchTopItemCnt"); i++) {        // Save top search values to local storage
+        localStorage.setItem("searchItem_" + i, searchTopItems[searchCnt][i]);
+    }
 
     if ((searchCnt < maxSearchSets)) {
         if (!maxReached)
@@ -295,6 +300,7 @@ function doSearch() {
         searchCnt = 1;
     }
     $(".doSearch").trigger("blur");
+
     window.electronAPI.openSearchProcess();
 }
 
@@ -305,4 +311,3 @@ while (true) {
     });
 }
 
-//$('#searchCount').html(localStorage.getItem("searchCount"));
