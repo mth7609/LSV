@@ -46,7 +46,6 @@ while (true) {
         let c = localStorage.getItem("searchCount");
         if (oldSearchCount != c) {
             oldSearchCount = c;
-            console.log(c);
             updateSearchWindow();
         }
     });

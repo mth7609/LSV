@@ -1,5 +1,5 @@
-import { getDBStatus, getStates, getTopicHeadlinesInfo, getTopicItems, getInitValues } from "./HTTPRequests.js";
-import { globalTopicHeadlines, globalStates, globalTopicItems, globalTopHeadlines } from "./Globals.js";
+import { getDBStatus, getStates, getTopicHeadlinesInfo, getTopicItems, getInitValues, getInfoLabels } from "./HTTPRequests.js";
+import { globalTopicHeadlines, globalStates, globalTopicItems, globalInfoLabels } from "./Globals.js";
 
 var selectedDropdown = 0;
 var publisherIs = "";
@@ -19,6 +19,7 @@ getTopicHeadlinesInfo();
 getTopicItems();
 setTopicHeadlines();
 setTopHeadlines();
+getInfoLabels();
 setOutputText();
 
 const searchTopItems = Array.from({ length: maxSearchSets + 1 }, () => new Array(elementsOnForm).fill(0));
@@ -42,6 +43,7 @@ $(".doReset").on('click', resetClick);
 function setOutputText() {
     $('.mainWindowHeadline').html(localStorage.getItem("mainWindowHeadline"));
     $('.searchWindowHeadline').html(localStorage.getItem("searchWindowHeadline"));
+    $('.infoLabel').html(globalInfoLabels.contentValue[0]["text"]);
 }
 
 function setTopHeadlines() {
@@ -107,18 +109,29 @@ function topicListButtonClick() {
 }
 
 
+var hexDigits = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "a", "b", "c", "d", "e", "f"];
+var hex = function (x) {
+    return isNaN(x) ? "00" : hexDigits[(x - x % 16) / 16] + hexDigits[x % 16];
+}
+
+function rgb2hex(rgb) {
+    rgb = rgb.match(/^rgb\((\d+),\s*(\d+),\s*(\d+)\)$/);
+    return "#" + hex(rgb[1]) + hex(rgb[2]) + hex(rgb[3]);
+}
+
+
 function updateRange(str) {
     let n, i, k;
 
     $('#dropdownState').html(searchTopItems[$(".searchRange").val()][3]);
     $('#dropdownYear').html(searchTopItems[$(".searchRange").val()][5]);
 
-    if (searchTopItems[$(".searchRange").val()][4] == "Frei") {
+    if (searchTopItems[$(".searchRange").val()][4] == localStorage.getItem("free")) {
         $('#btnradio1').prop("checked", false);
         $('#btnradio2').prop("checked", true);
     }
     else
-        if (searchTopItems[$(".searchRange").val()][4] == "Schule") {
+        if (searchTopItems[$(".searchRange").val()][4] == localStorage.getItem("school")) {
             $('#btnradio1').prop("checked", true);
             $('#btnradio2').prop("checked", false);
         }
@@ -132,20 +145,30 @@ function updateRange(str) {
     $('#city').val(searchTopItems[$(".searchRange").val()][2]);
     $('#publishNo').val(searchTopItems[$(".searchRange").val()][6]);
 
+    let searchTopicsItemCnt = 0;
+
     for (n = 0; n < localStorage.getItem("topicHeadlineCnt"); n++) {        // reset topics
         for (i = 0; i < localStorage.getItem("amountTopicsHeadline_" + n); i++) {
             $("#topic_" + n + "_" + i).css("backgroundColor", "#056289").css("border", "solid 2px #111111");
-            localStorage.setItem("checked_" + "topic_" + n + "_" + i, "unchecked");  alles auf unchecked ist hier nicht die Lösung
+            localStorage.setItem("checked_topic_" + n + "_" + i, "");
+            searchTopicsItemCnt++;
         }
     }
 
-    for (i = 0; i < 32; i++) {
-        if (searchTopicsItems[$(".searchRange").val()][i]) {                // set saved topics according to the range position
+    for (i = 0; i < searchTopicsItemCnt; i++) {
+        if (searchTopicsItems[$(".searchRange").val()][i]) {                // select and set topics according to the range position
             $("#" + searchTopicsItems[$(".searchRange").val()][i]).css("backgroundColor", "#00ee00").css("border", "solid 2px #111111");
         }
     }
 
-    for (i = 0; i < localStorage.getItem("searchTopItemCnt"); i++) {
+    for (n = 0; n < localStorage.getItem("topicHeadlineCnt"); n++) {        // get the colors and set local storage used for search window
+        for (i = 0; i < localStorage.getItem("amountTopicsHeadline_" + n); i++) {
+            if (rgb2hex($("#topic_" + n + "_" + i).css("backgroundColor")) == '#00ee00')
+                localStorage.setItem("checked_topic_" + n + "_" + i, "checked");
+        }
+    }
+
+    for (i = 0; i < localStorage.getItem("searchTopItemCnt"); i++) {        // save top items 
         localStorage.setItem("searchItem_" + i, searchTopItems[$(".searchRange").val()][i]);
     }
 
@@ -154,7 +177,6 @@ function updateRange(str) {
     localStorage.setItem("searchCount", $(".searchRange").val());
 
     window.electronAPI.openSearchProcess();
-
 }
 
 export function setTopicHeadlines() {
@@ -207,14 +229,14 @@ function changeRange(str) {
 }
 
 function publisherSchool(str) {
-    publisherIs = "Schule";
+    publisherIs = localStorage.getItem("school");
     $(".freeLabel").css("backgroundColor", "#ffffff");
     $(".schoolLabel").css("backgroundColor", "#00ffff");
     $(".schoolLabel").css("color", "#000000");
 }
 
 function publisherFree(str) {
-    publisherIs = "Frei";
+    publisherIs = localStorage.getItem("free");
     $(".freeLabel").css("backgroundColor", "#00ffff");
     $(".freeLabel").css("color", "#000000");
     $(".schoolLabel").css("backgroundColor", "#ffffff");
@@ -280,7 +302,7 @@ function doSearch() {
     for (n = 0; n < globalTopicHeadlines.contentValue.length; n++) {        // Save selected topics in the topics search array 
         for (i = 0; i < globalTopicItems[n].contentValue.length; i++) {
             if (localStorage.getItem("checked_topic_" + n + "_" + i) == "checked") {
-                searchTopicsItems[searchCnt][itemCnt] = "topic_" + n + "_" + i;
+                searchTopicsItems[searchCnt][itemCnt] = "topic_" + n + "_" + i;  // Saved for use in range select
                 itemCnt++;
             }
         }

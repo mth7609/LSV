@@ -1,6 +1,6 @@
 import { changeStatus1 } from "./ArchivScripts.js";
 //import { globalStates, globalTopicHeadlines, globalTopicItems, globalAmountTopics } from "./Globals.js";
-import { globalStates, globalTopHeadlines, globalTopicItems, globalTopicHeadlines } from "./Globals.js";
+import { globalStates, globalTopHeadlines, globalTopicItems, globalTopicHeadlines, globalInfoLabels } from "./Globals.js";
 
 var statesList = "";
 var titles = ""
@@ -38,7 +38,6 @@ export function getOutputText() {
         }
     });
 }
-
 
 
 export function getStates() {
@@ -125,10 +124,23 @@ export function getTopicItems() {
             async: false,
             success: function (data) {
                 globalTopicItems[i].contentValue = data;
-                //console.log(globalTopicItems[i].contentValue);
             }
         });
     }
 }
 
+export function getInfoLabels() {
+    $.ajax({
+        type: 'GET',
+        url: 'http://localhost:8080/getInfoLabels',
+        async: false,
+        success: function (hl) {
+            globalInfoLabels.content = hl;
+        },
+        error: function (error) {
+            console.log(error);
+        }
+    });
+
+}
 

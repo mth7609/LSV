@@ -79,6 +79,20 @@ function getTopHeadlines() {
   });
 }
 
+
+function getInfoLabels() {
+  serverFunctions.appx.get('/getInfoLabels', (req, res) => {
+    con.connect(function (err) {
+      if (err) throw err;
+      con.query("SELECT * FROM info_labels", function (err, result, fields) {
+        if (err) throw err;
+        res.send(result);
+      });
+    });
+  });
+}
+
+
 function getTopicItems() {
   serverFunctions.appx.get('/0', (req, res) => {
     con.connect(function (err) {
@@ -188,9 +202,10 @@ getStates();
 getTopicHeadlines();
 getTopHeadlines();
 getTopicItems();
-getOutputText()
+getOutputText();
+getInfoLabels();
 
-module.exports = { getDBStatus, getStates, databaseServerConnect, getTopicHeadlines, getTopHeadlines, getOutputText };
+module.exports = { getDBStatus, getStates, databaseServerConnect, getTopicHeadlines, getTopHeadlines, getOutputText, getInfoLabels };
 
 
 
