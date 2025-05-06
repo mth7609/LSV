@@ -1,5 +1,5 @@
 import { changeStatus1 } from "./ArchivScripts.js";
-import { globalStates, globalTopHeadlines, globalTopicItems, globalTopicHeadlines, globalInfoLabels } from "./Globals.js";
+import { globalStates, globalTopHeadlines, globalTopicItems, globalTopicHeadlines, globalInfoLabels, globalFrontPages } from "./Globals.js";
 
 var statesList = "";
 var titles = ""
@@ -151,8 +151,8 @@ export function getFrontPageFiles() {
         url: 'http://localhost:8080/getFrontPageFiles',
         async: true,
         success: function (fp) {
-            //globalFrontPages.content = fp;
-            //console.log("Hi...");
+            globalFrontPages.content = fp;
+            //console.log(fp);
         },
         error: function (error) {
             console.log(error);

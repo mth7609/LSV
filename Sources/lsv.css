@@ -62,6 +62,18 @@ body {
     text-wrap: nowrap;
 }
 
+.frontImage {
+    top: 380px;
+    left: 76%;
+    right: 20px;
+    height: 600px;
+    padding: 0px;
+    z-index: 200;
+    overflow: hidden;
+    overflow-y: none;
+    text-wrap: nowrap;
+}
+
 .formTop {
     background: #056289;
     height: 210px;

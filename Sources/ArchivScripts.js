@@ -1,12 +1,12 @@
 import { getDBStatus, getStates, getTopicHeadlinesInfo, getTopicItems, getInitValues, getInfoLabels, getFrontPageFiles } from "./HTTPRequests.js";
-import { globalTopicHeadlines, globalStates, globalTopicItems, globalInfoLabels } from "./Globals.js";
+import { globalTopicHeadlines, globalStates, globalTopicItems, globalInfoLabels, globalFrontPages } from "./Globals.js";
 import { rgb2hex, sleep } from "./Helpers.js";
-// import { getFrontPageFiles } from "./FrontPageAnimation.js";
+
 
 var selectedDropdown = 0;
 var publisherIs = "";
 let searchCnt = 1;
-let itemCnt = 1;
+let itemCnt = 1, imageCnt = 0;
 var elementsOnForm = 1;
 var maxSearchSets = 10;
 var maxReached = false;
@@ -24,9 +24,7 @@ setTopHeadlines();
 getInfoLabels();
 setOutputText();
 publisherReset();
-
-
-//getFrontPageFiles();
+getFrontPageFiles();
 
 
 const searchTopItems = Array.from({ length: maxSearchSets + 1 }, () => new Array(elementsOnForm).fill(0));
@@ -47,7 +45,13 @@ $(".doReset").on('click', resetClick);
 function setOutputText() {
     $('.mainWindowHeadline').html(localStorage.getItem("mainWindowHeadline"));
     $('.searchWindowHeadline').html(localStorage.getItem("searchWindowHeadline"));
-    $('.infoLabel').html(globalInfoLabels.contentValue[0]["text"]);
+    if (self.innerWidth > 1200) {
+        $('.infoLabel').html('<form method="POST" class="form-horizontal formTop ms-1 me-3 ps-3 pe-3 pt-0 border rounded-4">\
+            <label class="col-form-label infoLabel">'+ globalInfoLabels.contentValue[0]["text"] + '</label></form>');
+    }
+    else
+        $('.infoLabel').html("");
+
 }
 
 function setTopHeadlines() {
@@ -122,14 +126,14 @@ function updateRange(str) {
     $('#dropdownYear').html(searchTopItems[$(".searchRange").val()][5]);
 
     if (searchTopItems[$(".searchRange").val()][4] == localStorage.getItem("free")) {
-        console.log(searchTopItems[$(".searchRange").val()][4] + "     " + localStorage.getItem("free"));
+        //console.log(searchTopItems[$(".searchRange").val()][4] + "     " + localStorage.getItem("free"));
         $('#btnradio1').prop("checked", false);
         $('#btnradio2').prop("checked", true);
         $(".freeLabel").css("backgroundColor", "#00ffff");
     }
     else
         if (searchTopItems[$(".searchRange").val()][4] == localStorage.getItem("school")) {
-            console.log(searchTopItems[$(".searchRange").val()][4] + "     " + localStorage.getItem("school"));
+            //console.log(searchTopItems[$(".searchRange").val()][4] + "     " + localStorage.getItem("school"));
             $('#btnradio1').prop("checked", true);
             $(".schoolLabel").css("backgroundColor", "#00ffff");
             $('#btnradio2').prop("checked", false);
@@ -327,8 +331,29 @@ function doSearch() {
 
 
 while (true) {
-    await sleep(2000).then(() => {
+    await sleep(3000).then(() => {
         $('.statusbar2').html(localStorage.getItem("searchCount"));
     });
+
+    await sleep(1000).then(() => {
+        //console.log("imageCnt: " + self.innerWidth);
+        if (self.innerWidth > 1600) {
+            if ((++imageCnt) >= globalFrontPages.contentValue.length)
+                imageCnt = 0;
+
+            $('.frontImage').html("<img src='images/" + globalFrontPages.contentValue[imageCnt] + "' width='350px'></img>");
+        }
+        else
+            $('.frontImage').html("");
+
+        if (self.innerWidth > 1200) {
+            $('.infoLabel').html('<form method="POST" class="form-horizontal formTop ms-1 me-3 ps-3 pe-3 pt-0 border rounded-4">\
+            <label class="col-form-label infoLabel">'+ globalInfoLabels.contentValue[0]["text"] + '</label></form>');
+        }
+        else
+            $('.infoLabel').html("");
+    });
 }
+
+
 
