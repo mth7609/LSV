@@ -42,6 +42,13 @@ function getStates() {
   });
 }
 
+function getFrontPageFiles() {
+  serverFunctions.appx.get('/getFrontPageFiles', (req, res) => {
+    let result = serverFunctions.readFrontPageFiles();
+    res.send(result);
+  });
+}
+
 function getOutputText() {
   serverFunctions.appx.get('/getOutputText', (req, res) => {
     con.connect(function (err) {
@@ -204,8 +211,9 @@ getTopHeadlines();
 getTopicItems();
 getOutputText();
 getInfoLabels();
+getFrontPageFiles();
 
-module.exports = { getDBStatus, getStates, databaseServerConnect, getTopicHeadlines, getTopHeadlines, getOutputText, getInfoLabels };
+module.exports = { getDBStatus, getStates, databaseServerConnect, getTopicHeadlines, getTopHeadlines, getOutputText, getInfoLabels, getFrontPageFiles };
 
 
 

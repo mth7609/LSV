@@ -60,10 +60,6 @@ const createMainWindow = () => {
 }
 
 
-
-
-
-
 const createSearchResultMainWindow = () => {
 
   if (!winSearch) {
@@ -101,7 +97,6 @@ const createSearchResultMainWindow = () => {
 }
 
 
-
 app.whenReady().then(() => {
   serverFunctions.serverOpen();
   console.log("Local HTTP server started");
@@ -126,13 +121,7 @@ app.whenReady().then(() => {
 })
 
 
-
 app.on('window-all-closed', () => {
-
-  //serverFunctions.stopMySqlService();
-  //console.log('');
-  //console.log('Database service stopped');
-
   setTimeout(() => {
     serverFunctions.serverClose();
   }, 1000);
@@ -147,7 +136,6 @@ app.on('window-all-closed', () => {
 
 }
 )
-
 
 
 // electron-packager . Archiv --overwrite --asar=true --platform=win32 --arch=ia32 --icon=assets / icons /winMain / icon.ico --prune=true --out=release-builds --version-string.CompanyName=CE --version-string.FileDescription=CE --version-string.ProductName="ArchivDerJugendzeitschriften"

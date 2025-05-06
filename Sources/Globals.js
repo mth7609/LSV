@@ -16,6 +16,7 @@ let globalTopicItems = [];
 let globalSearchItems = [];
 let globalInfoLabels = new C();
 let globalTopHeadlines = new C();
+let globalFrontPages = new C();
 
 let i;
 
@@ -27,4 +28,4 @@ for (i = 0; i < 32; i++) {
   globalSearchItems[i] = new C();
 }
 
-export { globalStates, globalTopicHeadlines, globalTopicItems, globalSearchItems, globalTopHeadlines, globalInfoLabels }
+export { globalStates, globalTopicHeadlines, globalTopicItems, globalSearchItems, globalTopHeadlines, globalInfoLabels, globalFrontPages }

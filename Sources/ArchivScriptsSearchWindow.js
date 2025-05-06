@@ -1,12 +1,10 @@
 import { globalTopicItems, globalTopicHeadlines } from "./Globals.js";
+import { sleep } from "./Helpers.js";
 
 let searchItems = [];
 let mainHeadline = [];
 let oldSearchCount = 0;
 
-function sleep(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms));
-}
 
 function updateSearchWindow() {
     let i;

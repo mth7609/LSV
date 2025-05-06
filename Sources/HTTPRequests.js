@@ -1,5 +1,4 @@
 import { changeStatus1 } from "./ArchivScripts.js";
-//import { globalStates, globalTopicHeadlines, globalTopicItems, globalAmountTopics } from "./Globals.js";
 import { globalStates, globalTopHeadlines, globalTopicItems, globalTopicHeadlines, globalInfoLabels } from "./Globals.js";
 
 var statesList = "";
@@ -129,6 +128,7 @@ export function getTopicItems() {
     }
 }
 
+
 export function getInfoLabels() {
     $.ajax({
         type: 'GET',
@@ -144,3 +144,19 @@ export function getInfoLabels() {
 
 }
 
+
+export function getFrontPageFiles() {
+    $.ajax({
+        type: 'GET',
+        url: 'http://localhost:8080/getFrontPageFiles',
+        async: true,
+        success: function (fp) {
+            //globalFrontPages.content = fp;
+            //console.log("Hi...");
+        },
+        error: function (error) {
+            console.log(error);
+        }
+    });
+
+}

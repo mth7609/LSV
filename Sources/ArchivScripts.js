@@ -1,5 +1,7 @@
-import { getDBStatus, getStates, getTopicHeadlinesInfo, getTopicItems, getInitValues, getInfoLabels } from "./HTTPRequests.js";
+import { getDBStatus, getStates, getTopicHeadlinesInfo, getTopicItems, getInitValues, getInfoLabels, getFrontPageFiles } from "./HTTPRequests.js";
 import { globalTopicHeadlines, globalStates, globalTopicItems, globalInfoLabels } from "./Globals.js";
+import { rgb2hex, sleep } from "./Helpers.js";
+// import { getFrontPageFiles } from "./FrontPageAnimation.js";
 
 var selectedDropdown = 0;
 var publisherIs = "";
@@ -21,13 +23,15 @@ setTopicHeadlines();
 setTopHeadlines();
 getInfoLabels();
 setOutputText();
+publisherReset();
+
+
+//getFrontPageFiles();
+
 
 const searchTopItems = Array.from({ length: maxSearchSets + 1 }, () => new Array(elementsOnForm).fill(0));
 const searchTopicsItems = Array.from({ length: maxSearchSets + 1 }, () => new Array(elementsOnForm).fill(0));
 
-function sleep(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms));
-}
 
 $(".dropdown-menu li a").on('click', updateValue);
 $(".doSearch").on('click', doSearch);
@@ -109,30 +113,25 @@ function topicListButtonClick() {
 }
 
 
-var hexDigits = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "a", "b", "c", "d", "e", "f"];
-var hex = function (x) {
-    return isNaN(x) ? "00" : hexDigits[(x - x % 16) / 16] + hexDigits[x % 16];
-}
-
-function rgb2hex(rgb) {
-    rgb = rgb.match(/^rgb\((\d+),\s*(\d+),\s*(\d+)\)$/);
-    return "#" + hex(rgb[1]) + hex(rgb[2]) + hex(rgb[3]);
-}
-
-
 function updateRange(str) {
     let n, i, k;
+
+    publisherReset();
 
     $('#dropdownState').html(searchTopItems[$(".searchRange").val()][3]);
     $('#dropdownYear').html(searchTopItems[$(".searchRange").val()][5]);
 
     if (searchTopItems[$(".searchRange").val()][4] == localStorage.getItem("free")) {
+        console.log(searchTopItems[$(".searchRange").val()][4] + "     " + localStorage.getItem("free"));
         $('#btnradio1').prop("checked", false);
         $('#btnradio2').prop("checked", true);
+        $(".freeLabel").css("backgroundColor", "#00ffff");
     }
     else
         if (searchTopItems[$(".searchRange").val()][4] == localStorage.getItem("school")) {
+            console.log(searchTopItems[$(".searchRange").val()][4] + "     " + localStorage.getItem("school"));
             $('#btnradio1').prop("checked", true);
+            $(".schoolLabel").css("backgroundColor", "#00ffff");
             $('#btnradio2').prop("checked", false);
         }
         else {

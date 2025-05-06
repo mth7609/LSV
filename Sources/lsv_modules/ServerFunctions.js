@@ -15,20 +15,18 @@ function serverClose() {
 
 function serverOpen() {
     server.listen(8080, () => {
-        if(server.listening)
+        if (server.listening)
             console.log('HTTP Server listen on localhost:8080');
-        else
-        {
+        else {
             console.log('ERROR: HTTP Server not listening on localhost:8080, trying again');
             setTimeout(() => {
                 serverOpen();
             }, 3000);
             if (server.listening)
                 console.log('HTTP Server listen on localhost:8080');
-            else
-            {
+            else {
                 console.log('ERROR: HTTP Server not listening on localhost:8080, Killed!');
-                process.kill(process.pid, 'SIGINT'); 
+                process.kill(process.pid, 'SIGINT');
             }
         }
     });
@@ -68,4 +66,14 @@ function stopMySqlService() {
     })();
 }
 
-module.exports = { appx, serverClose, serverOpen, startMySqlService, stopMySqlService };
+
+function readFrontPageFiles() {
+    let i;
+    let f = [];
+    var fs = require('fs');
+    var files = fs.readdirSync('../Sources/images/').filter(fn => fn.startsWith('front_page_'));
+    return files;
+}
+
+
+module.exports = { appx, serverClose, serverOpen, startMySqlService, stopMySqlService, readFrontPageFiles };
