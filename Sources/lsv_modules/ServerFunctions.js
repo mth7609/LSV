@@ -3,8 +3,7 @@ const appx = express();
 const http = require('http');
 const server = http.createServer(appx);               // a http server is always created on localhost
 const { PowerShell } = require('node-powershell');
-
-const iniData = require('../init.json');
+const initData = require('../init.json');
 
 function serverClose() {
     server.closeAllConnections();
@@ -16,18 +15,18 @@ function serverClose() {
 }
 
 function serverOpen() {
-    server.listen(iniData["httpPort"], () => {
+    server.listen(initData["httpPort"], () => {
         if (server.listening)
-            console.log('HTTP Server listen on ' + iniData["httpHost"] + ':' + iniData["httpPort"]);
+            console.log('HTTP Server listen on ' + initData["httpHost"] + ':' + initData["httpPort"]);
         else {
-            console.log('ERROR: HTTP Server not listening on ' + iniData["httpHost"] + ':' + iniData["httpPort"] + ', trying again');
+            console.log('ERROR: HTTP Server not listening on ' + initData["httpHost"] + ':' + initData["httpPort"] + ', trying again');
             setTimeout(() => {
                 serverOpen();
             }, 3000);
             if (server.listening)
-                console.log('HTTP Server listen on ' + iniData["httpHost"] + ':' + iniData["httpPort"]);
+                console.log('HTTP Server listen on ' + initData["httpHost"] + ':' + initData["httpPort"]);
             else {
-                console.log('ERROR: HTTP Server not listening on ' + iniData["httpHost"] + ':' + iniData["httpPort"] + ', killed!');
+                console.log('ERROR: HTTP Server not listening on ' + initData["httpHost"] + ':' + initData["httpPort"] + ', killed!');
                 process.kill(process.pid, 'SIGINT');
             }
         }

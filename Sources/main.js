@@ -4,23 +4,25 @@ const path = require('node:path')
 const mysql = require('mysql2')
 const dbFunctions = require('./lsv_modules/SQLQueries');
 const serverFunctions = require('./lsv_modules/ServerFunctions');
+const initData = require('./init.json');
 let winSearch;
 let winMain;
 
 
 const createMainWindow = () => {
-  var winMain = new BrowserWindow({
+  winMain = new BrowserWindow({
     width: 1500,
     height: 900,
     "webPreferences": {
       "web-security": false,
       "webviewTag": true,
       preload: path.join(__dirname, 'preload.js')
-    }
+    },
   })
 
-  ipcMain.emit('miCMD', '123');
-
+  winMain.once('ready-to-show', () => {
+    winMain.webContents.send('httpPort', initData["httpPort"]);
+  })
 
   ipcMain.on('openSearchProcessCMD', (event) => {
     createSearchResultMainWindow();
@@ -38,12 +40,13 @@ const createMainWindow = () => {
       winMain.close();
   })
 
-
   winMain.webContents.setVisualZoomLevelLimits(1, 2);
   winMain.webContents.setZoomFactor(1.0);
   winMain.webContents.setZoomLevel(0);
   winMain.removeMenu();
   winMain.loadFile('index.html');
+
+  winMain.webContents.send('update-counter', 100);
 
 
   winMain.on('closed', () => {
@@ -55,6 +58,7 @@ const createMainWindow = () => {
 
   electronLocalshortcut.register('CommandOrControl+D', () => {
     winMain.webContents.toggleDevTools();
+    winMain.webContents.send('update-counter', 100);
   })
 
 
@@ -73,6 +77,25 @@ const createMainWindow = () => {
       winMain.webContents.zoomFactor = currentZoom - 0.1;
     }
   });
+
+
+  /*const menu = Menu.buildFromTemplate([
+    {
+      label: app.name,
+      submenu: [
+        {
+          click: () => winMain.webContents.send('update-counter', 1),
+          label: 'Increment'
+        },
+        {
+          click: () => winMain.webContents.send('update-counter', -1),
+          label: 'Decrement'
+        }
+      ]
+    }
+  ]);
+  Menu.setApplicationMenu(menu);*/
+
 }
 
 
@@ -151,8 +174,8 @@ app.on('window-all-closed', () => {
   }, 2000);
 
 
-}
-)
+})
+
 
 
 // electron-packager . Archiv --overwrite --asar=true --platform=win32 --arch=ia32 --icon=assets / icons /winMain / icon.ico --prune=true --out=release-builds --version-string.CompanyName=CE --version-string.FileDescription=CE --version-string.ProductName="ArchivDerJugendzeitschriften"

@@ -31,10 +31,6 @@ getFrontPageFiles();
 const searchTopItems = Array.from({ length: maxSearchSets + 1 }, () => new Array(elementsOnForm).fill(0));
 const searchTopicsItems = Array.from({ length: maxSearchSets + 1 }, () => new Array(elementsOnForm).fill(0));
 
-
-alert(window.electronAPI.miCMD().val);
-
-
 $(".dropdown-menu li a").on('click', updateValue);
 $(".doSearch").on('click', doSearch);
 $(".dropdownState").on('click', stateSel);
@@ -45,6 +41,9 @@ $(".searchRange").on('click', updateRange);
 $(".topicListButton").on('click', topicListButtonClick);
 $(".doReset").on('click', resetClick);
 
+window.electronAPI.getHttpPort((value) => {   // receive the http port from Electron (main.js) before loading the page
+    localStorage.setItem("httpPort", value);
+})
 
 function setOutputText() {
     $('.mainWindowHeadline').html(localStorage.getItem("mainWindowHeadline"));

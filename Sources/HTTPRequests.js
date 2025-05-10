@@ -20,7 +20,7 @@ export function setStartValues() {
 export function getInitValues() {
     $.ajax({
         type: 'GET',
-        url: 'http://localhost:8080/getInitValues',
+        url: 'http://localhost:' + localStorage.getItem("httpPort") + '/getInitValues',     // the http port is set already before loading
         async: false,
         success: function (text) {
             var i;
@@ -39,7 +39,7 @@ export function getInitValues() {
 export function getOutputText() {
     $.ajax({
         type: 'GET',
-        url: 'http://localhost:8080/getOutputText',
+        url: 'http://localhost:' + localStorage.getItem("httpPort") + '/getOutputText',
         async: false,
         success: function (text) {
             var i;
@@ -58,7 +58,7 @@ export function getOutputText() {
 export function getStates() {
     $.ajax({
         type: 'GET',
-        url: 'http://localhost:8080/getStates',
+        url: 'http://localhost:' + localStorage.getItem("httpPort") + '/getStates',
         async: false,
         success: function (states) {
             var i;
@@ -79,7 +79,7 @@ export function getStates() {
 export function getDBStatus() {
     $.ajax({
         type: 'GET',
-        url: 'http://localhost:8080/getDBStatus',
+        url: 'http://localhost:' + localStorage.getItem("httpPort") + '/getDBStatus',
         async: false,
         success: function (data) {
             if (data == "command2") {
@@ -93,7 +93,7 @@ export function getDBStatus() {
 export function getDBRunning() {
     $.ajax({
         type: 'GET',
-        url: 'http://localhost:8080/getDBRunning',
+        url: 'http://localhost:' + localStorage.getItem("httpPort") + '/getDBRunning',
         async: false,
         success: function (data) {
             if (data == "command1") {
@@ -115,7 +115,7 @@ export function getDBRunning() {
 export function getTopicHeadlinesInfo() {
     $.ajax({
         type: 'GET',
-        url: 'http://localhost:8080/getTopicHeadlinesInfo',
+        url: 'http://localhost:' + localStorage.getItem("httpPort") + '/getTopicHeadlinesInfo',
         async: false,
         success: function (data) {
             globalTopicHeadlines.content = data;
@@ -130,7 +130,7 @@ export function getTopicHeadlinesInfo() {
 export function getTopHeadlines() {
     $.ajax({
         type: 'GET',
-        url: 'http://localhost:8080/getTopHeadlines',
+        url: 'http://localhost:' + localStorage.getItem("httpPort") + '/getTopHeadlines',
         async: false,
         success: function (hl) {
             globalTopHeadlines.content = hl;
@@ -150,7 +150,7 @@ export function getTopicItems() {
     for (i = 0; i < globalTopicHeadlines.contentValue.length; i++) {
         $.ajax({
             type: 'GET',
-            url: 'http://localhost:8080/' + i,
+            url: 'http://localhost:' + localStorage.getItem("httpPort") + '/' + i,
             async: false,
             success: function (data) {
                 globalTopicItems[i].contentValue = data;
@@ -163,7 +163,7 @@ export function getTopicItems() {
 export function getInfoLabels() {
     $.ajax({
         type: 'GET',
-        url: 'http://localhost:8080/getInfoLabels',
+        url: 'http://localhost:' + localStorage.getItem("httpPort") + '/getInfoLabels',
         async: false,
         success: function (hl) {
             globalInfoLabels.content = hl;
@@ -179,7 +179,7 @@ export function getInfoLabels() {
 export function getFrontPageFiles() {
     $.ajax({
         type: 'GET',
-        url: 'http://localhost:8080/getFrontPageFiles',
+        url: 'http://localhost:' + localStorage.getItem("httpPort") + '/getFrontPageFiles',
         async: true,
         success: function (fp) {
             globalFrontPages.content = fp;
