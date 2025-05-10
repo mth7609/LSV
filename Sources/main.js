@@ -7,6 +7,7 @@ const serverFunctions = require('./lsv_modules/ServerFunctions');
 let winSearch;
 let winMain;
 
+
 const createMainWindow = () => {
   var winMain = new BrowserWindow({
     width: 1500,
@@ -18,14 +19,25 @@ const createMainWindow = () => {
     }
   })
 
+  ipcMain.emit('miCMD', '123');
+
+
   ipcMain.on('openSearchProcessCMD', (event) => {
     createSearchResultMainWindow();
   })
+
 
   ipcMain.on('closeSearchProcessCMD', (event) => {
     if (winSearch)
       winSearch.close();
   })
+
+
+  ipcMain.on('closeMainProcessCMD', (event) => {
+    if (winMain)
+      winMain.close();
+  })
+
 
   winMain.webContents.setVisualZoomLevelLimits(1, 2);
   winMain.webContents.setZoomFactor(1.0);
@@ -33,19 +45,23 @@ const createMainWindow = () => {
   winMain.removeMenu();
   winMain.loadFile('index.html');
 
+
   winMain.on('closed', () => {
     if (winSearch)
       winSearch.close();
     console.log(' ---- Bye Bye Main ---- ')
   });
 
+
   electronLocalshortcut.register('CommandOrControl+D', () => {
     winMain.webContents.toggleDevTools();
   })
 
+
   electronLocalshortcut.register('CommandOrControl+R', () => {
     winMain.reload();
   })
+
 
   winMain.webContents.on("zoom-changed", (event, zoomDirection) => {
     var currentZoom = winMain.webContents.getZoomFactor();
@@ -98,6 +114,7 @@ const createSearchResultMainWindow = () => {
 
 
 app.whenReady().then(() => {
+
   serverFunctions.serverOpen();
   console.log("Local HTTP server started");
   app.commandLine.appendSwitch('high-dpi-support', 1)

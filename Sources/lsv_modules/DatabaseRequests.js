@@ -5,20 +5,12 @@ var dbConnect = false;
 var con;
 
 
-function add(x, y) {
-  return x + y;
-}
-
-function subtract(x, y) {
-  return x - y;
-}
-
 function databaseServerConnect() {
   con = mysql.createConnection({
-    host: "localhost",
-    user: "prolabor",
-    password: "mzkti29b",
-    database: "prolabor"
+    host: localStorage.getItem("mysqlHost"),
+    user: localStorage.getItem("mysqlUser"),
+    password: localStorage.getItem("mysqlPassword"),
+    database: localStorage.getItem("mysqlDatabase")
   });
 
   con.connect(function (err) {

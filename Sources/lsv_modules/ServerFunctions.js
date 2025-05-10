@@ -1,8 +1,10 @@
 const express = require('express');
 const appx = express();
 const http = require('http');
-const server = http.createServer(appx);
+const server = http.createServer(appx);               // a http server is always created on localhost
 const { PowerShell } = require('node-powershell');
+
+const iniData = require('../init.json');
 
 function serverClose() {
     server.closeAllConnections();
@@ -14,25 +16,25 @@ function serverClose() {
 }
 
 function serverOpen() {
-    server.listen(8080, () => {
+    server.listen(iniData["httpPort"], () => {
         if (server.listening)
-            console.log('HTTP Server listen on localhost:8080');
+            console.log('HTTP Server listen on ' + iniData["httpHost"] + ':' + iniData["httpPort"]);
         else {
-            console.log('ERROR: HTTP Server not listening on localhost:8080, trying again');
+            console.log('ERROR: HTTP Server not listening on ' + iniData["httpHost"] + ':' + iniData["httpPort"] + ', trying again');
             setTimeout(() => {
                 serverOpen();
             }, 3000);
             if (server.listening)
-                console.log('HTTP Server listen on localhost:8080');
+                console.log('HTTP Server listen on ' + iniData["httpHost"] + ':' + iniData["httpPort"]);
             else {
-                console.log('ERROR: HTTP Server not listening on localhost:8080, Killed!');
+                console.log('ERROR: HTTP Server not listening on ' + iniData["httpHost"] + ':' + iniData["httpPort"] + ', killed!');
                 process.kill(process.pid, 'SIGINT');
             }
         }
     });
 }
 
-function startMySqlService() {
+/*function startMySqlService() {
     const poshInstance = async () => {
         const ps = new PowerShell({
             executionPolicy: 'Default',
@@ -66,6 +68,7 @@ function stopMySqlService() {
     })();
 }
 
+*/
 
 function readFrontPageFiles() {
     let i;
@@ -75,5 +78,4 @@ function readFrontPageFiles() {
     return files;
 }
 
-
-module.exports = { appx, serverClose, serverOpen, startMySqlService, stopMySqlService, readFrontPageFiles };
+module.exports = { appx, serverClose, serverOpen, readFrontPageFiles };

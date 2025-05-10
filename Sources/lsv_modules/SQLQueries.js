@@ -30,6 +30,22 @@ function getDBStatus() {
   });
 }
 
+
+function getDBRunning() {
+  serverFunctions.appx.get('/getDBRunning', (req, res) => {
+    con.connect(function (err) {
+      con.query("SELECT name FROM states", function (err, result, fields) {
+        if (err) {
+          databaseServerConnect();
+          res.send("command2");
+        }
+        else
+          res.send("command1");
+      });
+    });
+  });
+}
+
 function getStates() {
   serverFunctions.appx.get('/getStates', (req, res) => {
     con.connect(function (err) {
@@ -95,6 +111,17 @@ function getInfoLabels() {
         if (err) throw err;
         res.send(result);
       });
+    });
+  });
+}
+
+
+function getInitValues() {
+  serverFunctions.appx.get('/getInitValues', (req, res) => {
+    con.connect(function (err) {
+      if (err) throw err;
+      let initData = require('../init.json');
+      res.send(initData);
     });
   });
 }
@@ -212,8 +239,10 @@ getTopicItems();
 getOutputText();
 getInfoLabels();
 getFrontPageFiles();
+getDBRunning();
+getInitValues();
 
-module.exports = { getDBStatus, getStates, databaseServerConnect, getTopicHeadlines, getTopHeadlines, getOutputText, getInfoLabels, getFrontPageFiles };
+module.exports = { getDBStatus, getDBRunning, getStates, databaseServerConnect, getTopicHeadlines, getTopHeadlines, getOutputText, getInfoLabels, getFrontPageFiles, getInitValues };
 
 
 

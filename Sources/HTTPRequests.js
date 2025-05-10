@@ -1,11 +1,8 @@
 import { changeStatus1 } from "./ArchivScripts.js";
 import { globalStates, globalTopHeadlines, globalTopicItems, globalTopicHeadlines, globalInfoLabels, globalFrontPages } from "./Globals.js";
 
-var statesList = "";
-var titles = ""
 
-
-export function getInitValues() {
+export function setStartValues() {
     localStorage.clear();
     getTopicHeadlinesInfo();
     localStorage.setItem("topicHeadlineCnt", globalTopicHeadlines.contentValue.length);
@@ -16,9 +13,28 @@ export function getInitValues() {
     for (i = 0; i < localStorage.getItem("topHeadlineCnt"); i++) {
         localStorage.setItem("mainHeadline_" + globalTopHeadlines.contentValue[i]["arraypos"], globalTopHeadlines.contentValue[i]["names"]);
     }
-
-    getOutputText();
+    //    console.log(data);
 }
+
+
+export function getInitValues() {
+    $.ajax({
+        type: 'GET',
+        url: 'http://localhost:8080/getInitValues',
+        async: false,
+        success: function (text) {
+            var i;
+            var s = "";
+            for (i = 0; i < text.length; i++) {
+                localStorage.setItem(text[i]["name"], text[i]["value"]);
+            }
+        },
+        error: function (error) {
+            console.log(`Error ${error}`);
+        }
+    });
+}
+
 
 export function getOutputText() {
     $.ajax({
@@ -56,7 +72,7 @@ export function getStates() {
             console.log(`Error ${error}`);
         }
     });
-    document.getElementById("states").innerHTML = globalStates.content;
+    $(".states").html(globalStates.content);
 }
 
 
@@ -66,20 +82,35 @@ export function getDBStatus() {
         url: 'http://localhost:8080/getDBStatus',
         async: false,
         success: function (data) {
-            if (data == "command1") {
-                changeStatus1("Verbunden mit Datenbank");
-                $(".statusbar1").css("background-color", "#c2e2ec");
-                $(".statusbar1").css("color", "#000000");
-            }
-            else {
-                changeStatus1("Keine Verbindung zur Datenbank");
-                $(".statusbar1").css("background-color", "#ff1111");
-                $(".statusbar1").css("color", "#ffffff");
+            if (data == "command2") {
+                alert("No connection to database! Program will exit.");
+                window.electronAPI.closeMainProcess();
             }
         }
     });
 }
 
+export function getDBRunning() {
+    $.ajax({
+        type: 'GET',
+        url: 'http://localhost:8080/getDBRunning',
+        async: false,
+        success: function (data) {
+            if (data == "command1") {
+                changeStatus1(localStorage.getItem("dbConnected"));
+                $(".statusbar1").css("background-color", "#c2e2ec");
+                $(".statusbar1").css("color", "#000000");
+                return true;
+            }
+            else {
+                changeStatus1(localStorage.getItem("dbDisconnected"));
+                $(".statusbar1").css("background-color", "#ff1111");
+                $(".statusbar1").css("color", "#ffffff");
+                return false;
+            }
+        }
+    });
+}
 
 export function getTopicHeadlinesInfo() {
     $.ajax({
