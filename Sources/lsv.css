@@ -1,0 +1,208 @@
+body {
+    background: #d2f2fc !important;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+#logo1 {
+    left: 4em;
+    top: 8em;
+    z-index: 5;
+}
+
+.statusbar1 {
+    position: fixed;
+    bottom: 0px;
+    left: 15px;
+    right: 25%;
+    height: 23px;
+    padding: 10px;
+    font-weight: bold;
+    font-size: small;
+    background: #c2e2ec;
+    color: #000000;
+    border: solid 2px rgb(0, 0, 0);
+    z-index: 200;
+    overflow: hidden;
+    overflow-y: none;
+    text-wrap: nowrap;
+}
+
+.statusbar2 {
+    position: fixed;
+    bottom: 0px;
+    left: 74%;
+    width: 8%;
+    padding: 0px;
+    font-weight: bold;
+    font-size: small;
+    background: #c2e2ec;
+    z-index: 201;
+    border: solid 2px rgb(0, 0, 0);
+    color: #0000;
+    height: 23px;
+}
+
+.statusbar3 {
+    position: fixed;
+    bottom: 0px;
+    left: 81%;
+    right: 15px;
+    height: 23px;
+    padding: 10px;
+    font-weight: bold;
+    font-size: small;
+    background: #c2e2ec;
+    color: #000000;
+    border: solid 2px rgb(0, 0, 0);
+    border-left: solid 2px rgb(0, 0, 0);
+    z-index: 200;
+    overflow: hidden;
+    overflow-y: none;
+    text-wrap: nowrap;
+}
+
+.frontImage {
+    top: 380px;
+    left: 76%;
+    right: 20px;
+    height: 600px;
+    padding: 0px;
+    z-index: 200;
+    overflow: hidden;
+    overflow-y: none;
+    text-wrap: nowrap;
+}
+
+.formTop {
+    background: #056289;
+    height: 210px;
+}
+
+.topicsFormBottom {
+    z-index: 12;
+    width: auto;
+}
+
+.headlinesTop {
+    font-size: 16px;
+    color: #ffffff;
+}
+
+.topicHeadline {
+    font-weight: bold;
+    font-size: 16px;
+    color: #000000;
+}
+
+.mainHeadline {
+    font-weight: bold;
+    font-size: 16px;
+    color: #000000;
+}
+
+.searchListItems {
+    font-size: 16px;
+    color: #000000;
+}
+
+.infoLabel {
+    font-size: 14px;
+    color: #eeeeee;
+    text-wrap: wrap;
+}
+
+.topicList {
+    font-size: 16px;
+    color: #000000;
+}
+
+.topicListButton {
+    background: #056289;
+    border: solid 2px #111111;
+}
+
+.inputField {
+    background: #ffffff;
+    border: solid 2px #bbbbbb;
+    color: #000000;
+    height: 30px;
+}
+
+.selectButtonSearch {
+    background: #008800;
+    border: solid 2px #bbbbbb;
+    color: #ffffff;
+    height: 30px;
+}
+
+.selectButton {
+    background: #ffffff;
+    border: solid 2px #bbbbbb;
+    color: #000000;
+    height: 30px;
+}
+
+.schoolLabel {
+    background: #ffffff;
+    border: solid 2px #bbbbbb;
+    border-style: solid;
+    color: #000000;
+    height: 30px;
+    width: 55px
+}
+
+.freeLabel {
+    background: #ffffff;
+    border: solid 2px #bbbbbb;
+    border-style: solid;
+    color: #000000;
+    height: 30px;
+    width: 55px
+}
+
+.result {
+    width: 75px;
+    color: #000000;
+    font-weight: bold;
+    font-size: 16px;
+}
+
+.publishNo {
+    background: #ffffff;
+    border: solid 2px #bbbbbb;
+    border-style: solid;
+    color: #000000;
+    height: 30px;
+    width: 60px
+}
+
+.dropdownYearStyle {
+    height: 30px;
+    width: 60px;
+    z-index: 5;
+}
+
+.buttonYearStyle {
+    background: #ffffff;
+    border: solid 2px #bbbbbb;
+    color: #000000;
+    height: 30px;
+    width: 60px;
+}
+
+.dropdownState {
+    background: #ffffff;
+    border: solid 2px #bbbbbb;
+    border-style: solid;
+    color: #000000;
+    height: 30px;
+}
+
+
+hr {
+    color: #000000;
+    overflow: none;
+    background: #000000;
+    height: 3px;
+}
