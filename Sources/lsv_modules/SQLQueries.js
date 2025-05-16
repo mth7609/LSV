@@ -21,8 +21,8 @@ function databaseServerConnect() {
   });
 }
 
-function getDBStatus() {
-  serverFunctions.appx.get('/getDBStatus', (req, res) => {
+function requestSqlDBStatus() {
+  serverFunctions.appx.get('/requestSqlDBStatus', (req, res) => {
     if (dbConnect == true)
       res.send('command1');
     else
@@ -31,8 +31,8 @@ function getDBStatus() {
 }
 
 
-function getDBRunning() {
-  serverFunctions.appx.get('/getDBRunning', (req, res) => {
+function requestSqlDBRunning() {
+  serverFunctions.appx.get('/requestSqlDBRunning', (req, res) => {
     con.connect(function (err) {
       con.query("SELECT name FROM states", function (err, result, fields) {
         if (err) {
@@ -46,8 +46,8 @@ function getDBRunning() {
   });
 }
 
-function getStates() {
-  serverFunctions.appx.get('/getStates', (req, res) => {
+function requestSqlStates() {
+  serverFunctions.appx.get('/requestSqlStates', (req, res) => {
     con.connect(function (err) {
       if (err) throw err;
       con.query("SELECT name FROM states", function (err, result, fields) {
@@ -58,15 +58,15 @@ function getStates() {
   });
 }
 
-function getFrontPageFiles() {
-  serverFunctions.appx.get('/getFrontPageFiles', (req, res) => {
+function requestSqlFrontPageFiles() {
+  serverFunctions.appx.get('/requestSqlFrontPageFiles', (req, res) => {
     let result = serverFunctions.readFrontPageFiles();
     res.send(result);
   });
 }
 
-function getOutputText() {
-  serverFunctions.appx.get('/getOutputText', (req, res) => {
+function requestSqlOutputText() {
+  serverFunctions.appx.get('/requestSqlOutputText', (req, res) => {
     con.connect(function (err) {
       if (err) throw err;
       con.query("SELECT * FROM output_text", function (err, result, fields) {
@@ -77,8 +77,8 @@ function getOutputText() {
   });
 }
 
-function getTopicHeadlines() {
-  serverFunctions.appx.get('/getTopicHeadlinesInfo', (req, res) => {
+function requestSqlTopicHeadlines() {
+  serverFunctions.appx.get('/requestSqlTopicHeadlinesInfo', (req, res) => {
     con.connect(function (err) {
       if (err) throw err;
       con.query("SELECT * FROM topic_headlines order by headline_nr", function (err, result, fields) {
@@ -90,8 +90,8 @@ function getTopicHeadlines() {
   });
 }
 
-function getTopHeadlines() {
-  serverFunctions.appx.get('/getTopHeadlines', (req, res) => {
+function requestSqlTopHeadlines() {
+  serverFunctions.appx.get('/requestSqlTopHeadlines', (req, res) => {
     con.connect(function (err) {
       if (err) throw err;
       con.query("SELECT * FROM top_headlines order by arraypos", function (err, result, fields) {
@@ -103,8 +103,8 @@ function getTopHeadlines() {
 }
 
 
-function getInfoLabels() {
-  serverFunctions.appx.get('/getInfoLabels', (req, res) => {
+function requestSqlInfoLabels() {
+  serverFunctions.appx.get('/requestSqlInfoLabels', (req, res) => {
     con.connect(function (err) {
       if (err) throw err;
       con.query("SELECT * FROM info_labels", function (err, result, fields) {
@@ -116,18 +116,8 @@ function getInfoLabels() {
 }
 
 
-function getInitValues() {
-  serverFunctions.appx.get('/getInitValues', (req, res) => {
-    con.connect(function (err) {
-      if (err) throw err;
-      let initData = require('../init.json');
-      res.send(initData);
-    });
-  });
-}
 
-
-function getTopicItems() {
+function requestSqlTopicItems() {
   serverFunctions.appx.get('/0', (req, res) => {
     con.connect(function (err) {
       if (err) throw err;
@@ -231,18 +221,42 @@ function getTopicItems() {
 }
 
 
-getDBStatus();
-getStates();
-getTopicHeadlines();
-getTopHeadlines();
-getTopicItems();
-getOutputText();
-getInfoLabels();
-getFrontPageFiles();
-getDBRunning();
-getInitValues();
+function requestSqlImages() {
+  serverFunctions.appx.get('/requestSqlImages', (req, res) => {
+    con.connect(function (err) {
+      if (err) throw err;
+      con.query("SELECT * FROM images", function (err, result, fields) {
+        if (err) throw err;
+        res.send(result);
+      });
+    });
+  });
+}
 
-module.exports = { getDBStatus, getDBRunning, getStates, databaseServerConnect, getTopicHeadlines, getTopHeadlines, getOutputText, getInfoLabels, getFrontPageFiles, getInitValues };
+
+function requestInitValues() {
+  serverFunctions.appx.get('/requestInitValues', (req, res) => {
+    con.connect(function (err) {
+      if (err) throw err;
+      let initData = require('../init.json');
+      res.send(initData);
+    });
+  });
+}
+
+requestSqlDBStatus();
+requestSqlStates();
+requestSqlTopicHeadlines();
+requestSqlTopHeadlines();
+requestSqlTopicItems();
+requestSqlOutputText();
+requestSqlInfoLabels();
+requestSqlFrontPageFiles();
+requestSqlDBRunning();
+requestSqlImages();
+requestInitValues();
+
+module.exports = { requestInitValues, requestSqlDBStatus, requestSqlDBRunning, requestSqlStates, databaseServerConnect, requestSqlTopicHeadlines, requestSqlTopHeadlines, requestSqlOutputText, requestSqlImages, requestSqlInfoLabels, requestSqlFrontPageFiles };
 
 
 

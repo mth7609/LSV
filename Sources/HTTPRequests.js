@@ -2,25 +2,30 @@ import { changeStatus1 } from "./ArchivScripts.js";
 import { globalStates, globalTopHeadlines, globalTopicItems, globalTopicHeadlines, globalInfoLabels, globalFrontPages } from "./Globals.js";
 
 
-export function setStartValues() {
-    localStorage.clear();
-    getTopicHeadlinesInfo();
-    localStorage.setItem("topicHeadlineCnt", globalTopicHeadlines.contentValue.length);
-    getTopHeadlines();
-    localStorage.setItem("topHeadlineCnt", globalTopHeadlines.contentValue.length);
-
-    let i;
-    for (i = 0; i < localStorage.getItem("topHeadlineCnt"); i++) {
-        localStorage.setItem("mainHeadline_" + globalTopHeadlines.contentValue[i]["arraypos"], globalTopHeadlines.contentValue[i]["names"]);
-    }
-    //    console.log(data);
+export function requestInitValues() {
+    $.ajax({
+        type: 'GET',
+        url: 'http://localhost:' + localStorage.getItem("httpPort") + '/requestInitValues',     // the http port is set already before loading
+        async: false,
+        success: function (text) {
+            var i;
+            var s = "";
+            for (const [key, value] of Object.entries(text)) {
+                console.log(`${key}: ${value}`);
+                localStorage.setItem(`${key}`, `${value}`);
+            }
+        },
+        error: function (error) {
+            console.log(`Error ${error}`);
+        }
+    });
 }
 
 
-export function getInitValues() {
+export function requestOutputText() {
     $.ajax({
         type: 'GET',
-        url: 'http://localhost:' + localStorage.getItem("httpPort") + '/getInitValues',     // the http port is set already before loading
+        url: 'http://localhost:' + localStorage.getItem("httpPort") + '/requestSqlOutputText',
         async: false,
         success: function (text) {
             var i;
@@ -36,29 +41,10 @@ export function getInitValues() {
 }
 
 
-export function getOutputText() {
+export function requestStates() {
     $.ajax({
         type: 'GET',
-        url: 'http://localhost:' + localStorage.getItem("httpPort") + '/getOutputText',
-        async: false,
-        success: function (text) {
-            var i;
-            var s = "";
-            for (i = 0; i < text.length; i++) {
-                localStorage.setItem(text[i]["name"], text[i]["value"]);
-            }
-        },
-        error: function (error) {
-            console.log(`Error ${error}`);
-        }
-    });
-}
-
-
-export function getStates() {
-    $.ajax({
-        type: 'GET',
-        url: 'http://localhost:' + localStorage.getItem("httpPort") + '/getStates',
+        url: 'http://localhost:' + localStorage.getItem("httpPort") + '/requestSqlStates',
         async: false,
         success: function (states) {
             var i;
@@ -76,10 +62,10 @@ export function getStates() {
 }
 
 
-export function getDBStatus() {
+export function requestDBStatus() {
     $.ajax({
         type: 'GET',
-        url: 'http://localhost:' + localStorage.getItem("httpPort") + '/getDBStatus',
+        url: 'http://localhost:' + localStorage.getItem("httpPort") + '/requestSqlDBStatus',
         async: false,
         success: function (data) {
             if (data == "command2") {
@@ -90,10 +76,10 @@ export function getDBStatus() {
     });
 }
 
-export function getDBRunning() {
+export function requestDBRunning() {
     $.ajax({
         type: 'GET',
-        url: 'http://localhost:' + localStorage.getItem("httpPort") + '/getDBRunning',
+        url: 'http://localhost:' + localStorage.getItem("httpPort") + '/requestSqlDBRunning',
         async: false,
         success: function (data) {
             if (data == "command1") {
@@ -112,10 +98,10 @@ export function getDBRunning() {
     });
 }
 
-export function getTopicHeadlinesInfo() {
+export function requestTopicHeadlinesInfo() {
     $.ajax({
         type: 'GET',
-        url: 'http://localhost:' + localStorage.getItem("httpPort") + '/getTopicHeadlinesInfo',
+        url: 'http://localhost:' + localStorage.getItem("httpPort") + '/requestSqlTopicHeadlinesInfo',
         async: false,
         success: function (data) {
             globalTopicHeadlines.content = data;
@@ -127,13 +113,13 @@ export function getTopicHeadlinesInfo() {
 }
 
 
-export function getTopHeadlines() {
+export function requestTopHeadlines() {
     $.ajax({
         type: 'GET',
-        url: 'http://localhost:' + localStorage.getItem("httpPort") + '/getTopHeadlines',
+        url: 'http://localhost:' + localStorage.getItem("httpPort") + '/requestSqlTopHeadlines',
         async: false,
-        success: function (hl) {
-            globalTopHeadlines.content = hl;
+        success: function (data) {
+            globalTopHeadlines.content = data;
         },
         error: function (error) {
             console.log(error);
@@ -143,7 +129,7 @@ export function getTopHeadlines() {
 }
 
 
-export function getTopicItems() {
+export function requestTopicItems() {
 
     let i;
 
@@ -160,10 +146,10 @@ export function getTopicItems() {
 }
 
 
-export function getInfoLabels() {
+export function requestInfoLabels() {
     $.ajax({
         type: 'GET',
-        url: 'http://localhost:' + localStorage.getItem("httpPort") + '/getInfoLabels',
+        url: 'http://localhost:' + localStorage.getItem("httpPort") + '/requestSqlInfoLabels',
         async: false,
         success: function (hl) {
             globalInfoLabels.content = hl;
@@ -176,10 +162,10 @@ export function getInfoLabels() {
 }
 
 
-export function getFrontPageFiles() {
+export function requestFrontPageFiles() {
     $.ajax({
         type: 'GET',
-        url: 'http://localhost:' + localStorage.getItem("httpPort") + '/getFrontPageFiles',
+        url: 'http://localhost:' + localStorage.getItem("httpPort") + '/requestSqlFrontPageFiles',
         async: true,
         success: function (fp) {
             globalFrontPages.content = fp;
@@ -189,5 +175,20 @@ export function getFrontPageFiles() {
             console.log(error);
         }
     });
-
 }
+
+
+export function requestImages() {
+    $.ajax({
+        type: 'GET',
+        url: 'http://localhost:' + localStorage.getItem("httpPort") + '/requestSqlImages',
+        async: false,
+        success: function (data) {
+            let i;
+            for (i = 0; i < data.length; i++) {
+                localStorage.setItem("image_" + data[i]["image_nr"], data[i]["image_path"]);
+            }
+        }
+    });
+}
+

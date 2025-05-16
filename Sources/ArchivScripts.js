@@ -1,7 +1,9 @@
-import { getDBStatus, getDBRunning, getStates, getTopicHeadlinesInfo, getTopicItems, getInitValues, getInfoLabels, getFrontPageFiles, getOutputText } from "./HTTPRequests.js";
-import { globalTopicHeadlines, globalTopicItems, globalInfoLabels, globalFrontPages } from "./Globals.js";
+import { requestDBStatus, requestDBRunning, requestStates, requestTopHeadlines, requestTopicHeadlinesInfo, requestTopicItems, requestInitValues, requestInfoLabels, requestImages, requestFrontPageFiles, requestOutputText } from "./HTTPRequests.js";
+import { globalTopicHeadlines, globalTopicItems, globalInfoLabels, globalFrontPages, globalTopHeadlines } from "./Globals.js";
 import { rgb2hex, sleep } from "./Helpers.js";
 
+localStorage.clear();
+localStorage.setItem("httpPort", "8088");
 
 var selectedDropdown = 0;
 var publisherIs = "";
@@ -12,21 +14,25 @@ var maxSearchSets = 10;
 var maxReached = false;
 var lastTopicName = "null";
 
-getDBStatus(); // close app if no running DB
-getInfoLabels();
-getOutputText();
+requestDBStatus(); // close app if no running DB
+requestInfoLabels();
+requestOutputText();
+requestOutputText();
+requestInitValues();
+requestFrontPageFiles();
+requestStates();
+requestTopicHeadlinesInfo();
+requestTopicItems();
+requestTopHeadlines();
+requestImages();
+
 setOutputText();
-getInitValues();
-getOutputText();
-changeRange(searchCnt);
 setYears();
-getStates();
-getTopicHeadlinesInfo();
-getTopicItems();
 setTopicHeadlines();
 setTopHeadlines();
 publisherReset();
-getFrontPageFiles();
+changeRange(searchCnt);
+
 
 const searchTopItems = Array.from({ length: maxSearchSets + 1 }, () => new Array(elementsOnForm).fill(0));
 const searchTopicsItems = Array.from({ length: maxSearchSets + 1 }, () => new Array(elementsOnForm).fill(0));
@@ -40,10 +46,12 @@ $(".freeLabel").on('click', publisherFree);
 $(".searchRange").on('click', updateRange);
 $(".topicListButton").on('click', topicListButtonClick);
 $(".doReset").on('click', resetClick);
+$("title").text(localStorage.getItem("title"));
 
-window.electronAPI.getHttpPort((value) => {   // receive the http port from Electron (main.js) before loading the page
-    localStorage.setItem("httpPort", value);
-})
+
+//window.electronAPI.getHttpPort((value) => {   // receive the http port from Electron (main.js) before loading the page. DOES NOT WORK
+//    localStorage.setItem("httpPort", value);
+//})
 
 function setOutputText() {
     $('.mainWindowHeadline').html(localStorage.getItem("mainWindowHeadline"));
@@ -58,6 +66,10 @@ function setOutputText() {
 }
 
 function setTopHeadlines() {
+    localStorage.setItem("topHeadlineCnt", globalTopHeadlines.contentValue.length);
+    for (let i = 0; i < localStorage.getItem("topHeadlineCnt"); i++) {
+        localStorage.setItem("mainHeadline_" + globalTopHeadlines.contentValue[i]["arraypos"], globalTopHeadlines.contentValue[i]["names"]);
+    }
     $('.nameLabel').html(localStorage.getItem("mainHeadline_0"));
     $('.schoolPublisherLabel').html(localStorage.getItem("mainHeadline_1"));
     $('.yearLabel').html(localStorage.getItem("mainHeadline_5"));
@@ -69,6 +81,7 @@ function setTopHeadlines() {
     $('.freeLabel').html(localStorage.getItem("free"));
     $('.schoolLabel').html(localStorage.getItem("school"));
     $('.doSearch').val(localStorage.getItem("search"));
+    $('.logoImage').html("<img src='" + localStorage.getItem("image_1") + "'></img>");
 }
 
 function resetClick() {
@@ -187,12 +200,12 @@ function updateRange(str) {
 }
 
 export function setTopicHeadlines() {
-    let i;
-    for (i = 0; i < globalTopicHeadlines.contentValue.length; i++) {
+    localStorage.setItem("topicHeadlineCnt", globalTopicHeadlines.contentValue.length);
+    for (let i = 0; i < globalTopicHeadlines.contentValue.length; i++) {
         let el = 'topicHeadline_' + i;
         $("." + el).html(globalTopicHeadlines.contentValue[i]['headline']);
         localStorage.setItem("amountTopicsHeadline_" + i, globalTopicHeadlines.contentValue[i]['amount_topics']);
-        setTopicItems(i)
+        setTopicItems(i);
     }
 }
 
@@ -329,7 +342,7 @@ function doSearch() {
     window.electronAPI.openSearchProcess();
 }
 
-getDBRunning();
+requestDBRunning();
 
 while (true) {
     await sleep(3000).then(() => {
@@ -353,7 +366,7 @@ while (true) {
 
     $('.statusbar2').html(localStorage.getItem("searchCount"));
 
-    getDBRunning();
+    requestDBRunning();
 }
 
 
