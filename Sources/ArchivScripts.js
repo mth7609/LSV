@@ -65,6 +65,7 @@ function setOutputText() {
 
 }
 
+
 function setTopHeadlines() {
     localStorage.setItem("topHeadlineCnt", globalTopHeadlines.contentValue.length);
     for (let i = 0; i < localStorage.getItem("topHeadlineCnt"); i++) {
