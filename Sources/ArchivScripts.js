@@ -1,4 +1,4 @@
-import { requestDBStatus, requestDBRunning, requestStates, requestTopHeadlines, requestTopicHeadlinesInfo, requestTopicItems, requestInitValues, requestInfoLabels, requestImages, requestFrontPageFiles, requestOutputText } from "./HTTPRequests.js";
+import { requestStates, requestTopHeadlines, requestTopicHeadlinesInfo, requestTopicItems, requestInitValues, requestInfoLabels, requestImages, requestFrontPageFiles, requestOutputText } from "./HTTPRequests.js";
 import { globalTopicHeadlines, globalTopicItems, globalInfoLabels, globalFrontPages, globalTopHeadlines } from "./Globals.js";
 import { rgb2hex, sleep } from "./Helpers.js";
 
@@ -14,7 +14,7 @@ var maxSearchSets = 10;
 var maxReached = false;
 var lastTopicName = "null";
 
-requestDBStatus(); // close app if no running DB
+//requestDBStatus(); // close app if no running DB
 requestInfoLabels();
 requestOutputText();
 requestOutputText();
@@ -49,9 +49,9 @@ $(".doReset").on('click', resetClick);
 $("title").text(localStorage.getItem("title"));
 
 
-//window.electronAPI.getHttpPort((value) => {   // receive the http port from Electron (main.js) before loading the page. DOES NOT WORK
-//    localStorage.setItem("httpPort", value);
-//})
+window.electronAPI.getStatus1((value) => {
+    changeStatus1(value);
+})
 
 function setOutputText() {
     $('.mainWindowHeadline').html(localStorage.getItem("mainWindowHeadline"));
@@ -342,7 +342,6 @@ function doSearch() {
     window.electronAPI.openSearchProcess();
 }
 
-requestDBRunning();
 
 while (true) {
     await sleep(3000).then(() => {
@@ -365,8 +364,6 @@ while (true) {
     });
 
     $('.statusbar2').html(localStorage.getItem("searchCount"));
-
-    requestDBRunning();
 }
 
 

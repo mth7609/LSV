@@ -1,4 +1,5 @@
 const { app, BrowserWindow, Menu, shell, ipcMain } = require('electron')
+const { Worker, isMainThread, parentPort, workerData } = require('node:worker_threads')
 const electronLocalshortcut = require('electron-localshortcut');
 const path = require('node:path')
 const mysql = require('mysql2')
@@ -9,7 +10,7 @@ let winSearch;
 let winMain;
 
 
-const createMainWindow = () => {
+const createMainWindow = () => {              // Main window
   winMain = new BrowserWindow({
     width: 1500,
     height: 900,
@@ -52,6 +53,7 @@ const createMainWindow = () => {
   winMain.on('closed', () => {
     if (winSearch)
       winSearch.close();
+    winMain = false;
     console.log(' ---- Bye Bye Main ---- ')
   });
 
@@ -137,7 +139,6 @@ const createSearchResultMainWindow = () => {
 
 
 app.whenReady().then(() => {
-
   serverFunctions.serverOpen();
   console.log("Local HTTP server started");
   app.commandLine.appendSwitch('high-dpi-support', 1)

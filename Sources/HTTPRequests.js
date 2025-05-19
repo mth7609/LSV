@@ -61,7 +61,7 @@ export function requestStates() {
     $(".states").html(globalStates.content);
 }
 
-
+/*
 export function requestDBStatus() {
     $.ajax({
         type: 'GET',
@@ -97,7 +97,7 @@ export function requestDBRunning() {
         }
     });
 }
-
+*/
 export function requestTopicHeadlinesInfo() {
     $.ajax({
         type: 'GET',

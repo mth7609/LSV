@@ -16,7 +16,8 @@ function createWindow() {
         win = null
     })
 
-    win.webContents.openDevTools()
+
+    //win.webContents.openDevTools()
     win.removeMenu();
     win.loadFile('index.html');
 }

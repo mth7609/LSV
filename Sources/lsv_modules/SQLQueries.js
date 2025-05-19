@@ -1,12 +1,10 @@
 const serverFunctions = require('./ServerFunctions');
+const { Worker, isMainThread, parentPort, workerData } = require('node:worker_threads')
 
-var mysql = require('mysql2');
-var dbConnect = false;
-var con;
-var tableNames = [];
+let tableNames = [];
 
 function databaseServerConnect() {
-  con = mysql.createConnection({
+  con = serverFunctions.mysql.createConnection({
     host: "localhost",
     user: "prolabor",
     password: "mzkti29b",
@@ -14,11 +12,17 @@ function databaseServerConnect() {
   });
 
   con.connect(function (err) {
-    if (err)
+    if (err) {
       dbConnect = false;
-    else
+      console.log(dbConnect);
+    }
+    else {
       dbConnect = true;
+      console.log(dbConnect);
+    }
   });
+
+
 }
 
 function requestSqlDBStatus() {

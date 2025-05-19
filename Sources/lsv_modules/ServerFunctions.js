@@ -1,9 +1,14 @@
+const databaseWorker = require('./DatabaseWorker');
 const express = require('express');
 const appx = express();
 const http = require('http');
 const server = http.createServer(appx);               // a http server is always created on localhost
 const { PowerShell } = require('node-powershell');
 const initData = require('../init.json');
+const mysql = require('mysql2');
+global.dbConnect = false;
+global.con;
+
 
 function serverClose() {
     server.closeAllConnections();
@@ -13,6 +18,8 @@ function serverClose() {
     else
         console.log('HTTP server stoppt');
 }
+
+
 
 function serverOpen() {
     server.listen(initData["httpPort"], () => {
@@ -32,6 +39,27 @@ function serverOpen() {
         }
     });
 }
+
+
+async function sleepSecs(callCnt, secs) {
+    callCnt++;
+    if (callCnt < secs) {
+        setTimeout(function () {
+            sleepSecs(callCnt, secs);
+        }, 1000);
+    } else
+        console.log('Sleep for seconds: ' + secs);
+};
+
+async function runForeverSecs(callCnt) {
+    callCnt++;
+    console.log('Step forever: ' + callCnt);
+    setTimeout(function () {
+        // do something in the loop
+        runForeverSecs(callCnt);
+    }, 1000);
+};
+
 
 /*function startMySqlService() {
     const poshInstance = async () => {
@@ -77,4 +105,27 @@ function readFrontPageFiles() {
     return files;
 }
 
-module.exports = { appx, serverClose, serverOpen, readFrontPageFiles };
+
+/*async function sleepSecs(callCnt, secs) {       // Template
+    callCnt++;
+    if (callCnt < secs) {
+        setTimeout(function () {
+            sleepSecs(callCnt, secs);
+        }, 1000);
+    } else
+        parentPort.postMessage('Sleep for seconds: ' + secs);
+
+};
+
+async function runForeverSecs(callCnt) {        // Template
+    callCnt++;
+    parentPort.postMessage('Step forever: ' + callCnt);
+    setTimeout(function () {
+        runForeverSecs(callCnt);
+    }, 1000);
+};
+
+*/
+
+
+module.exports = { appx, serverClose, serverOpen, readFrontPageFiles, sleepSecs, runForeverSecs, mysql };
