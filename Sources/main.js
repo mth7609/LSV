@@ -2,12 +2,13 @@ const { app, BrowserWindow, Menu, shell, ipcMain } = require('electron')
 const { Worker, isMainThread, parentPort, workerData } = require('node:worker_threads')
 const electronLocalshortcut = require('electron-localshortcut');
 const path = require('node:path')
-const mysql = require('mysql2')
 const dbFunctions = require('./lsv_modules/SQLQueries');
 const serverFunctions = require('./lsv_modules/ServerFunctions');
 const initData = require('./init.json');
 let winSearch;
 let winMain;
+var storage = require('node-storage');
+var store = new storage('./storage');
 
 
 const createMainWindow = () => {              // Main window
@@ -20,6 +21,8 @@ const createMainWindow = () => {              // Main window
       preload: path.join(__dirname, 'preload.js')
     },
   })
+
+  store.put("dbconnect", "NOK");
 
   winMain.once('ready-to-show', () => {
     winMain.webContents.send('httpPort', initData["httpPort"]);

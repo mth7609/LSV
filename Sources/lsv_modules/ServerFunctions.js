@@ -1,4 +1,4 @@
-const databaseWorker = require('./DatabaseWorker');
+//const databaseWorker = require("./DatabaseWork");
 const express = require('express');
 const appx = express();
 const http = require('http');
@@ -6,8 +6,6 @@ const server = http.createServer(appx);               // a http server is always
 const { PowerShell } = require('node-powershell');
 const initData = require('../init.json');
 const mysql = require('mysql2');
-global.dbConnect = false;
-global.con;
 
 
 function serverClose() {
@@ -18,7 +16,6 @@ function serverClose() {
     else
         console.log('HTTP server stoppt');
 }
-
 
 
 function serverOpen() {

@@ -1,5 +1,5 @@
 {
-  "name": "Archiv der Jugendzeitschriften",
+  "name": "lsv_archiv",
   "version": "1.0.0",
   "description": "Archiv der Jugendzeitschriften von der LandesSchülerVertretung",
   "keywords": [],
@@ -38,6 +38,7 @@
     "jquery": "^3.7.1",
     "mysql2": "^3.13.0",
     "node-powershell": "^5.0.1",
+    "node-storage": "^0.0.9",
     "npm": "^11.1.0"
   },
   "devDependencies": {

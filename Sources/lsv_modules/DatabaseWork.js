@@ -1,6 +1,8 @@
-const { app, BrowserWindow, Menu } = require('electron')
 const { Worker, isMainThread, parentPort, workerData } = require('node:worker_threads')
-
+const serverFunctions = require('./ServerFunctions');
+const dbfunctions = require('./SQLQueries');
+var storage = require('node-storage');
+var store = new storage('./storage');
 
 
 if (isMainThread) {
@@ -14,7 +16,7 @@ else {
     // Worker thread: Receive message from main thread
     parentPort.on('message', (message) => {
         //serverFunctions.checkDBLoop(0);
-        //serverFunctions.sleepSecs(0, 11);
+        serverFunctions.sleepSecs(0, 11);
         checkDBLoop(0);
     });
 }
@@ -25,23 +27,14 @@ function checkDBLoop(callCnt) {
     callCnt++;
     setTimeout(function () {
         res = checkSqlDBRunning();
-        console.log('Check DB forever: ' + callCnt + "   " + con);
+        console.log("DB is: " + store.get('dbconnect'));
         checkDBLoop(callCnt);
     }, 1000);
 };
 
+
 function checkSqlDBRunning() {
-    if (dbConnect) {
-        con.query("SELECT name FROM states", function (err, result, fields) {
-            if (err) {
-                console.log(err);
-                return false;
-            }
-            else {
-                console.log(result);
-                return true;
-            }
-        });
-    }
-    return false;
+    console.log("st " + dbfunctions.requestSqlDBStatus());
 }
+
+module.exports = { checkDBLoop };
