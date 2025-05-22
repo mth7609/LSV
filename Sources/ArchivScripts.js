@@ -1,6 +1,6 @@
 import { requestStates, requestTopHeadlines, requestTopicHeadlinesInfo, requestTopicItems, requestInitValues, requestInfoLabels, requestImages, requestFrontPageFiles, requestOutputText } from "./HTTPRequests.js";
 import { globalTopicHeadlines, globalTopicItems, globalInfoLabels, globalFrontPages, globalTopHeadlines } from "./Globals.js";
-import { rgb2hex, sleep } from "./Helpers.js";
+import { rgb2hex, sleep, showDBStatus } from "./Helpers.js";
 
 localStorage.clear();
 localStorage.setItem("httpPort", "8088");
@@ -50,7 +50,7 @@ $("title").text(localStorage.getItem("title"));
 
 
 window.electronAPI.getStatus1((value) => {
-    changeStatus1(value);
+    showDBStatus(value);
 })
 
 function setOutputText() {

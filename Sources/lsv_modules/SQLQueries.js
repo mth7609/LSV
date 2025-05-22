@@ -1,50 +1,7 @@
 const serverFunctions = require('./ServerFunctions');
-const { Worker, isMainThread, parentPort, workerData } = require('node:worker_threads')
 var storage = require('node-storage');
 var store = new storage('./storage');
 let tableNames = [];
-global.con = null;
-
-if (isMainThread) {
-  const worker = new Worker(__filename);
-  worker.on('message', (message) => {
-    console.log(`Received from worker: ${message}`);
-  });
-  worker.postMessage("Start");
-}
-else {
-  parentPort.on('message', (message) => {
-    //serverFunctions.sleepSecs(0, 11);
-    checkDBLoop(0);
-  });
-}
-
-function checkDBLoop() {
-
-  setTimeout(function () {
-    con = serverFunctions.mysql.createConnection({
-      host: "localhost",
-      user: "prolabor",
-      password: "mzkti29b",
-      database: "prolabor"
-    });
-
-    con.connect(function (err) {
-      if (err) {
-        store.put("dbconnect", "NOK");
-        console.log("dbconnect " + store.get("dbconnect"));
-      }
-      else {
-        store.put("dbconnect", "OK");
-        console.log("dbconnect " + store.get("dbconnect"));
-      }
-    });
-
-    checkDBLoop();
-  }, 3000);
-
-};
-
 
 function databaseServerConnect() {
   con = serverFunctions.mysql.createConnection({

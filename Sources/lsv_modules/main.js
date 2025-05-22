@@ -21,3 +21,10 @@ function createWindow() {
     win.removeMenu();
     win.loadFile('index.html');
 }
+
+
+function get() {
+    return "jhz";
+}
+
+module.exports = { get };

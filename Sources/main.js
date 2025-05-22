@@ -1,18 +1,19 @@
-const { app, BrowserWindow, Menu, shell, ipcMain } = require('electron')
 const { Worker, isMainThread, parentPort, workerData } = require('node:worker_threads')
+const { app, BrowserWindow, Menu, shell, ipcMain } = require('electron')
 const electronLocalshortcut = require('electron-localshortcut');
 const path = require('node:path')
 const dbFunctions = require('./lsv_modules/SQLQueries');
 const serverFunctions = require('./lsv_modules/ServerFunctions');
 const initData = require('./init.json');
+
 let winSearch;
-let winMain;
+let wM;
+
 var storage = require('node-storage');
 var store = new storage('./storage');
 
-
 const createMainWindow = () => {              // Main window
-  winMain = new BrowserWindow({
+  let winMain = new BrowserWindow({
     width: 1500,
     height: 900,
     "webPreferences": {
@@ -22,7 +23,9 @@ const createMainWindow = () => {              // Main window
     },
   })
 
+  wM = winMain;
   store.put("dbconnect", "NOK");
+
 
   winMain.once('ready-to-show', () => {
     winMain.webContents.send('httpPort', initData["httpPort"]);
@@ -31,7 +34,6 @@ const createMainWindow = () => {              // Main window
   ipcMain.on('openSearchProcessCMD', (event) => {
     createSearchResultMainWindow();
   })
-
 
   ipcMain.on('closeSearchProcessCMD', (event) => {
     if (winSearch)
@@ -49,8 +51,6 @@ const createMainWindow = () => {              // Main window
   winMain.webContents.setZoomLevel(0);
   winMain.removeMenu();
   winMain.loadFile('index.html');
-
-  winMain.webContents.send('update-counter', 100);
 
 
   winMain.on('closed', () => {
@@ -84,24 +84,20 @@ const createMainWindow = () => {              // Main window
   });
 
 
-  /*const menu = Menu.buildFromTemplate([
-    {
-      label: app.name,
-      submenu: [
-        {
-          click: () => winMain.webContents.send('update-counter', 1),
-          label: 'Increment'
-        },
-        {
-          click: () => winMain.webContents.send('update-counter', -1),
-          label: 'Decrement'
-        }
-      ]
-    }
-  ]);
-  Menu.setApplicationMenu(menu);*/
-
+  if (isMainThread) {
+    const worker = new Worker("./lsv_modules/DatabaseWork.js");
+    worker.on('message', (message) => {
+      //console.log(`Received from worker: ${message}`);
+      if (winMain)
+        if (message == "OK")
+          winMain.webContents.send('status1', message);
+        else
+          winMain.webContents.send('status1', message);
+    });
+    worker.postMessage("Start");
+  }
 }
+
 
 
 const createSearchResultMainWindow = () => {
@@ -179,6 +175,10 @@ app.on('window-all-closed', () => {
 
 
 })
+
+
+
+
 
 
 

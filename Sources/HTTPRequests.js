@@ -1,4 +1,4 @@
-import { changeStatus1 } from "./ArchivScripts.js";
+
 import { globalStates, globalTopHeadlines, globalTopicItems, globalTopicHeadlines, globalInfoLabels, globalFrontPages } from "./Globals.js";
 
 
@@ -61,43 +61,7 @@ export function requestStates() {
     $(".states").html(globalStates.content);
 }
 
-/*
-export function requestDBStatus() {
-    $.ajax({
-        type: 'GET',
-        url: 'http://localhost:' + localStorage.getItem("httpPort") + '/requestSqlDBStatus',
-        async: false,
-        success: function (data) {
-            if (data == "command2") {
-                alert("No connection to database! Program will exit.");
-                window.electronAPI.closeMainProcess();
-            }
-        }
-    });
-}
 
-export function requestDBRunning() {
-    $.ajax({
-        type: 'GET',
-        url: 'http://localhost:' + localStorage.getItem("httpPort") + '/requestSqlDBRunning',
-        async: false,
-        success: function (data) {
-            if (data == "command1") {
-                changeStatus1(localStorage.getItem("dbConnected"));
-                $(".statusbar1").css("background-color", "#c2e2ec");
-                $(".statusbar1").css("color", "#000000");
-                return true;
-            }
-            else {
-                changeStatus1(localStorage.getItem("dbDisconnected"));
-                $(".statusbar1").css("background-color", "#ff1111");
-                $(".statusbar1").css("color", "#ffffff");
-                return false;
-            }
-        }
-    });
-}
-*/
 export function requestTopicHeadlinesInfo() {
     $.ajax({
         type: 'GET',
