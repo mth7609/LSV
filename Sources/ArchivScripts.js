@@ -2,6 +2,7 @@ import { requestStates, requestTopHeadlines, requestTopicHeadlinesInfo, requestT
 import { globalTopicHeadlines, globalTopicItems, globalInfoLabels, globalFrontPages, globalTopHeadlines } from "./Globals.js";
 import { rgb2hex, sleep, showDBStatus } from "./Helpers.js";
 
+
 localStorage.clear();
 localStorage.setItem("httpPort", "8088");
 
@@ -52,6 +53,8 @@ $("title").text(localStorage.getItem("title"));
 window.electronAPI.getStatus1((value) => {
     showDBStatus(value);
 })
+
+
 
 function setOutputText() {
     $('.mainWindowHeadline').html(localStorage.getItem("mainWindowHeadline"));
@@ -342,7 +345,7 @@ function doSearch() {
     window.electronAPI.openSearchProcess();
 }
 
-
+/*
 while (true) {
     await sleep(3000).then(() => {
         //console.log("imageCnt: " + self.innerWidth);
@@ -365,6 +368,6 @@ while (true) {
 
     $('.statusbar2').html(localStorage.getItem("searchCount"));
 }
-
+*/
 
 

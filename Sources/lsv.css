@@ -179,9 +179,15 @@ body {
 
 .dropdownYearStyle {
     height: 30px;
-    width: 60px;
+    width: 0px;
     z-index: 5;
 }
+
+.dropdownStateStyle {
+    z-index: 5;
+    height: 30px;
+}
+
 
 .buttonYearStyle {
     background: #ffffff;
@@ -191,12 +197,29 @@ body {
     width: 60px;
 }
 
-.dropdownState {
+.buttonStateStyle {
     background: #ffffff;
     border: solid 2px #bbbbbb;
-    border-style: solid;
     color: #000000;
     height: 30px;
+}
+
+.navtab {
+    font-weight: bold;
+    font-size: small;
+    color: #000000;
+    background-color: #ffffff;
+    height: 30px;
+    padding: 1px;
+    margin-top: 10px;
+    margin-left: 25px;
+    width: 100px;
+}
+
+
+.navtab.active {
+    color: #ffffff !important;
+    background-color: #056289 !important;
 }
 
 

@@ -1,5 +1,5 @@
 const { Worker, isMainThread, parentPort, workerData } = require('node:worker_threads')
-const { app, BrowserWindow, Menu, shell, ipcMain } = require('electron')
+const { app, BrowserWindow, Menu, shell, ipcMain, MessageChannelMain } = require('electron')
 const electronLocalshortcut = require('electron-localshortcut');
 const path = require('node:path')
 const dbFunctions = require('./lsv_modules/SQLQueries');
@@ -7,25 +7,25 @@ const serverFunctions = require('./lsv_modules/ServerFunctions');
 const initData = require('./init.json');
 
 let winSearch;
-let wM;
+
 
 var storage = require('node-storage');
 var store = new storage('./storage');
 
 const createMainWindow = () => {              // Main window
   let winMain = new BrowserWindow({
-    width: 1500,
-    height: 900,
+    width: 1600,
+    height: 950,
     "webPreferences": {
       "web-security": false,
+      "nodeIntegration": true,
       "webviewTag": true,
+      "contextIsolation": true,
       preload: path.join(__dirname, 'preload.js')
     },
   })
 
-  wM = winMain;
   store.put("dbconnect", "NOK");
-
 
   winMain.once('ready-to-show', () => {
     winMain.webContents.send('httpPort', initData["httpPort"]);
@@ -50,7 +50,7 @@ const createMainWindow = () => {              // Main window
   winMain.webContents.setZoomFactor(1.0);
   winMain.webContents.setZoomLevel(0);
   winMain.removeMenu();
-  winMain.loadFile('index.html');
+  winMain.loadFile('./index.html');
 
 
   winMain.on('closed', () => {
@@ -87,10 +87,11 @@ const createMainWindow = () => {              // Main window
   if (isMainThread) {
     const worker = new Worker("./lsv_modules/DatabaseWork.js");
     worker.on('message', (message) => {
-      //console.log(`Received from worker: ${message}`);
+      console.log(`Received from worker: ${message}`);
       if (winMain)
-        if (message == "OK")
+        if (message == "OK") {
           winMain.webContents.send('status1', message);
+        }
         else
           winMain.webContents.send('status1', message);
     });

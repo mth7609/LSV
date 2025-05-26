@@ -15,7 +15,7 @@
   "license": "ISC",
   "author": "Michael Thiele",
   "type": "commonjs",
-  "main": "WorkerTemplate.js",
+  "main": "Main.js",
   "scripts": {
     "start": "electron .",
     "test": "set & echo ${{GITHUB_TOKEN}}",

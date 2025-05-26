@@ -1,4 +1,3 @@
-//const databaseWorker = require("./DatabaseWork");
 const express = require('express');
 const appx = express();
 const http = require('http');
@@ -58,41 +57,6 @@ async function runForeverSecs(callCnt) {
 };
 
 
-/*function startMySqlService() {
-    const poshInstance = async () => {
-        const ps = new PowerShell({
-            executionPolicy: 'Default',
-            noProfile: true
-        })
-
-        const command = PowerShell.command`net start mySQL80`;
-        const output = await ps.invoke(command);
-        ps.dispose();
-    }
-
-    (async () => {
-        poshInstance()
-    })();
-}
-
-function stopMySqlService() {
-    const poshInstance = async () => {
-        const ps = new PowerShell({
-            executionPolicy: 'Default',
-            noProfile: true
-        })
-
-        const command = PowerShell.command`net stop mySQL80`;
-        const output = await ps.invoke(command);
-        ps.dispose();
-    }
-
-    (async () => {
-        poshInstance()
-    })();
-}
-
-*/
 
 function readFrontPageFiles() {
     let i;
@@ -101,28 +65,6 @@ function readFrontPageFiles() {
     var files = fs.readdirSync('../Sources/images/').filter(fn => fn.startsWith('front_page_'));
     return files;
 }
-
-
-/*async function sleepSecs(callCnt, secs) {       // Template
-    callCnt++;
-    if (callCnt < secs) {
-        setTimeout(function () {
-            sleepSecs(callCnt, secs);
-        }, 1000);
-    } else
-        parentPort.postMessage('Sleep for seconds: ' + secs);
-
-};
-
-async function runForeverSecs(callCnt) {        // Template
-    callCnt++;
-    parentPort.postMessage('Step forever: ' + callCnt);
-    setTimeout(function () {
-        runForeverSecs(callCnt);
-    }, 1000);
-};
-
-*/
 
 
 module.exports = { appx, serverClose, serverOpen, readFrontPageFiles, sleepSecs, runForeverSecs, mysql };

@@ -1,5 +1,5 @@
 import { globalTopicItems, globalTopicHeadlines } from "./Globals.js";
-import { sleep } from "./Helpers.js";
+import { sleep } from "./HelpersSearchItemList.js";
 
 let searchItems = [];
 let mainHeadline = [];
