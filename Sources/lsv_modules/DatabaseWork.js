@@ -8,9 +8,8 @@ parentPort.on('message', (message) => {
     checkDBLoop();
 });
 
+function checkDBLoop(i) {
 
-function checkDBLoop() {
-    let i = 0;
     setTimeout(function () {
         con = mysql.createConnection({
             host: "localhost",
@@ -34,8 +33,8 @@ function checkDBLoop() {
         checkDBLoop();
 
     }, 3000);
-
 };
+
 
 module.exports = { checkDBLoop }
 

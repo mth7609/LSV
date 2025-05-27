@@ -86,19 +86,24 @@ const createMainWindow = () => {              // Main window
 
   if (isMainThread) {
     const worker = new Worker("./lsv_modules/DatabaseWork.js");
-    worker.on('message', (message) => {
-      console.log(`Received from worker: ${message}`);
+    worker.on('message', (message) => {                   // receive from worker, send to renderer
+      console.log(`Received from database worker: ${message}`);
       if (winMain)
-        if (message == "OK") {
-          winMain.webContents.send('status1', message);
-        }
-        else
-          winMain.webContents.send('status1', message);
+        winMain.webContents.send('status1', message);
+    });
+    worker.postMessage("Start");
+  }
+
+  if (isMainThread) {
+    const worker = new Worker("./lsv_modules/FrontPagesWork.js");
+    worker.on('message', (message) => {                     // receive from worker, send to renderer
+      console.log(`${message}`);
+      if (winMain)
+        winMain.webContents.send('frontPage', message);
     });
     worker.postMessage("Start");
   }
 }
-
 
 
 const createSearchResultMainWindow = () => {

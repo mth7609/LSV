@@ -18,7 +18,6 @@ export function sleep(ms) {
 
 
 export function showDBStatus(st) {
-    console.log("st " + st);
     if (st == "OK") {
         changeStatus1(localStorage.getItem("dbConnected"));
         $(".statusbar1").css("background-color", "#c2e2ec");

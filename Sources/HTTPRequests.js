@@ -1,5 +1,5 @@
 
-import { globalStates, globalTopHeadlines, globalTopicItems, globalTopicHeadlines, globalInfoLabels, globalFrontPages } from "./Globals.js";
+import { globalStates, globalTopHeadlines, globalTopicItems, globalTopicHeadlines, globalInfoLabels } from "./Globals.js";
 
 
 export function requestInitValues() {
@@ -123,22 +123,6 @@ export function requestInfoLabels() {
         }
     });
 
-}
-
-
-export function requestFrontPageFiles() {
-    $.ajax({
-        type: 'GET',
-        url: 'http://localhost:' + localStorage.getItem("httpPort") + '/requestSqlFrontPageFiles',
-        async: true,
-        success: function (fp) {
-            globalFrontPages.content = fp;
-            //console.log(fp);
-        },
-        error: function (error) {
-            console.log(error);
-        }
-    });
 }
 
 

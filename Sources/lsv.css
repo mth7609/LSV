@@ -39,7 +39,7 @@ body {
     background: #c2e2ec;
     z-index: 201;
     border: solid 2px rgb(0, 0, 0);
-    color: #0000;
+    color: #000000;
     height: 23px;
 }
 
@@ -63,7 +63,7 @@ body {
 }
 
 .frontImage {
-    top: 380px;
+    top: 400px;
     left: 76%;
     right: 20px;
     height: 600px;

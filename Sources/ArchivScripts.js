@@ -1,5 +1,5 @@
-import { requestStates, requestTopHeadlines, requestTopicHeadlinesInfo, requestTopicItems, requestInitValues, requestInfoLabels, requestImages, requestFrontPageFiles, requestOutputText } from "./HTTPRequests.js";
-import { globalTopicHeadlines, globalTopicItems, globalInfoLabels, globalFrontPages, globalTopHeadlines } from "./Globals.js";
+import { requestStates, requestTopHeadlines, requestTopicHeadlinesInfo, requestTopicItems, requestInitValues, requestInfoLabels, requestImages, requestOutputText } from "./HTTPRequests.js";
+import { globalTopicHeadlines, globalTopicItems, globalInfoLabels, globalTopHeadlines } from "./Globals.js";
 import { rgb2hex, sleep, showDBStatus } from "./Helpers.js";
 
 
@@ -20,7 +20,6 @@ requestInfoLabels();
 requestOutputText();
 requestOutputText();
 requestInitValues();
-requestFrontPageFiles();
 requestStates();
 requestTopicHeadlinesInfo();
 requestTopicItems();
@@ -49,10 +48,34 @@ $(".topicListButton").on('click', topicListButtonClick);
 $(".doReset").on('click', resetClick);
 $("title").text(localStorage.getItem("title"));
 
-
 window.electronAPI.getStatus1((value) => {
     showDBStatus(value);
 })
+
+
+window.electronAPI.getFrontPages((value) => {
+    console.log(value);
+    if (self.innerWidth > 1600)
+        $('.frontImage').html("<img src='images/" + value + "' width='350px'></img>")
+    else
+        $('.frontImage').html("");
+
+    setOtherContent();
+})
+
+
+
+function setOtherContent() {            // using the front pages tick      
+    if (self.innerWidth > 1200) {
+        $('.infoLabel').html('<form method="POST" class="form-horizontal formTop ms-1 me-3 ps-3 pe-3 pt-0 border rounded-4">\
+            <label class="col-form-label infoLabel">'+ globalInfoLabels.contentValue[0]["text"] + '</label></form>');
+    }
+    else
+        $('.infoLabel').html("");
+
+    if (localStorage.getItem("searchCount"))
+        $('.statusText2').html("Sucheintrag: " + localStorage.getItem("searchCount"));
+}
 
 
 
@@ -345,29 +368,5 @@ function doSearch() {
     window.electronAPI.openSearchProcess();
 }
 
-/*
-while (true) {
-    await sleep(3000).then(() => {
-        //console.log("imageCnt: " + self.innerWidth);
-        if (self.innerWidth > 1600) {
-            if ((++imageCnt) >= globalFrontPages.contentValue.length)
-                imageCnt = 0;
-
-            $('.frontImage').html("<img src='images/" + globalFrontPages.contentValue[imageCnt] + "' width='350px'></img>");
-        }
-        else
-            $('.frontImage').html("");
-
-        if (self.innerWidth > 1200) {
-            $('.infoLabel').html('<form method="POST" class="form-horizontal formTop ms-1 me-3 ps-3 pe-3 pt-0 border rounded-4">\
-            <label class="col-form-label infoLabel">'+ globalInfoLabels.contentValue[0]["text"] + '</label></form>');
-        }
-        else
-            $('.infoLabel').html("");
-    });
-
-    $('.statusbar2').html(localStorage.getItem("searchCount"));
-}
-*/
 
 

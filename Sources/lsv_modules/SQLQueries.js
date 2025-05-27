@@ -62,12 +62,6 @@ function requestSqlStates() {
   });
 }
 
-function requestSqlFrontPageFiles() {
-  serverFunctions.appx.get('/requestSqlFrontPageFiles', (req, res) => {
-    let result = serverFunctions.readFrontPageFiles();
-    res.send(result);
-  });
-}
 
 function requestSqlOutputText() {
   serverFunctions.appx.get('/requestSqlOutputText', (req, res) => {
@@ -255,9 +249,8 @@ requestSqlTopHeadlines();
 requestSqlTopicItems();
 requestSqlOutputText();
 requestSqlInfoLabels();
-requestSqlFrontPageFiles();
 requestSqlDBRunning();
 requestSqlImages();
 requestInitValues();
 
-module.exports = { requestInitValues, requestSqlDBStatus, requestSqlDBRunning, requestSqlStates, databaseServerConnect, requestSqlTopicHeadlines, requestSqlTopHeadlines, requestSqlOutputText, requestSqlImages, requestSqlInfoLabels, requestSqlFrontPageFiles };
+module.exports = { requestInitValues, requestSqlDBStatus, requestSqlDBRunning, requestSqlStates, databaseServerConnect, requestSqlTopicHeadlines, requestSqlTopHeadlines, requestSqlOutputText, requestSqlImages, requestSqlInfoLabels };
