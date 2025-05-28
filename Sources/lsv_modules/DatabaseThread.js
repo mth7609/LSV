@@ -4,7 +4,7 @@ var storage = require('node-storage');
 var store = new storage('./storage');
 
 parentPort.on('message', (message) => {
-    parentPort.postMessage('Hello from the database worker!');
+    parentPort.postMessage('Hello from the database worker thread!');
     checkDBLoop();
 });
 

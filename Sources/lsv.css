@@ -64,9 +64,9 @@ body {
 
 .frontImage {
     top: 400px;
-    left: 76%;
+    left: 77%;
     right: 20px;
-    height: 600px;
+    height: 620px;
     padding: 0px;
     z-index: 200;
     overflow: hidden;
@@ -197,6 +197,7 @@ body {
     width: 60px;
 }
 
+
 .buttonStateStyle {
     background: #ffffff;
     border: solid 2px #bbbbbb;
@@ -204,7 +205,8 @@ body {
     height: 30px;
 }
 
-.navtab {
+
+.navtabCSS {
     font-weight: bold;
     font-size: small;
     color: #000000;
@@ -217,7 +219,7 @@ body {
 }
 
 
-.navtab.active {
+.navtabCSS.active {
     color: #ffffff !important;
     background-color: #056289 !important;
 }

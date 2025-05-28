@@ -2,7 +2,7 @@ const { Worker, isMainThread, parentPort, workerData } = require('node:worker_th
 const { app, BrowserWindow, Menu, shell, ipcMain, MessageChannelMain } = require('electron')
 const electronLocalshortcut = require('electron-localshortcut');
 const path = require('node:path')
-const dbFunctions = require('./lsv_modules/SQLQueries');
+const dbFunctions = require('./lsv_modules/ServerResponses');
 const serverFunctions = require('./lsv_modules/ServerFunctions');
 const initData = require('./init.json');
 
@@ -50,7 +50,11 @@ const createMainWindow = () => {              // Main window
   winMain.webContents.setZoomFactor(1.0);
   winMain.webContents.setZoomLevel(0);
   winMain.removeMenu();
-  winMain.loadFile('./index.html');
+
+
+  setTimeout(function () {
+    winMain.loadFile('./index.html');
+  }, 1000);
 
 
   winMain.on('closed', () => {
@@ -85,9 +89,9 @@ const createMainWindow = () => {              // Main window
 
 
   if (isMainThread) {
-    const worker = new Worker("./lsv_modules/DatabaseWork.js");
+    const worker = new Worker("./lsv_modules/DatabaseThread.js");
     worker.on('message', (message) => {                   // receive from worker, send to renderer
-      console.log(`Received from database worker: ${message}`);
+      console.log(message);
       if (winMain)
         winMain.webContents.send('status1', message);
     });
@@ -95,9 +99,9 @@ const createMainWindow = () => {              // Main window
   }
 
   if (isMainThread) {
-    const worker = new Worker("./lsv_modules/FrontPagesWork.js");
+    const worker = new Worker("./lsv_modules/FrontPagesThread.js");
     worker.on('message', (message) => {                     // receive from worker, send to renderer
-      console.log(`${message}`);
+      console.log(message);
       if (winMain)
         winMain.webContents.send('frontPage', message);
     });
@@ -107,7 +111,6 @@ const createMainWindow = () => {              // Main window
 
 
 const createSearchResultMainWindow = () => {
-
   if (!winSearch) {
     winSearch = new BrowserWindow(
       {

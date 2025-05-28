@@ -1,10 +1,11 @@
-import { requestStates, requestTopHeadlines, requestTopicHeadlinesInfo, requestTopicItems, requestInitValues, requestInfoLabels, requestImages, requestOutputText } from "./HTTPRequests.js";
+import { requestStates, requestTopHeadlines, requestTopicHeadlinesInfo, requestTopicItems, requestInitValues, requestInfoLabels, requestImages, requestOutputText } from "./ServerRequests.js";
 import { globalTopicHeadlines, globalTopicItems, globalInfoLabels, globalTopHeadlines } from "./Globals.js";
-import { rgb2hex, sleep, showDBStatus } from "./Helpers.js";
+import { rgb2hex, sleep, showDBStatus, hideTab, newTab } from "./RendererScripts_02.js";
 
 
 localStorage.clear();
 localStorage.setItem("httpPort", "8088");
+localStorage.setItem("currentTab", 0);
 
 var selectedDropdown = 0;
 var publisherIs = "";
@@ -48,13 +49,13 @@ $(".topicListButton").on('click', topicListButtonClick);
 $(".doReset").on('click', resetClick);
 $("title").text(localStorage.getItem("title"));
 
+
 window.electronAPI.getStatus1((value) => {
     showDBStatus(value);
 })
 
-
 window.electronAPI.getFrontPages((value) => {
-    console.log(value);
+    //console.log(value);
     if (self.innerWidth > 1600)
         $('.frontImage').html("<img src='images/" + value + "' width='350px'></img>")
     else
@@ -65,7 +66,7 @@ window.electronAPI.getFrontPages((value) => {
 
 
 
-function setOtherContent() {            // using the front pages tick      
+function setOtherContent() {            // using the front pages ticks      
     if (self.innerWidth > 1200) {
         $('.infoLabel').html('<form method="POST" class="form-horizontal formTop ms-1 me-3 ps-3 pe-3 pt-0 border rounded-4">\
             <label class="col-form-label infoLabel">'+ globalInfoLabels.contentValue[0]["text"] + '</label></form>');
@@ -365,7 +366,12 @@ function doSearch() {
     }
     $(".doSearch").trigger("blur");
 
-    window.electronAPI.openSearchProcess();
+    let ct = localStorage.getItem("currentTab");
+    ct++;
+    localStorage.setItem("currentTab", ct);
+    newTab(ct, "./SearchItemsList.html", "Neu " + ct);
+
+    //window.electronAPI.openSearchProcess();
 }
 
 

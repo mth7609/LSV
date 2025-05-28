@@ -7,7 +7,7 @@ let img = serverFunctions.readFrontPageFiles();
 
 
 parentPort.on('message', (message) => {
-    parentPort.postMessage('Hello from the front pages worker!');
+    parentPort.postMessage('Hello from the front pages worker thread!');
     frontPagesLoop(0);
 });
 
@@ -19,7 +19,7 @@ function frontPagesLoop(i) {
         if ((i++) >= img.length - 1)
             i = 0;
         frontPagesLoop(i);
-    }, 2000);
+    }, 4000);
 };
 
 
