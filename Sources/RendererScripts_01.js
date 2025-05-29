@@ -5,7 +5,7 @@ import { rgb2hex, sleep, showDBStatus, hideTab, newTab } from "./RendererScripts
 
 localStorage.clear();
 localStorage.setItem("httpPort", "8088");
-localStorage.setItem("currentTab", 0);
+localStorage.setItem("tabCount", 0);
 
 var selectedDropdown = 0;
 var publisherIs = "";
@@ -35,6 +35,7 @@ publisherReset();
 changeRange(searchCnt);
 
 
+
 const searchTopItems = Array.from({ length: maxSearchSets + 1 }, () => new Array(elementsOnForm).fill(0));
 const searchTopicsItems = Array.from({ length: maxSearchSets + 1 }, () => new Array(elementsOnForm).fill(0));
 
@@ -53,6 +54,7 @@ $("title").text(localStorage.getItem("title"));
 window.electronAPI.getStatus1((value) => {
     showDBStatus(value);
 })
+
 
 window.electronAPI.getFrontPages((value) => {
     //console.log(value);
@@ -366,13 +368,12 @@ function doSearch() {
     }
     $(".doSearch").trigger("blur");
 
-    let ct = localStorage.getItem("currentTab");
+    let ct = localStorage.getItem("tabCount");
     ct++;
-    localStorage.setItem("currentTab", ct);
+    localStorage.setItem("tabCount", ct);
     newTab(ct, "./SearchItemsList.html", "Neu " + ct);
 
     //window.electronAPI.openSearchProcess();
 }
-
 
 

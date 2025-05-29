@@ -11,7 +11,7 @@ export function requestInitValues() {
             var i;
             var s = "";
             for (const [key, value] of Object.entries(text)) {
-                console.log(`${key}: ${value}`);
+                //console.log(`${key}: ${value}`);
                 localStorage.setItem(`${key}`, `${value}`);
             }
         },

@@ -63,12 +63,13 @@ body {
 }
 
 .frontImage {
+    position: fixed;
     top: 400px;
     left: 77%;
     right: 20px;
     height: 620px;
     padding: 0px;
-    z-index: 200;
+    z-index: 100;
     overflow: hidden;
     overflow-y: none;
     text-wrap: nowrap;

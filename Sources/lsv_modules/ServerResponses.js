@@ -15,11 +15,11 @@ function databaseServerConnect() {
   con.connect(function (err) {
     if (err) {
       store.put("dbconnect", "NOK");
-      console.log("dbconnect " + store.get("dbconnect"));
+      //console.log("dbconnect " + store.get("dbconnect"));
     }
     else {
       store.put("dbconnect", "OK");
-      console.log("dbconnect " + store.get("dbconnect"));
+      //console.log("dbconnect " + store.get("dbconnect"));
     }
   });
 }

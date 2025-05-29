@@ -41,8 +41,19 @@ export function newTab(nr, link, name) {
     $(".tab-content").append('<div class="tab-pane fade tab-' + nr + '" id="cnt-' + nr + '" role="tabpanel" aria-labelledby="nav-home-tab">' + name + '</div >');
     $(".tab-content").after('<script>$(".tab-' + nr + '").load("' + link + '")</script>');
 
-    //$(".navtab-" + nr).on('click', function (event) {
-    //    console.log("navtab-" + nr);
-    //});
+    $(".navtab-" + nr).on('click', function (event) {
+        console.log("navtab-" + nr + ", tabCount: " + localStorage.getItem("tabCount"));
+        setTabActive(nr);
+    });
 }
 
+export function setTabActive(nr) {
+    for (let i = 0; i < localStorage.getItem("tabCount"); i++) {
+        if (i != nr && $(".tab-" + i).show())
+            hideTab(i);
+    }
+
+    console.log(nr);
+
+    $(".tab-" + nr).show();
+}
