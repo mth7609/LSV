@@ -208,22 +208,18 @@ body {
 
 .navtabCSS {
     font-weight: bold;
-    font-size: small;
-    color: #000000;
-    background-color: #ffffff;
+    font-size: 10px;
+    color: #ffffff;
+    background-color: #056289;
     height: 30px;
     padding: 1px;
     margin-top: 10px;
     margin-left: 25px;
     width: 100px;
+    border-color: #000000;
+    border-radius: 0 0 6px 6px;
+    border: #000000;
 }
-
-
-.navtabCSS.active {
-    color: #ffffff !important;
-    background-color: #056289 !important;
-}
-
 
 hr {
     color: #000000;
