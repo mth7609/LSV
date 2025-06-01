@@ -13,3 +13,21 @@ export function rgb2hex(rgb) {
 export function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
+
+function addZero(i) {
+    if (i < 10) {
+        i = "0" + i;
+    }
+    return i;
+}
+
+function getActualFullDate() {
+    var d = new Date();
+    var day = addZero(d.getDate());
+    var month = addZero(d.getMonth() + 1);
+    var year = addZero(d.getFullYear());
+    var h = addZero(d.getHours());
+    var m = addZero(d.getMinutes());
+    var s = addZero(d.getSeconds());
+    return day + "." + month + "." + year + " (" + h + ":" + m + ")";
+}

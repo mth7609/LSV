@@ -10,5 +10,6 @@
   "mysqlHost": "http://localhost",
   "mysqlUser": "prolabor",
   "mysqlPassword": "mzkti29b",
-  "mysqlDatabase": "prolabor"
+  "mysqlDatabase": "prolabor",
+  "maxSearchSets": "10"
   }

@@ -16,6 +16,7 @@ localStorage.clear();
 localStorage.setItem("httpPort", "8088");
 localStorage.setItem("tabCount", 0);
 localStorage.setItem("searchCount", searchCnt);
+localStorage.setItem("maxSearchSets", maxSearchSets);
 
 
 //requestDBStatus(); // close app if no running DB
@@ -84,7 +85,7 @@ function getActualFullDate() {
     var h = addZero(d.getHours());
     var m = addZero(d.getMinutes());
     var s = addZero(d.getSeconds());
-    return day + ". " + month + ". " + year + " (" + h + ":" + m + ")";
+    return day + "." + month + "." + year + " (" + h + ":" + m + ")";
 }
 
 
@@ -242,8 +243,6 @@ function updateRange(str) {
     changeStatus3(" " + localStorage.getItem("statusSearchEntry") + " " + $(".searchRange").val());
 
     localStorage.setItem("searchCount", $(".searchRange").val());
-
-    window.electronAPI.openSearchProcess();
 }
 
 export function setTopicHeadlines() {
@@ -348,6 +347,14 @@ function setYears() {
     $(".years").html(str);
 }
 
+function addZero2(i) {
+    if (i < 10) {
+        i = "00" + i;
+    }
+    else
+        i = "0" + i;
+    return i;
+}
 
 function doSearch() {
     searchTopItems[searchCnt][0] = $('.name').val();        // Save top item values in the top-item search array (not local storage)
@@ -376,9 +383,16 @@ function doSearch() {
         localStorage.setItem("searchItem_" + i, searchTopItems[searchCnt][i]);
     }
 
+    let searchNumber = localStorage.getItem("searchNumber");
+    searchNumber++;
+    localStorage.setItem("searchNumber", searchNumber)
+
     if ((searchCnt < maxSearchSets)) {
-        if (!maxReached)
+        if (!maxReached) {
             changeRange(searchCnt);
+            let searchFileName = "./SearchResult_" + searchCnt + ".html";
+            newTab(searchCnt + 1, searchFileName, "00." + addZero2(searchNumber));
+        }
         searchCnt = searchCnt + 1;
     }
     else {
@@ -387,6 +401,5 @@ function doSearch() {
     }
     $(".doSearch").trigger("blur");
 
-    newTab(searchCnt, "./SearchItemsList_" + searchCnt + ".html", "Neu " + searchCnt);
 }
 

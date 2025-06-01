@@ -5,7 +5,7 @@ const server = http.createServer(appx);               // a http server is always
 const { PowerShell } = require('node-powershell');
 const initData = require('../init.json');
 const mysql = require('mysql2');
-
+const fs = require('fs');
 
 function serverClose() {
     server.closeAllConnections();
@@ -68,4 +68,27 @@ function readFrontPageFiles() {
 }
 
 
-module.exports = { appx, serverClose, serverOpen, readFrontPageFiles, sleepSecs, runForeverSecs, mysql };
+function createSearchResultFiles() {
+    let maxSearchSets = initData["maxSearchSets"];
+    for (let i = 0; i < maxSearchSets; i++) {
+        let searchFileName = "./SearchResult_" + i + ".html";
+        let res;
+
+        fs.open("./SearchResultTemplate.html", 'r', function (err, fileToRead) {
+            if (!err) {
+                fs.readFile(fileToRead, { encoding: 'utf-8' }, function (err, text) {
+                    if (!err) {
+                        let res = text.replace(/SC/g, i);
+                        fs.writeFileSync(searchFileName, res);
+                    } else {
+                        console.log(err);
+                    }
+                });
+            } else {
+                console.log(err);
+            }
+        });
+    }
+}
+
+module.exports = { appx, serverClose, serverOpen, readFrontPageFiles, sleepSecs, runForeverSecs, createSearchResultFiles, mysql };

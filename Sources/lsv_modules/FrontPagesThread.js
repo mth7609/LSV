@@ -1,7 +1,6 @@
 const { Worker, isMainThread, parentPort, workerData } = require('node:worker_threads')
 const serverFunctions = require('./ServerFunctions');
-var storage = require('node-storage');
-var store = new storage('./storage');
+
 
 let img = serverFunctions.readFrontPageFiles();
 

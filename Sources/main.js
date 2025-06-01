@@ -26,6 +26,7 @@ const createMainWindow = () => {              // Main window
   })
 
   store.put("dbconnect", "NOK");
+  serverFunctions.createSearchResultFiles();
 
   winMain.once('ready-to-show', () => {
     winMain.webContents.send('httpPort', initData["httpPort"]);

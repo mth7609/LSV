@@ -34,6 +34,7 @@
     "electron-squirrel-startup": "^1.0.1",
     "electron-tabs": "^1.0.4",
     "express": "^4.21.2",
+    "fs": "^0.0.1-security",
     "git": "^0.1.5",
     "hugo-extended": "^0.144.1",
     "i": "^0.3.7",

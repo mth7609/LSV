@@ -41,12 +41,10 @@ export function newTab(nr, link, name) {
     $(".tab-content").append('<div class="tab-pane fade tab-' + nr + '" id="cnt-' + nr + '" role="tabpanel" aria-labelledby="nav-home-tab">' + name + '</div >');
     $(".tab-content").after('<script>$(".tab-' + nr + '").load("' + link + '")</script>');
 
-    setTabActive(0);
-
+    //setTabActive(0);
 
     $(".navtab-" + nr).on('click', function (event) {
         localStorage.setItem("searchCount", nr)
-        //console.log("navtab-" + nr + ", searchCount: " + localStorage.getItem("searchCount"));
         setTabActive(nr);
     });
 }
