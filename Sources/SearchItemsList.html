@@ -7,32 +7,12 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.3/css/bootstrap.min.css">
     <link rel="stylesheet" href="lsv.css">
-
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-    <script type="module" src="./RendererScriptsSearchWindow.js"></script>
+    <script type="module" src="./RendererScriptsSearchTab.js"></script>
 </head>
 
 <body>
-    <br>
-    <p class="text-center fs-2 p-0 m-0 fw-bold searchWindowHeadline" id="searchWindowHeadline"></p>
-    <div class="text-center">
-        <div class="searchCountText" style="display:inline-block;" id="searchCountText"></div>
-        <div class="searchCount" style="display:inline-block" id="searchCount"></div>
-    </div>
-    <br>
-    <form method="POST" class="topicsForm me-5 ms-5 ps-1 pe-3 rounded-4">
-        <div class="form-group col">
-            <div class="topSearchItems nowrap" id="topSearchItems">
-
-            </div>
-            <p>
-                <hr />
-            </p>
-            <div class="topicSearchItems" id="topicSearchItems">
-                <div class="topicItems" id="topicItems">
-
-                </div>
-            </div>
-        </div>
-    </form>
+    <div class="content"></div>
 </body>
+
+</html>

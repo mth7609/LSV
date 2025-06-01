@@ -1,15 +1,13 @@
-import { globalTopicItems, globalTopicHeadlines } from "./Globals.js";
-import { sleep } from "./HelpersSearchItemList.js";
-
-let searchItems = [];
-let mainHeadline = [];
-let oldSearchCount = 0;
 
 
-function updateSearchWindow() {
+
+function updateSearchTab(tab) {
     let i;
     let n;
     let el = "";
+
+    let searchItems = [];
+    let mainHeadline = [];
 
     for (i = 0; i < 11; i++) {
         mainHeadline[i] = localStorage.getItem("mainHeadline_" + i);
@@ -19,11 +17,11 @@ function updateSearchWindow() {
                        <label class='searchListItems searchItem_" + i + "'>" + searchItems[i] + "</label><br>\n";
     }
 
-    $('#searchWindowHeadline').html(localStorage.getItem("searchWindowHeadline"));
-    $('#searchCountText').html(localStorage.getItem("searchWindowSubheadline"));
-    $('#statusSearchEntry').html(localStorage.getItem("searchWindowSubheadline"));
-    $('#searchCount').html(localStorage.getItem("searchCount"));
-    $('#topSearchItems').html(el);
+    $('.searchWindowHeadline_' + tab).html(localStorage.getItem("searchWindowHeadline"));
+    $('.searchCountText_' + tab).html(localStorage.getItem("searchWindowSubheadline"));
+    $('.statusSearchEntry_' + tab).html(localStorage.getItem("searchWindowSubheadline"));
+    $('.searchCount_' + tab).html(tab);
+    $('.topSearchItems_' + tab).html(el);
 
     el = "";
     for (n = 0; n < localStorage.getItem("topicHeadlineCnt"); n++) {
@@ -33,18 +31,9 @@ function updateSearchWindow() {
                 el = el + "&nbsp; &nbsp; " + localStorage.getItem("topic_" + n + "_" + i) + "<br>";
         }
     }
-
-    $('#topicSearchItems').html(el);
+    //console.log(el);
+    $('.topicSearchItems_' + tab).html(el);
 }
 
-updateSearchWindow();
 
-while (true) {
-    await sleep(1000).then(() => {
-        let c = localStorage.getItem("searchCount");
-        if (oldSearchCount != c) {
-            oldSearchCount = c;
-            updateSearchWindow();
-        }
-    });
-}
+

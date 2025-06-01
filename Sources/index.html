@@ -31,7 +31,8 @@
     $(".tab-0").load("./home.html");
 
     $(".navtab-0").on('click', function (event) {
-      console.log("navtab-0, tabCount: " + localStorage.getItem("tabCount"));
+      localStorage.setItem("searchCount", 0)
+      console.log("navtab-0, searchCount: 0");
       $(".tab-0").show();
     });
   </script>

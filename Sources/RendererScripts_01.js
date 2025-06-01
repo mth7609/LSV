@@ -3,18 +3,20 @@ import { globalTopicHeadlines, globalTopicItems, globalInfoLabels, globalTopHead
 import { rgb2hex, sleep, showDBStatus, hideTab, newTab } from "./RendererScripts_02.js";
 
 
-localStorage.clear();
-localStorage.setItem("httpPort", "8088");
-localStorage.setItem("tabCount", 0);
-
 var selectedDropdown = 0;
 var publisherIs = "";
-let searchCnt = 1;
+let searchCnt = 0;
 let imageCnt = 0;
 var elementsOnForm = 1;
 var maxSearchSets = 10;
 var maxReached = false;
 var lastTopicName = "null";
+
+localStorage.clear();
+localStorage.setItem("httpPort", "8088");
+localStorage.setItem("tabCount", 0);
+localStorage.setItem("searchCount", searchCnt);
+
 
 //requestDBStatus(); // close app if no running DB
 requestInfoLabels();
@@ -67,6 +69,24 @@ window.electronAPI.getFrontPages((value) => {
 })
 
 
+function addZero(i) {
+    if (i < 10) {
+        i = "0" + i;
+    }
+    return i;
+}
+
+function getActualFullDate() {
+    var d = new Date();
+    var day = addZero(d.getDate());
+    var month = addZero(d.getMonth() + 1);
+    var year = addZero(d.getFullYear());
+    var h = addZero(d.getHours());
+    var m = addZero(d.getMinutes());
+    var s = addZero(d.getSeconds());
+    return day + ". " + month + ". " + year + " (" + h + ":" + m + ")";
+}
+
 
 function setOtherContent() {            // using the front pages ticks      
     if (self.innerWidth > 1200) {
@@ -76,10 +96,8 @@ function setOtherContent() {            // using the front pages ticks
     else
         $('.infoLabel').html("");
 
-    if (localStorage.getItem("searchCount"))
-        $('.statusText2').html("Sucheintrag: " + localStorage.getItem("searchCount"));
+    $('.statusText2').text(getActualFullDate());
 }
-
 
 
 function setOutputText() {
@@ -330,6 +348,7 @@ function setYears() {
     $(".years").html(str);
 }
 
+
 function doSearch() {
     searchTopItems[searchCnt][0] = $('.name').val();        // Save top item values in the top-item search array (not local storage)
     searchTopItems[searchCnt][1] = $('.schoolPublisher').val();
@@ -368,12 +387,6 @@ function doSearch() {
     }
     $(".doSearch").trigger("blur");
 
-    let ct = localStorage.getItem("tabCount");
-    ct++;
-    localStorage.setItem("tabCount", ct);
-    newTab(ct, "./SearchItemsList.html", "Neu " + ct);
-
-    //window.electronAPI.openSearchProcess();
+    newTab(searchCnt, "./SearchItemsList_" + searchCnt + ".html", "Neu " + searchCnt);
 }
-
 

@@ -1,5 +1,5 @@
 import { changeStatus1 } from "./RendererScripts_01.js";
-
+//import { updateSearchTab } from "./RendererScriptsSearchTab.js";
 
 var hexDigits = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "a", "b", "c", "d", "e", "f"];
 var hex = function (x) {
@@ -41,19 +41,20 @@ export function newTab(nr, link, name) {
     $(".tab-content").append('<div class="tab-pane fade tab-' + nr + '" id="cnt-' + nr + '" role="tabpanel" aria-labelledby="nav-home-tab">' + name + '</div >');
     $(".tab-content").after('<script>$(".tab-' + nr + '").load("' + link + '")</script>');
 
+    setTabActive(0);
+
+
     $(".navtab-" + nr).on('click', function (event) {
-        console.log("navtab-" + nr + ", tabCount: " + localStorage.getItem("tabCount"));
+        localStorage.setItem("searchCount", nr)
+        //console.log("navtab-" + nr + ", searchCount: " + localStorage.getItem("searchCount"));
         setTabActive(nr);
     });
 }
 
 export function setTabActive(nr) {
-    for (let i = 0; i < localStorage.getItem("tabCount"); i++) {
+    for (let i = 0; i < 10; i++) {
         if (i != nr && $(".tab-" + i).show())
             hideTab(i);
     }
-
-    console.log(nr);
-
     $(".tab-" + nr).show();
 }

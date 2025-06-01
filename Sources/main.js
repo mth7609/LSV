@@ -110,7 +110,7 @@ const createMainWindow = () => {              // Main window
 }
 
 
-const createSearchResultMainWindow = () => {
+/*const createSearchResultMainWindow = () => {
   if (!winSearch) {
     winSearch = new BrowserWindow(
       {
@@ -144,7 +144,7 @@ const createSearchResultMainWindow = () => {
     winSearch.show();
   }
 }
-
+*/
 
 app.whenReady().then(() => {
   serverFunctions.serverOpen();
