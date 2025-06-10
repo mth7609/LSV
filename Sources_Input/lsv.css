@@ -76,7 +76,7 @@ body {
 }
 
 .formTop {
-    background: #056289;
+    background: #660000;
     height: 210px;
 }
 
@@ -120,6 +120,11 @@ body {
 
 .topicListButton {
     background: #056289;
+    border: solid 2px #111111;
+}
+
+.topicListButtonInput {
+    background: #660000;
     border: solid 2px #111111;
 }
 

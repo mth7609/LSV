@@ -48,7 +48,7 @@ $(".dropdownYear").on('click', yearSel);
 $(".schoolLabel").on('click', publisherSchool);
 $(".freeLabel").on('click', publisherFree);
 $(".searchRange").on('click', updateRange);
-$(".topicListButton").on('click', topicListButtonClick);
+$(".topicListButtonInput").on('click', topicListButtonClick);
 $(".doReset").on('click', resetClick);
 $("title").text(localStorage.getItem("title"));
 
@@ -89,7 +89,7 @@ function getActualFullDate() {
 
 
 
-function setOtherContent() {            // using the front pages ticks      
+function setOtherContent() {            // using the front pages ticks
     if (self.innerWidth > 1200) {
         $('.infoLabel').html('<form method="POST" class="form-horizontal formTop ms-1 me-3 ps-3 pe-3 pt-0 border rounded-4">\
             <label class="col-form-label infoLabel">'+ globalInfoLabels.contentValue[0]["text"] + '</label></form>');
@@ -105,7 +105,7 @@ function setOtherContent() {            // using the front pages ticks
 
 
 function setOutputText() {
-    $('.mainWindowHeadline').html(localStorage.getItem("mainWindowHeadline"));
+    $('.mainWindowHeadlineInput').html(localStorage.getItem("mainWindowHeadlineInput"));
     $('.searchWindowHeadline').html(localStorage.getItem("searchWindowHeadline"));
     if (self.innerWidth > 1200) {
         $('.infoLabel').html('<form method="POST" class="form-horizontal formTop ms-1 me-3 ps-3 pe-3 pt-0 border rounded-4">\
@@ -128,10 +128,11 @@ function setTopHeadlines() {
     $('.cityLabel').html(localStorage.getItem("mainHeadline_2"));
     $('.stateLabel').html(localStorage.getItem("mainHeadline_3"));
     $('.publisherIsLabel').html("<nobr>" + localStorage.getItem("mainHeadline_4") + "</nobr>");
-    $('.resultLabel').html(localStorage.getItem("mainHeadline_7"));
+    $('.datasetNrLabel').html(localStorage.getItem("mainHeadline_8"));
     $('.freeLabel').html(localStorage.getItem("free"));
     $('.schoolLabel').html(localStorage.getItem("school"));
-    $('.doSearch').val(localStorage.getItem("search"));
+    $('.selectButtonSave').val(localStorage.getItem("mainHeadline_10"));
+    $('.selectButtonSaveDB').val(localStorage.getItem("mainHeadline_11"));
     $('.logoImage').html("<img src='" + localStorage.getItem("image_1") + "'></img>");
 }
 
@@ -249,7 +250,7 @@ function updateRange(str) {
         }
     }
 
-    for (i = 0; i < localStorage.getItem("searchTopItemCnt"); i++) {        // save top items 
+    for (i = 0; i < localStorage.getItem("searchTopItemCnt"); i++) {        // save top items
         localStorage.setItem("searchItem_" + i, searchTopItems[$(".searchRange").val()][i]);
     }
 
@@ -272,7 +273,7 @@ export function setTopicItems(nr) {
     let i, n;
     let el = "";
     for (i = 0; i < globalTopicItems[nr].contentValue.length; i++) {
-        el = el + "<nobr><input type='radio' class='form-check-input topicListButton topic_" + nr + "_" + i + "' topicListNo='" + nr + "' topicNoInList='" + i + "' id='topic_" + nr + "_" + i + "'>\n \
+        el = el + "<nobr><input type='radio' class='form-check-input topicListButtonInput topic_" + nr + "_" + i + "' topicListNo='" + nr + "' topicNoInList='" + i + "' id='topic_" + nr + "_" + i + "'>\n \
                   <label class='form-check-label topicListLabel topicLabel_" + nr + "_" + i + "' id='topicLabel_" + nr + "_" + i + "'>" + globalTopicItems[nr].contentValue[i]["text"] + "</label><br>\n";
     }
     $('.topicList_' + nr).html(el);
@@ -415,7 +416,7 @@ function doSearch() {
 
     localStorage.setItem("searchCount", searchCnt);
 
-    for (n = 0; n < globalTopicHeadlines.contentValue.length; n++) {        // Save selected topics in the topics search array 
+    for (n = 0; n < globalTopicHeadlines.contentValue.length; n++) {        // Save selected topics in the topics search array
         for (i = 0; i < globalTopicItems[n].contentValue.length; i++) {
             if (localStorage.getItem("checked_topic_" + n + "_" + i) == "checked") {
                 searchTopicsItems[searchCnt][itemCnt] = "topic_" + n + "_" + i;  // Saved for use in range select
@@ -432,21 +433,23 @@ function doSearch() {
     searchNumber++;
     let nr = prepareNumber(searchNumber);
     localStorage.setItem("searchNumber", searchNumber)
-    let searchFileName = "./SearchResult_" + searchCnt + ".html";
+    let searchFileName = "./SearchdatasetNr_" + searchCnt + ".html";
 
     console.log("cnt: " + searchCnt + ",  tabRun: " + tabRun + ",  maxReached: " + maxReached + ",  maxSearchSets: " + maxSearchSets + "  searchFile: " + searchFileName);
 
     localStorage.setItem("searchWindowSubheadline", "Nr.: " + nr);
     changeRange(searchCnt);
-    searchCnt++;
+
 
     if (maxReached == false && tabRun == 0) {
         newTab(searchCnt, searchFileName, nr);
     }
     else {
         $(".navtab-" + searchCnt).text(nr);
-        updateSearchTab(searchCnt - 1);
+        updateSearchTab(searchCnt);
     }
+
+    searchCnt++;
 
     $(".doSearch").trigger("blur");
 

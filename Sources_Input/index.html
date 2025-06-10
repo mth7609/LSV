@@ -11,7 +11,8 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.min.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.3/css/bootstrap.min.css">
   <link rel="stylesheet" href="lsv.css">
-  <script type="module" src="ServerRequests.js"></script>
+  <script type="module" src="./ServerRequests.js"></script>
+  <script type="module" src="./RendererScripts_01.js"></script>
   <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 </head>
 
@@ -31,10 +32,13 @@
     $(".tab-0").load("./home.html");
 
     $(".navtab-0").on('click', function (event) {
-      localStorage.setItem("searchCount", 0)
-      console.log("navtab-0, searchCount: 0");
+      for (let i = 1; i <= localStorage.getItem("maxSearchSets"); i++) {
+        //console.log("i: " + i);
+        $(".tab-" + i).hide();
+      }
       $(".tab-0").show();
     });
+
   </script>
 
 </body>

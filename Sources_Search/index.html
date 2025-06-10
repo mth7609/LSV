@@ -28,11 +28,13 @@
   </div>
 
   <script>
-    $(".tab-0").load("./home.html");
+     $(".tab-0").load("./home.html");
 
     $(".navtab-0").on('click', function (event) {
-      localStorage.setItem("searchCount", 0)
-      console.log("navtab-0, searchCount: 0");
+      for (let i = 1; i <= localStorage.getItem("maxSearchSets"); i++) {
+        //console.log("i: " + i);
+        $(".tab-" + i).hide();
+      }
       $(".tab-0").show();
     });
   </script>
