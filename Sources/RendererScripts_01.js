@@ -1,12 +1,11 @@
-import { requestStates, requestTopHeadlines, requestTopicHeadlinesInfo, requestTopicItems, requestInitValues, requestInfoLabels, requestImages, requestOutputText } from "./ServerRequests.js";
+import { requestStates, requestTopHeadlines, requestTopicHeadlinesInfo, requestConstValues, requestTopicItems, requestInitValues, requestInfoLabels, requestImages, requestOutputText } from "./ServerRequests.js";
 import { globalTopicHeadlines, globalTopicItems, globalInfoLabels, globalTopHeadlines } from "./Globals.js";
-import { rgb2hex, sleep, showDBStatus, hideTab, newTab } from "./RendererScripts_02.js";
+import { rgb2hex, showDBStatus, setTabActive, newTab } from "./RendererScripts_02.js";
 
 
 var selectedDropdown = 0;
 var publisherIs = "";
-let searchCnt = 0;
-let imageCnt = 0;
+let searchCnt = 1;
 var elementsOnForm = 1;
 var maxSearchSets = 10;
 var maxReached = false;
@@ -16,8 +15,7 @@ localStorage.clear();
 localStorage.setItem("httpPort", "8088");
 localStorage.setItem("tabCount", 0);
 localStorage.setItem("searchCount", searchCnt);
-localStorage.setItem("maxSearchSets", maxSearchSets);
-
+localStorage.setItem("tabRun", 0);
 
 //requestDBStatus(); // close app if no running DB
 requestInfoLabels();
@@ -29,6 +27,7 @@ requestTopicHeadlinesInfo();
 requestTopicItems();
 requestTopHeadlines();
 requestImages();
+requestConstValues();
 
 setOutputText();
 setYears();
@@ -89,13 +88,17 @@ function getActualFullDate() {
 }
 
 
+
 function setOtherContent() {            // using the front pages ticks      
     if (self.innerWidth > 1200) {
         $('.infoLabel').html('<form method="POST" class="form-horizontal formTop ms-1 me-3 ps-3 pe-3 pt-0 border rounded-4">\
             <label class="col-form-label infoLabel">'+ globalInfoLabels.contentValue[0]["text"] + '</label></form>');
+        $('.logoImage').html("<img src='" + localStorage.getItem("image_1") + "'></img>");
     }
-    else
+    else {
         $('.infoLabel').html("");
+        $('.logoImage').html("");
+    }
 
     $('.statusText2').text(getActualFullDate());
 }
@@ -152,7 +155,17 @@ function resetClick() {
         }
     }
 
-    window.electronAPI.closeSearchProcess();
+    for (let i = 1; i <= localStorage.getItem("maxSearchSets"); i++) {
+        if ($(".tab-" + i).show()) {
+            $(".navtab-" + i).hide();
+            setTabActive(0);
+            localStorage.setItem("searchNumber", 0);
+            localStorage.setItem("searchCount", 0)
+            searchCnt = 1;
+            maxSearchSets = localStorage.getItem("maxSearchSets");
+            maxReached = false;
+        }
+    }
 
     $(".doReset").trigger("blur");
 }
@@ -347,16 +360,49 @@ function setYears() {
     $(".years").html(str);
 }
 
-function addZero2(i) {
-    if (i < 10) {
-        i = "00" + i;
+
+function prepareNumber(nr) {
+    let str = nr.toString();
+    let strLen = str.length;
+    let res1;
+
+    switch (strLen) {
+        case 1: res1 = "00.00" + str;
+            break;
+        case 2: res1 = "00.0" + str;
+            break;
+        case 3: res1 = "00." + str;
+            break;
+        case 4: res1 = "0" + str.substr(0, 1) + "." + str.substr(1, 3);
+            break;
+        case 5: res1 = str.substr(0, 2) + "." + str.substr(2, 3);
+            break;
+        default: res1 = "Number too large";
     }
-    else
-        i = "0" + i;
-    return i;
+
+    //console.log(res1);
+    return res1;
 }
 
+
 function doSearch() {
+
+    let tabRun = localStorage.getItem("tabRun");
+
+    if (searchCnt > maxSearchSets) {
+        searchCnt = 1;
+        maxReached = true;
+        tabRun++;;
+        localStorage.setItem("tabRun", tabRun);
+    }
+
+    /*    prepareNumber(1);
+        prepareNumber(12);
+        prepareNumber(123);
+        prepareNumber(1234);
+        prepareNumber(12345);
+    */
+
     searchTopItems[searchCnt][0] = $('.name').val();        // Save top item values in the top-item search array (not local storage)
     searchTopItems[searchCnt][1] = $('.schoolPublisher').val();
     searchTopItems[searchCnt][2] = $('.city').val();
@@ -364,7 +410,6 @@ function doSearch() {
     searchTopItems[searchCnt][4] = publisherIs;
     searchTopItems[searchCnt][5] = $(".dropdownYear").text();
     searchTopItems[searchCnt][6] = $('.publishNo').val();
-    localStorage.setItem("searchTopItemCnt", 7);
 
     let i = 0, n = 0, itemCnt = 0;
 
@@ -385,20 +430,24 @@ function doSearch() {
 
     let searchNumber = localStorage.getItem("searchNumber");
     searchNumber++;
+    let nr = prepareNumber(searchNumber);
     localStorage.setItem("searchNumber", searchNumber)
+    let searchFileName = "./SearchResult_" + searchCnt + ".html";
 
-    if ((searchCnt < maxSearchSets)) {
-        if (!maxReached) {
-            changeRange(searchCnt);
-            let searchFileName = "./SearchResult_" + searchCnt + ".html";
-            newTab(searchCnt + 1, searchFileName, "00." + addZero2(searchNumber));
-        }
-        searchCnt = searchCnt + 1;
+    console.log("cnt: " + searchCnt + ",  tabRun: " + tabRun + ",  maxReached: " + maxReached + ",  maxSearchSets: " + maxSearchSets + "  searchFile: " + searchFileName);
+
+    localStorage.setItem("searchWindowSubheadline", "Nr.: " + nr);
+    changeRange(searchCnt);
+    searchCnt++;
+
+    if (maxReached == false && tabRun == 0) {
+        newTab(searchCnt, searchFileName, nr);
     }
     else {
-        maxReached = true;
-        searchCnt = 1;
+        $(".navtab-" + searchCnt).text(nr);
+        updateSearchTab(searchCnt - 1);
     }
+
     $(".doSearch").trigger("blur");
 
 }

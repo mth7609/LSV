@@ -232,6 +232,19 @@ function requestSqlImages() {
 }
 
 
+function requestConstValues() {
+  serverFunctions.appx.get('/requestConstants', (req, res) => {
+    con.connect(function (err) {
+      if (err) throw err;
+      con.query("SELECT * FROM constants", function (err, result, fields) {
+        if (err) throw err;
+        res.send(result);
+      });
+    });
+  });
+}
+
+
 function requestInitValues() {
   serverFunctions.appx.get('/requestInitValues', (req, res) => {
     con.connect(function (err) {
@@ -252,5 +265,6 @@ requestSqlInfoLabels();
 requestSqlDBRunning();
 requestSqlImages();
 requestInitValues();
+requestConstValues();
 
-module.exports = { requestInitValues, requestSqlDBStatus, requestSqlDBRunning, requestSqlStates, databaseServerConnect, requestSqlTopicHeadlines, requestSqlTopHeadlines, requestSqlOutputText, requestSqlImages, requestSqlInfoLabels };
+module.exports = { requestInitValues, requestSqlDBStatus, requestSqlDBRunning, requestSqlStates, databaseServerConnect, requestSqlTopicHeadlines, requestSqlTopHeadlines, requestSqlOutputText, requestSqlImages, requestConstValues, requestSqlInfoLabels };

@@ -140,3 +140,18 @@ export function requestImages() {
     });
 }
 
+
+export function requestConstValues() {
+    $.ajax({
+        type: 'GET',
+        url: 'http://localhost:' + localStorage.getItem("httpPort") + '/requestConstants',
+        async: false,
+        success: function (data) {
+            let i;
+            for (i = 0; i < data.length; i++) {
+                localStorage.setItem(data[i]["const_name"], data[i]["const_value"]);
+            }
+        }
+    });
+}
+

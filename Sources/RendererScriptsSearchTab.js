@@ -18,20 +18,25 @@ function updateSearchTab(tab) {
     }
 
     $('.searchWindowHeadline_' + tab).html(localStorage.getItem("searchWindowHeadline"));
-    $('.searchCountText_' + tab).html(localStorage.getItem("searchWindowSubheadline"));
-    $('.statusSearchEntry_' + tab).html(localStorage.getItem("searchWindowSubheadline"));
-    $('.searchCount_' + tab).html(tab);
+    $('.searchWindowSubheadline_' + tab).html(localStorage.getItem("searchWindowSubheadline"));
     $('.topSearchItems_' + tab).html(el);
 
     el = "";
+    let checkFound = false;
+
     for (n = 0; n < localStorage.getItem("topicHeadlineCnt"); n++) {
         el = el + "<b>" + localStorage.getItem("topicHeadline_" + n) + "</b><br>";
+        checkFound = false;
         for (i = 0; i < localStorage.getItem("amountTopicsHeadline_" + n); i++) {
-            if (localStorage.getItem("checked_topic_" + n + "_" + i) == "checked")
-                el = el + "&nbsp; &nbsp; " + localStorage.getItem("topic_" + n + "_" + i) + "<br>";
+            if (localStorage.getItem("checked_topic_" + n + "_" + i) == "checked") {
+                checkFound = true;
+                el = el + "&nbsp; &nbsp; " + localStorage.getItem("topic_" + n + "_" + i) + " ";
+            }
         }
+        if (checkFound)
+            el = el + "<br>";
     }
-    //console.log(el);
+
     $('.topicSearchItems_' + tab).html(el);
 }
 

@@ -1,5 +1,5 @@
 import { changeStatus1 } from "./RendererScripts_01.js";
-//import { updateSearchTab } from "./RendererScriptsSearchTab.js";
+
 
 var hexDigits = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "a", "b", "c", "d", "e", "f"];
 var hex = function (x) {
@@ -32,27 +32,33 @@ export function showDBStatus(st) {
     }
 }
 
-export function hideTab(nr) {
+
+
+export function hideTabContent(nr) {
     $(".tab-" + nr).hide();
 }
 
+
 export function newTab(nr, link, name) {
     $(".nav").append('<button class="nav-link navtabCSS navtab-' + nr + '" data-bs-toggle="tab" data-bs-target="#cnt-' + nr + '" type="button" role="tab" aria-controls="nav-profile" aria-selected="false">' + name + '</button>');
-    $(".tab-content").append('<div class="tab-pane fade tab-' + nr + '" id="cnt-' + nr + '" role="tabpanel" aria-labelledby="nav-home-tab">' + name + '</div >');
+    $(".tab-content").append('<div class="tab-pane tab-' + nr + '" id="cnt-' + nr + '" role="tabpanel" aria-labelledby="nav-home-tab">' + name + '</div >');
     $(".tab-content").after('<script>$(".tab-' + nr + '").load("' + link + '")</script>');
 
-    //setTabActive(0);
+    setTabActive(0);
 
     $(".navtab-" + nr).on('click', function (event) {
-        localStorage.setItem("searchCount", nr)
+        //$(".tab-" + nr).load('" + link + "');
+        console.log("Tab clicked: " + nr + "   :   Link: " + link);
         setTabActive(nr);
+        $(".tab-" + nr).show();
     });
 }
 
+
 export function setTabActive(nr) {
-    for (let i = 0; i < 10; i++) {
+    for (let i = 0; i <= localStorage.getItem("maxSearchSets"); i++) {
         if (i != nr && $(".tab-" + i).show())
-            hideTab(i);
+            hideTabContent(i);
     }
     $(".tab-" + nr).show();
 }

@@ -70,7 +70,7 @@ function readFrontPageFiles() {
 
 function createSearchResultFiles() {
     let maxSearchSets = initData["maxSearchSets"];
-    for (let i = 0; i < maxSearchSets; i++) {
+    for (let i = 1; i <= maxSearchSets; i++) {
         let searchFileName = "./SearchResult_" + i + ".html";
         let res;
 
