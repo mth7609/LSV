@@ -1,0 +1,13 @@
+/node_modules/.bin
+/node_modules/
+/out
+/release-builds/
+/MySQL-Data/
+/MySQL-Server-8.0/
+/MySQL Workbench 8.0 CE/
+/00100/
+SearchResult_*
+*.gif
+*.psd
+*.jpg
+*.png

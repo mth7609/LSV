@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title></title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.3/css/bootstrap.min.css">
+    <link rel="stylesheet" href="lsv.css">
+    <script type="module" src="./RendererScripts_01.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+</head>
+
+<body>
+    <br>
+    <div class="m-4 position-absolute z-n2 logoImage"></div>
+
+    <br><br>
+
+    <p class="text-center fs-2 p-1 fw-bold mainWindowHeadline"></p>
+
+    <div class="container-fluid m-1 p-0">
+        <div class="row">
+            <div class="col-lg-9 pe-0 me-0 ps-3">
+                <form method="POST" class="form-horizontal formTop mx-3 ps-4 pe-3 pt-2 border rounded-4 nobr">
+                    <div class="form-group row nobr">
+                        <div class="col-sm-4">
+                            <label for="text" class="col-form-label nameLabel headlinesTop"></label>
+                            <input type="text" class="form-control inputField name">
+                        </div>
+                        <div class="col-sm-1">
+                            <label for="text" class="col-form-label px-1 ms-0 noLabel headlinesTop"></label>
+                            <input type="text" class="form-control ps-1 pe-1 ms-1 me-1 publishNo">
+                        </div>
+                        <div class="col-sm-1 px-0">
+                            <label for="text" class="col-form-label yearLabel headlinesTop ms-1"></label>
+                            <div class="dropdown btn-outline-primary dropdownYearStyle year">
+                                <button class="btn btn-outline-primary ms-1 p-0 buttonYearStyle dropdownYear" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expande d="false">...</button>
+                                <ul class="dropdown-menu pre-scrollable years" aria-labelledby="dropdownYear">
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <label for="text" class="col-form-label cityLabel headlinesTop"></label>
+                            <input type="text" class="form-control inputField city">
+                        </div>
+                        <div class="col-sm-1">
+                            <label for="text" class="col-form-label resultLabel headlinesTop"></label>
+                            <input type=" text" class="ps-2 mx-0 form-control inputField result" value="00.000">
+                        </div>
+                        <div class="col-sm-1">
+                            <label class="col-form-label dummyLabel headlinesTop">&nbsp;</label>
+                            <input type="button" class="px-1 pt-0 form-control selectButtonSearch doReset btn btn-outline-secondary" value="Reset">
+                        </div>
+                    </div>
+                    <div class="form-group row nobr">
+                        <div class="col-sm-4">
+                            <label for="text" class="col-form-label mx-0 schoolPublisherLabel headlinesTop"></label>
+                            <input type="text" class="form-control inputField schoolPublisher">
+                        </div>
+                        <div class="col-sm-2 publisherIs" role="group" aria-label="group">
+                            <div class="col-sm-2 px-1 py-0">
+                                <label for="text" class="col-form-label publisherIsLabel headlinesTop">
+                                </label>
+                            </div>
+                            <div class="px-0">
+                                <input type="radio" class="btn-check" name="btnradio1">
+                                <label class="btn p-0 my-0 ms-1 btn-outline-primary schoolLabel" for="btnradio1"></label>
+                                <input type="radio" class="btn-check" name="btnradio2">
+                                <label class="btn p-0 my-0 ms-1 btn-outline-primary freeLabel" for="btnradio2"></label>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <label class="col-form-label stateLabel headlinesTop"></label>
+                            <div class="dropdown btn-outline-primary dropdownStateStyle state">
+                                <button class="col-sm-12 py-0 btn btn-outline-primary buttonStateStyle dropdownState" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expande d="false">...</button>
+                                <ul class="dropdown-menu pre-scrollable states" aria-labelledby="dropdownState">
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-sm-2 py-2">
+                            <input type="range" class="form-range my-0 px-0 searchRange" min="1" max="10">
+                            <input type="button" class="py-0 form-control doSearch btn btn-outline-secondary selectButtonSearch">
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="col-lg-3 ms-0 p-0 pe-4 infoLabel">
+            </div>
+        </div>
+    </div>
+
+
+    <div class="container conBottom ms-2 me-0 ps-4 pe-2 pt-2 nobr">
+        <form method="POST" class="form-horizontal formTopics">
+            <div class="form-group row">
+                <div class="col-sm-3 w-auto pe-4">
+                    <label class="m-1 pt-1 topicHeadline_0 topicHeadline">
+                    </label>
+                    <div class="mx-1 py-0 ps-3 pe-0 topicList_0 topicList">
+                    </div>
+
+                    <label class="m-1 pt-3 topicHeadline_3 topicHeadline">
+                    </label>
+                    <div class="mx-1 pt-0 ps-3 topicList_3 topicList">
+                    </div>
+                </div>
+
+                <div class=" col-sm-3 w-auto pe-4">
+                    <label class="m-1 pt-2 topicHeadline_1 topicHeadline">
+                    </label>
+                    <div class="mx-1 pt-0 ps-3 topicList_1 topicList">
+                    </div>
+
+                    <label class="m-1 pt-3 topicHeadline_2 topicHeadline">
+                    </label>
+                    <div class="mx-1 pt-0 ps-3 topicList_2 topicList">
+                    </div>
+
+                    <label class="m-1 pt-3 topicHeadline_4 topicHeadline">
+                    </label>
+                    <div class="mx-1 pt-0 ps-3 topicList_4 topicList">
+                    </div>
+                </div>
+
+                <div class=" col-sm-3 w-auto pe-4">
+                    <label class="m-1 pt-2 topicHeadline_5 topicHeadline">
+                    </label>
+                    <div class="mx-1 pt-0 ps-3 topicList_5 topicList">
+                    </div>
+
+                    <label class="m-1 pt-3 topicHeadline_6 topicHeadline">
+                    </label>
+                    <div class="mx-1 pt-0 ps-3 topicList_6 topicList">
+                    </div>
+
+                    <label class="m-1 pt-3 topicHeadline_7 topicHeadline">
+                    </label>
+                    <div class="mx-1 pt-0 ps-3 topicList_7 topicList">
+                    </div>
+                </div>
+
+                <div class="col-sm-3 w-auto pe-0">
+                    <label class="m-1 pt-2 topicHeadline_9 topicHeadline">
+                    </label>
+                    <div class="mx-1 pt-0 ps-3 topicList_9 topicList">
+                    </div>
+
+                    <label class="m-1 pt-3 topicHeadline_10 topicHeadline">
+                    </label>
+                    <div class="mx-1 pt-0 ps-3 topicList_10 topicList">
+                    </div>
+
+                    <label class="m-1 pt-3 topicHeadline_8 topicHeadline">
+                    </label>
+                    <div class="mx-1 pt-0 ps-3 topicList_8 topicList">
+                    </div>
+                </div>
+            </div>
+
+        </form>
+    </div>
+
+
+    <div class=" m-0 p-0 position-fixed frontImage">
+    </div>
+
+    <div class="statusbar1 m-0 p-0 position-fixed status1">
+        <div class="py-0">
+            <label class="ps-3 mx-0 statusText1">
+            </label>
+        </div>
+    </div>
+
+    <div class="statusbar2 m-0 p-0 position-fixed status2">
+        <div class="py-0">
+            <nobr>
+                <label class="ps-3 mx-0 statusText2">
+                </label>
+            </nobr>
+        </div>
+    </div>
+
+    <div class="statusbar3 m-0 p-0 position-fixed status3">
+        <div class="py-0">
+            <label class="ps-3 mx-0 statusText3">
+            </label>
+        </div>
+    </div>
+    <br>
+</body>
+
+</html>

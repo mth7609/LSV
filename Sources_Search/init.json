@@ -1,0 +1,15 @@
+  {
+  "title": "Archiv der Jugendzeitschriften",
+  "version": "0.0.1",
+  "description": "Archiv der Jugendzeitschriften von der LandesSchülerVertretung",
+  "author": "Michael Thiele",
+  "URL": "mth-wangiro.de",
+  "httpPort": "8088",
+  "httpHost": "http://localhost",
+  "mysqlPort": "3306",
+  "mysqlHost": "http://localhost",
+  "mysqlUser": "prolabor",
+  "mysqlPassword": "mzkti29b",
+  "mysqlDatabase": "prolabor",
+  "maxSearchSets": "10"
+  }

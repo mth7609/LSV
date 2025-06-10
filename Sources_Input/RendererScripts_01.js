@@ -61,7 +61,7 @@ window.electronAPI.getStatus1((value) => {
 window.electronAPI.getFrontPages((value) => {
     //console.log(value);
     if (self.innerWidth > 1600)
-        $('.frontImage').html("<img src='images/" + value + "' width='350px'></img>")
+        $('.frontImage').html("<img src='./images/" + value + "' width='350px'></img>")
     else
         $('.frontImage').html("");
 

@@ -63,7 +63,7 @@ function readFrontPageFiles() {
     let i;
     let f = [];
     var fs = require('fs');
-    var files = fs.readdirSync('../Sources/images/').filter(fn => fn.startsWith('front_page_'));
+    var files = fs.readdirSync('./images/').filter(fn => fn.startsWith('front_page_'));
     return files;
 }
 
