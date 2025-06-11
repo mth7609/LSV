@@ -48,7 +48,7 @@ export function newTab(nr, link, name) {
 
     $(".navtab-" + nr).on('click', function (event) {
         //$(".tab-" + nr).load('" + link + "');
-        //console.log("Tab clicked: " + nr + "   :   Link: " + link);
+        console.log("Tab clicked: " + nr + "   :   Link: " + link);
         setTabActive(nr);
         $(".tab-" + nr).show();
     });
@@ -56,9 +56,10 @@ export function newTab(nr, link, name) {
 
 
 export function setTabActive(nr) {
-    for (let i = 0; i < localStorage.getItem("maxSearchSets"); i++) {
+    //console.log("nr: " + nr + "  Max: " + localStorage.getItem("maxDatasetTabs"));
+    for (let i = 0; i < localStorage.getItem("maxDatasetTabs"); i++) {
         if (i != nr && $(".tab-" + i).show())
             hideTabContent(i);
     }
-    $(".tab-" + nr).show();
+    //$(".tab-" + nr).show();
 }

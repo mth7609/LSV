@@ -26,14 +26,14 @@ const createMainWindow = () => {              // Main window
   })
 
   store.put("dbconnect", "NOK");
-  serverFunctions.createSearchResultFiles();
+  serverFunctions.createDatasetFiles();
 
   winMain.once('ready-to-show', () => {
     winMain.webContents.send('httpPort', initData["httpPort"]);
   })
 
   ipcMain.on('openSearchProcessCMD', (event) => {
-    createSearchResultMainWindow();
+    createDatasetMainWindow();
   })
 
   ipcMain.on('closeSearchProcessCMD', (event) => {

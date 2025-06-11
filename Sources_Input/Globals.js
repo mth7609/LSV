@@ -13,7 +13,7 @@ class C {
 let globalStates = new C();
 let globalTopicHeadlines = new C();
 let globalTopicItems = [];
-let globalSearchItems = [];
+let globalDatasetItems = [];
 let globalInfoLabels = new C();
 let globalTopHeadlines = new C();
 
@@ -24,7 +24,7 @@ for (i = 0; i < 11; i++) {
 }
 
 for (i = 0; i < 32; i++) {
-  globalSearchItems[i] = new C();
+  globalDatasetItems[i] = new C();
 }
 
-export { globalStates, globalTopicHeadlines, globalTopicItems, globalSearchItems, globalTopHeadlines, globalInfoLabels }
+export { globalStates, globalTopicHeadlines, globalTopicItems, globalDatasetItems, globalTopHeadlines, globalInfoLabels }

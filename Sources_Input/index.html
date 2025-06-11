@@ -32,8 +32,8 @@
     $(".tab-0").load("./home.html");
 
     $(".navtab-0").on('click', function (event) {
-      for (let i = 1; i <= localStorage.getItem("maxSearchSets"); i++) {
-        //console.log("i: " + i);
+      for (let i = 1; i <= localStorage.getItem("maxDatasetTabs"); i++) {
+        console.log("i: " + i);
         $(".tab-" + i).hide();
       }
       $(".tab-0").show();

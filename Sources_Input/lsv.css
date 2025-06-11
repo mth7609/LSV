@@ -102,7 +102,7 @@ body {
     color: #000000;
 }
 
-.searchListItems {
+.datasetListItems {
     font-size: 16px;
     color: #000000;
 }
@@ -135,7 +135,7 @@ body {
     height: 30px;
 }
 
-.selectButtonSearch {
+.selectButtonDataset {
     background: #008800;
     border: solid 2px #bbbbbb;
     color: #ffffff;

@@ -68,13 +68,13 @@ function readFrontPageFiles() {
 }
 
 
-function createSearchResultFiles() {
+function createDatasetFiles() {
     let maxSearchSets = initData["maxSearchSets"];
     for (let i = 1; i <= maxSearchSets; i++) {
-        let searchFileName = "./SearchResult_" + i + ".html";
+        let searchFileName = "./Dataset_" + i + ".html";
         let res;
 
-        fs.open("./SearchResultTemplate.html", 'r', function (err, fileToRead) {
+        fs.open("./DatasetTemplate.html", 'r', function (err, fileToRead) {
             if (!err) {
                 fs.readFile(fileToRead, { encoding: 'utf-8' }, function (err, text) {
                     if (!err) {
@@ -91,4 +91,4 @@ function createSearchResultFiles() {
     }
 }
 
-module.exports = { appx, serverClose, serverOpen, readFrontPageFiles, sleepSecs, runForeverSecs, createSearchResultFiles, mysql };
+module.exports = { appx, serverClose, serverOpen, readFrontPageFiles, sleepSecs, runForeverSecs, createDatasetFiles, mysql };

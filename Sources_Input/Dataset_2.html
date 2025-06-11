@@ -2,17 +2,17 @@
 <html lang="en">
 
 <head>
-    <script src="./RendererScriptsSearchTab.js"></script>
+    <script src="./RendererDatasetTab.js"></script>
 </head>
 
 <script>
-    updateSearchTab(10);
+    updateDatasetTab(2);
 </script>
 
 <body>
     <br><br>
-    <p class="text-center fs-2 p-0 m-0 fw-bold searchWindowHeadline_10"></p>
-    <div class="text-center searchWindowSubheadline_10">
+    <p class="text-center fs-2 p-0 m-0 fw-bold datasetWindowHeadline_2"></p>
+    <div class="text-center datasetWindowSubheadline_2">
     </div>
     <br><br>
 
@@ -21,13 +21,13 @@
         <div class="row">
             <div class="col-4">
                 <div class="input-group">
-                    <div class="input-group-addon topSearchItems_10"></div>
+                    <div class="input-group-addon topDatasetItems_2"></div>
                 </div>
             </div>
             <div class="col-7">
                 <div class="input-group">
-                    <div class="topicSearchItems_10 nobr">
-                        <div class="topicItems_10"></div>
+                    <div class="topicDatasetItems_2 nobr">
+                        <div class="topicItems_2"></div>
                     </div>
                 </div>
             </div>
@@ -35,7 +35,7 @@
                 <div class="input-group">
                     <div class="nobr">
                         <b>Suchergebnisse<br>...<br>...<br>...<br>...<br>...</b>
-                        <div class="topicItems_10"></div>
+                        <div class="topicItems_2"></div>
                     </div>
                 </div>
             </div>
@@ -60,22 +60,22 @@
         <div class="form-group col-lg-3">
             <form>
                 <nobr>
-                    <input type="button" class="selectButtonSearch sav_10 btn btn-outline-secondary ps-2 pe-2 pt-0" value="Speichern">
-                    <input type="button" class="selectButtonSearch pri_10 btn btn-outline-secondary ps-2 pe-2 pt-0" value="Drucken">
-                    <input type="button" class="selectButtonSearch del_10 btn btn-outline-secondary ps-2 pe-2 pt-0" value="Löschen">
+                    <input type="button" class="selectButtonDataset sav_2 btn btn-outline-secondary ps-2 pe-2 pt-0" value="Speichern">
+                    <input type="button" class="selectButtonDataset pri_2 btn btn-outline-secondary ps-2 pe-2 pt-0" value="Drucken">
+                    <input type="button" class="selectButtonDataset del_2 btn btn-outline-secondary ps-2 pe-2 pt-0" value="Löschen">
                 </nobr>
             </form>
         </div>
     </div>
 
     <script>
-        $(".sav_10").on('click', function (event) {
+        $(".sav_2").on('click', function (event) {
             alert("Save function: Not implemented yet");
         });
-        $(".pri_10").on('click', function (event) {
+        $(".pri_2").on('click', function (event) {
             alert("Print function: Not implemented yet");
         });
-        $(".del_10").on('click', function (event) {
+        $(".del_2").on('click', function (event) {
             alert("Delete function: Not implemented yet");
         });
     </script>

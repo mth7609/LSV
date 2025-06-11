@@ -1,21 +1,20 @@
 import { requestStates, requestTopHeadlines, requestTopicHeadlinesInfo, requestConstValues, requestTopicItems, requestInitValues, requestInfoLabels, requestImages, requestOutputText } from "./ServerRequests.js";
 import { globalTopicHeadlines, globalTopicItems, globalInfoLabels, globalTopHeadlines } from "./Globals.js";
-import { rgb2hex, showDBStatus, setTabActive, newTab } from "./RendererScripts_02.js";
+import { showDBStatus, newTab } from "./RendererScripts_02.js";
 
 
 var selectedDropdown = 0;
 var publisherIs = "";
-let searchCnt = 1;
+let selectCnt = 1;
 var elementsOnForm = 1;
-var maxSearchSets = 10;
-var maxReached = false;
+var maxDatasetTabs = 10;
 var lastTopicName = "null";
 
 localStorage.clear();
 localStorage.setItem("httpPort", "8088");
 localStorage.setItem("tabCount", 0);
-localStorage.setItem("searchCount", searchCnt);
-localStorage.setItem("tabRun", 0);
+localStorage.setItem("selectCnt", selectCnt);
+localStorage.setItem("maxDatasetTabs", maxDatasetTabs)
 
 //requestDBStatus(); // close app if no running DB
 requestInfoLabels();
@@ -34,20 +33,19 @@ setYears();
 setTopicHeadlines();
 setTopHeadlines();
 publisherReset();
-changeRange(searchCnt);
 
 
 
-const searchTopItems = Array.from({ length: maxSearchSets + 1 }, () => new Array(elementsOnForm).fill(0));
-const searchTopicsItems = Array.from({ length: maxSearchSets + 1 }, () => new Array(elementsOnForm).fill(0));
+
+const datasetTopItems = Array.from({ length: maxDatasetTabs + 1 }, () => new Array(elementsOnForm).fill(0));
+const datasetTopicsItems = Array.from({ length: maxDatasetTabs + 1 }, () => new Array(elementsOnForm).fill(0));
 
 $(".dropdown-menu li a").on('click', updateValue);
-$(".doSearch").on('click', doSearch);
+$(".selectButtonSave").on('click', doDataset);
 $(".dropdownState").on('click', stateSel);
 $(".dropdownYear").on('click', yearSel);
 $(".schoolLabel").on('click', publisherSchool);
 $(".freeLabel").on('click', publisherFree);
-$(".searchRange").on('click', updateRange);
 $(".topicListButtonInput").on('click', topicListButtonClick);
 $(".doReset").on('click', resetClick);
 $("title").text(localStorage.getItem("title"));
@@ -106,7 +104,7 @@ function setOtherContent() {            // using the front pages ticks
 
 function setOutputText() {
     $('.mainWindowHeadlineInput').html(localStorage.getItem("mainWindowHeadlineInput"));
-    $('.searchWindowHeadline').html(localStorage.getItem("searchWindowHeadline"));
+    $('.datasetWindowHeadline').html(localStorage.getItem("datasetWindowHeadline"));
     if (self.innerWidth > 1200) {
         $('.infoLabel').html('<form method="POST" class="form-horizontal formTop ms-1 me-3 ps-3 pe-3 pt-0 border rounded-4">\
             <label class="col-form-label infoLabel">'+ globalInfoLabels.contentValue[0]["text"] + '</label></form>');
@@ -117,8 +115,10 @@ function setOutputText() {
 }
 
 function setTopHeadlines() {
-    localStorage.setItem("topHeadlineCnt", globalTopHeadlines.contentValue.length);
-    for (let i = 0; i < localStorage.getItem("topHeadlineCnt"); i++) {
+
+    localStorage.setItem("datasetTopHeadlineCnt", globalTopHeadlines.contentValue.length);
+    console.log(localStorage.getItem("datasetTopHeadlineCnt"));
+    for (let i = 0; i < localStorage.getItem("datasetTopHeadlineCnt"); i++) {
         localStorage.setItem("mainHeadline_" + globalTopHeadlines.contentValue[i]["arraypos"], globalTopHeadlines.contentValue[i]["names"]);
     }
     $('.nameLabel').html(localStorage.getItem("mainHeadline_0"));
@@ -137,8 +137,8 @@ function setTopHeadlines() {
 }
 
 function resetClick() {
-    //    localStorage.setItem("searchCount", 1);
-    //    searchCnt = 1;
+    //    localStorage.setItem("selectCnt", 1);
+    //    selectCnt = 1;
     let i;
     let formTop;
     let n;
@@ -153,18 +153,6 @@ function resetClick() {
             localStorage.removeItem("checked_topic_" + n + "_" + i);
             $(".topic_" + n + "_" + i).prop("checked", false);
             $(".topic_" + n + "_" + i).css("backgroundColor", "#056289");
-        }
-    }
-
-    for (let i = 1; i <= localStorage.getItem("maxSearchSets"); i++) {
-        if ($(".tab-" + i).show()) {
-            $(".navtab-" + i).hide();
-            setTabActive(0);
-            localStorage.setItem("searchNumber", 0);
-            localStorage.setItem("searchCount", 0)
-            searchCnt = 1;
-            maxSearchSets = localStorage.getItem("maxSearchSets");
-            maxReached = false;
         }
     }
 
@@ -196,69 +184,6 @@ function topicListButtonClick() {
 }
 
 
-function updateRange(str) {
-    let n, i, k;
-
-    publisherReset();
-
-    $('.dropdownState').html(searchTopItems[$(".searchRange").val()][3]);
-    $('.dropdownYear').html(searchTopItems[$(".searchRange").val()][5]);
-
-    if (searchTopItems[$(".searchRange").val()][4] == localStorage.getItem("free")) {
-        //console.log(searchTopItems[$(".searchRange").val()][4] + "     " + localStorage.getItem("free"));
-        $('.btnradio1').prop("checked", false);
-        $('.btnradio2').prop("checked", true);
-        $(".freeLabel").css("backgroundColor", "#00ffff");
-    }
-    else
-        if (searchTopItems[$(".searchRange").val()][4] == localStorage.getItem("school")) {
-            //console.log(searchTopItems[$(".searchRange").val()][4] + "     " + localStorage.getItem("school"));
-            $('.btnradio1').prop("checked", true);
-            $(".schoolLabel").css("backgroundColor", "#00ffff");
-            $('.btnradio2').prop("checked", false);
-        }
-        else {
-            $('.btnradio1').prop("checked", false);
-            $('.btnradio2').prop("checked", false);
-        }
-
-    $('.name').val(searchTopItems[$(".searchRange").val()][0]);
-    $('.schoolPublisher').val(searchTopItems[$(".searchRange").val()][1]);
-    $('.city').val(searchTopItems[$(".searchRange").val()][2]);
-    $('.publishNo').val(searchTopItems[$(".searchRange").val()][6]);
-
-    let searchTopicsItemCnt = 0;
-
-    for (n = 0; n < localStorage.getItem("topicHeadlineCnt"); n++) {        // reset topics
-        for (i = 0; i < localStorage.getItem("amountTopicsHeadline_" + n); i++) {
-            $(".topic_" + n + "_" + i).css("backgroundColor", "#056289").css("border", "solid 2px #111111");
-            localStorage.setItem("checked_topic_" + n + "_" + i, "");
-            searchTopicsItemCnt++;
-        }
-    }
-
-    for (i = 0; i < searchTopicsItemCnt; i++) {
-        if (searchTopicsItems[$(".searchRange").val()][i]) {                // select and set topics according to the range position
-            $("." + searchTopicsItems[$(".searchRange").val()][i]).css("backgroundColor", "#00ee00").css("border", "solid 2px #111111");
-        }
-    }
-
-    for (n = 0; n < localStorage.getItem("topicHeadlineCnt"); n++) {        // get the colors and set local storage used for search window
-        for (i = 0; i < localStorage.getItem("amountTopicsHeadline_" + n); i++) {
-            if (rgb2hex($(".topic_" + n + "_" + i).css("backgroundColor")) == '#00ee00')
-                localStorage.setItem("checked_topic_" + n + "_" + i, "checked");
-        }
-    }
-
-    for (i = 0; i < localStorage.getItem("searchTopItemCnt"); i++) {        // save top items
-        localStorage.setItem("searchItem_" + i, searchTopItems[$(".searchRange").val()][i]);
-    }
-
-    changeStatus3(" " + localStorage.getItem("statusSearchEntry") + " " + $(".searchRange").val());
-
-    localStorage.setItem("searchCount", $(".searchRange").val());
-}
-
 export function setTopicHeadlines() {
     localStorage.setItem("topicHeadlineCnt", globalTopicHeadlines.contentValue.length);
     for (let i = 0; i < globalTopicHeadlines.contentValue.length; i++) {
@@ -268,6 +193,7 @@ export function setTopicHeadlines() {
         setTopicItems(i);
     }
 }
+
 
 export function setTopicItems(nr) {
     let i, n;
@@ -298,9 +224,6 @@ export function changeStatus3(str) {
     $(".statusText3").html("&nbsp; " + str);
 }
 
-function changeRange(str) {
-    $(".searchRange").attr("max", str);
-}
 
 function publisherSchool(str) {
     publisherIs = localStorage.getItem("school");
@@ -386,15 +309,11 @@ function prepareNumber(nr) {
 }
 
 
-function doSearch() {
+function doDataset() {
 
-    let tabRun = localStorage.getItem("tabRun");
-
-    if (searchCnt > maxSearchSets) {
-        searchCnt = 1;
-        maxReached = true;
-        tabRun++;;
-        localStorage.setItem("tabRun", tabRun);
+    if (selectCnt > maxDatasetTabs) {
+        alert("Maximale Anzahl (10) der gemerkten Datensätze erreicht.\n\nBitte kontrollieren und Speichern.");
+        return;
     }
 
     /*    prepareNumber(1);
@@ -404,54 +323,46 @@ function doSearch() {
         prepareNumber(12345);
     */
 
-    searchTopItems[searchCnt][0] = $('.name').val();        // Save top item values in the top-item search array (not local storage)
-    searchTopItems[searchCnt][1] = $('.schoolPublisher').val();
-    searchTopItems[searchCnt][2] = $('.city').val();
-    searchTopItems[searchCnt][3] = $(".dropdownState").text();
-    searchTopItems[searchCnt][4] = publisherIs;
-    searchTopItems[searchCnt][5] = $(".dropdownYear").text();
-    searchTopItems[searchCnt][6] = $('.publishNo').val();
+    datasetTopItems[selectCnt][0] = $('.name').val();        // Save top item values in the top-item dataset array (not local storage)
+    datasetTopItems[selectCnt][1] = $('.schoolPublisher').val();
+    datasetTopItems[selectCnt][2] = $('.city').val();
+    datasetTopItems[selectCnt][3] = $(".dropdownState").text();
+    datasetTopItems[selectCnt][4] = publisherIs;
+    datasetTopItems[selectCnt][5] = $(".dropdownYear").text();
+    datasetTopItems[selectCnt][6] = $('.publishNo').val();
 
     let i = 0, n = 0, itemCnt = 0;
 
-    localStorage.setItem("searchCount", searchCnt);
+    localStorage.setItem("selectCnt", selectCnt);
 
-    for (n = 0; n < globalTopicHeadlines.contentValue.length; n++) {        // Save selected topics in the topics search array
+    for (n = 0; n < globalTopicHeadlines.contentValue.length; n++) {        // Save selected topics in the topics dataset array
         for (i = 0; i < globalTopicItems[n].contentValue.length; i++) {
             if (localStorage.getItem("checked_topic_" + n + "_" + i) == "checked") {
-                searchTopicsItems[searchCnt][itemCnt] = "topic_" + n + "_" + i;  // Saved for use in range select
+                datasetTopicsItems[selectCnt][itemCnt] = "topic_" + n + "_" + i;  // Saved for use in range select
                 itemCnt++;
             }
         }
     }
 
-    for (i = 0; i < localStorage.getItem("searchTopItemCnt"); i++) {        // Save top search values to local storage
-        localStorage.setItem("searchItem_" + i, searchTopItems[searchCnt][i]);
+    for (i = 0; i < localStorage.getItem("datasetTopItemCount"); i++) {        // Save top dataset values to local storage
+        localStorage.setItem("datasetItem_" + i, datasetTopItems[selectCnt][i]);
     }
 
-    let searchNumber = localStorage.getItem("searchNumber");
-    searchNumber++;
-    let nr = prepareNumber(searchNumber);
-    localStorage.setItem("searchNumber", searchNumber)
-    let searchFileName = "./SearchdatasetNr_" + searchCnt + ".html";
+    let datasetNumber = localStorage.getItem("datasetNumber");
+    datasetNumber++;
+    let nr = prepareNumber(datasetNumber);
+    localStorage.setItem("datasetNumber", datasetNumber)
+    let datasetFileName = "./Dataset_" + selectCnt + ".html";
 
-    console.log("cnt: " + searchCnt + ",  tabRun: " + tabRun + ",  maxReached: " + maxReached + ",  maxSearchSets: " + maxSearchSets + "  searchFile: " + searchFileName);
+    console.log("cnt: " + selectCnt + ",  maxDatasetTabs: " + maxDatasetTabs + "  datasetFile: " + datasetFileName);
 
-    localStorage.setItem("searchWindowSubheadline", "Nr.: " + nr);
-    changeRange(searchCnt);
+    localStorage.setItem("datasetWindowSubheadline", "Nr.: " + nr);
 
+    $(".navtab-" + selectCnt).text(nr);
+    newTab(selectCnt, datasetFileName, nr);
+    selectCnt++;
 
-    if (maxReached == false && tabRun == 0) {
-        newTab(searchCnt, searchFileName, nr);
-    }
-    else {
-        $(".navtab-" + searchCnt).text(nr);
-        updateSearchTab(searchCnt);
-    }
-
-    searchCnt++;
-
-    $(".doSearch").trigger("blur");
+    $(".selectButtonSave").trigger("blur");
 
 }
 
