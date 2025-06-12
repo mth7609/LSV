@@ -155,3 +155,35 @@ export function requestConstValues() {
     });
 }
 
+export function requestSelectDatasetNumber(nr) {
+    $.ajax({
+        type: 'GET',
+        url: 'http://localhost:' + localStorage.getItem("httpPort") + '/requestSelectDatasetNumber',
+        async: false,
+        success: function (data) {
+            let i;
+            for (i = 0; i < data.length; i++) {
+                if (data[i]["dataset_number"] == nr) {
+                    localStorage.setItem("selectedDatasetNumber", nr);
+                    localStorage.setItem("selectedDatasetComment", data[i]["comment"]);
+                }
+            }
+            if (i == data.lenght) {
+                localStorage.setItem("selectedDatasetNumber", "");
+                localStorage.setItem("selectedDatasetComment", "");
+            }
+        }
+    });
+}
+
+export function requestNewDatasetNumber() {
+    $.ajax({
+        type: 'GET',
+        url: 'http://localhost:' + localStorage.getItem("httpPort") + '/requestNewDatasetNumber',
+        async: false,
+        success: function (data) {
+            localStorage.setItem("newDatasetNumber", data);
+            console.log("New: " + data[0]["max(dataset_number)"]);
+        }
+    });
+}

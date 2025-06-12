@@ -108,9 +108,10 @@ body {
 }
 
 .infoLabel {
-    font-size: 14px;
+    font-size: 16px;
+    font-weight: normal;
     color: #eeeeee;
-    text-wrap: wrap;
+    text-wrap: nowrap;
 }
 
 .topicList {
@@ -252,4 +253,8 @@ hr {
     overflow: none;
     background: #000000;
     height: 3px;
+}
+
+textarea {
+    resize: none;
 }

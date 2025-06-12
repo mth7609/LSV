@@ -255,6 +255,36 @@ function requestInitValues() {
   });
 }
 
+
+function requestSelectDatasetNumber(dataset_number) {
+  serverFunctions.appx.get('/requestSelectDatasetNumber', (req, res) => {
+    con.connect(function (err) {
+      if (err) throw err;
+      con.query("SELECT * FROM dataset_numbers where dataset_number=" + dataset_number, function (err, result, fields) {
+        if (err) throw err;
+        res.send(result);
+      });
+    });
+  });
+}
+
+
+function requestNewDatasetNumber() {
+  serverFunctions.appx.get('/requestNewDatasetNumber', (req, res) => {
+    con.connect(function (err) {
+      if (err) throw err;
+      con.query("SELECT max(dataset_number) FROM archive_data order by dataset_number asc", function (err, result, fields) {
+        if (err) throw err;
+        let nr = result[0]["max(dataset_number)"] + 1;
+        result[0]["max(dataset_number)"] = nr;
+        res.send(result);
+      });
+    });
+  });
+}
+
+
+
 requestSqlDBStatus();
 requestSqlStates();
 requestSqlTopicHeadlines();
@@ -266,5 +296,7 @@ requestSqlDBRunning();
 requestSqlImages();
 requestInitValues();
 requestConstValues();
+requestSelectDatasetNumber();
+requestNewDatasetNumber();
 
-module.exports = { requestInitValues, requestSqlDBStatus, requestSqlDBRunning, requestSqlStates, databaseServerConnect, requestSqlTopicHeadlines, requestSqlTopHeadlines, requestSqlOutputText, requestSqlImages, requestConstValues, requestSqlInfoLabels };
+module.exports = { requestNewDatasetNumber, requestSelectDatasetNumber, requestInitValues, requestSqlDBStatus, requestSqlDBRunning, requestSqlStates, databaseServerConnect, requestSqlTopicHeadlines, requestSqlTopHeadlines, requestSqlOutputText, requestSqlImages, requestConstValues, requestSqlInfoLabels };

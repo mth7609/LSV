@@ -1,4 +1,4 @@
-import { requestStates, requestTopHeadlines, requestTopicHeadlinesInfo, requestConstValues, requestTopicItems, requestInitValues, requestInfoLabels, requestImages, requestOutputText } from "./ServerRequests.js";
+import { requestNewDatasetNumber, requestSelectDatasetNumber, requestStates, requestTopHeadlines, requestTopicHeadlinesInfo, requestConstValues, requestTopicItems, requestInitValues, requestInfoLabels, requestImages, requestOutputText } from "./ServerRequests.js";
 import { globalTopicHeadlines, globalTopicItems, globalInfoLabels, globalTopHeadlines } from "./Globals.js";
 import { showDBStatus, newTab } from "./RendererScripts_02.js";
 
@@ -89,15 +89,11 @@ function getActualFullDate() {
 
 function setOtherContent() {            // using the front pages ticks
     if (self.innerWidth > 1200) {
-        $('.infoLabel').html('<form method="POST" class="form-horizontal formTop ms-1 me-3 ps-3 pe-3 pt-0 border rounded-4">\
-            <label class="col-form-label infoLabel">'+ globalInfoLabels.contentValue[0]["text"] + '</label></form>');
         $('.logoImage').html("<img src='" + localStorage.getItem("image_1") + "'></img>");
     }
     else {
-        $('.infoLabel').html("");
         $('.logoImage').html("");
     }
-
     $('.statusText2').text(getActualFullDate());
 }
 
@@ -105,13 +101,9 @@ function setOtherContent() {            // using the front pages ticks
 function setOutputText() {
     $('.mainWindowHeadlineInput').html(localStorage.getItem("mainWindowHeadlineInput"));
     $('.datasetWindowHeadline').html(localStorage.getItem("datasetWindowHeadline"));
-    if (self.innerWidth > 1200) {
-        $('.infoLabel').html('<form method="POST" class="form-horizontal formTop ms-1 me-3 ps-3 pe-3 pt-0 border rounded-4">\
-            <label class="col-form-label infoLabel">'+ globalInfoLabels.contentValue[0]["text"] + '</label></form>');
-    }
-    else
-        $('.infoLabel').html("");
-
+    $('.infoLabel').html('<form method="POST" class="form-horizontal formTop ms-1 me-3 ps-3 pe-3 pt-0 border rounded-4">\
+            <label class="col-lg-3 ps-0 pt-2 fixed control-label">Bemerkung</label><br>\
+            <textarea class="comment" rows="6" style="width:100%"></textarea></form>');
 }
 
 function setTopHeadlines() {
@@ -323,6 +315,8 @@ function doDataset() {
         prepareNumber(12345);
     */
 
+    requestNewDatasetNumber();
+
     datasetTopItems[selectCnt][0] = $('.name').val();        // Save top item values in the top-item dataset array (not local storage)
     datasetTopItems[selectCnt][1] = $('.schoolPublisher').val();
     datasetTopItems[selectCnt][2] = $('.city').val();
@@ -356,8 +350,8 @@ function doDataset() {
 
     console.log("cnt: " + selectCnt + ",  maxDatasetTabs: " + maxDatasetTabs + "  datasetFile: " + datasetFileName);
 
-    localStorage.setItem("datasetWindowSubheadline", "Nr.: " + nr);
-
+    localStorage.setItem("datasetWindowSubheadline", nr.toString());
+    console.log(nr);
     $(".navtab-" + selectCnt).text(nr);
     newTab(selectCnt, datasetFileName, nr);
     selectCnt++;
