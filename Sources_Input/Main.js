@@ -5,17 +5,22 @@ const path = require('node:path')
 const dbFunctions = require('./lsv_modules/ServerResponses');
 const serverFunctions = require('./lsv_modules/ServerFunctions');
 const initData = require('./init.json');
+const EventEmitter = require('events')
 
-let winSearch;
-
+const loadingEvents = new EventEmitter();
+let winMain = null;
+let splashWindow = null;
 
 var storage = require('node-storage');
 var store = new storage('./storage');
 
-const createMainWindow = () => {              // Main window
-  let winMain = new BrowserWindow({
+//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ createMainWindow()
+
+const createMainWindow = () => {
+  winMain = new BrowserWindow({
     width: 1600,
     height: 950,
+    show: false,
     "webPreferences": {
       "web-security": false,
       "nodeIntegration": true,
@@ -28,23 +33,12 @@ const createMainWindow = () => {              // Main window
   store.put("dbconnect", "NOK");
   serverFunctions.createDatasetFiles();
 
+  ipcMain.on('closeLoginCMD', (event) => {
+    console("Close Login");
+  })
+
   winMain.once('ready-to-show', () => {
     winMain.webContents.send('httpPort', initData["httpPort"]);
-  })
-
-  ipcMain.on('openSearchProcessCMD', (event) => {
-    createDatasetMainWindow();
-  })
-
-  ipcMain.on('closeSearchProcessCMD', (event) => {
-    if (winSearch)
-      winSearch.close();
-  })
-
-
-  ipcMain.on('closeMainProcessCMD', (event) => {
-    if (winMain)
-      winMain.close();
   })
 
   winMain.webContents.setVisualZoomLevelLimits(1, 2);
@@ -53,99 +47,72 @@ const createMainWindow = () => {              // Main window
   winMain.removeMenu();
 
 
-  setTimeout(function () {
-    winMain.loadFile('./index.html');
-  }, 1000);
+  //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++  // Add splash file and load index.html
 
-
-  winMain.on('closed', () => {
-    if (winSearch)
-      winSearch.close();
-    winMain = false;
-    console.log(' ---- Bye Bye Main ---- ')
-  });
-
-
-  electronLocalshortcut.register('CommandOrControl+D', () => {
-    winMain.webContents.toggleDevTools();
-    winMain.webContents.send('update-counter', 100);
-  })
-
-
-  electronLocalshortcut.register('CommandOrControl+R', () => {
-    winMain.reload();
-  })
-
-
-  winMain.webContents.on("zoom-changed", (event, zoomDirection) => {
-    var currentZoom = winMain.webContents.getZoomFactor();
-    if (zoomDirection === "in" && currentZoom < 1.2) {
-      winMain.webContents.zoomFactor = currentZoom + 0.1;
-    }
-
-    if (zoomDirection === "out" && currentZoom > 0.6) {
-      winMain.webContents.zoomFactor = currentZoom - 0.1;
+  splashWindow = new BrowserWindow({
+    width: 500,
+    height: 450,
+    frame: false,
+    alwaysOnTop: true,
+    webPreferences: {
+      preload: path.join(__dirname, 'preload.js'),
+      nodeIntegration: true,
+      contextIsolation: true
     }
   });
 
+  loadingEvents.on('finishedLogin', async () => {
+    try {
+      splashWindow.close();
+      await winMain.loadFile('./index.html');
+      winMain.center();
+      winMain.show();
+    } catch (error) {
+      console.error('Error loading index.html: ', error);
+    }
+  })
 
-  if (isMainThread) {
-    const worker = new Worker("./lsv_modules/DatabaseThread.js");
-    worker.on('message', (message) => {                   // receive from worker, send to renderer
-      console.log(message);
-      if (winMain)
-        winMain.webContents.send('status1', message);
-    });
-    worker.postMessage("Start");
-  }
 
-  if (isMainThread) {
-    const worker = new Worker("./lsv_modules/FrontPagesThread.js");
-    worker.on('message', (message) => {                     // receive from worker, send to renderer
-      console.log(message);
-      if (winMain)
-        winMain.webContents.send('frontPage', message);
-    });
-    worker.postMessage("Start");
-  }
+  // Load splash screen file
+  splashWindow.loadFile('./login.html').then(() => {
+    splashWindow.center();
+    //    setTimeout(() => {
+    //      loadingEvents.emit('finishedLogin');
+    //   }, 3000);
+  }).catch(error => {
+    console.error('Error loading splash window:', error);
+  });
+
+  // Clean up ressources when splash window is closed
+  splashWindow.on('closed', () => {
+    splashWindow.removeAllListeners()
+    splashWindow = null;
+  })
+
 }
 
+//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ End createMainWindow(), start 
 
-/*const createSearchResultMainWindow = () => {
-  if (!winSearch) {
-    winSearch = new BrowserWindow(
-      {
-        width: 600,
-        height: 800,
-        "webPreferences": {
-          "web-security": false,
-          "webviewTag": true
-        }
-      }
-    )
 
-    winSearch.on('closed', () => {
-      winSearch = null;
-      console.log(' ---- Bye Bye Search ---- ')
-    })
-
-    winSearch.webContents.setVisualZoomLevelLimits(1, 2);
-    winSearch.webContents.setZoomFactor(1.0);
-    winSearch.webContents.setZoomLevel(0);
-    winSearch.removeMenu();
-    winSearch.loadFile('SearchItemsList.html');
-    electronLocalshortcut.register('CommandOrControl+F', () => {
-      winSearch.webContents.toggleDevTools();
-    })
-    winSearch.show();
-    console.log(' ---- Hello Search ---- ')
-  }
-  else {
-    winSearch.reload();
-    winSearch.show();
-  }
+if (isMainThread) {
+  const worker = new Worker("./lsv_modules/DatabaseThread.js");
+  worker.on('message', (message) => {                   // receive from worker, send to renderer
+    console.log(message);
+    if (winMain)
+      winMain.webContents.send('status1', message);
+  });
+  worker.postMessage("Start");
 }
-*/
+
+if (isMainThread) {
+  const worker = new Worker("./lsv_modules/FrontPagesThread.js");
+  worker.on('message', (message) => {                     // receive from worker, send to renderer
+    console.log(message);
+    if (winMain)
+      winMain.webContents.send('frontPage', message);
+  });
+  worker.postMessage("Start");
+}
 
 app.whenReady().then(() => {
   serverFunctions.serverOpen();
@@ -161,40 +128,49 @@ app.whenReady().then(() => {
   setTimeout(() => {
     console.log("Starting application");
     createMainWindow();
-  }, 2000);
+  }, 1500);
 
   app.on('activate', () => {
     if (BrowserWindow.getAllWindows().length === 0) {
       createMainWindow();
     }
   })
-})
+
+  app.on('window-all-closed', () => {
+    setTimeout(() => {
+      serverFunctions.serverClose();
+    }, 1000);
+
+    setTimeout(() => {
+      if (process.platform !== 'darwin') {
+        winMain.removeAllListeners()
+        winMain = null;
+        app.quit();
+        console.log("The End");
+      }
+    }, 2000);
+  })
 
 
-app.on('window-all-closed', () => {
-  setTimeout(() => {
-    serverFunctions.serverClose();
-  }, 1000);
+  electronLocalshortcut.register('CommandOrControl+D', () => {
+    winMain.webContents.toggleDevTools();
+    //winMain.webContents.send('progressBar', 100);
+  })
 
-  setTimeout(() => {
-    if (process.platform !== 'darwin') {
-      app.quit();
-      console.log("The End");
+  electronLocalshortcut.register('CommandOrControl+R', () => {
+    winMain.reload();
+  })
+
+  winMain.webContents.on("zoom-changed", (event, zoomDirection) => {
+    var currentZoom = winMain.webContents.getZoomFactor();
+    if (zoomDirection === "in" && currentZoom < 1.2) {
+      winMain.webContents.zoomFactor = currentZoom + 0.1;
     }
-  }, 2000);
 
-
+    if (zoomDirection === "out" && currentZoom > 0.6) {
+      winMain.webContents.zoomFactor = currentZoom - 0.1;
+    }
+  });
 })
 
 
-
-
-
-
-
-// electron-packager . Archiv --overwrite --asar=true --platform=win32 --arch=ia32 --icon=assets / icons /winMain / icon.ico --prune=true --out=release-builds --version-string.CompanyName=CE --version-string.FileDescription=CE --version-string.ProductName="ArchivDerJugendzeitschriften"
-// Build EXE in C:\Projects\Electron\LSV\
-// Result in c:\Projects\Electron\LSV\release-builds\
-
-// Start/Stop MySQL in PowerShell: net start[stop] mySQL80 oder MySQL_Start.cmd / MySQL_Stop.cmd
-// Daten in c:\Projects\Electron\LSV\MySQL-Data\

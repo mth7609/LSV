@@ -1,0 +1,1 @@
+$('.logoImage').html("<img src='./images/LOGO1_blau_250.gif'>sdf</img>");
