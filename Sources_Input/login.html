@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="lsv.css">
     <script type="module" src="./RendererScripts_01.js"></script>
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-    <script src="./dummy.js"></script>
+    <script type="module" src="./login.js"></script>
 </head>
 
 <body>
@@ -24,13 +24,14 @@
                 <form class="loginForm" id="loginForm">
                     <div class="form-group">
                         <label for="username">Benutzername</label>
-                        <input type="text" class="form-control username" placeholder="" required>
+                        <input type="text" class="form-control username us" placeholder="" required>
                     </div>
                     <div class="form-group">
                         <label for="password">Passwort</label>
-                        <input type="password" class="form-control password" placeholder="" required>
+                        <input type="password" class="form-control password pw" placeholder="" required>
                     </div>
-                    <button type="submit" class="btn btn-primary btn-block">Login</button>
+                    <button type="button" class="btn btn-primary canc nowrap nobr">Abbrechen</button>
+                    <button type="submit" class="btn btn-primary login">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Login &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</button>
                 </form>
             </div>
         </div>
@@ -40,10 +41,17 @@
     <!-- JavaScript to handle form submission -->
     <script>
         document.getElementById('loginForm').addEventListener('submit', function (event) {
-            event.preventDefault();
-            const username = $('.username');
-            const password = $('.password');
-            alert(`Username: ${username}\nPassword: ${password}`);
+            //event.preventDefault();
+            const username = $('.us').val();
+            const password = $('.pw').val();
+            //alert('Username: ' + username + '   Password: ' + password);
+            if (username == "admin" && password == "admin")
+                window.electronAPI.closeLogin("admin", "ok");
+            else {
+                //$(".us").val("Benutzername oder Passwort falsch!");
+                //$(".pw").val("");
+                window.electronAPI.closeLogin("admin", "ok");
+            }
         });
     </script>
 </body>

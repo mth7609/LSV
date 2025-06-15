@@ -1,7 +1,7 @@
 const { contextBridge, ipcRenderer } = require('electron/renderer')
 
 contextBridge.exposeInMainWorld('electronAPI', {
-  closeLogin: () => ipcRenderer.send('closeLoginCMD'),
+  closeLogin: (username, credential) => ipcRenderer.send("loginCMD", username, credential),
   openSearchProcess: () => ipcRenderer.send('openSearchProcessCMD'),
   closeSearchProcess: () => ipcRenderer.send('closeSearchProcessCMD'),
   closeMainProcess: () => ipcRenderer.send('closeMainProcessCMD'),

@@ -101,8 +101,8 @@ function setOtherContent() {            // using the front pages ticks
 function setOutputText() {
     $('.mainWindowHeadlineInput').html(localStorage.getItem("mainWindowHeadlineInput"));
     $('.datasetWindowHeadline').html(localStorage.getItem("datasetWindowHeadline"));
-    $('.infoLabel').html('<form method="POST" class="form-horizontal formTop ms-1 me-3 ps-3 pe-3 pt-0 border rounded-4">\
-            <label class="col-lg-3 ps-0 pt-2 fixed control-label">Bemerkung</label><br>\
+    $('.commentDataset').html('<form method="POST" class="form-horizontal formTop ms-1 me-3 ps-3 pe-3 pt-0 border rounded-4">\
+            <label class="col-lg-3 ps-0 pt-2 fixed control-label nowrap">Bemerkung zum Datensatz</label><br>\
             <textarea class="comment" rows="6" style="width:100%"></textarea></form>');
 }
 

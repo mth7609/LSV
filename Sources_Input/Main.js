@@ -33,8 +33,12 @@ const createMainWindow = () => {
   store.put("dbconnect", "NOK");
   serverFunctions.createDatasetFiles();
 
-  ipcMain.on('closeLoginCMD', (event) => {
-    console("Close Login");
+  ipcMain.on('loginCMD', (event, username, credential) => {
+    //console.log(username + "    " + credential);
+    if (credential == "ok")
+      loadingEvents.emit('finishedLogin');
+    else
+      quitAPP();
   })
 
   winMain.once('ready-to-show', () => {
@@ -76,9 +80,6 @@ const createMainWindow = () => {
   // Load splash screen file
   splashWindow.loadFile('./login.html').then(() => {
     splashWindow.center();
-    //    setTimeout(() => {
-    //      loadingEvents.emit('finishedLogin');
-    //   }, 3000);
   }).catch(error => {
     console.error('Error loading splash window:', error);
   });
@@ -136,25 +137,13 @@ app.whenReady().then(() => {
     }
   })
 
-  app.on('window-all-closed', () => {
-    setTimeout(() => {
-      serverFunctions.serverClose();
-    }, 1000);
-
-    setTimeout(() => {
-      if (process.platform !== 'darwin') {
-        winMain.removeAllListeners()
-        winMain = null;
-        app.quit();
-        console.log("The End");
-      }
-    }, 2000);
+  app.on('quit', () => {
+    quitAPP;
   })
 
 
   electronLocalshortcut.register('CommandOrControl+D', () => {
     winMain.webContents.toggleDevTools();
-    //winMain.webContents.send('progressBar', 100);
   })
 
   electronLocalshortcut.register('CommandOrControl+R', () => {
@@ -171,6 +160,19 @@ app.whenReady().then(() => {
       winMain.webContents.zoomFactor = currentZoom - 0.1;
     }
   });
+
 })
 
-
+function quitAPP() {
+  setTimeout(() => {
+    serverFunctions.serverClose();
+  }, 500);
+  setTimeout(() => {
+    if (process.platform !== 'darwin') {
+      winMain.removeAllListeners()
+      winMain = null;
+      app.quit();
+      console.log("The End");
+    }
+  }, 1500);
+}

@@ -64,8 +64,8 @@ body {
 
 .frontImage {
     position: fixed;
-    top: 400px;
-    left: 77%;
+    top: 450px;
+    left: 78%;
     right: 20px;
     height: 620px;
     padding: 0px;
@@ -107,7 +107,7 @@ body {
     color: #000000;
 }
 
-.infoLabel {
+.commentDataset {
     font-size: 16px;
     font-weight: normal;
     color: #eeeeee;
