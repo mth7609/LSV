@@ -70,7 +70,11 @@ const createMainWindow = () => {
       splashWindow.close();
       await winMain.loadFile('./index.html');
       winMain.center();
-      winMain.show();
+      setTimeout(() => {
+        winMain.show();
+      }, 1000);
+
+
     } catch (error) {
       console.error('Error loading index.html: ', error);
     }

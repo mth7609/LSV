@@ -22,7 +22,7 @@
 
     <p class="text-center fs-2 p-1 fw-bold mainWindowHeadlineInput"></p>
 
-    <div class="container-fluid m-1 p-0">
+    <div class="container-fluid m-0 p-0">
         <div class="row">
             <div class="col-lg-9 pe-0 me-0 ps-3">
                 <form method="POST" class="form-horizontal formTop mx-3 ps-4 pe-3 pt-2 border rounded-4 nobr">
@@ -43,17 +43,21 @@
                                 </ul>
                             </div>
                         </div>
-                        <div class="col-sm-4">
+                        <div class="col-sm-3">
                             <label for="text" class="col-form-label cityLabel headlinesTop"></label>
                             <input type="text" class="form-control inputField city">
                         </div>
                         <div class="col-sm-1">
                             <label for="text" class="col-form-label datasetNrLabel headlinesTop"></label>
-                            <input type=" text" class="ps-2 mx-0 form-control inputField result" value="00.000">
+                            <input type="text" class="ps-2 mx-0 form-control inputField dsNumber" value="00.000">
                         </div>
                         <div class="col-sm-1">
                             <label class="col-form-label dummyLabel headlinesTop">&nbsp;</label>
-                            <input type="button" class="px-1 pt-0 form-control selectButtonDataset doReset btn btn-outline-secondary" value="Reset">
+                            <input type="button" class="p-0 form-control selectButton doButtonFetch btn-outline-secondary" value="Anfordern">
+                        </div>
+                        <div class="col-sm-1">
+                            <label class="col-form-label dummyLabel headlinesTop">&nbsp;</label>
+                            <input type="button" class="p-0 form-control selectButton doButtonNew btn-outline-secondary" value="Neu">
                         </div>
                     </div>
                     <div class="form-group row nobr">
@@ -67,13 +71,13 @@
                                 </label>
                             </div>
                             <div class="px-0">
-                                <input type="radio" class="btn-check" name="btnradio1">
-                                <label class="btn p-0 my-0 ms-1 btn-outline-primary schoolLabel" for="btnradio1"></label>
-                                <input type="radio" class="btn-check" name="btnradio2">
-                                <label class="btn p-0 my-0 ms-1 btn-outline-primary freeLabel" for="btnradio2"></label>
+                                <input type="radio" class="btn-check selectButton" name="btnradio1">
+                                <label class="btn p-0 my-0 ms-1 btn-outline-primary schoolLabel " for="btnradio1"></label>
+                                <input type="radio" class="btn-check selectButton" name="btnradio2">
+                                <label class="btn p-0 my-0 ms-1 btn-outline-primary freeLabel " for="btnradio2"></label>
                             </div>
                         </div>
-                        <div class="col-sm-4">
+                        <div class="col-sm-3">
                             <label class="col-form-label stateLabel headlinesTop"></label>
                             <div class="dropdown btn-outline-primary dropdownStateStyle state">
                                 <button class="col-sm-12 py-0 btn btn-outline-primary buttonStateStyle dropdownState" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expande d="false">...</button>
@@ -83,11 +87,15 @@
                         </div>
                         <div class="col-sm-1 py-0">
                             <label class="col-form-label headlinesTop">&nbsp;</label>
-                            <input type="button" class="py-0 form-control selectButtonSave btn btn-outline-secondary selectButtonDataset">
+                            <input type="button" class="p-0 form-control doButtonSave btn-outline-secondary selectButton">
                         </div>
                         <div class="col-sm-1 py-0">
                             <label class="col-form-label headlinesTop">&nbsp;</label>
-                            <input type="button" class="py-0 form-control selectButtonSaveDB btn btn-outline-secondary selectButtonDataset">
+                            <input type="button" class="p-0 form-control doButtonSaveDB btn-outline-secondary selectButton">
+                        </div>
+                        <div class="col-sm-1 py-0">
+                            <label class="col-form-label headlinesTop">&nbsp;</label>
+                            <input type="button" class="p-0 form-control doButtonSaveDBAll btn-outline-secondary selectButton" value="Alle speichern">
                         </div>
                     </div>
                 </form>
@@ -189,7 +197,7 @@
     </div>
 
     <div class="statusbar3 m-0 p-0 position-fixed status3">
-        <div class="py-0">
+        <div class="p-auto">
             <label class="ps-3 mx-0 statusText3">
             </label>
         </div>

@@ -41,13 +41,16 @@ const datasetTopItems = Array.from({ length: maxDatasetTabs + 1 }, () => new Arr
 const datasetTopicsItems = Array.from({ length: maxDatasetTabs + 1 }, () => new Array(elementsOnForm).fill(0));
 
 $(".dropdown-menu li a").on('click', updateValue);
-$(".selectButtonSave").on('click', doDataset);
+$(".doButtonFetch").on('click', doFetch);
+$(".doButtonNew").on('click', doNew);
+$(".doButtonSave").on('click', doDatasetSave);
+$(".doButtonSaveDB").on('click', doDatasetSaveDB);
+$(".doButtonSaveDBAll").on('click', doDatasetSaveDBAll);
 $(".dropdownState").on('click', stateSel);
 $(".dropdownYear").on('click', yearSel);
 $(".schoolLabel").on('click', publisherSchool);
 $(".freeLabel").on('click', publisherFree);
 $(".topicListButtonInput").on('click', topicListButtonClick);
-$(".doReset").on('click', resetClick);
 $("title").text(localStorage.getItem("title"));
 
 
@@ -88,13 +91,18 @@ function getActualFullDate() {
 
 
 function setOtherContent() {            // using the front pages ticks
-    if (self.innerWidth > 1200) {
+    //$('.statusText2').text(self.innerWidth);
+    if (self.innerWidth > 1815) {
         $('.logoImage').html("<img src='" + localStorage.getItem("image_1") + "'></img>");
+        $(".selectButton").css("font-size", "14px");
+        $(".selectButton").css.apply;
     }
     else {
         $('.logoImage').html("");
+        $(".selectButton").css("fontSize", "11px");
+        $(".selectButton").css.apply;
     }
-    $('.statusText2').text(getActualFullDate());
+    $('.statusText3').text(getActualFullDate());
 }
 
 
@@ -123,33 +131,11 @@ function setTopHeadlines() {
     $('.datasetNrLabel').html(localStorage.getItem("mainHeadline_8"));
     $('.freeLabel').html(localStorage.getItem("free"));
     $('.schoolLabel').html(localStorage.getItem("school"));
-    $('.selectButtonSave').val(localStorage.getItem("mainHeadline_10"));
-    $('.selectButtonSaveDB').val(localStorage.getItem("mainHeadline_11"));
+    $('.doButtonSave').val(localStorage.getItem("mainHeadline_10"));
+    $('.doButtonSaveDB').val(localStorage.getItem("mainHeadline_11"));
     $('.logoImage').html("<img src='" + localStorage.getItem("image_1") + "'></img>");
 }
 
-function resetClick() {
-    //    localStorage.setItem("selectCnt", 1);
-    //    selectCnt = 1;
-    let i;
-    let formTop;
-    let n;
-    formTop = document.querySelector('.formTop');
-    formTop.reset();
-    publisherReset();
-    yearReset();
-    stateReset();
-
-    for (n = 0; n < localStorage.getItem("topicHeadlineCnt"); n++) {
-        for (i = 0; i < localStorage.getItem("amountTopicsHeadline_" + n); i++) {
-            localStorage.removeItem("checked_topic_" + n + "_" + i);
-            $(".topic_" + n + "_" + i).prop("checked", false);
-            $(".topic_" + n + "_" + i).css("backgroundColor", "#056289");
-        }
-    }
-
-    $(".doReset").trigger("blur");
-}
 
 function topicListButtonClick() {
     var topicName = this.attributes[4].value;
@@ -220,13 +206,13 @@ export function changeStatus3(str) {
 function publisherSchool(str) {
     publisherIs = localStorage.getItem("school");
     $(".freeLabel").css("backgroundColor", "#ffffff");
-    $(".schoolLabel").css("backgroundColor", "#00ffff");
+    $(".schoolLabel").css("backgroundColor", "#00bb00");
     $(".schoolLabel").css("color", "#000000");
 }
 
 function publisherFree(str) {
     publisherIs = localStorage.getItem("free");
-    $(".freeLabel").css("backgroundColor", "#00ffff");
+    $(".freeLabel").css("backgroundColor", "#00bb00");
     $(".freeLabel").css("color", "#000000");
     $(".schoolLabel").css("backgroundColor", "#ffffff");
 }
@@ -249,9 +235,6 @@ function yearSel(str) {
     selectedDropdown = 2;
 }
 
-function yearReset() {
-    $(".dropdownYear").text("...");
-}
 
 function updateValue(str) {
     var selText = $(this).text();
@@ -301,7 +284,32 @@ function prepareNumber(nr) {
 }
 
 
-function doDataset() {
+function doNew() {
+    $(".doButtonNew").trigger("blur");
+    changeStatus2("doNew");
+}
+
+
+function doFetch() {
+    $(".doButtonFetch").trigger("blur");
+    changeStatus2("doFetch");
+}
+
+
+function doDatasetSaveDB() {
+    $(".doButtonSaveDB").trigger("blur");
+    changeStatus2("doDatasetSaveDB");
+}
+
+
+function doDatasetSaveDBAll() {
+    $(".doButtonSaveDBAll").trigger("blur");
+    changeStatus2("doDatasetSaveDBALL");
+}
+
+
+
+function doDatasetSave() {
 
     if (selectCnt > maxDatasetTabs) {
         alert("Maximale Anzahl (10) der gemerkten Datensätze erreicht.\n\nBitte kontrollieren und Speichern.");
@@ -356,7 +364,7 @@ function doDataset() {
     newTab(selectCnt, datasetFileName, nr);
     selectCnt++;
 
-    $(".selectButtonSave").trigger("blur");
+    $(".doButtonSave").trigger("blur");
 
 }
 

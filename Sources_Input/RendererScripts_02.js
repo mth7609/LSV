@@ -40,6 +40,8 @@ export function hideTabContent(nr) {
 
 
 export function newTab(nr, link, name) {
+
+
     $(".nav").append('<button class="nav-link navtabCSS navtab-' + nr + '" data-bs-toggle="tab" data-bs-target="#cnt-' + nr + '" type="button" role="tab" aria-controls="nav-profile" aria-selected="false">' + name + '</button>');
     $(".tab-content").append('<div class="tab-pane tab-' + nr + '" id="cnt-' + nr + '" role="tabpanel" aria-labelledby="nav-home-tab">' + name + '</div >');
     $(".tab-content").after('<script>$(".tab-' + nr + '").load("' + link + '")</script>');

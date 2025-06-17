@@ -15,10 +15,10 @@ body {
     bottom: 0px;
     left: 15px;
     right: 25%;
-    height: 23px;
+    height: 30px;
     padding: 10px;
     font-weight: bold;
-    font-size: small;
+    font-size: 18px;
     background: #c2e2ec;
     color: #000000;
     border: solid 2px rgb(0, 0, 0);
@@ -32,26 +32,27 @@ body {
     position: fixed;
     bottom: 0px;
     left: 74%;
-    width: 8%;
+    width: 16%;
     padding: 0px;
     font-weight: bold;
-    font-size: small;
+    font-size: 18px;
     background: #c2e2ec;
     z-index: 201;
     border: solid 2px rgb(0, 0, 0);
     color: #000000;
-    height: 23px;
+    height: 30px;
+    text-align: center;
 }
 
 .statusbar3 {
     position: fixed;
     bottom: 0px;
-    left: 81%;
+    left: 89%;
     right: 15px;
-    height: 23px;
-    padding: 10px;
+    height: 30px;
+    width: 10%;
     font-weight: bold;
-    font-size: small;
+    font-size: 18px;
     background: #c2e2ec;
     color: #000000;
     border: solid 2px rgb(0, 0, 0);
@@ -60,6 +61,7 @@ body {
     overflow: hidden;
     overflow-y: none;
     text-wrap: nowrap;
+    text-align: center;
 }
 
 .frontImage {
@@ -137,17 +139,35 @@ body {
 }
 
 .selectButtonDataset {
-    background: #008800;
-    border: solid 2px #bbbbbb;
-    color: #ffffff;
     height: 30px;
+    background: #008800;
+    color: #ffffff;
+    padding: 0px;
+    border-radius: 5px;
+    box-shadow: 0px 17px 10px -10px rgba(0, 0, 0, 0.4);
+    cursor: pointer;
+    -webkit-transition: all ease-in-out 200ms;
+    transition: all ease-in-out 200ms;
 }
 
 .selectButton {
-    background: #ffffff;
-    border: solid 2px #bbbbbb;
-    color: #000000;
     height: 30px;
+    background: #008800;
+    color: #ffffff;
+    padding: 0px;
+    border-radius: 5px;
+    box-shadow: 0px 17px 10px -10px rgba(0, 0, 0, 0.4);
+    cursor: pointer;
+    -webkit-transition: all ease-in-out 200ms;
+    transition: all ease-in-out 200ms;
+}
+
+.selectButton:hover {
+    background: #555555;
+    color: #ffffff;
+    box-shadow: 0px 37px 20px -20px rgba(0, 0, 0, 0.2);
+    -webkit-transform: translate(0px, -3px) scale(1.1);
+    transform: translate(0px, -3px) scale(1.1);
 }
 
 .schoolLabel {
@@ -156,7 +176,8 @@ body {
     border-style: solid;
     color: #000000;
     height: 30px;
-    width: 55px
+    width: 55px;
+    font-size: 16px;
 }
 
 .freeLabel {
@@ -165,14 +186,15 @@ body {
     border-style: solid;
     color: #000000;
     height: 30px;
-    width: 55px
+    width: 55px;
+    font-size: 16px;
 }
 
-.result {
-    width: 75px;
+.dsNumber {
     color: #000000;
     font-weight: bold;
     font-size: 16px;
+    text-align: center;
 }
 
 .publishNo {
@@ -212,29 +234,11 @@ body {
     height: 30px;
 }
 
-
-.nav-link:hover {
-    background: #008800;
-    color: #ffffff;
-    border: solid 1px #000000;
-}
-
-
-.navtabCSS {
-    font-weight: bold;
-    font-size: 12px;
-    color: #dddddd;
-    background-color: #056289;
-    height: 30px;
-    padding: 1px;
-    margin-top: 10px;
-    margin-left: 5px;
-    margin-right: 0px;
-    width: 70px;
-    border: solid 1px #bbbbbb;
-}
-
 .navtabHomeCSS {
+    border-radius: 5px;
+    box-shadow: 0px 17px 10px -10px rgba(0, 0, 0, 0.4);
+    -webkit-transition: all ease-in-out 200ms;
+    transition: all ease-in-out 200ms;
     font-weight: bold;
     font-size: 12px;
     color: #dddddd;
@@ -243,6 +247,34 @@ body {
     padding: 1px;
     margin-top: 10px;
     margin-left: 30px;
+    margin-right: 0px;
+    width: 70px;
+    border: solid 1px #bbbbbb;
+}
+
+.nav-link:hover {
+    box-shadow: 0px 37px 20px -20px rgba(0, 0, 0, 0.2);
+    -webkit-transform: translate(0px, -3px) scale(1.1);
+    transform: translate(0px, -3px) scale(1.1);
+    background: #008800;
+    color: #ffffff;
+}
+
+
+.navtabCSS {
+    border-radius: 5px;
+    box-shadow: 0px 17px 10px -10px rgba(0, 0, 0, 0.4);
+    cursor: pointer;
+    -webkit-transition: all ease-in-out 200ms;
+    transition: all ease-in-out 200ms;
+    font-weight: bold;
+    font-size: 12px;
+    color: #dddddd;
+    background-color: #056289;
+    height: 30px;
+    padding: 1px;
+    margin-top: 10px;
+    margin-left: 5px;
     margin-right: 0px;
     width: 70px;
     border: solid 1px #bbbbbb;
