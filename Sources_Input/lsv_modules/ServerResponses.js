@@ -89,7 +89,7 @@ function requestSqlTopicHeadlines() {
 }
 
 function requestSqlTopHeadlines() {
-  serverFunctions.appx.get('/requestSqlTopHeadlines', (req, res) => {
+  serverFunctions.appx.get('/requestSqlDatasetTopHeadlines', (req, res) => {
     con.connect(function (err) {
       if (err) throw err;
       con.query("SELECT * FROM dataset_top_headlines order by arraypos", function (err, result, fields) {

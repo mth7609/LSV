@@ -1,6 +1,6 @@
 import { requestNewDatasetNumber, requestSelectDatasetNumber, requestStates, requestTopHeadlines, requestTopicHeadlinesInfo, requestConstValues, requestTopicItems, requestInitValues, requestInfoLabels, requestImages, requestOutputText } from "./ServerRequests.js";
 import { globalTopicHeadlines, globalTopicItems, globalInfoLabels, globalTopHeadlines } from "./Globals.js";
-import { showDBStatus, newTab } from "./RendererScripts_02.js";
+import { doFetch, doNew, doDatasetSaveDB, doDatasetSaveDBAll, newTab, showDBStatus } from "./RendererScripts_02.js";
 
 
 var selectedDropdown = 0;
@@ -16,7 +16,7 @@ localStorage.setItem("tabCount", 0);
 localStorage.setItem("selectCnt", selectCnt);
 localStorage.setItem("maxDatasetTabs", maxDatasetTabs)
 
-//requestDBStatus(); // close app if no running DB
+
 requestInfoLabels();
 requestOutputText();
 requestOutputText();
@@ -34,8 +34,8 @@ setTopicHeadlines();
 setTopHeadlines();
 publisherReset();
 
-
-
+requestNewDatasetNumber();
+setToNew();
 
 const datasetTopItems = Array.from({ length: maxDatasetTabs + 1 }, () => new Array(elementsOnForm).fill(0));
 const datasetTopicsItems = Array.from({ length: maxDatasetTabs + 1 }, () => new Array(elementsOnForm).fill(0));
@@ -51,6 +51,7 @@ $(".dropdownYear").on('click', yearSel);
 $(".schoolLabel").on('click', publisherSchool);
 $(".freeLabel").on('click', publisherFree);
 $(".topicListButtonInput").on('click', topicListButtonClick);
+$(".doButtonNew").on('click', doNewClick);
 $("title").text(localStorage.getItem("title"));
 
 
@@ -92,13 +93,13 @@ function getActualFullDate() {
 
 function setOtherContent() {            // using the front pages ticks
     //$('.statusText2').text(self.innerWidth);
-    if (self.innerWidth > 1815) {
-        $('.logoImage').html("<img src='" + localStorage.getItem("image_1") + "'></img>");
+    if (self.innerWidth > 1715) {
+        //$('.logoImage').html("<img src='" + localStorage.getItem("image_1") + "'></img>");
         $(".selectButton").css("font-size", "14px");
         $(".selectButton").css.apply;
     }
     else {
-        $('.logoImage').html("");
+        // $('.logoImage').html("");
         $(".selectButton").css("fontSize", "11px");
         $(".selectButton").css.apply;
     }
@@ -110,12 +111,11 @@ function setOutputText() {
     $('.mainWindowHeadlineInput').html(localStorage.getItem("mainWindowHeadlineInput"));
     $('.datasetWindowHeadline').html(localStorage.getItem("datasetWindowHeadline"));
     $('.commentDataset').html('<form method="POST" class="form-horizontal formTop ms-1 me-3 ps-3 pe-3 pt-0 border rounded-4">\
-            <label class="col-lg-3 ps-0 pt-2 fixed control-label nowrap">Bemerkung zum Datensatz</label><br>\
+            <label class="col-lg-3 ps-0 pt-2 fixed control-label nowrap commentLabel"></label><br>\
             <textarea class="comment" rows="6" style="width:100%"></textarea></form>');
 }
 
 function setTopHeadlines() {
-
     localStorage.setItem("datasetTopHeadlineCnt", globalTopHeadlines.contentValue.length);
     console.log(localStorage.getItem("datasetTopHeadlineCnt"));
     for (let i = 0; i < localStorage.getItem("datasetTopHeadlineCnt"); i++) {
@@ -131,12 +131,14 @@ function setTopHeadlines() {
     $('.datasetNrLabel').html(localStorage.getItem("mainHeadline_8"));
     $('.freeLabel').html(localStorage.getItem("free"));
     $('.schoolLabel').html(localStorage.getItem("school"));
-    $('.doButtonSave').val(localStorage.getItem("mainHeadline_10"));
-    $('.doButtonSaveDB').val(localStorage.getItem("mainHeadline_11"));
+    $('.doButtonSave').val(localStorage.getItem("mainHeadline_9"));
+    $('.doButtonSaveDB').val(localStorage.getItem("mainHeadline_10"));
+    $('.doButtonSaveDBAll').val(localStorage.getItem("mainHeadline_11"));
+    $('.commentLabel').html(localStorage.getItem("mainHeadline_7"));
+    $('.doButtonNew').val(localStorage.getItem("mainHeadline_13"));
+    $('.doButtonFetch').val(localStorage.getItem("mainHeadline_12"));
     $('.logoImage').html("<img src='" + localStorage.getItem("image_1") + "'></img>");
 }
-
-
 function topicListButtonClick() {
     var topicName = this.attributes[4].value;
 
@@ -260,7 +262,7 @@ function setYears() {
 }
 
 
-function prepareNumber(nr) {
+export function prepareNumber(nr) {
     let str = nr.toString();
     let strLen = str.length;
     let res1;
@@ -284,30 +286,40 @@ function prepareNumber(nr) {
 }
 
 
-function doNew() {
+function yearReset() {
+    $(".dropdownYear").text("...");
+}
+
+
+function setToNew() {
+    let ds = localStorage.getItem("newDatasetNumber");
+    $(".dsNumber").val(prepareNumber(ds));
+    changeStatus2(localStorage.getItem("mainHeadline_14"));
+}
+
+
+function doNewClick() {
+    let i, n;
+
+    let formTop = document.querySelector('.formTop');
+    formTop.reset();
+    publisherReset();
+    yearReset();
+    stateReset();
+
+    for (n = 0; n < localStorage.getItem("topicHeadlineCnt"); n++) {
+        for (i = 0; i < localStorage.getItem("amountTopicsHeadline_" + n); i++) {
+            localStorage.removeItem("checked_topic_" + n + "_" + i);
+            $(".topic_" + n + "_" + i).prop("checked", false);
+            $(".topic_" + n + "_" + i).css("backgroundColor", "#056289");
+        }
+    }
+
+    $('.comment').val("");
+    setToNew();
+
     $(".doButtonNew").trigger("blur");
-    changeStatus2("doNew");
 }
-
-
-function doFetch() {
-    $(".doButtonFetch").trigger("blur");
-    changeStatus2("doFetch");
-}
-
-
-function doDatasetSaveDB() {
-    $(".doButtonSaveDB").trigger("blur");
-    changeStatus2("doDatasetSaveDB");
-}
-
-
-function doDatasetSaveDBAll() {
-    $(".doButtonSaveDBAll").trigger("blur");
-    changeStatus2("doDatasetSaveDBALL");
-}
-
-
 
 function doDatasetSave() {
 
@@ -316,15 +328,6 @@ function doDatasetSave() {
         return;
     }
 
-    /*    prepareNumber(1);
-        prepareNumber(12);
-        prepareNumber(123);
-        prepareNumber(1234);
-        prepareNumber(12345);
-    */
-
-    requestNewDatasetNumber();
-
     datasetTopItems[selectCnt][0] = $('.name').val();        // Save top item values in the top-item dataset array (not local storage)
     datasetTopItems[selectCnt][1] = $('.schoolPublisher').val();
     datasetTopItems[selectCnt][2] = $('.city').val();
@@ -332,6 +335,7 @@ function doDatasetSave() {
     datasetTopItems[selectCnt][4] = publisherIs;
     datasetTopItems[selectCnt][5] = $(".dropdownYear").text();
     datasetTopItems[selectCnt][6] = $('.publishNo').val();
+    datasetTopItems[selectCnt][7] = $('.comment').val();
 
     let i = 0, n = 0, itemCnt = 0;
 
@@ -346,25 +350,26 @@ function doDatasetSave() {
         }
     }
 
-    for (i = 0; i < localStorage.getItem("datasetTopItemCount"); i++) {        // Save top dataset values to local storage
+    for (i = 0; i < localStorage.getItem("datasetTopItemCount"); i++) {        // Save visible top dataset values to local storage
         localStorage.setItem("datasetItem_" + i, datasetTopItems[selectCnt][i]);
     }
 
-    let datasetNumber = localStorage.getItem("datasetNumber");
-    datasetNumber++;
+    localStorage.setItem("datasetItem_7", datasetTopItems[selectCnt][7]); // Special handling for comment
+
+    let datasetNumber = localStorage.getItem("newDatasetNumber");
     let nr = prepareNumber(datasetNumber);
-    localStorage.setItem("datasetNumber", datasetNumber)
     let datasetFileName = "./Dataset_" + selectCnt + ".html";
 
-    console.log("cnt: " + selectCnt + ",  maxDatasetTabs: " + maxDatasetTabs + "  datasetFile: " + datasetFileName);
+    //console.log("cnt: " + selectCnt + ",  maxDatasetTabs: " + maxDatasetTabs + "  datasetFile: " + datasetFileName);
 
     localStorage.setItem("datasetWindowSubheadline", nr.toString());
-    console.log(nr);
     $(".navtab-" + selectCnt).text(nr);
     newTab(selectCnt, datasetFileName, nr);
     selectCnt++;
+    datasetNumber++;
+    localStorage.setItem("newDatasetNumber", datasetNumber);
+    $(".dsNumber").val(prepareNumber(datasetNumber));
 
     $(".doButtonSave").trigger("blur");
-
 }
 

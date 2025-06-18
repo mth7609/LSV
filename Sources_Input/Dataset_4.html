@@ -37,16 +37,6 @@
     <br>
 
     <div class="container ml-6">
-        <div class="row ms-8 p-0" style="border: solid 2px rgb(0, 0, 0); width:40%">
-            <div class="form-group">
-                <label class="col-lg-6 pt-1 control-label nowrap nobr"><b>Bemerkung zum Datensatz</b></label>
-                <div class="input col-lg-12 ">
-                    <form>
-                        <textarea rows="7" style="width:100%"></textarea>
-                    </form>
-                </div>
-            </div>
-        </div>
         <br>
         <div class="row" style="width:40%">
             <div class="form-group">
@@ -54,6 +44,7 @@
                     <nobr>
                         <input type="button" class="selectButtonDataset sav_4 btn btn-outline-secondary ps-2 pe-2 pt-0" value="Speichern">
                         <input type="button" class="selectButtonDataset pri_4 btn btn-outline-secondary ps-2 pe-2 pt-0" value="Drucken">
+                        <input type="button" class="selectButtonDataset change_4 btn btn-outline-secondary ps-2 pe-2 pt-0" value="Ändern">
                         <input type="button" class="selectButtonDataset del_4 btn btn-outline-secondary ps-2 pe-2 pt-0" value="Löschen">
                     </nobr>
                 </form>
@@ -70,6 +61,9 @@
         });
         $(".del_4").on('click', function (event) {
             alert("Delete function: Not implemented yet");
+        });
+        $(".change_4").on('click', function (event) {
+            alert("Change function: Not implemented yet");
         });
     </script>
 

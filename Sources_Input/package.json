@@ -1,5 +1,5 @@
 {
-  "name": "lsv_archiv",
+  "name": "Archiv",
   "version": "1.0.0",
   "description": "Archiv der Jugendzeitschriften von der LandesSchülerVertretung",
   "keywords": [],
@@ -22,11 +22,14 @@
     "package": "electron-forge package",
     "make": "electron-forge make",
     "publish": "electron-forge publish",
-    "dbug": "node dbug.js"
+    "dbug": "node dbug.js",
+    "copy-assets": "copyfiles ../MySQL-Data/* electron"
   },
   "dependencies": {
     "@popperjs/core": "^2.11.8",
     "bootstrap": "^4.6.0",
+    "builder-util": "^26.0.11",
+    "child_process": "^1.0.2",
     "chrome": "^0.1.0",
     "chrome-tabs": "^5.4.0",
     "devtool": "^2.3.1",
@@ -54,6 +57,7 @@
     "@electron-forge/plugin-fuses": "^7.4.0",
     "@electron-forge/publisher-github": "^7.4.0",
     "@electron/fuses": "^1.8.0",
+    "copyfiles": "^2.4.1",
     "electron": "^31.7.7"
   }
 }

@@ -1,4 +1,4 @@
-import { changeStatus1 } from "./RendererScripts_01.js";
+import { prepareNumber, changeStatus1, changeStatus2 } from "./RendererScripts_01.js";
 
 
 var hexDigits = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "a", "b", "c", "d", "e", "f"];
@@ -40,8 +40,6 @@ export function hideTabContent(nr) {
 
 
 export function newTab(nr, link, name) {
-
-
     $(".nav").append('<button class="nav-link navtabCSS navtab-' + nr + '" data-bs-toggle="tab" data-bs-target="#cnt-' + nr + '" type="button" role="tab" aria-controls="nav-profile" aria-selected="false">' + name + '</button>');
     $(".tab-content").append('<div class="tab-pane tab-' + nr + '" id="cnt-' + nr + '" role="tabpanel" aria-labelledby="nav-home-tab">' + name + '</div >');
     $(".tab-content").after('<script>$(".tab-' + nr + '").load("' + link + '")</script>');
@@ -64,4 +62,28 @@ export function setTabActive(nr) {
             hideTabContent(i);
     }
     //$(".tab-" + nr).show();
+}
+
+
+export function doNew() {
+    $(".doButtonNew").trigger("blur");
+    changeStatus2("doNew");
+}
+
+
+export function doFetch() {
+    $(".doButtonFetch").trigger("blur");
+    changeStatus2("doFetch");
+}
+
+
+export function doDatasetSaveDB() {
+    $(".doButtonSaveDB").trigger("blur");
+    changeStatus2("doDatasetSaveDB");
+}
+
+
+export function doDatasetSaveDBAll() {
+    $(".doButtonSaveDBAll").trigger("blur");
+    changeStatus2("doDatasetSaveDBAll");
 }

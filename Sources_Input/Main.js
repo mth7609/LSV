@@ -6,6 +6,9 @@ const dbFunctions = require('./lsv_modules/ServerResponses');
 const serverFunctions = require('./lsv_modules/ServerFunctions');
 const initData = require('./init.json');
 const EventEmitter = require('events')
+const electron = require('electron');
+const dialog = electron.dialog;
+const child_process = require('child_process');
 
 const loadingEvents = new EventEmitter();
 let winMain = null;
@@ -13,6 +16,8 @@ let splashWindow = null;
 
 var storage = require('node-storage');
 var store = new storage('./storage');
+
+
 
 //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ createMainWindow()
 
@@ -30,6 +35,8 @@ const createMainWindow = () => {
     },
   })
 
+
+  winMain.webContents.session.setSpellCheckerEnabled(false);
   store.put("dbconnect", "NOK");
   serverFunctions.createDatasetFiles();
 
@@ -64,6 +71,7 @@ const createMainWindow = () => {
       contextIsolation: true
     }
   });
+
 
   loadingEvents.on('finishedLogin', async () => {
     try {
@@ -125,6 +133,8 @@ app.whenReady().then(() => {
   app.commandLine.appendSwitch('high-dpi-support', 1)
   app.commandLine.appendSwitch('force-device-scale-factor', 1)
 
+  //run_script("xcopy ..\MySql-Data ..\MySql-Data_copy /s /y", null, null);
+
   setTimeout(() => {
     dbFunctions.databaseServerConnect();
     console.log("Connected to database");
@@ -179,4 +189,46 @@ function quitAPP() {
       console.log("The End");
     }
   }, 1500);
+}
+
+
+//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+function run_script(command, args, callback) {
+  var child = child_process.spawn(command, args, {
+    encoding: 'utf8',
+    shell: true
+  });
+  // You can also use a variable to save the output for when the script closes later
+  child.on('error', (error) => {
+    dialog.showMessageBox({
+      title: 'Title',
+      type: 'warning',
+      message: 'Error occured.\r\n' + error
+    });
+  });
+
+  child.stdout.setEncoding('utf8');
+  child.stdout.on('data', (data) => {
+    //Here is the output
+    data = data.toString();
+    console.log(data);
+  });
+
+
+  child.on('close', (code) => {
+    //Here you can get the exit code of the script  
+    switch (code) {
+      case 0:
+        dialog.showMessageBox({
+          title: 'Title',
+          type: 'info',
+          message: 'End process.\r\n'
+        });
+        break;
+    }
+
+  });
+  if (typeof callback === 'function')
+    callback();
 }

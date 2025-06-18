@@ -80,7 +80,7 @@ export function requestTopicHeadlinesInfo() {
 export function requestTopHeadlines() {
     $.ajax({
         type: 'GET',
-        url: 'http://localhost:' + localStorage.getItem("httpPort") + '/requestSqlTopHeadlines',
+        url: 'http://localhost:' + localStorage.getItem("httpPort") + '/requestSqlDatasetTopHeadlines',
         async: false,
         success: function (data) {
             globalTopHeadlines.content = data;
@@ -182,8 +182,8 @@ export function requestNewDatasetNumber() {
         url: 'http://localhost:' + localStorage.getItem("httpPort") + '/requestNewDatasetNumber',
         async: false,
         success: function (data) {
-            localStorage.setItem("newDatasetNumber", data);
-            console.log("New: " + data[0]["max(dataset_number)"]);
+            localStorage.setItem("newDatasetNumber", data[0]["max(dataset_number)"]);
+            //console.log("New: " + data[0]["max(dataset_number)"]);
         }
     });
 }

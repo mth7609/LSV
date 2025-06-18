@@ -9,7 +9,7 @@ function updateDatasetTab(tab) {
     let datasetItems = [];
     let mainHeadline = [];
 
-    for (i = 0; i < 11; i++) {
+    for (i = 0; i < localStorage.getItem("datasetTopItemCount"); i++) {
         mainHeadline[i] = localStorage.getItem("mainHeadline_" + i);
         datasetItems[i] = localStorage.getItem("datasetItem_" + i);
         if (datasetItems[i] != null)
@@ -20,6 +20,7 @@ function updateDatasetTab(tab) {
     $('.datasetWindowHeadline_' + tab).html(localStorage.getItem("datasetWindowHeadline"));
     $('.datasetWindowSubheadline_' + tab).html(localStorage.getItem("datasetWindowSubheadline"));
     $('.topDatasetItems_' + tab).html(el);
+    $('.comment_' + tab).val(localStorage.getItem("datasetItem_7"));   // Special handling for comment that should be shown in textarea
 
     el = "";
     let checkFound = false;
