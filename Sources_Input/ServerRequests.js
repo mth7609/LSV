@@ -182,8 +182,9 @@ export function requestNewDatasetNumber() {
         url: 'http://localhost:' + localStorage.getItem("httpPort") + '/requestNewDatasetNumber',
         async: false,
         success: function (data) {
-            localStorage.setItem("newDatasetNumber", data[0]["max(dataset_number)"]);
-            //console.log("New: " + data[0]["max(dataset_number)"]);
+            localStorage.setItem("datasetNumber", data);
+            console.log("New: " + localStorage.getItem("datasetNumber"));
         }
     });
+    return localStorage.getItem("datasetNumber");
 }

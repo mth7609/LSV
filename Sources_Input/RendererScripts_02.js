@@ -1,4 +1,5 @@
 import { prepareNumber, changeStatus1, changeStatus2 } from "./RendererScripts_01.js";
+import { requestNewDatasetNumber } from "./ServerRequests.js";
 
 
 var hexDigits = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "a", "b", "c", "d", "e", "f"];
@@ -79,11 +80,57 @@ export function doFetch() {
 
 export function doDatasetSaveDB() {
     $(".doButtonSaveDB").trigger("blur");
-    changeStatus2("doDatasetSaveDB");
+    saveDataset()
 }
 
 
 export function doDatasetSaveDBAll() {
     $(".doButtonSaveDBAll").trigger("blur");
     changeStatus2("doDatasetSaveDBAll");
+}
+
+function saveDataset() {
+    let i;
+    let n;
+    let el2 = "", el = "";
+
+    el = el + ",'" + $('.name').val() + "'";
+    el = el + ",'" + $('.schoolPublisher').val() + "'";
+    el = el + ",'" + $(".dropdownYear").text() + "'";
+    el = el + ",'" + $('.publishNo').val() + "'";
+    el = el + ",'" + $('.city').val() + "'";
+    el = el + ",'" + $(".dropdownState").text() + "'";
+    el = el + ",'" + localStorage.getItem("publisherIs") + "'";
+    //el = el + ",'" + $('.comment').val() + "'";
+
+    for (n = 0; n < localStorage.getItem("topicHeadlineCnt"); n++) {
+        for (i = 0; i < localStorage.getItem("amountTopicsHeadline_" + n); i++) {
+            if (localStorage.getItem("checked_topic_" + n + "_" + i) == "checked") {
+                el2 = el2 + " " + n + "_" + i;
+            }
+        }
+    }
+
+    //console.log(localStorage.getItem("datasetNumber"));
+
+    let sqlQuery = "INSERT INTO prolabor.archive_data (dataset_number,name,school_publisher,year,number,city,state,publisher_is,topics_list) values(" + localStorage.getItem("datasetNumber") + el + ",'" + el2 + "')";
+    window.electronAPI.receiveDataset(sqlQuery);
+    let nd = requestNewDatasetNumber();
+
+    if (nd != 0) {
+        changeStatus2("Datensatz " + nd + " gespeichert");
+        $(".statusbar2").css("background-color", "#00ee00");
+        setTimeout(() => {
+            changeStatus2("");
+            $(".statusbar2").css("background-color", "#c2e2ec");
+        }, 5000);
+        nd++;
+        $(".dsNumber").val(prepareNumber(nd));
+        localStorage.setItem("datasetNumber", nd);
+    }
+    else {
+        changeStatus2("Datensatz " + nd + " NICHT gespeichert");
+        $(".statusbar2").css("background-color", "#dd0000");
+        $(".statusbar2").css("color", "#ffffff");
+    }
 }

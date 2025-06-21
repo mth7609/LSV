@@ -22,6 +22,7 @@ function databaseServerConnect() {
       //console.log("dbconnect " + store.get("dbconnect"));
     }
   });
+  return con;
 }
 
 
@@ -268,21 +269,69 @@ function requestSelectDatasetNumber(dataset_number) {
   });
 }
 
+function ObjectLength(object) {
+  var length = 0;
+  for (var key in object) {
+    if (object.hasOwnProperty(key)) {
+      ++length;
+    }
+  }
+  return length;
+};
 
 function requestNewDatasetNumber() {
+  let maxV;
+  let dsNr;
+
   serverFunctions.appx.get('/requestNewDatasetNumber', (req, res) => {
-    con.connect(function (err) {
+    dsNr = serverFunctions.mysql.createConnection({
+      host: "localhost",
+      user: "prolabor",
+      password: "mzkti29b",
+      database: "prolabor"
+    });
+
+    dsNr.connect((err) => {
       if (err) throw err;
-      con.query("SELECT max(dataset_number) FROM archive_data order by dataset_number asc", function (err, result, fields) {
-        if (err) throw err;
-        let nr = result[0]["max(dataset_number)"] + 1;
-        result[0]["max(dataset_number)"] = nr;
-        res.send(result);
+      dsNr.query("SELECT dataset_number FROM prolabor.archive_data order by dataset_number", (err, result, fields) => {
+        if (err) {
+          res.send(new Object(0));
+          throw err;
+        }
+        let len = ObjectLength(result);
+        maxV = 0;
+        for (let i = 0; i < len; i++) {
+          if (result[i]["dataset_number"] > maxV) {
+            maxV = result[i]["dataset_number"];
+          }
+        }
+        dsNr.end();
+        maxV++;
+        //console.log("Result: " + maxV);
+        res.send(new Object(maxV));
       });
     });
   });
 }
 
+
+function saveDataset(sqlQuery) {
+  let conSave = serverFunctions.mysql.createConnection({
+    host: "localhost",
+    user: "prolabor",
+    password: "mzkti29b",
+    database: "prolabor"
+  });
+
+  conSave.connect(function (err) {
+    if (err) throw err;
+    conSave.query(sqlQuery, function (err) {
+      if (err) throw err;
+    });
+
+    conSave.end();
+  });
+}
 
 
 requestSqlDBStatus();
@@ -299,4 +348,4 @@ requestConstValues();
 requestSelectDatasetNumber();
 requestNewDatasetNumber();
 
-module.exports = { requestNewDatasetNumber, requestSelectDatasetNumber, requestInitValues, requestSqlDBStatus, requestSqlDBRunning, requestSqlStates, databaseServerConnect, requestSqlTopicHeadlines, requestSqlTopHeadlines, requestSqlOutputText, requestSqlImages, requestConstValues, requestSqlInfoLabels };
+module.exports = { saveDataset, requestNewDatasetNumber, requestSelectDatasetNumber, requestInitValues, requestSqlDBStatus, requestSqlDBRunning, requestSqlStates, databaseServerConnect, requestSqlTopicHeadlines, requestSqlTopHeadlines, requestSqlOutputText, requestSqlImages, requestConstValues, requestSqlInfoLabels };

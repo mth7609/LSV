@@ -64,6 +64,7 @@ const createMainWindow = () => {
     width: 500,
     height: 450,
     frame: false,
+    //show: false,
     alwaysOnTop: true,
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
@@ -155,6 +156,9 @@ app.whenReady().then(() => {
     quitAPP;
   })
 
+  ipcMain.on('receiveDatasetCMD', (event, dataset) => {
+    dbFunctions.saveDataset(dataset);
+  })
 
   electronLocalshortcut.register('CommandOrControl+D', () => {
     winMain.webContents.toggleDevTools();
@@ -193,42 +197,3 @@ function quitAPP() {
 
 
 //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-
-function run_script(command, args, callback) {
-  var child = child_process.spawn(command, args, {
-    encoding: 'utf8',
-    shell: true
-  });
-  // You can also use a variable to save the output for when the script closes later
-  child.on('error', (error) => {
-    dialog.showMessageBox({
-      title: 'Title',
-      type: 'warning',
-      message: 'Error occured.\r\n' + error
-    });
-  });
-
-  child.stdout.setEncoding('utf8');
-  child.stdout.on('data', (data) => {
-    //Here is the output
-    data = data.toString();
-    console.log(data);
-  });
-
-
-  child.on('close', (code) => {
-    //Here you can get the exit code of the script  
-    switch (code) {
-      case 0:
-        dialog.showMessageBox({
-          title: 'Title',
-          type: 'info',
-          message: 'End process.\r\n'
-        });
-        break;
-    }
-
-  });
-  if (typeof callback === 'function')
-    callback();
-}

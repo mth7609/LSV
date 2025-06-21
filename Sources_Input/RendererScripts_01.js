@@ -43,7 +43,7 @@ const datasetTopicsItems = Array.from({ length: maxDatasetTabs + 1 }, () => new 
 $(".dropdown-menu li a").on('click', updateValue);
 $(".doButtonFetch").on('click', doFetch);
 $(".doButtonNew").on('click', doNew);
-$(".doButtonSave").on('click', doDatasetSave);
+$(".doButtonSave").on('click', doDatasetRemember);
 $(".doButtonSaveDB").on('click', doDatasetSaveDB);
 $(".doButtonSaveDBAll").on('click', doDatasetSaveDBAll);
 $(".dropdownState").on('click', stateSel);
@@ -207,6 +207,7 @@ export function changeStatus3(str) {
 
 function publisherSchool(str) {
     publisherIs = localStorage.getItem("school");
+    localStorage.setItem("publisherIs", "school");
     $(".freeLabel").css("backgroundColor", "#ffffff");
     $(".schoolLabel").css("backgroundColor", "#00bb00");
     $(".schoolLabel").css("color", "#000000");
@@ -214,6 +215,7 @@ function publisherSchool(str) {
 
 function publisherFree(str) {
     publisherIs = localStorage.getItem("free");
+    localStorage.setItem("publisherIs", "free");
     $(".freeLabel").css("backgroundColor", "#00bb00");
     $(".freeLabel").css("color", "#000000");
     $(".schoolLabel").css("backgroundColor", "#ffffff");
@@ -292,7 +294,7 @@ function yearReset() {
 
 
 function setToNew() {
-    let ds = localStorage.getItem("newDatasetNumber");
+    let ds = localStorage.getItem("datasetNumber");
     $(".dsNumber").val(prepareNumber(ds));
     changeStatus2(localStorage.getItem("mainHeadline_14"));
 }
@@ -321,7 +323,7 @@ function doNewClick() {
     $(".doButtonNew").trigger("blur");
 }
 
-function doDatasetSave() {
+function doDatasetRemember() {
 
     if (selectCnt > maxDatasetTabs) {
         alert("Maximale Anzahl (10) der gemerkten Datensätze erreicht.\n\nBitte kontrollieren und Speichern.");
@@ -356,7 +358,7 @@ function doDatasetSave() {
 
     localStorage.setItem("datasetItem_7", datasetTopItems[selectCnt][7]); // Special handling for comment
 
-    let datasetNumber = localStorage.getItem("newDatasetNumber");
+    let datasetNumber = localStorage.getItem("datasetNumber");
     let nr = prepareNumber(datasetNumber);
     let datasetFileName = "./Dataset_" + selectCnt + ".html";
 
@@ -366,10 +368,23 @@ function doDatasetSave() {
     $(".navtab-" + selectCnt).text(nr);
     newTab(selectCnt, datasetFileName, nr);
     selectCnt++;
-    datasetNumber++;
-    localStorage.setItem("newDatasetNumber", datasetNumber);
-    $(".dsNumber").val(prepareNumber(datasetNumber));
 
-    $(".doButtonSave").trigger("blur");
+    let nd = localStorage.getItem("datasetNumber");
+    if (nd != 0) {
+        changeStatus2("Datensatz " + nd + " gemerkt");
+        $(".statusbar2").css("background-color", "#00ee00");
+        setTimeout(() => {
+            changeStatus2("");
+            $(".statusbar2").css("background-color", "#c2e2ec");
+        }, 5000);
+        nd++;
+        $(".dsNumber").val(prepareNumber(nd));
+        localStorage.setItem("datasetNumber", nd);
+    }
+    else {
+        changeStatus2("Datensatz " + nd + " NICHT gemerkt");
+        $(".statusbar2").css("background-color", "#dd0000");
+        $(".statusbar2").css("color", "#ffffff");
+    }
 }
 
