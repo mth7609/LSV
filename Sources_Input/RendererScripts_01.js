@@ -1,6 +1,6 @@
 import { requestNewDatasetNumber, requestSelectDatasetNumber, requestStates, requestTopHeadlines, requestTopicHeadlinesInfo, requestConstValues, requestTopicItems, requestInitValues, requestInfoLabels, requestImages, requestOutputText } from "./ServerRequests.js";
 import { globalTopicHeadlines, globalTopicItems, globalInfoLabels, globalTopHeadlines } from "./Globals.js";
-import { doFetch, doNew, doDatasetSaveDB, doDatasetSaveDBAll, newTab, showDBStatus } from "./RendererScripts_02.js";
+import { doFetchClick, doDatasetSaveDB, doDatasetSaveDBAll, newTab, showDBStatus } from "./RendererScripts_02.js";
 
 
 var selectedDropdown = 0;
@@ -41,8 +41,7 @@ const datasetTopItems = Array.from({ length: maxDatasetTabs + 1 }, () => new Arr
 const datasetTopicsItems = Array.from({ length: maxDatasetTabs + 1 }, () => new Array(elementsOnForm).fill(0));
 
 $(".dropdown-menu li a").on('click', updateValue);
-$(".doButtonFetch").on('click', doFetch);
-$(".doButtonNew").on('click', doNew);
+$(".doButtonFetch").on('click', doFetchClick);
 $(".doButtonSave").on('click', doDatasetRemember);
 $(".doButtonSaveDB").on('click', doDatasetSaveDB);
 $(".doButtonSaveDBAll").on('click', doDatasetSaveDBAll);
@@ -60,8 +59,13 @@ window.electronAPI.getStatus1((value) => {
 })
 
 
+window.electronAPI.getDataset((value) => {
+    console.log("Renderer received");
+    console.log(value);
+})
+
+
 window.electronAPI.getFrontPages((value) => {
-    //console.log(value);
     if (self.innerWidth > 1600)
         $('.frontImage').html("<img src='./images/" + value + "' width='350px'></img>")
     else
@@ -156,7 +160,7 @@ function topicListButtonClick() {
         localStorage.setItem("checked_" + topicName, "unchecked");
     }
     else {
-        $("." + topicName).css("backgroundColor", "#00ee00");
+        $("." + topicName).css("backgroundColor", "#00dd00");
         lastTopicName = topicName;
     }
     $("." + topicName).trigger("blur");
@@ -209,14 +213,14 @@ function publisherSchool(str) {
     publisherIs = localStorage.getItem("school");
     localStorage.setItem("publisherIs", "school");
     $(".freeLabel").css("backgroundColor", "#ffffff");
-    $(".schoolLabel").css("backgroundColor", "#00bb00");
+    $(".schoolLabel").css("backgroundColor", "#008800");
     $(".schoolLabel").css("color", "#000000");
 }
 
 function publisherFree(str) {
     publisherIs = localStorage.getItem("free");
     localStorage.setItem("publisherIs", "free");
-    $(".freeLabel").css("backgroundColor", "#00bb00");
+    $(".freeLabel").css("backgroundColor", "#008800");
     $(".freeLabel").css("color", "#000000");
     $(".schoolLabel").css("backgroundColor", "#ffffff");
 }
@@ -313,7 +317,7 @@ function doNewClick() {
         for (i = 0; i < localStorage.getItem("amountTopicsHeadline_" + n); i++) {
             localStorage.removeItem("checked_topic_" + n + "_" + i);
             $(".topic_" + n + "_" + i).prop("checked", false);
-            $(".topic_" + n + "_" + i).css("backgroundColor", "#056289");
+            $(".topic_" + n + "_" + i).css("backgroundColor", "#660000");
         }
     }
 
@@ -372,7 +376,7 @@ function doDatasetRemember() {
     let nd = localStorage.getItem("datasetNumber");
     if (nd != 0) {
         changeStatus2("Datensatz " + nd + " gemerkt");
-        $(".statusbar2").css("background-color", "#00ee00");
+        $(".statusbar2").css("background-color", "#008800");
         setTimeout(() => {
             changeStatus2("");
             $(".statusbar2").css("background-color", "#c2e2ec");

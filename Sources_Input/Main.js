@@ -2,7 +2,7 @@ const { Worker, isMainThread, parentPort, workerData } = require('node:worker_th
 const { app, BrowserWindow, Menu, shell, ipcMain, MessageChannelMain } = require('electron')
 const electronLocalshortcut = require('electron-localshortcut');
 const path = require('node:path')
-const dbFunctions = require('./lsv_modules/ServerResponses');
+const serverResponses = require('./lsv_modules/ServerResponses');
 const serverFunctions = require('./lsv_modules/ServerFunctions');
 const initData = require('./init.json');
 const EventEmitter = require('events')
@@ -137,7 +137,7 @@ app.whenReady().then(() => {
   //run_script("xcopy ..\MySql-Data ..\MySql-Data_copy /s /y", null, null);
 
   setTimeout(() => {
-    dbFunctions.databaseServerConnect();
+    serverResponses.databaseServerConnect();
     console.log("Connected to database");
   }, 1000);
 
@@ -156,9 +156,15 @@ app.whenReady().then(() => {
     quitAPP;
   })
 
-  ipcMain.on('receiveDatasetCMD', (event, dataset) => {
-    dbFunctions.saveDataset(dataset);
+  ipcMain.on('sendDatasetCMD', (event, datasetInsertSQL) => {
+    serverResponses.executeSimpleSQL(datasetInsertSQL);
   })
+
+  ipcMain.on('receiveDatasetCMD', (event, query) => {
+    serverResponses.executeReceiveDataset(query);
+    //winMain.webContents.send('requestedDataset', "234");  // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+  })
+
 
   electronLocalshortcut.register('CommandOrControl+D', () => {
     winMain.webContents.toggleDevTools();

@@ -1,7 +1,15 @@
 const serverFunctions = require('./ServerFunctions');
+const EventEmitter = require('events');
 var storage = require('node-storage');
 var store = new storage('./storage');
 let tableNames = [];
+
+const receiveDatasetEmitter = new EventEmitter();
+receiveDatasetEmitter.on('data', (value) => {
+  console.log("Emitter send");
+  console.log(value);
+  winMain.webContents.send('requestedDataset', "wwwwww");
+});
 
 function databaseServerConnect() {
   con = serverFunctions.mysql.createConnection({
@@ -315,7 +323,37 @@ function requestNewDatasetNumber() {
 }
 
 
-function saveDataset(sqlQuery) {
+function executeSimpleSQL(sqlQuery) {
+  let conSave = serverFunctions.mysql.createConnection({
+    host: "localhost",
+    user: "prolabor",
+    password: "mzkti29b",
+    database: "prolabor"
+  });
+  conSave.connect(function (err) {
+    if (err) throw err;
+    conSave.query(sqlQuery, function (err) {
+      if (err) throw err;
+    });
+    conSave.end();
+  });
+}
+
+
+function execStatement(con, statement) {
+  let p = new Promise(function (res, rej) {
+    con.query(statement, function (err, result) {
+      if (err) throw err;
+      else res(result);
+    });
+  });
+  return p;
+}
+
+
+
+
+function executeReceiveDataset(sqlQuery) {
   let conSave = serverFunctions.mysql.createConnection({
     host: "localhost",
     user: "prolabor",
@@ -323,15 +361,14 @@ function saveDataset(sqlQuery) {
     database: "prolabor"
   });
 
-  conSave.connect(function (err) {
-    if (err) throw err;
-    conSave.query(sqlQuery, function (err) {
-      if (err) throw err;
-    });
-
-    conSave.end();
-  });
+  execStatement(conSave, sqlQuery)
+    .then(function (result) {
+      receiveDatasetEmitter.emit('data', result);
+    })
+    .catch(function () { throw err })
+    .finally(function () { conSave.end() });
 }
+
 
 
 requestSqlDBStatus();
@@ -348,4 +385,4 @@ requestConstValues();
 requestSelectDatasetNumber();
 requestNewDatasetNumber();
 
-module.exports = { saveDataset, requestNewDatasetNumber, requestSelectDatasetNumber, requestInitValues, requestSqlDBStatus, requestSqlDBRunning, requestSqlStates, databaseServerConnect, requestSqlTopicHeadlines, requestSqlTopHeadlines, requestSqlOutputText, requestSqlImages, requestConstValues, requestSqlInfoLabels };
+module.exports = { executeSimpleSQL, executeReceiveDataset, requestNewDatasetNumber, requestSelectDatasetNumber, requestInitValues, requestSqlDBStatus, requestSqlDBRunning, requestSqlStates, databaseServerConnect, requestSqlTopicHeadlines, requestSqlTopHeadlines, requestSqlOutputText, requestSqlImages, requestConstValues, requestSqlInfoLabels };

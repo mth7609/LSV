@@ -1,6 +1,17 @@
 
 
-/*async function sleepSecs(callCnt, secs) {       // Template
+/*
+
+function wait(timeout) {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve()
+    }, timeout);
+  });
+}
+
+
+async function sleepSecs(callCnt, secs) {       // Template
     callCnt++;
     if (callCnt < secs) {
         setTimeout(function () {

@@ -183,7 +183,6 @@ export function requestNewDatasetNumber() {
         async: false,
         success: function (data) {
             localStorage.setItem("datasetNumber", data);
-            console.log("New: " + localStorage.getItem("datasetNumber"));
         }
     });
     return localStorage.getItem("datasetNumber");

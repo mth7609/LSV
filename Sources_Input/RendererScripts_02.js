@@ -66,21 +66,16 @@ export function setTabActive(nr) {
 }
 
 
-export function doNew() {
-    $(".doButtonNew").trigger("blur");
-    changeStatus2("doNew");
-}
 
-
-export function doFetch() {
+export function doFetchClick() {
     $(".doButtonFetch").trigger("blur");
-    changeStatus2("doFetch");
+    readDataset(2);
 }
 
 
 export function doDatasetSaveDB() {
     $(".doButtonSaveDB").trigger("blur");
-    saveDataset()
+    saveDataset();
 }
 
 
@@ -88,6 +83,21 @@ export function doDatasetSaveDBAll() {
     $(".doButtonSaveDBAll").trigger("blur");
     changeStatus2("doDatasetSaveDBAll");
 }
+
+
+export function readDataset(nr) {
+    let sqlQuery = "SELECT * from prolabor.archive_data where dataset_number=" + nr;
+    //console.log(sqlQuery);
+    window.electronAPI.receiveDataset(sqlQuery);
+
+}
+
+/*window.electronAPI.getStatus1((value) => {
+    showDBStatus(value);
+})
+*/
+
+
 
 function saveDataset() {
     let i;
@@ -101,7 +111,6 @@ function saveDataset() {
     el = el + ",'" + $('.city').val() + "'";
     el = el + ",'" + $(".dropdownState").text() + "'";
     el = el + ",'" + localStorage.getItem("publisherIs") + "'";
-    //el = el + ",'" + $('.comment').val() + "'";
 
     for (n = 0; n < localStorage.getItem("topicHeadlineCnt"); n++) {
         for (i = 0; i < localStorage.getItem("amountTopicsHeadline_" + n); i++) {
@@ -111,10 +120,11 @@ function saveDataset() {
         }
     }
 
-    //console.log(localStorage.getItem("datasetNumber"));
-
     let sqlQuery = "INSERT INTO prolabor.archive_data (dataset_number,name,school_publisher,year,number,city,state,publisher_is,topics_list) values(" + localStorage.getItem("datasetNumber") + el + ",'" + el2 + "')";
     window.electronAPI.receiveDataset(sqlQuery);
+    sqlQuery = "INSERT INTO prolabor.dataset_comments (dataset_number, comment) values(" + localStorage.getItem("datasetNumber") + ",'" + $('.comment').val() + "')";
+    window.electronAPI.receiveDataset(sqlQuery);
+
     let nd = requestNewDatasetNumber();
 
     if (nd != 0) {

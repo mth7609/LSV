@@ -6,8 +6,10 @@ contextBridge.exposeInMainWorld('electronAPI', {
   closeSearchProcess: () => ipcRenderer.send('closeSearchProcessCMD'),
   closeMainProcess: () => ipcRenderer.send('closeMainProcessCMD'),
   receiveDataset: (dataset) => ipcRenderer.send('receiveDatasetCMD', dataset),
+  sendDataset: (dataset) => ipcRenderer.send('sendDatasetCMD', dataset),
   getHttpPort: (callback) => ipcRenderer.on('httpPort', (_event, value) => callback(value)),
   getStatus1: (callback) => ipcRenderer.on('status1', (_event, value) => callback(value)),
   getFrontPages: (callback) => ipcRenderer.on('frontPage', (_event, value) => callback(value)),
+  getDataset: (callback) => ipcRenderer.on('requestedDataset', (_event, value) => callback(value)),
 
 })
