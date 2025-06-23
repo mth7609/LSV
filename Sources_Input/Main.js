@@ -156,15 +156,9 @@ app.whenReady().then(() => {
     quitAPP;
   })
 
-  ipcMain.on('sendDatasetCMD', (event, datasetInsertSQL) => {
-    serverResponses.executeSimpleSQL(datasetInsertSQL);
+  ipcMain.on('sendDatasetCMD', (event, query) => {
+    serverResponses.executeSimpleSQL(query);
   })
-
-  ipcMain.on('receiveDatasetCMD', (event, query) => {
-    serverResponses.executeReceiveDataset(query);
-    //winMain.webContents.send('requestedDataset', "234");  // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-  })
-
 
   electronLocalshortcut.register('CommandOrControl+D', () => {
     winMain.webContents.toggleDevTools();

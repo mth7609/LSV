@@ -85,4 +85,33 @@ function getActualFullDate() {
     return day + "." + month + "." + year + " (" + h + ":" + m + ")";
 }
 
+
+++++++++++++++++++++++++ Promise sample
+
+function execStatement(con, statement) {
+  let p = new Promise(function (res, rej) {
+    con.query(statement, function (err, result) {
+      if (err) throw err;
+      else res(result);
+    });
+  });
+  return p;
+}
+
+function executeReceiveDataset(sqlQuery) {
+  let conSave = serverFunctions.mysql.createConnection({
+    host: "localhost",
+    user: "prolabor",
+    password: "mzkti29b",
+    database: "prolabor"
+  });
+
+  execStatement(conSave, sqlQuery)
+    .then(function (result) {
+      do something with result;
+    })
+    .catch(function () { throw err })
+    .finally(function () { conSave.end() });
+}
+
 */

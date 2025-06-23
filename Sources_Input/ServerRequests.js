@@ -1,5 +1,5 @@
 
-import { globalStates, globalTopHeadlines, globalTopicItems, globalTopicHeadlines, globalInfoLabels } from "./Globals.js";
+import { globalDataset, globalStates, globalTopHeadlines, globalTopicItems, globalTopicHeadlines, globalInfoLabels } from "./Globals.js";
 
 
 export function requestInitValues() {
@@ -155,25 +155,22 @@ export function requestConstValues() {
     });
 }
 
-export function requestSelectDatasetNumber(nr) {
+export function requestDataset(nr) {
+    let ret;
     $.ajax({
         type: 'GET',
-        url: 'http://localhost:' + localStorage.getItem("httpPort") + '/requestSelectDatasetNumber',
+        url: 'http://localhost:' + localStorage.getItem("httpPort") + '/requestDataset?datasetNumber=' + nr,
         async: false,
         success: function (data) {
-            let i;
-            for (i = 0; i < data.length; i++) {
-                if (data[i]["dataset_number"] == nr) {
-                    localStorage.setItem("selectedDatasetNumber", nr);
-                    localStorage.setItem("selectedDatasetComment", data[i]["comment"]);
-                }
+            if (data.length > 0) {
+                globalDataset.content = data;
+                ret = true;
             }
-            if (i == data.lenght) {
-                localStorage.setItem("selectedDatasetNumber", "");
-                localStorage.setItem("selectedDatasetComment", "");
-            }
+            else
+                ret = false;
         }
     });
+    return ret;
 }
 
 export function requestNewDatasetNumber() {

@@ -1,4 +1,4 @@
-import { requestNewDatasetNumber, requestSelectDatasetNumber, requestStates, requestTopHeadlines, requestTopicHeadlinesInfo, requestConstValues, requestTopicItems, requestInitValues, requestInfoLabels, requestImages, requestOutputText } from "./ServerRequests.js";
+import { requestNewDatasetNumber, requestDataset, requestStates, requestTopHeadlines, requestTopicHeadlinesInfo, requestConstValues, requestTopicItems, requestInitValues, requestInfoLabels, requestImages, requestOutputText } from "./ServerRequests.js";
 import { globalTopicHeadlines, globalTopicItems, globalInfoLabels, globalTopHeadlines } from "./Globals.js";
 import { doFetchClick, doDatasetSaveDB, doDatasetSaveDBAll, newTab, showDBStatus } from "./RendererScripts_02.js";
 
