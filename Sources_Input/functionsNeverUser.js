@@ -31,6 +31,23 @@ async function runForeverSecs(callCnt) {        // Template
 };
 
 
+function sleepMilliSecs(milliSecs) {
+    function getCurrentTime() {
+        return new Date().getTime();
+    }
+
+    const startTime = getCurrentTime();
+    let stopLoop = false;
+    let currentTime;
+
+    while (1 && !stopLoop) {
+        currentTime = Math.round(getCurrentTime() - startTime);
+        if (currentTime >= milliSecs) {
+            stopLoop = true;
+        }
+    }
+};
+
 
 function startMySqlService() {
     const poshInstance = async () => {

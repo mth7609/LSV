@@ -12,3 +12,4 @@ contextBridge.exposeInMainWorld('electronAPI', {
   getDataset: (callback) => ipcRenderer.on('requestedDataset', (_event, value) => callback(value)),
 
 })
+

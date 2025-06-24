@@ -25,7 +25,7 @@ export function requestInitValues() {
 export function requestOutputText() {
     $.ajax({
         type: 'GET',
-        url: 'http://localhost:' + localStorage.getItem("httpPort") + '/requestSqlOutputText',
+        url: 'http://localhost:' + localStorage.getItem("httpPort") + '/requestOutputText',
         async: false,
         success: function (text) {
             var i;
@@ -44,7 +44,7 @@ export function requestOutputText() {
 export function requestStates() {
     $.ajax({
         type: 'GET',
-        url: 'http://localhost:' + localStorage.getItem("httpPort") + '/requestSqlStates',
+        url: 'http://localhost:' + localStorage.getItem("httpPort") + '/requestStates',
         async: false,
         success: function (states) {
             var i;
@@ -65,7 +65,7 @@ export function requestStates() {
 export function requestTopicHeadlinesInfo() {
     $.ajax({
         type: 'GET',
-        url: 'http://localhost:' + localStorage.getItem("httpPort") + '/requestSqlTopicHeadlinesInfo',
+        url: 'http://localhost:' + localStorage.getItem("httpPort") + '/requestTopicHeadlinesInfo',
         async: false,
         success: function (data) {
             globalTopicHeadlines.content = data;
@@ -80,7 +80,7 @@ export function requestTopicHeadlinesInfo() {
 export function requestTopHeadlines() {
     $.ajax({
         type: 'GET',
-        url: 'http://localhost:' + localStorage.getItem("httpPort") + '/requestSqlDatasetTopHeadlines',
+        url: 'http://localhost:' + localStorage.getItem("httpPort") + '/requestDatasetTopHeadlines',
         async: false,
         success: function (data) {
             globalTopHeadlines.content = data;
@@ -113,7 +113,7 @@ export function requestTopicItems() {
 export function requestInfoLabels() {
     $.ajax({
         type: 'GET',
-        url: 'http://localhost:' + localStorage.getItem("httpPort") + '/requestSqlInfoLabels',
+        url: 'http://localhost:' + localStorage.getItem("httpPort") + '/requestInfoLabels',
         async: false,
         success: function (hl) {
             globalInfoLabels.content = hl;
@@ -129,7 +129,7 @@ export function requestInfoLabels() {
 export function requestImages() {
     $.ajax({
         type: 'GET',
-        url: 'http://localhost:' + localStorage.getItem("httpPort") + '/requestSqlImages',
+        url: 'http://localhost:' + localStorage.getItem("httpPort") + '/requestImages',
         async: false,
         success: function (data) {
             let i;
@@ -172,6 +172,25 @@ export function requestDataset(nr) {
     });
     return ret;
 }
+
+export function requestComment(nr) {
+    let ret;
+    $.ajax({
+        type: 'GET',
+        url: 'http://localhost:' + localStorage.getItem("httpPort") + '/requestComment?datasetNumber=' + nr,
+        async: false,
+        success: function (data) {
+            if (data.length > 0) {
+                localStorage.setItem("datasetComment", data[0]["comment"]);
+                ret = true;
+            }
+            else
+                ret = false;
+        }
+    });
+    return ret;
+}
+
 
 export function requestNewDatasetNumber() {
     $.ajax({

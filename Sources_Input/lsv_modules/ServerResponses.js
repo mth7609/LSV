@@ -32,8 +32,8 @@ function databaseServerConnect() {
 }
 
 
-function requestSqlDBStatus() {
-  serverFunctions.appx.get('/requestSqlDBStatus', (req, res) => {
+function responseDBStatus() {
+  serverFunctions.appx.get('/requestDBStatus', (req, res) => {
     if (store.get("dbconnect") == "OK")
       res.send('command1');
     else
@@ -42,8 +42,8 @@ function requestSqlDBStatus() {
 }
 
 
-function requestSqlDBRunning() {
-  serverFunctions.appx.get('/requestSqlDBRunning', (req, res) => {
+function responseDBRunning() {
+  serverFunctions.appx.get('/requestDBRunning', (req, res) => {
     con.connect(function (err) {
       con.query("SELECT name FROM states", function (err, result, fields) {
         if (err) {
@@ -57,8 +57,8 @@ function requestSqlDBRunning() {
   });
 }
 
-function requestSqlStates() {
-  serverFunctions.appx.get('/requestSqlStates', (req, res) => {
+function responseStates() {
+  serverFunctions.appx.get('/requestStates', (req, res) => {
     con.connect(function (err) {
       if (err) throw err;
       con.query("SELECT name FROM states", function (err, result, fields) {
@@ -70,8 +70,8 @@ function requestSqlStates() {
 }
 
 
-function requestSqlOutputText() {
-  serverFunctions.appx.get('/requestSqlOutputText', (req, res) => {
+function responseOutputText() {
+  serverFunctions.appx.get('/requestOutputText', (req, res) => {
     con.connect(function (err) {
       if (err) throw err;
       con.query("SELECT * FROM output_text", function (err, result, fields) {
@@ -82,8 +82,8 @@ function requestSqlOutputText() {
   });
 }
 
-function requestSqlTopicHeadlines() {
-  serverFunctions.appx.get('/requestSqlTopicHeadlinesInfo', (req, res) => {
+function responseTopicHeadlines() {
+  serverFunctions.appx.get('/requestTopicHeadlinesInfo', (req, res) => {
     con.connect(function (err) {
       if (err) throw err;
       con.query("SELECT * FROM topic_headlines order by headline_nr", function (err, result, fields) {
@@ -95,8 +95,8 @@ function requestSqlTopicHeadlines() {
   });
 }
 
-function requestSqlTopHeadlines() {
-  serverFunctions.appx.get('/requestSqlDatasetTopHeadlines', (req, res) => {
+function responseTopHeadlines() {
+  serverFunctions.appx.get('/requestDatasetTopHeadlines', (req, res) => {
     con.connect(function (err) {
       if (err) throw err;
       con.query("SELECT * FROM dataset_top_headlines order by arraypos", function (err, result, fields) {
@@ -108,8 +108,8 @@ function requestSqlTopHeadlines() {
 }
 
 
-function requestSqlInfoLabels() {
-  serverFunctions.appx.get('/requestSqlInfoLabels', (req, res) => {
+function responseInfoLabels() {
+  serverFunctions.appx.get('/requestInfoLabels', (req, res) => {
     con.connect(function (err) {
       if (err) throw err;
       con.query("SELECT * FROM info_labels", function (err, result, fields) {
@@ -122,7 +122,7 @@ function requestSqlInfoLabels() {
 
 
 
-function requestSqlTopicItems() {
+function responseTopicItems() {
   serverFunctions.appx.get('/0', (req, res) => {
     con.connect(function (err) {
       if (err) throw err;
@@ -226,8 +226,8 @@ function requestSqlTopicItems() {
 }
 
 
-function requestSqlImages() {
-  serverFunctions.appx.get('/requestSqlImages', (req, res) => {
+function responseImages() {
+  serverFunctions.appx.get('/requestImages', (req, res) => {
     con.connect(function (err) {
       if (err) throw err;
       con.query("SELECT * FROM images", function (err, result, fields) {
@@ -239,7 +239,7 @@ function requestSqlImages() {
 }
 
 
-function requestConstValues() {
+function responseConstValues() {
   serverFunctions.appx.get('/requestConstants', (req, res) => {
     con.connect(function (err) {
       if (err) throw err;
@@ -252,7 +252,7 @@ function requestConstValues() {
 }
 
 
-function requestInitValues() {
+function responseInitValues() {
   serverFunctions.appx.get('/requestInitValues', (req, res) => {
     con.connect(function (err) {
       if (err) throw err;
@@ -273,7 +273,7 @@ function ObjectLength(object) {
   return length;
 };
 
-function requestNewDatasetNumber() {
+function responseNewDatasetNumber() {
   let maxV;
   let dsNr;
 
@@ -317,13 +317,11 @@ function executeSimpleSQL(sqlQuery) {
 }
 
 
-function requestDataset() {
-
+function responseDataset() {
   let dsNr;
-
   serverFunctions.appx.get('/requestDataset', (req, res) => {
     const dataset_number = req.query.datasetNumber;
-    console.log("nr: " + dataset_number);
+    //console.log("nr: " + dataset_number);
     dsNr = serverFunctions.mysql.createConnection(dsn);
 
     dsNr.connect((err) => {
@@ -338,18 +336,39 @@ function requestDataset() {
   });
 }
 
-requestSqlDBStatus();
-requestSqlStates();
-requestSqlTopicHeadlines();
-requestSqlTopHeadlines();
-requestSqlTopicItems();
-requestSqlOutputText();
-requestSqlInfoLabels();
-requestSqlDBRunning();
-requestSqlImages();
-requestInitValues();
-requestConstValues();
-requestDataset();
-requestNewDatasetNumber();
 
-module.exports = { executeSimpleSQL, requestDataset, requestNewDatasetNumber, requestInitValues, requestSqlDBStatus, requestSqlDBRunning, requestSqlStates, databaseServerConnect, requestSqlTopicHeadlines, requestSqlTopHeadlines, requestSqlOutputText, requestSqlImages, requestConstValues, requestSqlInfoLabels };
+function responseComment() {
+  let dsNr;
+  serverFunctions.appx.get('/requestComment', (req, res) => {
+    const dataset_number = req.query.datasetNumber;
+    //console.log("nr: " + dataset_number);
+    dsNr = serverFunctions.mysql.createConnection(dsn);
+    dsNr.connect((err) => {
+      if (err) throw err;
+      dsNr.query("SELECT * FROM dataset_comments where dataset_number=" + dataset_number, (err, result, fields) => {
+        if (err) {
+          throw err;
+        }
+        res.send(result);
+      });
+    });
+  });
+}
+
+
+responseDBStatus();
+responseStates();
+responseTopicHeadlines();
+responseTopHeadlines();
+responseTopicItems();
+responseOutputText();
+responseInfoLabels();
+responseDBRunning();
+responseImages();
+responseInitValues();
+responseConstValues();
+responseDataset();
+responseNewDatasetNumber();
+responseComment();
+
+module.exports = { responseComment, executeSimpleSQL, responseDataset, responseNewDatasetNumber, responseInitValues, responseDBStatus, responseDBRunning, responseStates, databaseServerConnect, responseTopicHeadlines, responseTopHeadlines, responseOutputText, responseImages, responseConstValues, responseInfoLabels };

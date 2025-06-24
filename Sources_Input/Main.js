@@ -35,8 +35,7 @@ const createMainWindow = () => {
     },
   })
 
-
-  winMain.webContents.session.setSpellCheckerEnabled(false);
+  // winMain.webContents.session.setSpellCheckerEnabled(false);
   store.put("dbconnect", "NOK");
   serverFunctions.createDatasetFiles();
 
@@ -52,15 +51,46 @@ const createMainWindow = () => {
     winMain.webContents.send('httpPort', initData["httpPort"]);
   })
 
-  winMain.webContents.setVisualZoomLevelLimits(1, 2);
-  winMain.webContents.setZoomFactor(1.0);
-  winMain.webContents.setZoomLevel(0);
+  ipcMain.on('sendDatasetCMD', (event, query) => {
+    serverResponses.executeSimpleSQL(query);
+  })
+
+  winMain.webContents.on("focus", (event, zoomDirection) => {
+  })
+
+  winMain.webContents.on("zoom-changed", (event, zoomDirection) => {
+    var currentZoom = winMain.webContents.getZoomFactor();
+    if (zoomDirection === "in" && currentZoom < 1.2) {
+      winMain.webContents.zoomFactor = currentZoom + 0.1;
+    }
+
+    if (zoomDirection === "out" && currentZoom > 0.6) {
+      winMain.webContents.zoomFactor = currentZoom - 0.1;
+    }
+  });
+
+  electronLocalshortcut.register('CommandOrControl+D', () => {
+    winMain.webContents.toggleDevTools();
+  })
+
+  electronLocalshortcut.register('CommandOrControl+R', () => {
+    winMain.reload();
+  })
+
   winMain.removeMenu();
 
 
   //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++  // Add splash file and load index.html
 
-  splashWindow = new BrowserWindow({
+
+  /*  winMain.loadFile('./index.html');                       // +++++++++++++++ Without login
+    winMain.center();
+    setTimeout(() => {
+      winMain.show();
+    }, 1000);
+  */
+
+  splashWindow = new BrowserWindow({                   // +++++++++++++++ Uncomment when login or not
     width: 500,
     height: 450,
     frame: false,
@@ -74,7 +104,8 @@ const createMainWindow = () => {
   });
 
 
-  loadingEvents.on('finishedLogin', async () => {
+
+  loadingEvents.on('finishedLogin', async () => {         // +++++++++++++++ Uncomment when login
     try {
       splashWindow.close();
       await winMain.loadFile('./index.html');
@@ -102,7 +133,6 @@ const createMainWindow = () => {
     splashWindow.removeAllListeners()
     splashWindow = null;
   })
-
 }
 
 //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ End createMainWindow(), start 
@@ -155,31 +185,7 @@ app.whenReady().then(() => {
   app.on('quit', () => {
     quitAPP;
   })
-
-  ipcMain.on('sendDatasetCMD', (event, query) => {
-    serverResponses.executeSimpleSQL(query);
-  })
-
-  electronLocalshortcut.register('CommandOrControl+D', () => {
-    winMain.webContents.toggleDevTools();
-  })
-
-  electronLocalshortcut.register('CommandOrControl+R', () => {
-    winMain.reload();
-  })
-
-  winMain.webContents.on("zoom-changed", (event, zoomDirection) => {
-    var currentZoom = winMain.webContents.getZoomFactor();
-    if (zoomDirection === "in" && currentZoom < 1.2) {
-      winMain.webContents.zoomFactor = currentZoom + 0.1;
-    }
-
-    if (zoomDirection === "out" && currentZoom > 0.6) {
-      winMain.webContents.zoomFactor = currentZoom - 0.1;
-    }
-  });
-
-})
+});
 
 function quitAPP() {
   setTimeout(() => {

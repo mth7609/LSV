@@ -1,5 +1,5 @@
-import { prepareNumber, changeStatus1, changeStatus2 } from "./RendererScripts_01.js";
-import { requestDataset, requestNewDatasetNumber } from "./ServerRequests.js";
+import { prepareNumber, changeStatus1, changeStatus2, clearInput } from "./RendererScripts_01.js";
+import { requestNewDatasetNumber, requestDataset, requestComment } from "./ServerRequests.js";
 import { globalDataset } from "./Globals.js";
 
 var hexDigits = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "a", "b", "c", "d", "e", "f"];
@@ -10,11 +10,6 @@ var hex = function (x) {
 export function rgb2hex(rgb) {
     rgb = rgb.match(/^rgb\((\d+),\s*(\d+),\s*(\d+)\)$/);
     return "#" + hex(rgb[1]) + hex(rgb[2]) + hex(rgb[3]);
-}
-
-
-export function sleep(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms));
 }
 
 
@@ -67,39 +62,87 @@ export function setTabActive(nr) {
 
 
 export function doFetchClick() {
-    $(".doButtonFetch").trigger("blur");
     let nr = String($(".dsNumber").val()).replace(".", "");
+    let pnr = prepareNumber(nr);
 
     let data = requestDataset(nr);
     if (data == true) {
-        console.log(globalDataset);
-        console.log(globalDataset.contentValue[0]["name"]);
-        $('.name').val(globalDataset.contentValue[0]["name"]);
-        $('.city').val(globalDataset.contentValue[0]["city"]);
-        $('.schoolPublisher').val(globalDataset.contentValue[0]["school_publisher"]);
-        $('.publishNo').val(globalDataset.contentValue[0]["number"]);
-        //$('.dropdownState').val(globalDataset.contentValue[0]["state"]);
-
-        changeStatus2("Datensatz " + nr + " gefunden");
-
+        changeStatus2("Datensatz " + pnr + " gefunden");
+        $(".dsNumber").val(pnr);
         $(".statusbar2").css("background-color", "#00ee00");
+        $(".statusbar2").css("color", "#000000");
+        localStorage.setItem("changeDatasetNumber", String(nr));
         setTimeout(() => {
-            changeStatus2("");
-            $(".statusbar2").css("background-color", "#c2e2ec");
-        }, 5000);
+            changeStatus2("Datensatz " + pnr + " ändern");
+            $(".statusbar2").css("background-color", "#0000dd");
+            $(".statusbar2").css("color", "#ffffff");
+        }, 3000);
     }
     else {
-        changeStatus2("Datensatz " + $(".dsNumber").val() + " NICHT gefunden!");
+        changeStatus2("Datensatz " + pnr + " NICHT gefunden!");
+        localStorage.setItem("changeDatasetNumber", "NOK");
         $(".statusbar2").css("background-color", "#dd0000");
         $(".statusbar2").css("color", "#ffffff");
         $(".dsNumber").val(prepareNumber(localStorage.getItem("datasetNumber")));
         setTimeout(() => {
             changeStatus2("");
             $(".statusbar2").css("background-color", "#c2e2ec");
+            $(".statusbar2").css("color", "#000000");
+            changeStatus2(localStorage.getItem("mainHeadline_14"));
         }, 5000);
     }
+    $(".doButtonFetch").trigger("blur");
+
+    requestComment(nr);
+    showDataInForm();
 }
 
+
+function showDataInForm() {
+    if (localStorage.getItem("changeDatasetNumber") == "NOK")
+        return;
+
+    clearInput();
+    let ds = localStorage.getItem("changeDatasetNumber");
+    $(".dsNumber").val(prepareNumber(ds));
+
+    console.log(globalDataset);
+
+    $('.name').val(globalDataset.contentValue[0]["name"]);
+    $('.city').val(globalDataset.contentValue[0]["city"]);
+    $('.schoolPublisher').val(globalDataset.contentValue[0]["school_publisher"]);
+    $('.publishNo').val(globalDataset.contentValue[0]["number"]);
+
+    const strTopic = globalDataset.contentValue[0]["topics_list"];
+    const ar = strTopic.split(" ");
+    console.log(ar + "  " + ar.length);
+    for (let i = 0; i < ar.length; i++) {
+        $(".topic_" + ar[i]).css("backgroundColor", "#00dd00").css("border", "solid 1px #111111");
+        localStorage.setItem("checked_topic_" + ar[i], "checked");
+    }
+
+    if (globalDataset.contentValue[0]["publisher_is"] == "school") {
+        $('.btnradio1').prop("checked", true);
+        $(".schoolLabel").css("backgroundColor", "#00bb00");
+        $('.btnradio2').prop("checked", false);
+    }
+    else
+        if (globalDataset.contentValue[0]["publisher_is"] == "free") {
+            $('.btnradio1').prop("checked", false);
+            $(".freeLabel").css("backgroundColor", "#00bb00");
+            $('.btnradio2').prop("checked", true);
+        }
+        else {
+            $('.btnradio1').prop("checked", false);
+            $('.btnradio2').prop("checked", false);
+        }
+
+    $('.dropdownState').html(globalDataset.contentValue[0]["state"]);
+    $('.dropdownYear').html(globalDataset.contentValue[0]["year"]);
+
+    var enc = decodeURIComponent(localStorage.getItem("datasetComment"));
+    $('.comment').val(enc);
+}
 
 
 export function doDatasetSaveDB() {
@@ -135,27 +178,34 @@ function saveDataset() {
         }
     }
 
-    let sqlQuery = "INSERT INTO prolabor.archive_data (dataset_number,name,school_publisher,year,number,city,state,publisher_is,topics_list) values(" + localStorage.getItem("datasetNumber") + el + ",'" + el2 + "')";
+    var enc = encodeURIComponent($('.comment').val());
+    //console.log(enc);
+
+    let sqlQuery = "INSERT INTO prolabor.archive_data (dataset_number,name,school_publisher,year,number,city,state,publisher_is,topics_list) values(" + localStorage.getItem("datasetNumber") + el + ",'" + el2.trimStart() + "')";
     window.electronAPI.sendDataset(sqlQuery);
-    sqlQuery = "INSERT INTO prolabor.dataset_comments (dataset_number, comment) values(" + localStorage.getItem("datasetNumber") + ",'" + $('.comment').val() + "')";
+    sqlQuery = "INSERT INTO prolabor.dataset_comments (dataset_number, comment) values(" + localStorage.getItem("datasetNumber") + ",'" + enc + "')";
     window.electronAPI.sendDataset(sqlQuery);
 
-    let nd = requestNewDatasetNumber();
+    let nr = requestNewDatasetNumber();
+    let pnr = prepareNumber(nr);
 
-    if (nd != 0) {
-        changeStatus2("Datensatz " + nd + " gespeichert");
+    if (nr != 0) {
+        changeStatus2("Datensatz " + pnr + " gespeichert");
         $(".statusbar2").css("background-color", "#00ee00");
+        $(".statusbar2").css("color", "#000000");
         setTimeout(() => {
             changeStatus2("");
+            $(".statusbar2").css("color", "#000000");
             $(".statusbar2").css("background-color", "#c2e2ec");
+            changeStatus2(localStorage.getItem("mainHeadline_14"));
         }, 5000);
-        nd++;
+        nr++;
 
-        $(".dsNumber").val(prepareNumber(nd));
-        localStorage.setItem("datasetNumber", nd);
+        $(".dsNumber").val(prepareNumber(nr));
+        localStorage.setItem("datasetNumber", nr);
     }
     else {
-        changeStatus2("Datensatz " + nd + " NICHT gespeichert");
+        changeStatus2("Datensatz " + prepareNumber(pnr) + " NICHT gespeichert");
         $(".statusbar2").css("background-color", "#dd0000");
         $(".statusbar2").css("color", "#ffffff");
     }

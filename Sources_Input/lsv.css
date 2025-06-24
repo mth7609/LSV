@@ -14,9 +14,9 @@ body {
     position: fixed;
     bottom: 0px;
     left: 15px;
-    right: 25%;
+    right: 30%;
     height: 28px;
-    padding: 10px;
+    padding: 0px;
     font-weight: bold;
     font-size: 14px;
     background: #c2e2ec;
@@ -29,11 +29,13 @@ body {
 }
 
 .statusbar2 {
+    vertical-align: bottom;
     position: fixed;
     bottom: 0px;
-    left: 74%;
-    width: 16%;
+    left: 69%;
+    width: 21%;
     padding: 0px;
+    margin: auto;
     font-weight: bold;
     font-size: 14px;
     background: #c2e2ec;
@@ -123,12 +125,12 @@ body {
 
 .topicListButton {
     background: #056289;
-    border: solid 2px #111111;
+    border: solid 1px #111111;
 }
 
 .topicListButtonInput {
     background: #660000;
-    border: solid 2px #111111;
+    border: solid 1px #111111;
 }
 
 .inputField {

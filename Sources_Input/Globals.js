@@ -18,7 +18,6 @@ let globalInfoLabels = new C();
 let globalTopHeadlines = new C();
 let globalDataset = new C();
 
-
 let i;
 
 for (i = 0; i < 11; i++) {

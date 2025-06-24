@@ -155,12 +155,12 @@ function topicListButtonClick() {
     if (topicName == lastTopicName) {
         $("." + topicName).prop("checked", false);
         lastTopicName = "null";
-        $("." + topicName).css("backgroundColor", "#056289");
+        $("." + topicName).css("backgroundColor", "#660000").css("border", "solid 1px #111111");
         globalTopicItems[this.attributes[2].value].contentValue[this.attributes[3].value]["active"] = false;
         localStorage.setItem("checked_" + topicName, "unchecked");
     }
     else {
-        $("." + topicName).css("backgroundColor", "#00dd00");
+        $("." + topicName).css("backgroundColor", "#00dd00").css("border", "solid 1px #111111");
         lastTopicName = topicName;
     }
     $("." + topicName).trigger("blur");
@@ -213,14 +213,14 @@ function publisherSchool(str) {
     publisherIs = localStorage.getItem("school");
     localStorage.setItem("publisherIs", "school");
     $(".freeLabel").css("backgroundColor", "#ffffff");
-    $(".schoolLabel").css("backgroundColor", "#008800");
+    $(".schoolLabel").css("backgroundColor", "#00bb00");
     $(".schoolLabel").css("color", "#000000");
 }
 
 function publisherFree(str) {
     publisherIs = localStorage.getItem("free");
     localStorage.setItem("publisherIs", "free");
-    $(".freeLabel").css("backgroundColor", "#008800");
+    $(".freeLabel").css("backgroundColor", "#00bb00");
     $(".freeLabel").css("color", "#000000");
     $(".schoolLabel").css("backgroundColor", "#ffffff");
 }
@@ -287,7 +287,6 @@ export function prepareNumber(nr) {
         default: res1 = "Number too large";
     }
 
-    //console.log(res1);
     return res1;
 }
 
@@ -298,6 +297,8 @@ function yearReset() {
 
 
 function setToNew() {
+    $(".statusbar2").css("color", "#000000");
+    $(".statusbar2").css("background-color", "#c2e2ec");
     let ds = localStorage.getItem("datasetNumber");
     $(".dsNumber").val(prepareNumber(ds));
     changeStatus2(localStorage.getItem("mainHeadline_14"));
@@ -305,6 +306,13 @@ function setToNew() {
 
 
 function doNewClick() {
+    clearInput();
+    setToNew();
+    $(".doButtonNew").trigger("blur");
+}
+
+
+export function clearInput() {
     let i, n;
 
     let formTop = document.querySelector('.formTop');
@@ -317,15 +325,15 @@ function doNewClick() {
         for (i = 0; i < localStorage.getItem("amountTopicsHeadline_" + n); i++) {
             localStorage.removeItem("checked_topic_" + n + "_" + i);
             $(".topic_" + n + "_" + i).prop("checked", false);
-            $(".topic_" + n + "_" + i).css("backgroundColor", "#660000");
+            $(".topic_" + n + "_" + i).css("backgroundColor", "#660000").css("border", "solid 1px #111111");
         }
     }
 
     $('.comment').val("");
-    setToNew();
-
-    $(".doButtonNew").trigger("blur");
 }
+
+
+
 
 function doDatasetRemember() {
 
