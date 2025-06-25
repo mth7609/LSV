@@ -296,7 +296,7 @@ function responseNewDatasetNumber() {
         }
         dsNr.end();
         maxV++;
-        console.log("Result: " + maxV);
+        //console.log("Result: " + maxV);
         res.send(new Object(maxV));
       });
     });
@@ -305,7 +305,7 @@ function responseNewDatasetNumber() {
 
 
 function executeSimpleSQL(sqlQuery) {
-  console.log(sqlQuery);
+  //console.log(sqlQuery);
   let conSave = serverFunctions.mysql.createConnection(dsn);
   conSave.connect(function (err) {
     if (err) throw err;
@@ -323,10 +323,28 @@ function responseDataset() {
     const dataset_number = req.query.datasetNumber;
     //console.log("nr: " + dataset_number);
     dsNr = serverFunctions.mysql.createConnection(dsn);
-
     dsNr.connect((err) => {
       if (err) throw err;
       dsNr.query("SELECT * FROM archive_data where dataset_number=" + dataset_number, (err, result, fields) => {
+        if (err) {
+          throw err;
+        }
+        res.send(result);
+      });
+    });
+  });
+}
+
+
+function responseDatasetDelete() {
+  let dsNr;
+  serverFunctions.appx.get('/requestDatasetDelete', (req, res) => {
+    const dataset_number = req.query.datasetNumber;
+    //console.log("nr: " + dataset_number);
+    dsNr = serverFunctions.mysql.createConnection(dsn);
+    dsNr.connect((err) => {
+      if (err) throw err;
+      dsNr.query("DELETE FROM archive_data where dataset_number=" + dataset_number, (err, result, fields) => {
         if (err) {
           throw err;
         }
@@ -370,5 +388,6 @@ responseConstValues();
 responseDataset();
 responseNewDatasetNumber();
 responseComment();
+responseDatasetDelete();
 
-module.exports = { responseComment, executeSimpleSQL, responseDataset, responseNewDatasetNumber, responseInitValues, responseDBStatus, responseDBRunning, responseStates, databaseServerConnect, responseTopicHeadlines, responseTopHeadlines, responseOutputText, responseImages, responseConstValues, responseInfoLabels };
+module.exports = { responseDatasetDelete, responseComment, executeSimpleSQL, responseDataset, responseNewDatasetNumber, responseInitValues, responseDBStatus, responseDBRunning, responseStates, databaseServerConnect, responseTopicHeadlines, responseTopHeadlines, responseOutputText, responseImages, responseConstValues, responseInfoLabels };

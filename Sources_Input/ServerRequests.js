@@ -203,3 +203,16 @@ export function requestNewDatasetNumber() {
     });
     return localStorage.getItem("datasetNumber");
 }
+
+
+export function requestDatasetDelete(nr) {
+    $.ajax({
+        type: 'GET',
+        url: 'http://localhost:' + localStorage.getItem("httpPort") + '/requestDatasetDelete?datasetNumber=' + nr,
+        async: false,
+        success: function (data) {
+            localStorage.setItem("datasetDelete", data);
+        }
+    });
+    return localStorage.getItem("datasetDelete");
+}

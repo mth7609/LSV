@@ -1,6 +1,6 @@
 import { requestNewDatasetNumber, requestDataset, requestStates, requestTopHeadlines, requestTopicHeadlinesInfo, requestConstValues, requestTopicItems, requestInitValues, requestInfoLabels, requestImages, requestOutputText } from "./ServerRequests.js";
 import { globalTopicHeadlines, globalTopicItems, globalInfoLabels, globalTopHeadlines } from "./Globals.js";
-import { doFetchClick, doDatasetSaveDB, doDatasetSaveDBAll, newTab, showDBStatus } from "./RendererScripts_02.js";
+import { doFetchClick, doDatasetSaveDB, doDatasetDelete, newTab, showDBStatus } from "./RendererScripts_02.js";
 
 
 var selectedDropdown = 0;
@@ -15,7 +15,7 @@ localStorage.setItem("httpPort", "8088");
 localStorage.setItem("tabCount", 0);
 localStorage.setItem("selectCnt", selectCnt);
 localStorage.setItem("maxDatasetTabs", maxDatasetTabs)
-
+localStorage.setItem("changeDatasetNumber", "NOK");
 
 requestInfoLabels();
 requestOutputText();
@@ -35,6 +35,7 @@ setTopHeadlines();
 publisherReset();
 
 requestNewDatasetNumber();
+$(".doButtonDatasetDelete").addClass('disabled');
 setToNew();
 
 const datasetTopItems = Array.from({ length: maxDatasetTabs + 1 }, () => new Array(elementsOnForm).fill(0));
@@ -44,7 +45,7 @@ $(".dropdown-menu li a").on('click', updateValue);
 $(".doButtonFetch").on('click', doFetchClick);
 $(".doButtonSave").on('click', doDatasetRemember);
 $(".doButtonSaveDB").on('click', doDatasetSaveDB);
-$(".doButtonSaveDBAll").on('click', doDatasetSaveDBAll);
+$(".doButtonDatasetDelete").on('click', doDatasetDelete);
 $(".dropdownState").on('click', stateSel);
 $(".dropdownYear").on('click', yearSel);
 $(".schoolLabel").on('click', publisherSchool);
@@ -56,12 +57,6 @@ $("title").text(localStorage.getItem("title"));
 
 window.electronAPI.getStatus1((value) => {
     showDBStatus(value);
-})
-
-
-window.electronAPI.getDataset((value) => {
-    console.log("Renderer received");
-    console.log(value);
 })
 
 
@@ -137,7 +132,7 @@ function setTopHeadlines() {
     $('.schoolLabel').html(localStorage.getItem("school"));
     $('.doButtonSave').val(localStorage.getItem("mainHeadline_9"));
     $('.doButtonSaveDB').val(localStorage.getItem("mainHeadline_10"));
-    $('.doButtonSaveDBAll').val(localStorage.getItem("mainHeadline_11"));
+    $('.doButtonDatasetDelete').val(localStorage.getItem("mainHeadline_11"));
     $('.commentLabel').html(localStorage.getItem("mainHeadline_7"));
     $('.doButtonNew').val(localStorage.getItem("mainHeadline_13"));
     $('.doButtonFetch').val(localStorage.getItem("mainHeadline_12"));
@@ -296,11 +291,14 @@ function yearReset() {
 }
 
 
-function setToNew() {
+export function setToNew() {
     $(".statusbar2").css("color", "#000000");
     $(".statusbar2").css("background-color", "#c2e2ec");
-    let ds = localStorage.getItem("datasetNumber");
+    $(".doButtonDatasetDelete").addClass('disabled');
+    let ds = requestNewDatasetNumber();
+    //let ds = localStorage.getItem("datasetNumber");
     $(".dsNumber").val(prepareNumber(ds));
+    localStorage.setItem("changeDatasetNumber", "NOK");
     changeStatus2(localStorage.getItem("mainHeadline_14"));
 }
 
@@ -331,8 +329,6 @@ export function clearInput() {
 
     $('.comment').val("");
 }
-
-
 
 
 function doDatasetRemember() {
