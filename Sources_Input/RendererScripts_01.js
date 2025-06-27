@@ -1,4 +1,4 @@
-import { requestNewDatasetNumber, requestDataset, requestStates, requestTopHeadlines, requestTopicHeadlinesInfo, requestConstValues, requestTopicItems, requestInitValues, requestInfoLabels, requestImages, requestOutputText } from "./ServerRequests.js";
+import { requestCheckDatasetNumber, requestStates, requestTopHeadlines, requestTopicHeadlinesInfo, requestConstValues, requestTopicItems, requestInitValues, requestInfoLabels, requestImages, requestOutputText } from "./ServerRequests.js";
 import { globalTopicHeadlines, globalTopicItems, globalInfoLabels, globalTopHeadlines } from "./Globals.js";
 import { doFetchClick, doDatasetSaveDB, doDatasetDelete, newTab, showDBStatus } from "./RendererScripts_02.js";
 
@@ -34,8 +34,8 @@ setTopicHeadlines();
 setTopHeadlines();
 publisherReset();
 
-requestNewDatasetNumber();
 $(".doButtonDatasetDelete").addClass('disabled');
+$(".doButtonSaveDB").addClass('disabled');
 setToNew();
 
 const datasetTopItems = Array.from({ length: maxDatasetTabs + 1 }, () => new Array(elementsOnForm).fill(0));
@@ -52,6 +52,7 @@ $(".schoolLabel").on('click', publisherSchool);
 $(".freeLabel").on('click', publisherFree);
 $(".topicListButtonInput").on('click', topicListButtonClick);
 $(".doButtonNew").on('click', doNewClick);
+//$(".dsNumber").on('change', getDatasetNumber);
 $("title").text(localStorage.getItem("title"));
 
 
@@ -263,6 +264,7 @@ function setYears() {
 }
 
 
+
 export function prepareNumber(nr) {
     let str = nr.toString();
     let strLen = str.length;
@@ -295,9 +297,6 @@ export function setToNew() {
     $(".statusbar2").css("color", "#000000");
     $(".statusbar2").css("background-color", "#c2e2ec");
     $(".doButtonDatasetDelete").addClass('disabled');
-    let ds = requestNewDatasetNumber();
-    //let ds = localStorage.getItem("datasetNumber");
-    $(".dsNumber").val(prepareNumber(ds));
     localStorage.setItem("changeDatasetNumber", "NOK");
     changeStatus2(localStorage.getItem("mainHeadline_14"));
 }
@@ -310,6 +309,45 @@ function doNewClick() {
 }
 
 
+export function getDatasetNumber() {
+    let dsn = String($(".dsNumber").val()).replace(".", "");
+    dsn = parseInt(dsn);
+
+    requestCheckDatasetNumber(dsn);
+    let res = localStorage.getItem(dsn);
+
+    if (res == 1) {
+        $(".dsNumber").val("");
+        changeStatus2("Datasatz " + dsn + " schon vorhanden!");
+        $(".statusbar2").css("background-color", "#dd0000");
+        $(".statusbar2").css("color", "#ffffff");
+        localStorage.setItem("datasetNumber", 0);
+        setTimeout(() => {
+            $(".statusbar2").css("background-color", "#c2e2ec");
+            changeStatus2("Neue Eingabe");
+            $(".statusbar2").css("color", "#000000");
+        }, 3000);
+        return;
+    }
+
+    if (isNaN(dsn)) {
+        changeStatus2("Bitte nur Zahlen eingeben!");
+        $(".statusbar2").css("background-color", "#dd0000");
+        $(".statusbar2").css("color", "#ffffff");
+        localStorage.setItem("datasetNumber", 0);
+        setTimeout(() => {
+            $(".statusbar2").css("background-color", "#c2e2ec");
+            changeStatus2("Neue Eingabe");
+            $(".statusbar2").css("color", "#000000");
+        }, 3000);
+    }
+    else {
+        localStorage.setItem("datasetNumber", dsn);
+        $(".dsNumber").val(prepareNumber(dsn));
+    }
+}
+
+
 export function clearInput() {
     let i, n;
 
@@ -318,6 +356,7 @@ export function clearInput() {
     publisherReset();
     yearReset();
     stateReset();
+    $(".dsNumber").val("");
 
     for (n = 0; n < localStorage.getItem("topicHeadlineCnt"); n++) {
         for (i = 0; i < localStorage.getItem("amountTopicsHeadline_" + n); i++) {
@@ -326,7 +365,6 @@ export function clearInput() {
             $(".topic_" + n + "_" + i).css("backgroundColor", "#660000").css("border", "solid 1px #111111");
         }
     }
-
     $('.comment').val("");
 }
 
@@ -384,7 +422,7 @@ function doDatasetRemember() {
         setTimeout(() => {
             changeStatus2("");
             $(".statusbar2").css("background-color", "#c2e2ec");
-        }, 5000);
+        }, 3000);
         nd++;
         $(".dsNumber").val(prepareNumber(nd));
         localStorage.setItem("datasetNumber", nd);

@@ -164,13 +164,13 @@ export function requestDataset(nr) {
         success: function (data) {
             if (data.length > 0) {
                 globalDataset.content = data;
-                ret = true;
+                return true;
             }
             else
-                ret = false;
+                return false;
         }
     });
-    return ret;
+
 }
 
 export function requestComment(nr) {
@@ -192,16 +192,16 @@ export function requestComment(nr) {
 }
 
 
-export function requestNewDatasetNumber() {
+export function requestCheckDatasetNumber(nr) {
     $.ajax({
         type: 'GET',
-        url: 'http://localhost:' + localStorage.getItem("httpPort") + '/requestNewDatasetNumber',
+        url: 'http://localhost:' + localStorage.getItem("httpPort") + '/requestCheckDatasetNumber?datasetNumber=' + nr,
         async: false,
         success: function (data) {
-            localStorage.setItem("datasetNumber", data);
+            //console.log(data);
+            localStorage.setItem(nr, data);
         }
     });
-    return localStorage.getItem("datasetNumber");
 }
 
 

@@ -1,5 +1,5 @@
-import { prepareNumber, changeStatus1, changeStatus2, clearInput, setToNew } from "./RendererScripts_01.js";
-import { requestNewDatasetNumber, requestDatasetDelete, requestDataset, requestComment } from "./ServerRequests.js";
+import { getDatasetNumber, prepareNumber, changeStatus1, changeStatus2, clearInput, setToNew } from "./RendererScripts_01.js";
+import { requestDatasetDelete, requestDataset, requestComment } from "./ServerRequests.js";
 import { globalDataset } from "./Globals.js";
 
 var hexDigits = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "a", "b", "c", "d", "e", "f"];
@@ -63,10 +63,12 @@ export function setTabActive(nr) {
 
 export function doFetchClick() {
     let nr = String($(".dsNumber").val()).replace(".", "");
-    let pnr = prepareNumber(nr);
 
-    let data = requestDataset(nr);
-    if (data == true) {
+    let pnr = prepareNumber(nr);
+    requestDataset(parseInt(nr));
+    let found = globalDataset.contentValue.length;
+
+    if (found == 1) {
         changeStatus2("Datensatz " + pnr + " gefunden");
         $(".dsNumber").val(pnr);
         $(".statusbar2").css("background-color", "#00ee00");
@@ -84,7 +86,7 @@ export function doFetchClick() {
         localStorage.setItem("changeDatasetNumber", "NOK");
         $(".statusbar2").css("background-color", "#dd0000");
         $(".statusbar2").css("color", "#ffffff");
-        $(".dsNumber").val(prepareNumber(localStorage.getItem("datasetNumber")));
+        $(".dsNumber").val(pnr);
         setTimeout(() => {
             changeStatus2("");
             $(".statusbar2").css("background-color", "#c2e2ec");
@@ -158,7 +160,7 @@ export function doDatasetDelete() {
     $(".doButtonDatasetDelete").trigger("blur");
     clearInput();
     setToNew();
-    console.log("del: " + nr);
+    //console.log("del: " + nr);
     requestDatasetDelete(nr);
 }
 
@@ -167,6 +169,18 @@ function saveDataset() {
     let i;
     let n;
     let el2 = "", el = "";
+
+    let cdn = localStorage.getItem("changeDatasetNumber");
+    getDatasetNumber();
+    let nr = localStorage.getItem("datasetNumber")
+
+    console.log("cdn: " + cdn);
+    console.log("nr: " + nr);
+
+    if (cdn == "NOK" && nr == 0)
+        return;
+
+    let sqlQuery, pnr;
 
     el = el + ",'" + $('.name').val() + "'";
     el = el + ",'" + $('.schoolPublisher').val() + "'";
@@ -185,11 +199,11 @@ function saveDataset() {
     }
 
     var enc = encodeURIComponent($('.comment').val());
-    let cdn = localStorage.getItem("changeDatasetNumber");
-    let nr = localStorage.getItem("datasetNumber")
-    let sqlQuery, pnr;
+    console.log("cdn: " + cdn);
+    console.log("nr: " + nr);
 
-    //console.log("cdn: " + cdn);
+    if (cdn != localStorage.getItem("datasetNumber"))
+        cdn = "NOK";
 
     if (cdn == "NOK") {
         //console.log("New: " + nr);
@@ -197,7 +211,7 @@ function saveDataset() {
         window.electronAPI.sendDataset(sqlQuery);
         sqlQuery = "INSERT INTO prolabor.dataset_comments (dataset_number, comment) values(" + nr + ",'" + enc + "')";
         window.electronAPI.sendDataset(sqlQuery);
-        nr = requestNewDatasetNumber();
+        nr = localStorage.getItem("datasetNumber");
         pnr = prepareNumber(nr);
         localStorage.setItem("changeDatasetNumber", "NOK");
 
@@ -211,7 +225,6 @@ function saveDataset() {
                 $(".statusbar2").css("background-color", "#c2e2ec");
                 changeStatus2(localStorage.getItem("mainHeadline_14"));
             }, 5000);
-            nr++;
 
             $(".dsNumber").val(prepareNumber(nr));
             localStorage.setItem("datasetNumber", nr);
