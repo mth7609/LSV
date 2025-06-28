@@ -1,6 +1,6 @@
 import { requestCheckDatasetNumber, requestStates, requestTopHeadlines, requestTopicHeadlinesInfo, requestConstValues, requestTopicItems, requestInitValues, requestInfoLabels, requestImages, requestOutputText } from "./ServerRequests.js";
 import { globalTopicHeadlines, globalTopicItems, globalInfoLabels, globalTopHeadlines } from "./Globals.js";
-import { doFetchClick, doDatasetSaveDB, doDatasetDelete, newTab, showDBStatus } from "./RendererScripts_02.js";
+import { doFetch, doDatasetSave, doDatasetDelete, newTab, showDBStatus } from "./RendererScripts_02.js";
 
 
 var selectedDropdown = 0;
@@ -15,7 +15,7 @@ localStorage.setItem("httpPort", "8088");
 localStorage.setItem("tabCount", 0);
 localStorage.setItem("selectCnt", selectCnt);
 localStorage.setItem("maxDatasetTabs", maxDatasetTabs)
-localStorage.setItem("changeDatasetNumber", "NOK");
+localStorage.setItem("changeDatasetNumber", null);
 
 requestInfoLabels();
 requestOutputText();
@@ -35,16 +35,18 @@ setTopHeadlines();
 publisherReset();
 
 $(".doButtonDatasetDelete").addClass('disabled');
-$(".doButtonSaveDB").addClass('disabled');
+$(".doButtonDatasetSave").addClass('disabled');
+$(".doButtonDatasetRemember").addClass('disabled');
+
 setToNew();
 
 const datasetTopItems = Array.from({ length: maxDatasetTabs + 1 }, () => new Array(elementsOnForm).fill(0));
 const datasetTopicsItems = Array.from({ length: maxDatasetTabs + 1 }, () => new Array(elementsOnForm).fill(0));
 
 $(".dropdown-menu li a").on('click', updateValue);
-$(".doButtonFetch").on('click', doFetchClick);
-$(".doButtonSave").on('click', doDatasetRemember);
-$(".doButtonSaveDB").on('click', doDatasetSaveDB);
+$(".doButtonFetch").on('click', doFetch);
+$(".doButtonDatasetRemember").on('click', doDatasetRemember);
+$(".doButtonDatasetSave").on('click', doDatasetSave);
 $(".doButtonDatasetDelete").on('click', doDatasetDelete);
 $(".dropdownState").on('click', stateSel);
 $(".dropdownYear").on('click', yearSel);
@@ -67,6 +69,8 @@ window.electronAPI.getFrontPages((value) => {
     else
         $('.frontImage').html("");
 
+    //    console.log("nr: " + localStorage.getItem("datasetNumber"));
+    //    console.log("cdn: " + localStorage.getItem("changeDatasetNumber"));
     setOtherContent();
 })
 
@@ -117,7 +121,6 @@ function setOutputText() {
 
 function setTopHeadlines() {
     localStorage.setItem("datasetTopHeadlineCnt", globalTopHeadlines.contentValue.length);
-    console.log(localStorage.getItem("datasetTopHeadlineCnt"));
     for (let i = 0; i < localStorage.getItem("datasetTopHeadlineCnt"); i++) {
         localStorage.setItem("mainHeadline_" + globalTopHeadlines.contentValue[i]["arraypos"], globalTopHeadlines.contentValue[i]["names"]);
     }
@@ -131,8 +134,8 @@ function setTopHeadlines() {
     $('.datasetNrLabel').html(localStorage.getItem("mainHeadline_8"));
     $('.freeLabel').html(localStorage.getItem("free"));
     $('.schoolLabel').html(localStorage.getItem("school"));
-    $('.doButtonSave').val(localStorage.getItem("mainHeadline_9"));
-    $('.doButtonSaveDB').val(localStorage.getItem("mainHeadline_10"));
+    $('.doButtonDatasetRemember').val(localStorage.getItem("mainHeadline_9"));
+    $('.doButtonDatasetSave').val(localStorage.getItem("mainHeadline_10"));
     $('.doButtonDatasetDelete').val(localStorage.getItem("mainHeadline_11"));
     $('.commentLabel').html(localStorage.getItem("mainHeadline_7"));
     $('.doButtonNew').val(localStorage.getItem("mainHeadline_13"));
@@ -174,7 +177,6 @@ export function setTopicHeadlines() {
     }
 }
 
-
 export function setTopicItems(nr) {
     let i, n;
     let el = "";
@@ -204,6 +206,53 @@ export function changeStatus3(str) {
     $(".statusText3").html("&nbsp; " + str);
 }
 
+export function setStatus2Warning(text) {
+    changeStatus2(text);
+    $(".statusbar2").css("background-color", "#dd0000");
+    $(".statusbar2").css("color", "#ffffff");
+    setTimeout(() => {
+        changeStatus2("");
+        $(".statusbar2").css("color", "#000000");
+        $(".statusbar2").css("background-color", "#c2e2ec");
+        changeStatus2(localStorage.getItem("mainHeadline_14"));
+    }, 5000);
+}
+
+export function setStatus2WarningPermanent(text) {
+    changeStatus2(text);
+    $(".statusbar2").css("background-color", "#dd0000");
+    $(".statusbar2").css("color", "#ffffff");
+}
+
+export function setStatus2Information(text) {
+    changeStatus2(text);
+    $(".statusbar2").css("background-color", "#00dd00");
+    $(".statusbar2").css("color", "#000000");
+    setTimeout(() => {
+        changeStatus2("");
+        $(".statusbar2").css("color", "#000000");
+        $(".statusbar2").css("background-color", "#c2e2ec");
+        changeStatus2(localStorage.getItem("mainHeadline_14"));
+    }, 5000);
+}
+
+export function setStatus2Todo(text) {
+    changeStatus2(text);
+    $(".statusbar2").css("background-color", "#0000dd");
+    $(".statusbar2").css("color", "#ffffff");
+    setTimeout(() => {
+        changeStatus2("");
+        $(".statusbar2").css("color", "#000000");
+        $(".statusbar2").css("background-color", "#c2e2ec");
+        changeStatus2(localStorage.getItem("mainHeadline_14"));
+    }, 5000);
+}
+
+export function setStatus2TodoPermanent(text) {
+    changeStatus2(text);
+    $(".statusbar2").css("background-color", "#0000dd");
+    $(".statusbar2").css("color", "#ffffff");
+}
 
 function publisherSchool(str) {
     publisherIs = localStorage.getItem("school");
@@ -297,7 +346,9 @@ export function setToNew() {
     $(".statusbar2").css("color", "#000000");
     $(".statusbar2").css("background-color", "#c2e2ec");
     $(".doButtonDatasetDelete").addClass('disabled');
-    localStorage.setItem("changeDatasetNumber", "NOK");
+    $(".doButtonDatasetSave").removeClass('disabled');
+    localStorage.setItem("changeDatasetNumber", null);
+    localStorage.setItem("datasetNumber", null);
     changeStatus2(localStorage.getItem("mainHeadline_14"));
 }
 
@@ -306,45 +357,6 @@ function doNewClick() {
     clearInput();
     setToNew();
     $(".doButtonNew").trigger("blur");
-}
-
-
-export function getDatasetNumber() {
-    let dsn = String($(".dsNumber").val()).replace(".", "");
-    dsn = parseInt(dsn);
-
-    requestCheckDatasetNumber(dsn);
-    let res = localStorage.getItem(dsn);
-
-    if (res == 1) {
-        $(".dsNumber").val("");
-        changeStatus2("Datasatz " + dsn + " schon vorhanden!");
-        $(".statusbar2").css("background-color", "#dd0000");
-        $(".statusbar2").css("color", "#ffffff");
-        localStorage.setItem("datasetNumber", 0);
-        setTimeout(() => {
-            $(".statusbar2").css("background-color", "#c2e2ec");
-            changeStatus2("Neue Eingabe");
-            $(".statusbar2").css("color", "#000000");
-        }, 3000);
-        return;
-    }
-
-    if (isNaN(dsn)) {
-        changeStatus2("Bitte nur Zahlen eingeben!");
-        $(".statusbar2").css("background-color", "#dd0000");
-        $(".statusbar2").css("color", "#ffffff");
-        localStorage.setItem("datasetNumber", 0);
-        setTimeout(() => {
-            $(".statusbar2").css("background-color", "#c2e2ec");
-            changeStatus2("Neue Eingabe");
-            $(".statusbar2").css("color", "#000000");
-        }, 3000);
-    }
-    else {
-        localStorage.setItem("datasetNumber", dsn);
-        $(".dsNumber").val(prepareNumber(dsn));
-    }
 }
 
 

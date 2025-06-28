@@ -166,11 +166,12 @@ export function requestDataset(nr) {
                 globalDataset.content = data;
                 return true;
             }
-            else
+            else {
+                globalDataset.content = null;
                 return false;
+            }
         }
     });
-
 }
 
 export function requestComment(nr) {
@@ -198,7 +199,7 @@ export function requestCheckDatasetNumber(nr) {
         url: 'http://localhost:' + localStorage.getItem("httpPort") + '/requestCheckDatasetNumber?datasetNumber=' + nr,
         async: false,
         success: function (data) {
-            //console.log(data);
+            //console.log("data: " + data);
             localStorage.setItem(nr, data);
         }
     });

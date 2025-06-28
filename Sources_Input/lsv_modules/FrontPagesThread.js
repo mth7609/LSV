@@ -1,4 +1,4 @@
-const { Worker, isMainThread, parentPort, workerData } = require('node:worker_threads')
+const { Worker, parentPort, workerData } = require('node:worker_threads')
 const serverFunctions = require('./ServerFunctions');
 
 

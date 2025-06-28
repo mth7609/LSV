@@ -11,10 +11,34 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.3/css/bootstrap.min.css">
     <link rel="stylesheet" href="lsv.css">
     <script type="module" src="./RendererScripts_01.js"></script>
+    <script type="module" src="./RendererScripts_03.js"></script>
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 </head>
 
 <body>
+    <!-- Button trigger modal -->
+    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+        Launch demo modal
+    </button>
+
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    ...
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
     <br>
     <div class="m-4 position-absolute z-n2 logoImage"></div>
 
@@ -87,11 +111,11 @@
                         </div>
                         <div class="col-sm-1 py-0 ps-0">
                             <label class="col-form-label headlinesTop">&nbsp;</label>
-                            <input type="button" class="p-0 form-control doButtonSave btn-outline-secondary selectButton">
+                            <input type="button" class="p-0 form-control doButtonDatasetRemember btn-outline-secondary selectButton">
                         </div>
                         <div class="col-sm-1 ps-0 pe-2 m-0">
                             <label class="col-form-label headlinesTop">&nbsp;</label>
-                            <input type="button" class="p-0 form-control doButtonSaveDB btn-outline-secondary selectButton">
+                            <input type="button" class="p-0 form-control doButtonDatasetSave btn-outline-secondary selectButton">
                         </div>
                         <div class="col-sm-1 ps-1 pe-2 m-0">
                             <label class="col-form-label headlinesTop">&nbsp;</label>
@@ -204,5 +228,11 @@
     </div>
     <br>
 </body>
+
+
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+    Launch demo modal
+</button>
+
 
 </html>
