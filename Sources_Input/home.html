@@ -16,29 +16,29 @@
 </head>
 
 <body>
-    <!-- Button trigger modal -->
-    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-        Launch demo modal
-    </button>
 
-    <!-- Modal -->
-    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
+    <button type="button" class="buttonOpenConfirmSaveModal" data-bs-toggle="modal" data-bs-target=".confirmSaveModal" aria-hidden="true"></button>
+    <div class="modal fade confirmSaveModal" data-bs-backdrop="static" role="dialog">
+        <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <h1 class="modal-title fs-5 confirmSaveHeadline">Überschreiben bestätigen</h1>
+                    <button type="button" class="btn-close"></button>
                 </div>
                 <div class="modal-body">
-                    ...
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Save changes</button>
+                    <button type="button" class="btn confirmSaveCancel selectButton ps-2 pe-2" data-bs-dismiss="modal">Abbrechen</button>
+                    <button type="button" class="btn confirmSaveOverwrite selectButton ps-2 pe-2" data-bs-dismiss="modal">Überschreiben</button>
                 </div>
             </div>
         </div>
     </div>
+
+    <script>
+        $(".buttonOpenConfirmSaveModal").hide();
+    </script>
+
     <br>
     <div class="m-4 position-absolute z-n2 logoImage"></div>
 
@@ -228,11 +228,5 @@
     </div>
     <br>
 </body>
-
-
-<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
-    Launch demo modal
-</button>
-
 
 </html>

@@ -17,6 +17,7 @@ localStorage.setItem("selectCnt", selectCnt);
 localStorage.setItem("maxDatasetTabs", maxDatasetTabs)
 localStorage.setItem("changeDatasetNumber", null);
 
+
 requestInfoLabels();
 requestOutputText();
 requestOutputText();
@@ -34,9 +35,11 @@ setTopicHeadlines();
 setTopHeadlines();
 publisherReset();
 
+
 $(".doButtonDatasetDelete").addClass('disabled');
-$(".doButtonDatasetSave").addClass('disabled');
+//$(".doButtonDatasetSave").addClass('disabled');
 $(".doButtonDatasetRemember").addClass('disabled');
+
 
 setToNew();
 
@@ -56,6 +59,17 @@ $(".topicListButtonInput").on('click', topicListButtonClick);
 $(".doButtonNew").on('click', doNewClick);
 //$(".dsNumber").on('change', getDatasetNumber);
 $("title").text(localStorage.getItem("title"));
+
+
+$(".confirmSaveCancel").on('click', function () {
+    localStorage.setItem("confirmSaveCancel", 1);
+    localStorage.setItem("confirmSaveOverwrite", 0);
+})
+
+$(".confirmSaveOverwrite").on('click', function () {
+    localStorage.setItem("confirmSaveCancel", 0);
+    localStorage.setItem("confirmSaveOverwrite", 1);
+})
 
 
 window.electronAPI.getStatus1((value) => {

@@ -166,23 +166,40 @@ export function doDatasetSave() {
 
     if (isNaN(nr)) {
         setStatus2Warning("Bitte Datensatznummer eingeben");
-        $(".doButtonFetch").trigger("blur");
+        $(".doButtonDatasetSave").trigger("blur");
         return;
     }
     $(".dsNumber").val(prepareNumber(nr));
 
     if (checkForDataset(nr) == 1) {
         localStorage.setItem("changeDatasetNumber", nr);
+        $(".modal-body").text("Der Datensatz " + prepareNumber(nr) + " ist vorhanden.");
+        localStorage.setItem("confirmSaveCancel", 0);
+        localStorage.setItem("confirmSaveOverwrite", 0);
+        $(".buttonOpenConfirmSaveModal").click();
         localStorage.setItem("datasetNumber", null);
+        runForeverConfirmSave(1);
     }
     else {
         localStorage.setItem("changeDatasetNumber", null);
         localStorage.setItem("datasetNumber", nr);
+        saveDataset();
     }
 
     $(".doButtonDatasetSave").trigger("blur");
-    saveDataset();
 }
+
+async function runForeverConfirmSave(callCnt) {
+    callCnt++;
+    setTimeout(function () {
+        if (localStorage.getItem("confirmSaveOverwrite") == 1) {
+            //console.log("Overwrite 2");
+            saveDataset();
+            return;
+        }
+        runForeverConfirmSave(callCnt);
+    }, 1000);
+};
 
 
 export function doDatasetDelete() {
@@ -205,8 +222,8 @@ function saveDataset() {
     let cnr = localStorage.getItem("changeDatasetNumber");
     let nr = localStorage.getItem("datasetNumber")
 
-    console.log("--- cnr: " + cnr);
-    console.log("--- nr: " + nr);
+    //console.log("--- cnr: " + cnr);
+    //console.log("--- nr: " + nr);
 
     let sqlQuery, pnr;
 
@@ -229,7 +246,7 @@ function saveDataset() {
     var enc = encodeURIComponent($('.comment').val());
 
     if (nr > 0) {
-        console.log("New: " + nr);
+        //console.log("New: " + nr);
         sqlQuery = "INSERT INTO prolabor.archive_data (dataset_number,name,school_publisher,year,number,city,state,publisher_is,topics_list) values(" + nr + el + ",'" + el2.trimStart() + "')";
         window.electronAPI.sendDataset(sqlQuery);
         sqlQuery = "INSERT INTO prolabor.dataset_comments (dataset_number, comment) values(" + nr + ",'" + enc + "')";
@@ -249,7 +266,7 @@ function saveDataset() {
     }
     else {
         if (cnr > 0) {
-            console.log("Change: " + cnr);
+            //console.log("Change: " + cnr);
             sqlQuery = "DELETE FROM prolabor.archive_data where dataset_number=" + cnr;
             window.electronAPI.sendDataset(sqlQuery);
             sqlQuery = "DELETE FROM prolabor.dataset_comments where dataset_number=" + cnr;
