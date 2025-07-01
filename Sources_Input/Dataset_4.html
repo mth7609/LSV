@@ -18,12 +18,12 @@
 
     <div class="container ml-6 px-12">
         <div class="row">
-            <div class="col-4">
-                <div class="input-group">
-                    <div class="input-group-addon topDatasetItems_4"></div>
+            <div class="col-5">
+                <div class="input-group text-wrap">
+                    <div class="topDatasetItems_4"></div>
                 </div>
             </div>
-            <div class="col-8">
+            <div class="col-7">
                 <div class="input-group">
                     <div class="topicDatasetItems_4 nobr">
                         <div class="topicItems_4"></div>
@@ -42,10 +42,9 @@
             <div class="form-group">
                 <form>
                     <nobr>
-                        <input type="button" class="selectButtonDataset sav_4 btn btn-outline-secondary ps-2 pe-2 pt-0" value="Speichern">
                         <input type="button" class="selectButtonDataset pri_4 btn btn-outline-secondary ps-2 pe-2 pt-0" value="Drucken">
                         <input type="button" class="selectButtonDataset change_4 btn btn-outline-secondary ps-2 pe-2 pt-0" value="Ändern">
-                        <input type="button" class="selectButtonDataset del_4 btn btn-outline-secondary ps-2 pe-2 pt-0" value="Löschen">
+                        <input type="button" class="selectButtonDataset remove_4 btn btn-outline-secondary ps-2 pe-2 pt-0" value="Entfernen">
                     </nobr>
                 </form>
             </div>
@@ -53,14 +52,11 @@
     </div>
 
     <script>
-        $(".sav_4").on('click', function (event) {
-            alert("Save function: Not implemented yet");
-        });
         $(".pri_4").on('click', function (event) {
             alert("Print function: Not implemented yet");
         });
-        $(".del_4").on('click', function (event) {
-            alert("Delete function: Not implemented yet");
+        $(".remove_4").on('click', function (event) {
+            removeTab(4);
         });
         $(".change_4").on('click', function (event) {
             alert("Change function: Not implemented yet");

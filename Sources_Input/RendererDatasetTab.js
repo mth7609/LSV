@@ -1,6 +1,3 @@
-
-
-
 function updateDatasetTab(tab) {
     let i;
     let n;
@@ -13,14 +10,14 @@ function updateDatasetTab(tab) {
         mainHeadline[i] = localStorage.getItem("mainHeadline_" + i);
         datasetItems[i] = localStorage.getItem("datasetItem_" + i);
         if (datasetItems[i] != null)
-            el = el + "<nobr><label class='mainHeadline datasetItem_" + i + "'>" + mainHeadline[i] + ": </label> \
-                       <label class='datasetListItems datasetItem_" + i + "'>" + datasetItems[i] + "</label><br>\n";
+            el = el + "<label class='mainHeadline datasetItem_" + i + "'>" + mainHeadline[i] + ": </label> \
+                       <label class='datasetListItems text-wrap datasetItem_" + i + "'>" + datasetItems[i] + "</label><br>\n";
     }
 
     $('.datasetWindowHeadline_' + tab).html(localStorage.getItem("datasetWindowHeadline"));
     $('.datasetWindowSubheadline_' + tab).html(localStorage.getItem("datasetWindowSubheadline"));
     $('.topDatasetItems_' + tab).html(el);
-    $('.comment_' + tab).val(localStorage.getItem("datasetItem_7"));   // Special handling for comment that should be shown in textarea
+    //$('.comment_' + tab).val(localStorage.getItem("datasetItem_7"));   // Special handling for comment that should be shown in textarea
 
     el = "";
     let checkFound = false;
@@ -40,6 +37,20 @@ function updateDatasetTab(tab) {
 
     $('.topicDatasetItems_' + tab).html(el);
 }
+
+function removeTab(tab) {
+    $(".navtab-" + tab).removeClass("active");
+    $(".navtab-" + tab).remove();
+    let selectCnt = localStorage.getItem("selectCnt");
+    selectCnt--;
+    localStorage.setItem("selectCnt", selectCnt);
+    $(".navtab-0").addClass("active");
+    $(".tab-0").show();
+}
+
+
+
+
 
 
 

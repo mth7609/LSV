@@ -1,6 +1,7 @@
 import { prepareNumber, changeStatus1, setStatus2Warning, setStatus2WarningPermanent, setStatus2TodoPermanent, setStatus2Information, setStatus2Todo, clearInput, setToNew } from "./RendererScripts_01.js";
 import { requestDatasetDelete, requestCheckDatasetNumber, requestDataset, requestComment } from "./ServerRequests.js";
 import { globalDataset } from "./Globals.js";
+import { runForeverConfirmDoSave } from "./RendererScripts_03.js";
 
 var hexDigits = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "a", "b", "c", "d", "e", "f"];
 var hex = function (x) {
@@ -44,7 +45,7 @@ export function newTab(nr, link, name) {
 
     $(".navtab-" + nr).on('click', function (event) {
         //$(".tab-" + nr).load('" + link + "');
-        console.log("Tab clicked: " + nr + "   :   Link: " + link);
+        //console.log("Tab clicked: " + nr + "   :   Link: " + link);
         setTabActive(nr);
         $(".tab-" + nr).show();
     });
@@ -57,12 +58,26 @@ export function setTabActive(nr) {
         if (i != nr && $(".tab-" + i).show())
             hideTabContent(i);
     }
-    //$(".tab-" + nr).show();
 }
+
+
+export function checkTab(pnr) {
+    let i;
+    for (i = 0; i < localStorage.getItem("maxDatasetTabs"); i++) {
+        if ($(".navtab-" + i).text() === pnr) {
+            setStatus2Warning("Datensatz schon in Merkliste");
+            return true;
+        }
+    }
+    if (i == localStorage.getItem("maxDatasetTabs"))
+        return false;
+    else
+        return true;
+}
+
 
 export function checkForDataset(nr) {
     requestCheckDatasetNumber(nr);
-    //console.log("########## " + localStorage.getItem(nr));
     return localStorage.getItem(nr);
 }
 
@@ -88,8 +103,6 @@ export function doFetch() {
     }
 
     requestDataset(parseInt(nr));
-
-    //console.log(globalDataset.content);
 
     if (globalDataset.content != null) {
         $(".dsNumber").val(pnr);
@@ -121,7 +134,7 @@ function showDataInForm() {
     let ds = localStorage.getItem("changeDatasetNumber");
     $(".dsNumber").val(prepareNumber(ds));
 
-    console.log(globalDataset);
+    //console.log(globalDataset);
 
     $('.name').val(globalDataset.contentValue[0]["name"]);
     $('.city').val(globalDataset.contentValue[0]["city"]);
@@ -130,19 +143,23 @@ function showDataInForm() {
 
     const strTopic = globalDataset.contentValue[0]["topics_list"];
     const ar = strTopic.split(" ");
-    console.log(ar + "  " + ar.length);
+    //console.log(ar + "  " + ar.length);
     for (let i = 0; i < ar.length; i++) {
         $(".topic_" + ar[i]).css("backgroundColor", "#00dd00").css("border", "solid 1px #111111");
         localStorage.setItem("checked_topic_" + ar[i], "checked");
     }
 
     if (globalDataset.contentValue[0]["publisher_is"] == "school") {
+        localStorage.setItem("publisherIsOutput", localStorage.getItem("school"));
+        localStorage.setItem("publisherIsSave", "school");
         $('.btnradio1').prop("checked", true);
         $(".schoolLabel").css("backgroundColor", "#00bb00");
         $('.btnradio2').prop("checked", false);
     }
     else
         if (globalDataset.contentValue[0]["publisher_is"] == "free") {
+            localStorage.setItem("publisherIsOutput", localStorage.getItem("free"));
+            localStorage.setItem("publisherIsSave", "free");
             $('.btnradio1').prop("checked", false);
             $(".freeLabel").css("backgroundColor", "#00bb00");
             $('.btnradio2').prop("checked", true);
@@ -178,7 +195,7 @@ export function doDatasetSave() {
         localStorage.setItem("confirmSaveOverwrite", 0);
         $(".buttonOpenConfirmSaveModal").click();
         localStorage.setItem("datasetNumber", null);
-        runForeverConfirmSave(1);
+        runForeverConfirmDoSave(1);
     }
     else {
         localStorage.setItem("changeDatasetNumber", null);
@@ -189,17 +206,6 @@ export function doDatasetSave() {
     $(".doButtonDatasetSave").trigger("blur");
 }
 
-async function runForeverConfirmSave(callCnt) {
-    callCnt++;
-    setTimeout(function () {
-        if (localStorage.getItem("confirmSaveOverwrite") == 1) {
-            //console.log("Overwrite 2");
-            saveDataset();
-            return;
-        }
-        runForeverConfirmSave(callCnt);
-    }, 1000);
-};
 
 
 export function doDatasetDelete() {
@@ -214,7 +220,7 @@ export function doDatasetDelete() {
 }
 
 
-function saveDataset() {
+export function saveDataset() {
     let i;
     let n;
     let el2 = "", el = "";
@@ -233,8 +239,8 @@ function saveDataset() {
     el = el + ",'" + $('.publishNo').val() + "'";
     el = el + ",'" + $('.city').val() + "'";
     el = el + ",'" + $(".dropdownState").text() + "'";
-    el = el + ",'" + localStorage.getItem("publisherIs") + "'";
-
+    el = el + ",'" + localStorage.getItem("publisherIsSave") + "'";
+    console.log("out: " + localStorage.getItem("publisherIsOutput") + "     Save: " + localStorage.getItem("publisherIsSave"));
     for (n = 0; n < localStorage.getItem("topicHeadlineCnt"); n++) {
         for (i = 0; i < localStorage.getItem("amountTopicsHeadline_" + n); i++) {
             if (localStorage.getItem("checked_topic_" + n + "_" + i) == "checked") {
@@ -266,7 +272,7 @@ function saveDataset() {
     }
     else {
         if (cnr > 0) {
-            //console.log("Change: " + cnr);
+            console.log("Change: " + cnr);
             sqlQuery = "DELETE FROM prolabor.archive_data where dataset_number=" + cnr;
             window.electronAPI.sendDataset(sqlQuery);
             sqlQuery = "DELETE FROM prolabor.dataset_comments where dataset_number=" + cnr;
@@ -278,7 +284,6 @@ function saveDataset() {
                 window.electronAPI.sendDataset(sqlQuery);
                 pnr = prepareNumber(cnr);
                 setStatus2Information("Datensatz " + pnr + " geändert");
-                //setStatus2Information("Datensatz ändern");
             }, 2000);
         }
     }

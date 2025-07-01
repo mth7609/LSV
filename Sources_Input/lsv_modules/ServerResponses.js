@@ -273,6 +273,7 @@ function ObjectLength(object) {
   return length;
 };
 
+
 function responseCheckDatasetNumber() {
   let dsCon;
   serverFunctions.appx.get('/requestCheckDatasetNumber', (req, res) => {
@@ -280,18 +281,26 @@ function responseCheckDatasetNumber() {
     dsCon = serverFunctions.mysql.createConnection(dsn);
     dsCon.connect((err) => {
       if (err) throw err;
-      dsCon.query("SELECT name FROM prolabor.archive_data WHERE dataset_number=" + dataset_number, (err, result, fields) => {
+      dsCon.query("SELECT nr FROM prolabor.archive_data WHERE dataset_number=" + dataset_number, (err, result, fields) => {
         if (err) throw err;
         if (result.length == 0) {
           //console.log("dsNr: " + dataset_number + "           " + 0);
           res.send(Object(0));
+          dsCon.end();
         }
         else {
-          //console.log("dsNr: " + dataset_number + "           " + 1);
-          res.send(Object(1));
+          dsCon.query("SELECT nr FROM prolabor.dataset_comments WHERE dataset_number=" + dataset_number, (err, result, fields) => {
+            //console.log("dsNr: " + dataset_number + "           " + 1);
+            if (err) throw err;
+            if (result.length == 1) {
+              res.send(Object(1));
+            } else {
+              res.send(Object(0));
+            }
+            dsCon.end();
+          });
         }
       });
-      dsCon.end();
     });
   });
 }

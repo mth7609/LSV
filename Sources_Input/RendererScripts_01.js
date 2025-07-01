@@ -1,10 +1,9 @@
 import { requestCheckDatasetNumber, requestStates, requestTopHeadlines, requestTopicHeadlinesInfo, requestConstValues, requestTopicItems, requestInitValues, requestInfoLabels, requestImages, requestOutputText } from "./ServerRequests.js";
 import { globalTopicHeadlines, globalTopicItems, globalInfoLabels, globalTopHeadlines } from "./Globals.js";
-import { doFetch, doDatasetSave, doDatasetDelete, newTab, showDBStatus } from "./RendererScripts_02.js";
+import { checkTab, checkForDataset, doFetch, doDatasetSave, doDatasetDelete, newTab, showDBStatus } from "./RendererScripts_02.js";
 
 
 var selectedDropdown = 0;
-var publisherIs = "";
 let selectCnt = 1;
 var elementsOnForm = 1;
 var maxDatasetTabs = 10;
@@ -16,7 +15,6 @@ localStorage.setItem("tabCount", 0);
 localStorage.setItem("selectCnt", selectCnt);
 localStorage.setItem("maxDatasetTabs", maxDatasetTabs)
 localStorage.setItem("changeDatasetNumber", null);
-
 
 requestInfoLabels();
 requestOutputText();
@@ -269,23 +267,26 @@ export function setStatus2TodoPermanent(text) {
 }
 
 function publisherSchool(str) {
-    publisherIs = localStorage.getItem("school");
-    localStorage.setItem("publisherIs", "school");
+    localStorage.setItem("publisherIsOutput", localStorage.getItem("school"));
+    localStorage.setItem("publisherIsSave", "school");
     $(".freeLabel").css("backgroundColor", "#ffffff");
     $(".schoolLabel").css("backgroundColor", "#00bb00");
     $(".schoolLabel").css("color", "#000000");
+    //console.log("out: " + localStorage.getItem("publisherIsOutput") + "     Save: " + localStorage.getItem("publisherIsSave"));
 }
 
 function publisherFree(str) {
-    publisherIs = localStorage.getItem("free");
-    localStorage.setItem("publisherIs", "free");
+    localStorage.setItem("publisherIsOutput", localStorage.getItem("free"));
+    localStorage.setItem("publisherIsSave", "free");
     $(".freeLabel").css("backgroundColor", "#00bb00");
     $(".freeLabel").css("color", "#000000");
     $(".schoolLabel").css("backgroundColor", "#ffffff");
+    //console.log("out: " + localStorage.getItem("publisherIsOutput") + "     Save: " + localStorage.getItem("publisherIsSave"));
 }
 
 function publisherReset() {
-    publisherIs = "";
+    localStorage.setItem("publisherIsOutput", "");
+    localStorage.setItem("publisherIsSave", "");
     $(".schoolLabel").css("backgroundColor", "#ffffff");
     $(".freeLabel").css("backgroundColor", "#ffffff");
 }
@@ -397,8 +398,27 @@ export function clearInput() {
 
 function doDatasetRemember() {
 
+    $(".doButtonDatasetRemember").trigger("blur");
+
     if (selectCnt > maxDatasetTabs) {
-        alert("Maximale Anzahl (10) der gemerkten Datensätze erreicht.\n\nBitte kontrollieren und Speichern.");
+        console.log("Maximale Anzahl (10) der gemerkten Datensätze erreicht.\n\nBitte kontrollieren und Speichern.");
+        return;
+    }
+
+    let datasetNumber = String($(".dsNumber").val()).replace(".", "");
+    datasetNumber = parseInt(datasetNumber);
+    let pnr = prepareNumber(datasetNumber);
+
+    if (checkTab(pnr) == true)
+        return;
+
+    if (isNaN(datasetNumber)) {
+        setStatus2Warning("Bitte Datensatznummer eingeben");
+        return;
+    }
+
+    if (checkForDataset(datasetNumber) == 0) {
+        setStatus2Warning("Datensatz " + datasetNumber + " nicht vorhanden");
         return;
     }
 
@@ -406,7 +426,7 @@ function doDatasetRemember() {
     datasetTopItems[selectCnt][1] = $('.schoolPublisher').val();
     datasetTopItems[selectCnt][2] = $('.city').val();
     datasetTopItems[selectCnt][3] = $(".dropdownState").text();
-    datasetTopItems[selectCnt][4] = publisherIs;
+    datasetTopItems[selectCnt][4] = localStorage.getItem("publisherIsOutput");
     datasetTopItems[selectCnt][5] = $(".dropdownYear").text();
     datasetTopItems[selectCnt][6] = $('.publishNo').val();
     datasetTopItems[selectCnt][7] = $('.comment').val();
@@ -430,33 +450,26 @@ function doDatasetRemember() {
 
     localStorage.setItem("datasetItem_7", datasetTopItems[selectCnt][7]); // Special handling for comment
 
-    let datasetNumber = localStorage.getItem("datasetNumber");
-    let nr = prepareNumber(datasetNumber);
     let datasetFileName = "./Dataset_" + selectCnt + ".html";
 
     //console.log("cnt: " + selectCnt + ",  maxDatasetTabs: " + maxDatasetTabs + "  datasetFile: " + datasetFileName);
 
-    localStorage.setItem("datasetWindowSubheadline", nr.toString());
-    $(".navtab-" + selectCnt).text(nr);
-    newTab(selectCnt, datasetFileName, nr);
-    selectCnt++;
+    localStorage.setItem("datasetWindowSubheadline", pnr.toString());
+    $(".navtab-" + selectCnt).text(pnr);
 
-    let nd = localStorage.getItem("datasetNumber");
-    if (nd != 0) {
-        changeStatus2("Datensatz " + nd + " gemerkt");
-        $(".statusbar2").css("background-color", "#008800");
-        setTimeout(() => {
-            changeStatus2("");
-            $(".statusbar2").css("background-color", "#c2e2ec");
-        }, 3000);
-        nd++;
-        $(".dsNumber").val(prepareNumber(nd));
-        localStorage.setItem("datasetNumber", nd);
-    }
-    else {
-        changeStatus2("Datensatz " + nd + " NICHT gemerkt");
-        $(".statusbar2").css("background-color", "#dd0000");
-        $(".statusbar2").css("color", "#ffffff");
-    }
+    newTab(selectCnt, datasetFileName, pnr);
+    selectCnt++;
+    setStatus2Information("Datensatz " + datasetNumber + " gemerkt");
 }
+
+function removeTab(tab) {
+    $(".navtab-" + tab).removeClass("active");
+    $(".navtab-" + tab).remove();
+    let selectCnt = localStorage.getItem("selectCnt");
+    selectCnt--;
+    localStorage.setItem("selectCnt", selectCnt);
+    $(".navtab-0").addClass("active");
+    $(".tab-0").show();
+}
+
 
