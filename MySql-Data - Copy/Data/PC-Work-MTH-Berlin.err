@@ -1,0 +1,293 @@
+2025-03-24T23:17:41.781316Z 0 [System] [MY-010116] [Server] C:\Projects\Electron\LSV\MySQL Server 8.0\bin\mysqld.exe (mysqld 8.0.41) starting as process 15892
+2025-03-24T23:17:41.795560Z 1 [System] [MY-013576] [InnoDB] InnoDB initialization has started.
+2025-03-24T23:17:42.136122Z 1 [System] [MY-013577] [InnoDB] InnoDB initialization has ended.
+2025-03-24T23:17:42.355593Z 0 [Warning] [MY-010068] [Server] CA certificate ca.pem is self signed.
+2025-03-24T23:17:42.356093Z 0 [System] [MY-013602] [Server] Channel mysql_main configured to support TLS. Encrypted connections are now supported for this channel.
+2025-03-24T23:17:42.383440Z 0 [System] [MY-010931] [Server] C:\Projects\Electron\LSV\MySQL Server 8.0\bin\mysqld.exe: ready for connections. Version: '8.0.41'  socket: ''  port: 3306  MySQL Community Server - GPL.
+2025-03-24T23:17:42.383485Z 0 [System] [MY-011323] [Server] X Plugin ready for connections. Bind-address: '::' port: 33060
+2025-03-24T23:18:14.740319Z 0 [System] [MY-013105] [Server] C:\Projects\Electron\LSV\MySQL Server 8.0\bin\mysqld.exe: Normal shutdown.
+2025-03-24T23:18:16.757211Z 0 [Warning] [MY-010909] [Server] C:\Projects\Electron\LSV\MySQL Server 8.0\bin\mysqld.exe: Forcing close of thread 8  user: 'prolabor'.
+2025-03-24T23:18:17.779402Z 0 [System] [MY-010910] [Server] C:\Projects\Electron\LSV\MySQL Server 8.0\bin\mysqld.exe: Shutdown complete (mysqld 8.0.41)  MySQL Community Server - GPL.
+2025-03-24T23:19:37.120556Z 0 [System] [MY-010116] [Server] C:\Projects\Electron\LSV\MySQL Server 8.0\bin\mysqld.exe (mysqld 8.0.41) starting as process 10288
+2025-03-24T23:19:37.142200Z 1 [System] [MY-013576] [InnoDB] InnoDB initialization has started.
+2025-03-24T23:19:38.609977Z 1 [System] [MY-013577] [InnoDB] InnoDB initialization has ended.
+2025-03-24T23:19:39.599660Z 0 [Warning] [MY-010068] [Server] CA certificate ca.pem is self signed.
+2025-03-24T23:19:39.599888Z 0 [System] [MY-013602] [Server] Channel mysql_main configured to support TLS. Encrypted connections are now supported for this channel.
+2025-03-24T23:19:39.873720Z 0 [System] [MY-011323] [Server] X Plugin ready for connections. Bind-address: '::' port: 33060
+2025-03-24T23:19:39.873765Z 0 [System] [MY-010931] [Server] C:\Projects\Electron\LSV\MySQL Server 8.0\bin\mysqld.exe: ready for connections. Version: '8.0.41'  socket: ''  port: 3306  MySQL Community Server - GPL.
+2025-03-24T23:21:45.782991Z 0 [System] [MY-013105] [Server] C:\Projects\Electron\LSV\MySQL Server 8.0\bin\mysqld.exe: Normal shutdown.
+2025-03-24T23:21:46.931266Z 0 [System] [MY-010910] [Server] C:\Projects\Electron\LSV\MySQL Server 8.0\bin\mysqld.exe: Shutdown complete (mysqld 8.0.41)  MySQL Community Server - GPL.
+2025-03-25T19:36:14.815387Z 0 [System] [MY-010116] [Server] C:\Projects\Electron\LSV\MySQL Server 8.0\bin\mysqld.exe (mysqld 8.0.41) starting as process 8096
+2025-03-25T19:36:14.867724Z 1 [System] [MY-013576] [InnoDB] InnoDB initialization has started.
+2025-03-25T19:36:15.347313Z 1 [System] [MY-013577] [InnoDB] InnoDB initialization has ended.
+2025-03-25T19:36:15.647597Z 0 [Warning] [MY-010068] [Server] CA certificate ca.pem is self signed.
+2025-03-25T19:36:15.647840Z 0 [System] [MY-013602] [Server] Channel mysql_main configured to support TLS. Encrypted connections are now supported for this channel.
+2025-03-25T19:36:15.684790Z 0 [System] [MY-011323] [Server] X Plugin ready for connections. Bind-address: '::' port: 33060
+2025-03-25T19:36:15.684745Z 0 [System] [MY-010931] [Server] C:\Projects\Electron\LSV\MySQL Server 8.0\bin\mysqld.exe: ready for connections. Version: '8.0.41'  socket: ''  port: 3306  MySQL Community Server - GPL.
+2025-03-25T19:42:12.575084Z 0 [System] [MY-013105] [Server] C:\Projects\Electron\LSV\MySQL Server 8.0\bin\mysqld.exe: Normal shutdown.
+2025-03-25T19:42:14.593614Z 0 [Warning] [MY-010909] [Server] C:\Projects\Electron\LSV\MySQL Server 8.0\bin\mysqld.exe: Forcing close of thread 9  user: 'prolabor'.
+2025-03-25T19:42:15.396428Z 0 [System] [MY-010910] [Server] C:\Projects\Electron\LSV\MySQL Server 8.0\bin\mysqld.exe: Shutdown complete (mysqld 8.0.41)  MySQL Community Server - GPL.
+2025-03-25T19:52:47.717810Z 0 [System] [MY-010116] [Server] C:\Projects\Electron\LSV\MySQL Server 8.0\bin\mysqld.exe (mysqld 8.0.41) starting as process 6324
+2025-03-25T19:52:47.732791Z 1 [System] [MY-013576] [InnoDB] InnoDB initialization has started.
+2025-03-25T19:52:48.002745Z 1 [System] [MY-013577] [InnoDB] InnoDB initialization has ended.
+2025-03-25T19:52:48.225210Z 0 [Warning] [MY-010068] [Server] CA certificate ca.pem is self signed.
+2025-03-25T19:52:48.225444Z 0 [System] [MY-013602] [Server] Channel mysql_main configured to support TLS. Encrypted connections are now supported for this channel.
+2025-03-25T19:52:48.256592Z 0 [System] [MY-011323] [Server] X Plugin ready for connections. Bind-address: '::' port: 33060
+2025-03-25T19:52:48.256595Z 0 [System] [MY-010931] [Server] C:\Projects\Electron\LSV\MySQL Server 8.0\bin\mysqld.exe: ready for connections. Version: '8.0.41'  socket: ''  port: 3306  MySQL Community Server - GPL.
+2025-03-25T20:10:19.649493Z 0 [System] [MY-013105] [Server] C:\Projects\Electron\LSV\MySQL Server 8.0\bin\mysqld.exe: Normal shutdown.
+2025-03-25T20:10:21.661230Z 0 [Warning] [MY-010909] [Server] C:\Projects\Electron\LSV\MySQL Server 8.0\bin\mysqld.exe: Forcing close of thread 8  user: 'prolabor'.
+2025-03-25T20:10:22.303733Z 0 [System] [MY-010910] [Server] C:\Projects\Electron\LSV\MySQL Server 8.0\bin\mysqld.exe: Shutdown complete (mysqld 8.0.41)  MySQL Community Server - GPL.
+2025-03-25T20:10:27.673032Z 0 [System] [MY-010116] [Server] C:\Projects\Electron\LSV\MySQL Server 8.0\bin\mysqld.exe (mysqld 8.0.41) starting as process 15672
+2025-03-25T20:10:27.690756Z 1 [System] [MY-013576] [InnoDB] InnoDB initialization has started.
+2025-03-25T20:10:28.046257Z 1 [System] [MY-013577] [InnoDB] InnoDB initialization has ended.
+2025-03-25T20:10:28.266089Z 0 [Warning] [MY-010068] [Server] CA certificate ca.pem is self signed.
+2025-03-25T20:10:28.266324Z 0 [System] [MY-013602] [Server] Channel mysql_main configured to support TLS. Encrypted connections are now supported for this channel.
+2025-03-25T20:10:28.291715Z 0 [System] [MY-011323] [Server] X Plugin ready for connections. Bind-address: '::' port: 33060
+2025-03-25T20:10:28.291732Z 0 [System] [MY-010931] [Server] C:\Projects\Electron\LSV\MySQL Server 8.0\bin\mysqld.exe: ready for connections. Version: '8.0.41'  socket: ''  port: 3306  MySQL Community Server - GPL.
+2025-03-25T20:31:28.249804Z 0 [System] [MY-013105] [Server] C:\Projects\Electron\LSV\MySQL Server 8.0\bin\mysqld.exe: Normal shutdown.
+2025-03-25T20:31:30.253704Z 0 [Warning] [MY-010909] [Server] C:\Projects\Electron\LSV\MySQL Server 8.0\bin\mysqld.exe: Forcing close of thread 8  user: 'prolabor'.
+2025-03-25T20:31:31.626108Z 0 [System] [MY-010910] [Server] C:\Projects\Electron\LSV\MySQL Server 8.0\bin\mysqld.exe: Shutdown complete (mysqld 8.0.41)  MySQL Community Server - GPL.
+2025-03-25T20:32:08.388847Z 0 [System] [MY-010116] [Server] C:\Projects\Electron\LSV\MySQL Server 8.0\bin\mysqld.exe (mysqld 8.0.41) starting as process 4872
+2025-03-25T20:32:08.406587Z 1 [System] [MY-013576] [InnoDB] InnoDB initialization has started.
+2025-03-25T20:32:08.764672Z 1 [System] [MY-013577] [InnoDB] InnoDB initialization has ended.
+2025-03-25T20:32:08.999744Z 0 [Warning] [MY-010068] [Server] CA certificate ca.pem is self signed.
+2025-03-25T20:32:08.999977Z 0 [System] [MY-013602] [Server] Channel mysql_main configured to support TLS. Encrypted connections are now supported for this channel.
+2025-03-25T20:32:09.025339Z 0 [System] [MY-011323] [Server] X Plugin ready for connections. Bind-address: '::' port: 33060
+2025-03-25T20:32:09.025370Z 0 [System] [MY-010931] [Server] C:\Projects\Electron\LSV\MySQL Server 8.0\bin\mysqld.exe: ready for connections. Version: '8.0.41'  socket: ''  port: 3306  MySQL Community Server - GPL.
+2025-03-25T20:32:16.082661Z 0 [System] [MY-013105] [Server] C:\Projects\Electron\LSV\MySQL Server 8.0\bin\mysqld.exe: Normal shutdown.
+2025-03-25T20:32:18.088080Z 0 [Warning] [MY-010909] [Server] C:\Projects\Electron\LSV\MySQL Server 8.0\bin\mysqld.exe: Forcing close of thread 8  user: 'prolabor'.
+2025-03-25T20:32:19.225628Z 0 [System] [MY-010910] [Server] C:\Projects\Electron\LSV\MySQL Server 8.0\bin\mysqld.exe: Shutdown complete (mysqld 8.0.41)  MySQL Community Server - GPL.
+2025-03-25T20:45:03.227556Z 0 [System] [MY-010116] [Server] C:\Projects\Electron\LSV\MySQL Server 8.0\bin\mysqld.exe (mysqld 8.0.41) starting as process 11592
+2025-03-25T20:45:03.242429Z 1 [System] [MY-013576] [InnoDB] InnoDB initialization has started.
+2025-03-25T20:45:03.454410Z 1 [System] [MY-013577] [InnoDB] InnoDB initialization has ended.
+2025-03-25T20:45:03.751276Z 0 [Warning] [MY-010068] [Server] CA certificate ca.pem is self signed.
+2025-03-25T20:45:03.751512Z 0 [System] [MY-013602] [Server] Channel mysql_main configured to support TLS. Encrypted connections are now supported for this channel.
+2025-03-25T20:45:03.788890Z 0 [System] [MY-011323] [Server] X Plugin ready for connections. Bind-address: '::' port: 33060
+2025-03-25T20:45:03.788900Z 0 [System] [MY-010931] [Server] C:\Projects\Electron\LSV\MySQL Server 8.0\bin\mysqld.exe: ready for connections. Version: '8.0.41'  socket: ''  port: 3306  MySQL Community Server - GPL.
+2025-03-25T21:29:23.440955Z 0 [System] [MY-013105] [Server] C:\Projects\Electron\LSV\MySQL Server 8.0\bin\mysqld.exe: Normal shutdown.
+2025-03-25T21:29:25.451231Z 0 [Warning] [MY-010909] [Server] C:\Projects\Electron\LSV\MySQL Server 8.0\bin\mysqld.exe: Forcing close of thread 8  user: 'prolabor'.
+2025-03-25T21:29:25.874494Z 0 [System] [MY-010910] [Server] C:\Projects\Electron\LSV\MySQL Server 8.0\bin\mysqld.exe: Shutdown complete (mysqld 8.0.41)  MySQL Community Server - GPL.
+2025-03-25T21:30:08.910013Z 0 [System] [MY-010116] [Server] C:\Projects\Electron\LSV\MySQL Server 8.0\bin\mysqld.exe (mysqld 8.0.41) starting as process 23152
+2025-03-25T21:30:08.928687Z 1 [System] [MY-013576] [InnoDB] InnoDB initialization has started.
+2025-03-25T21:30:09.291407Z 1 [System] [MY-013577] [InnoDB] InnoDB initialization has ended.
+2025-03-25T21:30:09.516838Z 0 [Warning] [MY-010068] [Server] CA certificate ca.pem is self signed.
+2025-03-25T21:30:09.517068Z 0 [System] [MY-013602] [Server] Channel mysql_main configured to support TLS. Encrypted connections are now supported for this channel.
+2025-03-25T21:30:09.543140Z 0 [System] [MY-011323] [Server] X Plugin ready for connections. Bind-address: '::' port: 33060
+2025-03-25T21:30:09.543163Z 0 [System] [MY-010931] [Server] C:\Projects\Electron\LSV\MySQL Server 8.0\bin\mysqld.exe: ready for connections. Version: '8.0.41'  socket: ''  port: 3306  MySQL Community Server - GPL.
+2025-03-25T21:33:45.182269Z 0 [System] [MY-013105] [Server] C:\Projects\Electron\LSV\MySQL Server 8.0\bin\mysqld.exe: Normal shutdown.
+2025-03-25T21:33:47.186069Z 0 [Warning] [MY-010909] [Server] C:\Projects\Electron\LSV\MySQL Server 8.0\bin\mysqld.exe: Forcing close of thread 8  user: 'prolabor'.
+2025-03-25T21:33:47.824668Z 0 [System] [MY-010910] [Server] C:\Projects\Electron\LSV\MySQL Server 8.0\bin\mysqld.exe: Shutdown complete (mysqld 8.0.41)  MySQL Community Server - GPL.
+2025-03-25T21:33:53.288380Z 0 [System] [MY-010116] [Server] C:\Projects\Electron\LSV\MySQL Server 8.0\bin\mysqld.exe (mysqld 8.0.41) starting as process 22420
+2025-03-25T21:33:53.305962Z 1 [System] [MY-013576] [InnoDB] InnoDB initialization has started.
+2025-03-25T21:33:53.664175Z 1 [System] [MY-013577] [InnoDB] InnoDB initialization has ended.
+2025-03-25T21:33:53.886325Z 0 [Warning] [MY-010068] [Server] CA certificate ca.pem is self signed.
+2025-03-25T21:33:53.886561Z 0 [System] [MY-013602] [Server] Channel mysql_main configured to support TLS. Encrypted connections are now supported for this channel.
+2025-03-25T21:33:53.912649Z 0 [System] [MY-011323] [Server] X Plugin ready for connections. Bind-address: '::' port: 33060
+2025-03-25T21:33:53.912662Z 0 [System] [MY-010931] [Server] C:\Projects\Electron\LSV\MySQL Server 8.0\bin\mysqld.exe: ready for connections. Version: '8.0.41'  socket: ''  port: 3306  MySQL Community Server - GPL.
+2025-03-25T21:35:11.123466Z 0 [System] [MY-013105] [Server] C:\Projects\Electron\LSV\MySQL Server 8.0\bin\mysqld.exe: Normal shutdown.
+2025-03-25T21:35:13.137141Z 0 [Warning] [MY-010909] [Server] C:\Projects\Electron\LSV\MySQL Server 8.0\bin\mysqld.exe: Forcing close of thread 8  user: 'prolabor'.
+2025-03-25T21:35:13.825625Z 0 [System] [MY-010910] [Server] C:\Projects\Electron\LSV\MySQL Server 8.0\bin\mysqld.exe: Shutdown complete (mysqld 8.0.41)  MySQL Community Server - GPL.
+2025-03-25T21:36:07.221905Z 0 [System] [MY-010116] [Server] C:\Projects\Electron\LSV\MySQL Server 8.0\bin\mysqld.exe (mysqld 8.0.41) starting as process 22816
+2025-03-25T21:36:07.239060Z 1 [System] [MY-013576] [InnoDB] InnoDB initialization has started.
+2025-03-25T21:36:07.599196Z 1 [System] [MY-013577] [InnoDB] InnoDB initialization has ended.
+2025-03-25T21:36:07.875666Z 0 [Warning] [MY-010068] [Server] CA certificate ca.pem is self signed.
+2025-03-25T21:36:07.875912Z 0 [System] [MY-013602] [Server] Channel mysql_main configured to support TLS. Encrypted connections are now supported for this channel.
+2025-03-25T21:36:07.904297Z 0 [System] [MY-010931] [Server] C:\Projects\Electron\LSV\MySQL Server 8.0\bin\mysqld.exe: ready for connections. Version: '8.0.41'  socket: ''  port: 3306  MySQL Community Server - GPL.
+2025-03-25T21:36:07.904328Z 0 [System] [MY-011323] [Server] X Plugin ready for connections. Bind-address: '::' port: 33060
+2025-03-25T21:45:45.884776Z 0 [System] [MY-013105] [Server] C:\Projects\Electron\LSV\MySQL Server 8.0\bin\mysqld.exe: Normal shutdown.
+2025-03-25T21:45:47.888905Z 0 [Warning] [MY-010909] [Server] C:\Projects\Electron\LSV\MySQL Server 8.0\bin\mysqld.exe: Forcing close of thread 8  user: 'prolabor'.
+2025-03-25T21:45:49.177923Z 0 [System] [MY-010910] [Server] C:\Projects\Electron\LSV\MySQL Server 8.0\bin\mysqld.exe: Shutdown complete (mysqld 8.0.41)  MySQL Community Server - GPL.
+2025-03-25T21:48:22.858951Z 0 [System] [MY-010116] [Server] C:\Projects\Electron\LSV\MySQL Server 8.0\bin\mysqld.exe (mysqld 8.0.41) starting as process 19404
+2025-03-25T21:48:22.876478Z 1 [System] [MY-013576] [InnoDB] InnoDB initialization has started.
+2025-03-25T21:48:23.230079Z 1 [System] [MY-013577] [InnoDB] InnoDB initialization has ended.
+2025-03-25T21:48:23.517839Z 0 [Warning] [MY-010068] [Server] CA certificate ca.pem is self signed.
+2025-03-25T21:48:23.518069Z 0 [System] [MY-013602] [Server] Channel mysql_main configured to support TLS. Encrypted connections are now supported for this channel.
+2025-03-25T21:48:23.546245Z 0 [System] [MY-011323] [Server] X Plugin ready for connections. Bind-address: '::' port: 33060
+2025-03-25T21:48:23.546295Z 0 [System] [MY-010931] [Server] C:\Projects\Electron\LSV\MySQL Server 8.0\bin\mysqld.exe: ready for connections. Version: '8.0.41'  socket: ''  port: 3306  MySQL Community Server - GPL.
+2025-03-25T22:00:10.393310Z 0 [System] [MY-013105] [Server] C:\Projects\Electron\LSV\MySQL Server 8.0\bin\mysqld.exe: Normal shutdown.
+2025-03-25T22:00:12.409403Z 0 [Warning] [MY-010909] [Server] C:\Projects\Electron\LSV\MySQL Server 8.0\bin\mysqld.exe: Forcing close of thread 8  user: 'prolabor'.
+2025-03-25T22:00:13.381700Z 0 [System] [MY-010910] [Server] C:\Projects\Electron\LSV\MySQL Server 8.0\bin\mysqld.exe: Shutdown complete (mysqld 8.0.41)  MySQL Community Server - GPL.
+2025-03-25T22:09:51.831163Z 0 [System] [MY-010116] [Server] C:\Projects\Electron\LSV\MySQL Server 8.0\bin\mysqld.exe (mysqld 8.0.41) starting as process 23528
+2025-03-25T22:09:51.847765Z 1 [System] [MY-013576] [InnoDB] InnoDB initialization has started.
+2025-03-25T22:09:52.133768Z 1 [System] [MY-013577] [InnoDB] InnoDB initialization has ended.
+2025-03-25T22:09:52.423131Z 0 [Warning] [MY-010068] [Server] CA certificate ca.pem is self signed.
+2025-03-25T22:09:52.423369Z 0 [System] [MY-013602] [Server] Channel mysql_main configured to support TLS. Encrypted connections are now supported for this channel.
+2025-03-25T22:09:52.448671Z 0 [System] [MY-011323] [Server] X Plugin ready for connections. Bind-address: '::' port: 33060
+2025-03-25T22:09:52.448696Z 0 [System] [MY-010931] [Server] C:\Projects\Electron\LSV\MySQL Server 8.0\bin\mysqld.exe: ready for connections. Version: '8.0.41'  socket: ''  port: 3306  MySQL Community Server - GPL.
+2025-03-25T22:10:06.812516Z 0 [System] [MY-013105] [Server] C:\Projects\Electron\LSV\MySQL Server 8.0\bin\mysqld.exe: Normal shutdown.
+2025-03-25T22:10:08.828780Z 0 [Warning] [MY-010909] [Server] C:\Projects\Electron\LSV\MySQL Server 8.0\bin\mysqld.exe: Forcing close of thread 8  user: 'prolabor'.
+2025-03-25T22:10:09.656755Z 0 [System] [MY-010910] [Server] C:\Projects\Electron\LSV\MySQL Server 8.0\bin\mysqld.exe: Shutdown complete (mysqld 8.0.41)  MySQL Community Server - GPL.
+2025-03-25T22:10:21.385458Z 0 [System] [MY-010116] [Server] C:\Projects\Electron\LSV\MySQL Server 8.0\bin\mysqld.exe (mysqld 8.0.41) starting as process 18676
+2025-03-25T22:10:21.406153Z 1 [System] [MY-013576] [InnoDB] InnoDB initialization has started.
+2025-03-25T22:10:22.893051Z 1 [System] [MY-013577] [InnoDB] InnoDB initialization has ended.
+2025-03-25T22:10:24.060543Z 0 [Warning] [MY-010068] [Server] CA certificate ca.pem is self signed.
+2025-03-25T22:10:24.060771Z 0 [System] [MY-013602] [Server] Channel mysql_main configured to support TLS. Encrypted connections are now supported for this channel.
+2025-03-25T22:10:24.396651Z 0 [System] [MY-011323] [Server] X Plugin ready for connections. Bind-address: '::' port: 33060
+2025-03-25T22:10:24.396724Z 0 [System] [MY-010931] [Server] C:\Projects\Electron\LSV\MySQL Server 8.0\bin\mysqld.exe: ready for connections. Version: '8.0.41'  socket: ''  port: 3306  MySQL Community Server - GPL.
+2025-03-25T22:15:08.459951Z 0 [System] [MY-013105] [Server] C:\Projects\Electron\LSV\MySQL Server 8.0\bin\mysqld.exe: Normal shutdown.
+2025-03-25T22:15:10.463378Z 0 [Warning] [MY-010909] [Server] C:\Projects\Electron\LSV\MySQL Server 8.0\bin\mysqld.exe: Forcing close of thread 8  user: 'prolabor'.
+2025-03-25T22:15:10.844584Z 0 [System] [MY-010910] [Server] C:\Projects\Electron\LSV\MySQL Server 8.0\bin\mysqld.exe: Shutdown complete (mysqld 8.0.41)  MySQL Community Server - GPL.
+2025-03-25T22:15:25.639168Z 0 [System] [MY-010116] [Server] C:\Projects\Electron\LSV\MySQL Server 8.0\bin\mysqld.exe (mysqld 8.0.41) starting as process 15500
+2025-03-25T22:15:25.663995Z 1 [System] [MY-013576] [InnoDB] InnoDB initialization has started.
+2025-03-25T22:15:27.004443Z 1 [System] [MY-013577] [InnoDB] InnoDB initialization has ended.
+2025-03-25T22:15:28.165297Z 0 [Warning] [MY-010068] [Server] CA certificate ca.pem is self signed.
+2025-03-25T22:15:28.165526Z 0 [System] [MY-013602] [Server] Channel mysql_main configured to support TLS. Encrypted connections are now supported for this channel.
+2025-03-25T22:15:28.467110Z 0 [System] [MY-011323] [Server] X Plugin ready for connections. Bind-address: '::' port: 33060
+2025-03-25T22:15:28.467126Z 0 [System] [MY-010931] [Server] C:\Projects\Electron\LSV\MySQL Server 8.0\bin\mysqld.exe: ready for connections. Version: '8.0.41'  socket: ''  port: 3306  MySQL Community Server - GPL.
+2025-03-25T22:15:35.515848Z 0 [System] [MY-013105] [Server] C:\Projects\Electron\LSV\MySQL Server 8.0\bin\mysqld.exe: Normal shutdown.
+2025-03-25T22:15:36.030438Z 0 [System] [MY-010910] [Server] C:\Projects\Electron\LSV\MySQL Server 8.0\bin\mysqld.exe: Shutdown complete (mysqld 8.0.41)  MySQL Community Server - GPL.
+2025-03-25T22:15:53.906790Z 0 [System] [MY-010116] [Server] C:\Projects\Electron\LSV\MySQL Server 8.0\bin\mysqld.exe (mysqld 8.0.41) starting as process 20864
+2025-03-25T22:15:53.930629Z 1 [System] [MY-013576] [InnoDB] InnoDB initialization has started.
+2025-03-25T22:15:55.495327Z 1 [System] [MY-013577] [InnoDB] InnoDB initialization has ended.
+2025-03-25T22:15:56.656497Z 0 [Warning] [MY-010068] [Server] CA certificate ca.pem is self signed.
+2025-03-25T22:15:56.656783Z 0 [System] [MY-013602] [Server] Channel mysql_main configured to support TLS. Encrypted connections are now supported for this channel.
+2025-03-25T22:15:56.977645Z 0 [System] [MY-010931] [Server] C:\Projects\Electron\LSV\MySQL Server 8.0\bin\mysqld.exe: ready for connections. Version: '8.0.41'  socket: ''  port: 3306  MySQL Community Server - GPL.
+2025-03-25T22:15:56.977714Z 0 [System] [MY-011323] [Server] X Plugin ready for connections. Bind-address: '::' port: 33060
+2025-03-25T22:17:12.150313Z 0 [System] [MY-013105] [Server] C:\Projects\Electron\LSV\MySQL Server 8.0\bin\mysqld.exe: Normal shutdown.
+2025-03-25T22:17:13.020018Z 0 [System] [MY-010910] [Server] C:\Projects\Electron\LSV\MySQL Server 8.0\bin\mysqld.exe: Shutdown complete (mysqld 8.0.41)  MySQL Community Server - GPL.
+2025-03-25T22:17:21.922641Z 0 [System] [MY-010116] [Server] C:\Projects\Electron\LSV\MySQL Server 8.0\bin\mysqld.exe (mysqld 8.0.41) starting as process 12440
+2025-03-25T22:17:21.938357Z 1 [System] [MY-013576] [InnoDB] InnoDB initialization has started.
+2025-03-25T22:17:22.292110Z 1 [System] [MY-013577] [InnoDB] InnoDB initialization has ended.
+2025-03-25T22:17:22.516979Z 0 [Warning] [MY-010068] [Server] CA certificate ca.pem is self signed.
+2025-03-25T22:17:22.517216Z 0 [System] [MY-013602] [Server] Channel mysql_main configured to support TLS. Encrypted connections are now supported for this channel.
+2025-03-25T22:17:22.543067Z 0 [System] [MY-011323] [Server] X Plugin ready for connections. Bind-address: '::' port: 33060
+2025-03-25T22:17:22.543086Z 0 [System] [MY-010931] [Server] C:\Projects\Electron\LSV\MySQL Server 8.0\bin\mysqld.exe: ready for connections. Version: '8.0.41'  socket: ''  port: 3306  MySQL Community Server - GPL.
+2025-03-25T22:21:11.644275Z 0 [System] [MY-013105] [Server] C:\Projects\Electron\LSV\MySQL Server 8.0\bin\mysqld.exe: Normal shutdown.
+2025-03-25T22:21:13.647982Z 0 [Warning] [MY-010909] [Server] C:\Projects\Electron\LSV\MySQL Server 8.0\bin\mysqld.exe: Forcing close of thread 8  user: 'prolabor'.
+2025-03-25T22:21:14.872569Z 0 [System] [MY-010910] [Server] C:\Projects\Electron\LSV\MySQL Server 8.0\bin\mysqld.exe: Shutdown complete (mysqld 8.0.41)  MySQL Community Server - GPL.
+2025-03-25T22:29:12.752879Z 0 [System] [MY-010116] [Server] C:\Projects\Electron\LSV\MySQL Server 8.0\bin\mysqld.exe (mysqld 8.0.41) starting as process 17044
+2025-03-25T22:29:12.770075Z 1 [System] [MY-013576] [InnoDB] InnoDB initialization has started.
+2025-03-25T22:29:13.128485Z 1 [System] [MY-013577] [InnoDB] InnoDB initialization has ended.
+2025-03-25T22:29:13.346281Z 0 [Warning] [MY-010068] [Server] CA certificate ca.pem is self signed.
+2025-03-25T22:29:13.346511Z 0 [System] [MY-013602] [Server] Channel mysql_main configured to support TLS. Encrypted connections are now supported for this channel.
+2025-03-25T22:29:13.372310Z 0 [System] [MY-010931] [Server] C:\Projects\Electron\LSV\MySQL Server 8.0\bin\mysqld.exe: ready for connections. Version: '8.0.41'  socket: ''  port: 3306  MySQL Community Server - GPL.
+2025-03-25T22:29:13.372334Z 0 [System] [MY-011323] [Server] X Plugin ready for connections. Bind-address: '::' port: 33060
+2025-03-25T22:32:39.901329Z 0 [System] [MY-013105] [Server] C:\Projects\Electron\LSV\MySQL Server 8.0\bin\mysqld.exe: Normal shutdown.
+2025-03-25T22:32:41.917564Z 0 [Warning] [MY-010909] [Server] C:\Projects\Electron\LSV\MySQL Server 8.0\bin\mysqld.exe: Forcing close of thread 8  user: 'prolabor'.
+2025-03-25T22:32:42.472636Z 0 [System] [MY-010910] [Server] C:\Projects\Electron\LSV\MySQL Server 8.0\bin\mysqld.exe: Shutdown complete (mysqld 8.0.41)  MySQL Community Server - GPL.
+2025-03-25T22:38:08.237408Z 0 [System] [MY-010116] [Server] C:\Projects\Electron\LSV\MySQL Server 8.0\bin\mysqld.exe (mysqld 8.0.41) starting as process 20008
+2025-03-25T22:38:08.253905Z 1 [System] [MY-013576] [InnoDB] InnoDB initialization has started.
+2025-03-25T22:38:08.622788Z 1 [System] [MY-013577] [InnoDB] InnoDB initialization has ended.
+2025-03-25T22:38:08.853018Z 0 [Warning] [MY-010068] [Server] CA certificate ca.pem is self signed.
+2025-03-25T22:38:08.853255Z 0 [System] [MY-013602] [Server] Channel mysql_main configured to support TLS. Encrypted connections are now supported for this channel.
+2025-03-25T22:38:08.878826Z 0 [System] [MY-010931] [Server] C:\Projects\Electron\LSV\MySQL Server 8.0\bin\mysqld.exe: ready for connections. Version: '8.0.41'  socket: ''  port: 3306  MySQL Community Server - GPL.
+2025-03-25T22:38:08.878861Z 0 [System] [MY-011323] [Server] X Plugin ready for connections. Bind-address: '::' port: 33060
+2025-03-25T22:38:50.289729Z 0 [System] [MY-013105] [Server] C:\Projects\Electron\LSV\MySQL Server 8.0\bin\mysqld.exe: Normal shutdown.
+2025-03-25T22:38:52.303094Z 0 [Warning] [MY-010909] [Server] C:\Projects\Electron\LSV\MySQL Server 8.0\bin\mysqld.exe: Forcing close of thread 8  user: 'prolabor'.
+2025-03-25T22:38:53.474429Z 0 [System] [MY-010910] [Server] C:\Projects\Electron\LSV\MySQL Server 8.0\bin\mysqld.exe: Shutdown complete (mysqld 8.0.41)  MySQL Community Server - GPL.
+2025-03-25T22:38:58.313750Z 0 [System] [MY-010116] [Server] C:\Projects\Electron\LSV\MySQL Server 8.0\bin\mysqld.exe (mysqld 8.0.41) starting as process 20584
+2025-03-25T22:38:58.330003Z 1 [System] [MY-013576] [InnoDB] InnoDB initialization has started.
+2025-03-25T22:38:58.690275Z 1 [System] [MY-013577] [InnoDB] InnoDB initialization has ended.
+2025-03-25T22:38:58.919061Z 0 [Warning] [MY-010068] [Server] CA certificate ca.pem is self signed.
+2025-03-25T22:38:58.919305Z 0 [System] [MY-013602] [Server] Channel mysql_main configured to support TLS. Encrypted connections are now supported for this channel.
+2025-03-25T22:38:58.944708Z 0 [System] [MY-010931] [Server] C:\Projects\Electron\LSV\MySQL Server 8.0\bin\mysqld.exe: ready for connections. Version: '8.0.41'  socket: ''  port: 3306  MySQL Community Server - GPL.
+2025-03-25T22:38:58.944753Z 0 [System] [MY-011323] [Server] X Plugin ready for connections. Bind-address: '::' port: 33060
+2025-03-25T22:39:21.967129Z 0 [System] [MY-013105] [Server] C:\Projects\Electron\LSV\MySQL Server 8.0\bin\mysqld.exe: Normal shutdown.
+2025-03-25T22:39:23.970375Z 0 [Warning] [MY-010909] [Server] C:\Projects\Electron\LSV\MySQL Server 8.0\bin\mysqld.exe: Forcing close of thread 8  user: 'prolabor'.
+2025-03-25T22:39:24.291490Z 0 [System] [MY-010910] [Server] C:\Projects\Electron\LSV\MySQL Server 8.0\bin\mysqld.exe: Shutdown complete (mysqld 8.0.41)  MySQL Community Server - GPL.
+2025-03-25T22:40:31.772460Z 0 [System] [MY-010116] [Server] C:\Projects\Electron\LSV\MySQL Server 8.0\bin\mysqld.exe (mysqld 8.0.41) starting as process 16500
+2025-03-25T22:40:31.796075Z 1 [System] [MY-013576] [InnoDB] InnoDB initialization has started.
+2025-03-25T22:40:33.250648Z 1 [System] [MY-013577] [InnoDB] InnoDB initialization has ended.
+2025-03-25T22:40:34.432546Z 0 [Warning] [MY-010068] [Server] CA certificate ca.pem is self signed.
+2025-03-25T22:40:34.432779Z 0 [System] [MY-013602] [Server] Channel mysql_main configured to support TLS. Encrypted connections are now supported for this channel.
+2025-03-25T22:40:34.740782Z 0 [System] [MY-010931] [Server] C:\Projects\Electron\LSV\MySQL Server 8.0\bin\mysqld.exe: ready for connections. Version: '8.0.41'  socket: ''  port: 3306  MySQL Community Server - GPL.
+2025-03-25T22:40:34.741000Z 0 [System] [MY-011323] [Server] X Plugin ready for connections. Bind-address: '::' port: 33060
+2025-03-25T22:40:43.122371Z 0 [System] [MY-013105] [Server] C:\Projects\Electron\LSV\MySQL Server 8.0\bin\mysqld.exe: Normal shutdown.
+2025-03-25T22:40:44.273819Z 0 [System] [MY-010910] [Server] C:\Projects\Electron\LSV\MySQL Server 8.0\bin\mysqld.exe: Shutdown complete (mysqld 8.0.41)  MySQL Community Server - GPL.
+2025-03-25T22:40:51.580682Z 0 [System] [MY-010116] [Server] C:\Projects\Electron\LSV\MySQL Server 8.0\bin\mysqld.exe (mysqld 8.0.41) starting as process 19572
+2025-03-25T22:40:51.601827Z 1 [System] [MY-013576] [InnoDB] InnoDB initialization has started.
+2025-03-25T22:40:52.576576Z 1 [System] [MY-013577] [InnoDB] InnoDB initialization has ended.
+2025-03-25T22:40:52.760795Z 0 [Warning] [MY-010068] [Server] CA certificate ca.pem is self signed.
+2025-03-25T22:40:52.761024Z 0 [System] [MY-013602] [Server] Channel mysql_main configured to support TLS. Encrypted connections are now supported for this channel.
+2025-03-25T22:40:52.787050Z 0 [System] [MY-011323] [Server] X Plugin ready for connections. Bind-address: '::' port: 33060
+2025-03-25T22:40:52.787064Z 0 [System] [MY-010931] [Server] C:\Projects\Electron\LSV\MySQL Server 8.0\bin\mysqld.exe: ready for connections. Version: '8.0.41'  socket: ''  port: 3306  MySQL Community Server - GPL.
+2025-03-25T22:42:50.573156Z 0 [System] [MY-013105] [Server] C:\Projects\Electron\LSV\MySQL Server 8.0\bin\mysqld.exe: Normal shutdown.
+2025-03-25T22:42:52.587774Z 0 [Warning] [MY-010909] [Server] C:\Projects\Electron\LSV\MySQL Server 8.0\bin\mysqld.exe: Forcing close of thread 8  user: 'prolabor'.
+2025-03-25T22:42:53.062773Z 0 [System] [MY-010910] [Server] C:\Projects\Electron\LSV\MySQL Server 8.0\bin\mysqld.exe: Shutdown complete (mysqld 8.0.41)  MySQL Community Server - GPL.
+2025-03-25T22:42:58.705742Z 0 [System] [MY-010116] [Server] C:\Projects\Electron\LSV\MySQL Server 8.0\bin\mysqld.exe (mysqld 8.0.41) starting as process 18208
+2025-03-25T22:42:58.723136Z 1 [System] [MY-013576] [InnoDB] InnoDB initialization has started.
+2025-03-25T22:42:59.080844Z 1 [System] [MY-013577] [InnoDB] InnoDB initialization has ended.
+2025-03-25T22:42:59.302299Z 0 [Warning] [MY-010068] [Server] CA certificate ca.pem is self signed.
+2025-03-25T22:42:59.302531Z 0 [System] [MY-013602] [Server] Channel mysql_main configured to support TLS. Encrypted connections are now supported for this channel.
+2025-03-25T22:42:59.330869Z 0 [System] [MY-011323] [Server] X Plugin ready for connections. Bind-address: '::' port: 33060
+2025-03-25T22:42:59.330882Z 0 [System] [MY-010931] [Server] C:\Projects\Electron\LSV\MySQL Server 8.0\bin\mysqld.exe: ready for connections. Version: '8.0.41'  socket: ''  port: 3306  MySQL Community Server - GPL.
+2025-03-25T22:43:51.070250Z 0 [System] [MY-013105] [Server] C:\Projects\Electron\LSV\MySQL Server 8.0\bin\mysqld.exe: Normal shutdown.
+2025-03-25T22:43:53.072296Z 0 [Warning] [MY-010909] [Server] C:\Projects\Electron\LSV\MySQL Server 8.0\bin\mysqld.exe: Forcing close of thread 8  user: 'prolabor'.
+2025-03-25T22:43:53.862066Z 0 [System] [MY-010910] [Server] C:\Projects\Electron\LSV\MySQL Server 8.0\bin\mysqld.exe: Shutdown complete (mysqld 8.0.41)  MySQL Community Server - GPL.
+2025-03-25T22:44:02.755845Z 0 [System] [MY-010116] [Server] C:\Projects\Electron\LSV\MySQL Server 8.0\bin\mysqld.exe (mysqld 8.0.41) starting as process 20036
+2025-03-25T22:44:02.772845Z 1 [System] [MY-013576] [InnoDB] InnoDB initialization has started.
+2025-03-25T22:44:03.127787Z 1 [System] [MY-013577] [InnoDB] InnoDB initialization has ended.
+2025-03-25T22:44:03.355208Z 0 [Warning] [MY-010068] [Server] CA certificate ca.pem is self signed.
+2025-03-25T22:44:03.355446Z 0 [System] [MY-013602] [Server] Channel mysql_main configured to support TLS. Encrypted connections are now supported for this channel.
+2025-03-25T22:44:03.381924Z 0 [System] [MY-010931] [Server] C:\Projects\Electron\LSV\MySQL Server 8.0\bin\mysqld.exe: ready for connections. Version: '8.0.41'  socket: ''  port: 3306  MySQL Community Server - GPL.
+2025-03-25T22:44:03.381967Z 0 [System] [MY-011323] [Server] X Plugin ready for connections. Bind-address: '::' port: 33060
+2025-03-25T22:45:58.669048Z 0 [System] [MY-013105] [Server] C:\Projects\Electron\LSV\MySQL Server 8.0\bin\mysqld.exe: Normal shutdown.
+2025-03-25T22:46:00.687673Z 0 [Warning] [MY-010909] [Server] C:\Projects\Electron\LSV\MySQL Server 8.0\bin\mysqld.exe: Forcing close of thread 8  user: 'prolabor'.
+2025-03-25T22:46:01.513564Z 0 [System] [MY-010910] [Server] C:\Projects\Electron\LSV\MySQL Server 8.0\bin\mysqld.exe: Shutdown complete (mysqld 8.0.41)  MySQL Community Server - GPL.
+2025-03-25T22:46:10.423181Z 0 [System] [MY-010116] [Server] C:\Projects\Electron\LSV\MySQL Server 8.0\bin\mysqld.exe (mysqld 8.0.41) starting as process 14992
+2025-03-25T22:46:10.449525Z 1 [System] [MY-013576] [InnoDB] InnoDB initialization has started.
+2025-03-25T22:46:12.358327Z 1 [System] [MY-013577] [InnoDB] InnoDB initialization has ended.
+2025-03-25T22:46:13.620246Z 0 [Warning] [MY-010068] [Server] CA certificate ca.pem is self signed.
+2025-03-25T22:46:13.620628Z 0 [System] [MY-013602] [Server] Channel mysql_main configured to support TLS. Encrypted connections are now supported for this channel.
+2025-03-25T22:46:13.861260Z 0 [System] [MY-011323] [Server] X Plugin ready for connections. Bind-address: '::' port: 33060
+2025-03-25T22:46:13.861285Z 0 [System] [MY-010931] [Server] C:\Projects\Electron\LSV\MySQL Server 8.0\bin\mysqld.exe: ready for connections. Version: '8.0.41'  socket: ''  port: 3306  MySQL Community Server - GPL.
+2025-03-25T22:46:18.800302Z 0 [System] [MY-013105] [Server] C:\Projects\Electron\LSV\MySQL Server 8.0\bin\mysqld.exe: Normal shutdown.
+2025-03-25T22:46:19.333449Z 0 [System] [MY-010910] [Server] C:\Projects\Electron\LSV\MySQL Server 8.0\bin\mysqld.exe: Shutdown complete (mysqld 8.0.41)  MySQL Community Server - GPL.
+2025-03-25T22:46:30.779947Z 0 [System] [MY-010116] [Server] C:\Projects\Electron\LSV\MySQL Server 8.0\bin\mysqld.exe (mysqld 8.0.41) starting as process 22984
+2025-03-25T22:46:30.802267Z 1 [System] [MY-013576] [InnoDB] InnoDB initialization has started.
+2025-03-25T22:46:32.765715Z 1 [System] [MY-013577] [InnoDB] InnoDB initialization has ended.
+2025-03-25T22:46:33.902424Z 0 [Warning] [MY-010068] [Server] CA certificate ca.pem is self signed.
+2025-03-25T22:46:33.902812Z 0 [System] [MY-013602] [Server] Channel mysql_main configured to support TLS. Encrypted connections are now supported for this channel.
+2025-03-25T22:46:34.243943Z 0 [System] [MY-010931] [Server] C:\Projects\Electron\LSV\MySQL Server 8.0\bin\mysqld.exe: ready for connections. Version: '8.0.41'  socket: ''  port: 3306  MySQL Community Server - GPL.
+2025-03-25T22:46:34.243947Z 0 [System] [MY-011323] [Server] X Plugin ready for connections. Bind-address: '::' port: 33060
+2025-03-25T22:47:31.700257Z 0 [System] [MY-013105] [Server] C:\Projects\Electron\LSV\MySQL Server 8.0\bin\mysqld.exe: Normal shutdown.
+2025-03-25T22:47:32.092364Z 0 [System] [MY-010910] [Server] C:\Projects\Electron\LSV\MySQL Server 8.0\bin\mysqld.exe: Shutdown complete (mysqld 8.0.41)  MySQL Community Server - GPL.
+2025-03-25T22:47:46.157079Z 0 [System] [MY-010116] [Server] C:\Projects\Electron\LSV\MySQL Server 8.0\bin\mysqld.exe (mysqld 8.0.41) starting as process 16896
+2025-03-25T22:47:46.174215Z 1 [System] [MY-013576] [InnoDB] InnoDB initialization has started.
+2025-03-25T22:47:46.540416Z 1 [System] [MY-013577] [InnoDB] InnoDB initialization has ended.
+2025-03-25T22:47:46.781253Z 0 [Warning] [MY-010068] [Server] CA certificate ca.pem is self signed.
+2025-03-25T22:47:46.781485Z 0 [System] [MY-013602] [Server] Channel mysql_main configured to support TLS. Encrypted connections are now supported for this channel.
+2025-03-25T22:47:46.807019Z 0 [System] [MY-011323] [Server] X Plugin ready for connections. Bind-address: '::' port: 33060
+2025-03-25T22:47:46.807027Z 0 [System] [MY-010931] [Server] C:\Projects\Electron\LSV\MySQL Server 8.0\bin\mysqld.exe: ready for connections. Version: '8.0.41'  socket: ''  port: 3306  MySQL Community Server - GPL.
+2025-03-25T22:48:01.503559Z 0 [System] [MY-013105] [Server] C:\Projects\Electron\LSV\MySQL Server 8.0\bin\mysqld.exe: Normal shutdown.
+2025-03-25T22:48:03.505497Z 0 [Warning] [MY-010909] [Server] C:\Projects\Electron\LSV\MySQL Server 8.0\bin\mysqld.exe: Forcing close of thread 8  user: 'prolabor'.
+2025-03-25T22:48:04.077419Z 0 [System] [MY-010910] [Server] C:\Projects\Electron\LSV\MySQL Server 8.0\bin\mysqld.exe: Shutdown complete (mysqld 8.0.41)  MySQL Community Server - GPL.
+2025-03-25T22:50:37.507083Z 0 [System] [MY-010116] [Server] C:\Projects\Electron\LSV\MySQL Server 8.0\bin\mysqld.exe (mysqld 8.0.41) starting as process 12304
+2025-03-25T22:50:37.525764Z 1 [System] [MY-013576] [InnoDB] InnoDB initialization has started.
+2025-03-25T22:50:37.889547Z 1 [System] [MY-013577] [InnoDB] InnoDB initialization has ended.
+2025-03-25T22:50:38.105691Z 0 [Warning] [MY-010068] [Server] CA certificate ca.pem is self signed.
+2025-03-25T22:50:38.105950Z 0 [System] [MY-013602] [Server] Channel mysql_main configured to support TLS. Encrypted connections are now supported for this channel.
+2025-03-25T22:50:38.132328Z 0 [System] [MY-010931] [Server] C:\Projects\Electron\LSV\MySQL Server 8.0\bin\mysqld.exe: ready for connections. Version: '8.0.41'  socket: ''  port: 3306  MySQL Community Server - GPL.
+2025-03-25T22:50:38.132357Z 0 [System] [MY-011323] [Server] X Plugin ready for connections. Bind-address: '::' port: 33060
+2025-03-25T22:50:55.355015Z 0 [System] [MY-013105] [Server] C:\Projects\Electron\LSV\MySQL Server 8.0\bin\mysqld.exe: Normal shutdown.
+2025-03-25T22:50:57.356275Z 0 [Warning] [MY-010909] [Server] C:\Projects\Electron\LSV\MySQL Server 8.0\bin\mysqld.exe: Forcing close of thread 8  user: 'prolabor'.
+2025-03-25T22:50:58.460943Z 0 [System] [MY-010910] [Server] C:\Projects\Electron\LSV\MySQL Server 8.0\bin\mysqld.exe: Shutdown complete (mysqld 8.0.41)  MySQL Community Server - GPL.
+2025-03-25T22:55:00.675659Z 0 [System] [MY-010116] [Server] C:\Projects\Electron\LSV\MySQL Server 8.0\bin\mysqld.exe (mysqld 8.0.41) starting as process 14308
+2025-03-25T22:55:00.691506Z 1 [System] [MY-013576] [InnoDB] InnoDB initialization has started.
+2025-03-25T22:55:01.048248Z 1 [System] [MY-013577] [InnoDB] InnoDB initialization has ended.
+2025-03-25T22:55:01.272444Z 0 [Warning] [MY-010068] [Server] CA certificate ca.pem is self signed.
+2025-03-25T22:55:01.272674Z 0 [System] [MY-013602] [Server] Channel mysql_main configured to support TLS. Encrypted connections are now supported for this channel.
+2025-03-25T22:55:01.298562Z 0 [System] [MY-011323] [Server] X Plugin ready for connections. Bind-address: '::' port: 33060
+2025-03-25T22:55:01.298603Z 0 [System] [MY-010931] [Server] C:\Projects\Electron\LSV\MySQL Server 8.0\bin\mysqld.exe: ready for connections. Version: '8.0.41'  socket: ''  port: 3306  MySQL Community Server - GPL.
+2025-03-25T22:55:09.756894Z 0 [System] [MY-013105] [Server] C:\Projects\Electron\LSV\MySQL Server 8.0\bin\mysqld.exe: Normal shutdown.
+2025-03-25T22:55:11.773971Z 0 [Warning] [MY-010909] [Server] C:\Projects\Electron\LSV\MySQL Server 8.0\bin\mysqld.exe: Forcing close of thread 8  user: 'prolabor'.
+2025-03-25T22:55:12.452649Z 0 [System] [MY-010910] [Server] C:\Projects\Electron\LSV\MySQL Server 8.0\bin\mysqld.exe: Shutdown complete (mysqld 8.0.41)  MySQL Community Server - GPL.
+2025-03-25T23:01:58.267020Z 0 [System] [MY-010116] [Server] C:\Projects\Electron\LSV\MySQL Server 8.0\bin\mysqld.exe (mysqld 8.0.41) starting as process 15776
+2025-03-25T23:01:58.281808Z 1 [System] [MY-013576] [InnoDB] InnoDB initialization has started.
+2025-03-25T23:01:58.636778Z 1 [System] [MY-013577] [InnoDB] InnoDB initialization has ended.
+2025-03-25T23:01:58.869673Z 0 [Warning] [MY-010068] [Server] CA certificate ca.pem is self signed.
+2025-03-25T23:01:58.869904Z 0 [System] [MY-013602] [Server] Channel mysql_main configured to support TLS. Encrypted connections are now supported for this channel.
+2025-03-25T23:01:58.894839Z 0 [System] [MY-011323] [Server] X Plugin ready for connections. Bind-address: '::' port: 33060
+2025-03-25T23:01:58.894857Z 0 [System] [MY-010931] [Server] C:\Projects\Electron\LSV\MySQL Server 8.0\bin\mysqld.exe: ready for connections. Version: '8.0.41'  socket: ''  port: 3306  MySQL Community Server - GPL.
+2025-03-25T23:10:17.114758Z 0 [System] [MY-013105] [Server] C:\Projects\Electron\LSV\MySQL Server 8.0\bin\mysqld.exe: Normal shutdown.
+2025-03-25T23:10:19.128417Z 0 [Warning] [MY-010909] [Server] C:\Projects\Electron\LSV\MySQL Server 8.0\bin\mysqld.exe: Forcing close of thread 8  user: 'prolabor'.
+2025-03-25T23:10:20.134274Z 0 [System] [MY-010910] [Server] C:\Projects\Electron\LSV\MySQL Server 8.0\bin\mysqld.exe: Shutdown complete (mysqld 8.0.41)  MySQL Community Server - GPL.
+2025-03-25T23:11:49.419682Z 0 [System] [MY-010116] [Server] C:\Projects\Electron\LSV\MySQL Server 8.0\bin\mysqld.exe (mysqld 8.0.41) starting as process 11360
+2025-03-25T23:11:49.440480Z 1 [System] [MY-013576] [InnoDB] InnoDB initialization has started.
+2025-03-25T23:11:51.379461Z 1 [System] [MY-013577] [InnoDB] InnoDB initialization has ended.
+2025-03-25T23:11:52.419074Z 0 [Warning] [MY-010068] [Server] CA certificate ca.pem is self signed.
+2025-03-25T23:11:52.419457Z 0 [System] [MY-013602] [Server] Channel mysql_main configured to support TLS. Encrypted connections are now supported for this channel.
+2025-03-25T23:11:52.761649Z 0 [System] [MY-011323] [Server] X Plugin ready for connections. Bind-address: '::' port: 33060
+2025-03-25T23:11:52.761672Z 0 [System] [MY-010931] [Server] C:\Projects\Electron\LSV\MySQL Server 8.0\bin\mysqld.exe: ready for connections. Version: '8.0.41'  socket: ''  port: 3306  MySQL Community Server - GPL.
+2025-03-25T23:14:46.362610Z 0 [System] [MY-013105] [Server] C:\Projects\Electron\LSV\MySQL Server 8.0\bin\mysqld.exe: Normal shutdown.
+2025-03-25T23:14:46.900177Z 0 [System] [MY-010910] [Server] C:\Projects\Electron\LSV\MySQL Server 8.0\bin\mysqld.exe: Shutdown complete (mysqld 8.0.41)  MySQL Community Server - GPL.

@@ -5,7 +5,7 @@ export async function runForeverConfirmDoSave(callCnt) {
     callCnt++;
     setTimeout(function () {
         if (localStorage.getItem("confirmSaveOverwrite") == 1) {
-            console.log("Overwrite 2");
+            //console.log("Overwrite 2");
             saveDataset();
             localStorage.setItem("changeDatasetNumber", null);
             localStorage.setItem("datasetNumber", null);
@@ -90,7 +90,7 @@ export function setStatusInformation(pos, text) {
         eval(fkt);
         if (pos == 3)
             setStatus3(localStorage.getItem("enterData"));
-    }, 5000);
+    }, 4000);
 }
 
 

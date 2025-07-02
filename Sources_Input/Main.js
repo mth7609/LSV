@@ -9,6 +9,7 @@ const EventEmitter = require('events')
 const electron = require('electron');
 const dialog = electron.dialog;
 const child_process = require('child_process');
+const fs = require('fs');
 
 const loadingEvents = new EventEmitter();
 let winMain = null;
@@ -17,6 +18,7 @@ let splashWindow = null;
 var storage = require('node-storage');
 var store = new storage('./storage');
 
+backup();
 
 
 //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ createMainWindow()
@@ -201,5 +203,14 @@ function quitAPP() {
   }, 1500);
 }
 
+function backup() {
+  const srcDir = "../MySql-Data";
+  const backupDate = new Date();
+  const destDir = initData["backupDir"] + "_" + backupDate.getFullYear() + "-" + (backupDate.getMonth() + 1) + "-" + backupDate.getDate();
+  //console.log("../backup/MySqlData_" + backupDate.getFullYear() + "-" + (backupDate.getMonth()+1) + "-" + backupDate.getDate());
+  fs.cp(srcDir, destDir, { recursive: true }, (err) => {
+    if (err) throw err;
+  });
+}
 
 //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

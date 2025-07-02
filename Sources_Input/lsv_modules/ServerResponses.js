@@ -324,7 +324,6 @@ function responseDataset() {
 }
 
 
-
 function executeSimpleSQL(sqlQuery) {
   //console.log(sqlQuery);
   let conSave = serverFunctions.mysql.createConnection(dsn);
@@ -334,25 +333,6 @@ function executeSimpleSQL(sqlQuery) {
       if (err) throw err;
     });
     conSave.end();
-  });
-}
-
-
-function responseDatasetDelete() {
-  let dsNr;
-  serverFunctions.appx.get('/requestDatasetDelete', (req, res) => {
-    const dataset_number = req.query.datasetNumber;
-    //console.log("nr: " + dataset_number);
-    dsNr = serverFunctions.mysql.createConnection(dsn);
-    dsNr.connect((err) => {
-      if (err) throw err;
-      dsNr.query("DELETE FROM archive_data where dataset_number=" + dataset_number, (err, result, fields) => {
-        if (err) {
-          throw err;
-        }
-        res.send(result);
-      });
-    });
   });
 }
 
@@ -389,6 +369,5 @@ responseConstValues();
 responseDataset();
 responseCheckDatasetNumber();
 responseComment();
-responseDatasetDelete();
 
-module.exports = { responseCheckDatasetNumber, responseDatasetDelete, responseComment, executeSimpleSQL, responseDataset, responseInitValues, responseDBStatus, responseDBRunning, responseStates, databaseServerConnect, responseTopicHeadlines, responseTopHeadlines, responseOutputText, responseImages, responseConstValues, responseInfoLabels };
+module.exports = { responseCheckDatasetNumber, responseComment, executeSimpleSQL, responseDataset, responseInitValues, responseDBStatus, responseDBRunning, responseStates, databaseServerConnect, responseTopicHeadlines, responseTopHeadlines, responseOutputText, responseImages, responseConstValues, responseInfoLabels };

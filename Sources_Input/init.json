@@ -11,5 +11,6 @@
   "mysqlUser": "prolabor",
   "mysqlPassword": "mzkti29b",
   "mysqlDatabase": "prolabor",
-  "maxSearchSets": "10"
+  "maxSearchSets": "10",
+  "backupDir": "../backup/MySql-Data"
   }

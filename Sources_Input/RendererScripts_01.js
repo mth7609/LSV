@@ -64,7 +64,7 @@ $(".publishNo").on('focus', setDatasetChanged);
 $(".dropdownYear").on('focus', setDatasetChanged);
 $(".dropdownState").on('focus', setDatasetChanged);
 $(".freeLabel").on('focus', setDatasetChanged);
-//$(".dsNumber").on('focus', setDatasetChanged);
+$(".comment").on('focus', setDatasetChanged);
 
 
 $("title").text(localStorage.getItem("title"));
@@ -389,6 +389,9 @@ export function clearInput() {
 function doDatasetRemember() {
 
     $(".doButtonDatasetRemember").trigger("blur");
+
+    if ($(".doButtonDatasetRemember").hasClass('disabled'))
+        return;
 
     if (selectCnt > maxDatasetTabs) {
         console.log("Maximale Anzahl (10) der gemerkten Datensätze erreicht.\n\nBitte kontrollieren und Speichern.");
