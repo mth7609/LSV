@@ -1,4 +1,5 @@
-import { prepareNumber, changeStatus1, setStatus2Warning, setStatus2WarningPermanent, setStatus2TodoPermanent, setStatus2Information, setStatus2Todo, clearInput, setToNew } from "./RendererScripts_01.js";
+import { getActualFullDate, setDatasetUnchanged, prepareNumber, clearInput, setToNew } from "./RendererScripts_01.js";
+import { setStatusWarning, setStatusWarningPermanent, setStatusTodoPermanent, setStatusInformation, setStatusInformationPermanent, setStatus1, setStatus3, setStatus2 } from "./RendererScripts_03.js";
 import { requestDatasetDelete, requestCheckDatasetNumber, requestDataset, requestComment } from "./ServerRequests.js";
 import { globalDataset } from "./Globals.js";
 import { runForeverConfirmDoSave } from "./RendererScripts_03.js";
@@ -16,13 +17,13 @@ export function rgb2hex(rgb) {
 
 export function showDBStatus(st) {
     if (st == "OK") {
-        changeStatus1(localStorage.getItem("dbConnected"));
+        setStatus1(localStorage.getItem("dbConnected"));
         $(".statusbar1").css("background-color", "#c2e2ec");
         $(".statusbar1").css("color", "#000000");
         return true;
     }
     else {
-        changeStatus1(localStorage.getItem("dbDisconnected"));
+        setStatus1(localStorage.getItem("dbDisconnected"));
         $(".statusbar1").css("background-color", "#ff1111");
         $(".statusbar1").css("color", "#ffffff");
         return false;
@@ -65,7 +66,7 @@ export function checkTab(pnr) {
     let i;
     for (i = 0; i < localStorage.getItem("maxDatasetTabs"); i++) {
         if ($(".navtab-" + i).text() === pnr) {
-            setStatus2Warning("Datensatz schon in Merkliste");
+            //setStatus3Warning("Datensatz schon in Merkliste");
             return true;
         }
     }
@@ -87,7 +88,7 @@ export function doFetch() {
     $(".doButtonFetch").trigger("blur");
 
     if (isNaN(parseInt(nr))) {
-        setStatus2Warning("Bitte Datensatznummer eingeben");
+        setStatusWarning(3, "Bitte Datensatznummer eingeben");
         return;
     }
     let pnr = prepareNumber(nr);
@@ -98,31 +99,34 @@ export function doFetch() {
         localStorage.setItem("datasetNumber", null);
     }
     else {
-        setStatus2Warning("Datensatz " + pnr + " nicht vorhanden");
+        setStatusWarning(3, localStorage.getItem("dataset") + " " + pnr + " " + localStorage.getItem("notFound"));
         return;
     }
 
     requestDataset(parseInt(nr));
 
-    if (globalDataset.content != null) {
-        $(".dsNumber").val(pnr);
-        localStorage.setItem("changeDatasetNumber", nr);
-        localStorage.setItem("datasetNumber", null);
-        setStatus2TodoPermanent("Datensatz " + pnr + " ändern");
-        $(".doButtonDatasetDelete").removeClass('disabled');
-        $(".doButtonDatasetSave").removeClass('disabled');
-        $(".doButtonDatasetRemember").removeClass('disabled');
-    }
-    else {
-        setStatus2Warning("Datensatz " + pnr + " NICHT gefunden!");
-        localStorage.setItem("changeDatasetNumber", null);
-        localStorage.setItem("datasetNumber", nr);
-        $(".doButtonDatasetDelete").addClass('disabled');
-    }
-    $(".doButtonFetch").trigger("blur");
+    /*  if (globalDataset.content != null) {
+          $(".dsNumber").val(pnr);
+          setStatus3("Datensatz " + pnr + " ändern");
+          $(".doButtonDatasetDelete").removeClass('disabled');
+          $(".doButtonDatasetSave").removeClass('disabled');
+          $(".doButtonDatasetRemember").removeClass('disabled');
+      }
+      else {
+          setStatusWarning(3, localStorage.getItem("newDataset"));
+          localStorage.setItem("changeDatasetNumber", null);
+          localStorage.setItem("datasetNumber", nr);
+          $(".doButtonDatasetDelete").addClass('disabled');
+      }
+          */
 
+    $(".doButtonFetch").trigger("blur");
+    $(".doButtonDatasetDelete").removeClass('disabled');
+    $(".doButtonDatasetSave").removeClass('disabled');
+    $(".doButtonDatasetRemember").removeClass('disabled');
     requestComment(nr);
     showDataInForm();
+    setDatasetUnchanged();
 }
 
 
@@ -182,7 +186,7 @@ export function doDatasetSave() {
     nr = parseInt(nr);
 
     if (isNaN(nr)) {
-        setStatus2Warning("Bitte Datensatznummer eingeben");
+        setStatusWarning(3, "Bitte Datensatznummer eingeben");
         $(".doButtonDatasetSave").trigger("blur");
         return;
     }
@@ -225,6 +229,8 @@ export function saveDataset() {
     let n;
     let el2 = "", el = "";
 
+    setStatusInformationPermanent(3, "Einen Moment...");
+
     let cnr = localStorage.getItem("changeDatasetNumber");
     let nr = localStorage.getItem("datasetNumber")
 
@@ -253,7 +259,7 @@ export function saveDataset() {
 
     if (nr > 0) {
         //console.log("New: " + nr);
-        sqlQuery = "INSERT INTO prolabor.archive_data (dataset_number,name,school_publisher,year,number,city,state,publisher_is,topics_list) values(" + nr + el + ",'" + el2.trimStart() + "')";
+        sqlQuery = "INSERT INTO prolabor.archive_data (dataset_number,name,school_publisher,year,number,city,state,publisher_is,topics_list, timestamp) values(" + nr + el + ",'" + el2.trimStart() + "','" + getActualFullDate() + "')";
         window.electronAPI.sendDataset(sqlQuery);
         sqlQuery = "INSERT INTO prolabor.dataset_comments (dataset_number, comment) values(" + nr + ",'" + enc + "')";
         window.electronAPI.sendDataset(sqlQuery);
@@ -262,12 +268,15 @@ export function saveDataset() {
         localStorage.setItem("changeDatasetNumber", null);
 
         if (nr != 0) {
-            setStatus2Information("Datensatz " + pnr + " gespeichert");
+            setStatusInformation(3, "Datensatz " + pnr + " gespeichert");
             $(".dsNumber").val(prepareNumber(nr));
             localStorage.setItem("datasetNumber", nr);
+            $(".doButtonDatasetDelete").removeClass('disabled');
+            $(".doButtonDatasetSave").removeClass('disabled');
+            $(".doButtonDatasetRemember").removeClass('disabled');
         }
         else {
-            setStatus2WarningPermanent("Datensatz " + prepareNumber(pnr) + " NICHT gespeichert");
+            setStatusWarningPermanent(3, "Datensatz " + prepareNumber(pnr) + " NICHT gespeichert");
         }
     }
     else {
@@ -278,15 +287,20 @@ export function saveDataset() {
             sqlQuery = "DELETE FROM prolabor.dataset_comments where dataset_number=" + cnr;
             window.electronAPI.sendDataset(sqlQuery);
             setTimeout(() => {
-                sqlQuery = "INSERT INTO prolabor.archive_data (dataset_number,name,school_publisher,year,number,city,state,publisher_is,topics_list) values(" + cnr + el + ",'" + el2.trimStart() + "')";
+                sqlQuery = "INSERT INTO prolabor.archive_data (dataset_number,name,school_publisher,year,number,city,state,publisher_is,topics_list, timestamp) values(" + cnr + el + ",'" + el2.trimStart() + "','" + getActualFullDate() + "')";
                 window.electronAPI.sendDataset(sqlQuery);
                 sqlQuery = "INSERT INTO prolabor.dataset_comments (dataset_number, comment) values(" + cnr + ",'" + enc + "')";
                 window.electronAPI.sendDataset(sqlQuery);
                 pnr = prepareNumber(cnr);
-                setStatus2Information("Datensatz " + pnr + " geändert");
+                setStatusInformation(3, "Datensatz " + pnr + " geändert");
+                $(".doButtonDatasetDelete").removeClass('disabled');
+                $(".doButtonDatasetSave").removeClass('disabled');
+                $(".doButtonDatasetRemember").removeClass('disabled');
             }, 2000);
         }
     }
+    setDatasetUnchanged();
+    setStatus2("Gespeichert");
 }
 
 

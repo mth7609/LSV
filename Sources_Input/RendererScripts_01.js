@@ -1,7 +1,7 @@
 import { requestCheckDatasetNumber, requestStates, requestTopHeadlines, requestTopicHeadlinesInfo, requestConstValues, requestTopicItems, requestInitValues, requestInfoLabels, requestImages, requestOutputText } from "./ServerRequests.js";
 import { globalTopicHeadlines, globalTopicItems, globalInfoLabels, globalTopHeadlines } from "./Globals.js";
 import { checkTab, checkForDataset, doFetch, doDatasetSave, doDatasetDelete, newTab, showDBStatus } from "./RendererScripts_02.js";
-
+import { setStatusWarning, setStatusWarningPermanent, setStatusTodoPermanent, setStatusInformation, setStatusTodo, setStatus3, setStatus2 } from "./RendererScripts_03.js";
 
 var selectedDropdown = 0;
 let selectCnt = 1;
@@ -55,9 +55,19 @@ $(".schoolLabel").on('click', publisherSchool);
 $(".freeLabel").on('click', publisherFree);
 $(".topicListButtonInput").on('click', topicListButtonClick);
 $(".doButtonNew").on('click', doNewClick);
-//$(".dsNumber").on('change', getDatasetNumber);
-$("title").text(localStorage.getItem("title"));
 
+$(".name").on('focus', setDatasetChanged);
+$(".schoolLabel").on('focus', setDatasetChanged);
+$(".city").on('focus', setDatasetChanged);
+$(".schoolPublisher").on('focus', setDatasetChanged);
+$(".publishNo").on('focus', setDatasetChanged);
+$(".dropdownYear").on('focus', setDatasetChanged);
+$(".dropdownState").on('focus', setDatasetChanged);
+$(".freeLabel").on('focus', setDatasetChanged);
+//$(".dsNumber").on('focus', setDatasetChanged);
+
+
+$("title").text(localStorage.getItem("title"));
 
 $(".confirmSaveCancel").on('click', function () {
     localStorage.setItem("confirmSaveCancel", 1);
@@ -68,6 +78,19 @@ $(".confirmSaveOverwrite").on('click', function () {
     localStorage.setItem("confirmSaveCancel", 0);
     localStorage.setItem("confirmSaveOverwrite", 1);
 })
+
+
+export function setDatasetChanged() {
+    setStatusWarningPermanent(2, "Geändert, nicht gespeichert!");
+    $(".doButtonDatasetDelete").removeClass('disabled');
+    $(".doButtonDatasetSave").removeClass('disabled');
+    $(".doButtonDatasetRemember").addClass('disabled');
+}
+
+
+export function setDatasetUnchanged() {
+    setStatus2("Gespeichert");
+}
 
 
 window.electronAPI.getStatus1((value) => {
@@ -94,15 +117,35 @@ function addZero(i) {
     return i;
 }
 
-function getActualFullDate() {
+export function getActualFullDate() {
     var d = new Date();
+    var dow = d.getDay();
+    let outDay = "";
+
+    switch (dow) {
+        case 1: outDay = localStorage.getItem("monday");
+            break;
+        case 2: outDay = localStorage.getItem("tuesday");
+            break;
+        case 3: outDay = localStorage.getItem("wednesday");
+            break;
+        case 4: outDay = localStorage.getItem("thursday");
+            break;
+        case 5: outDay = localStorage.getItem("friday");
+            break;
+        case 6: outDay = localStorage.getItem("saturday");
+            break;
+        case 7: outDay = localStorage.getItem("sunday");
+            break;
+    }
+
     var day = addZero(d.getDate());
     var month = addZero(d.getMonth() + 1);
     var year = addZero(d.getFullYear());
     var h = addZero(d.getHours());
     var m = addZero(d.getMinutes());
     var s = addZero(d.getSeconds());
-    return day + "." + month + "." + year + " (" + h + ":" + m + ")";
+    return outDay + "\xa0\xa0\xa0" + day + "." + month + "." + year + "\xa0\xa0\xa0" + h + ":" + m + "\xa0";
 }
 
 
@@ -119,7 +162,7 @@ function setOtherContent() {            // using the front pages ticks
         $(".selectButton").css("fontSize", "11px");
         $(".selectButton").css.apply;
     }
-    $('.statusText3').text(getActualFullDate());
+    $('.statusText4').text(getActualFullDate());
 }
 
 
@@ -154,9 +197,11 @@ function setTopHeadlines() {
     $('.doButtonFetch').val(localStorage.getItem("mainHeadline_12"));
     $('.logoImage').html("<img src='" + localStorage.getItem("image_1") + "'></img>");
 }
+
+
+
 function topicListButtonClick() {
     var topicName = this.attributes[4].value;
-
     //console.log(topicName + "    " + $(`#${topicName}`).prop("checked") + "    " + lastTopicName);
     globalTopicItems[this.attributes[2].value].contentValue[this.attributes[3].value]["active"] = true;
     localStorage.setItem("checked_" + topicName, "checked");
@@ -175,7 +220,7 @@ function topicListButtonClick() {
         lastTopicName = topicName;
     }
     $("." + topicName).trigger("blur");
-
+    setDatasetChanged();
 }
 
 
@@ -206,65 +251,6 @@ export function setTopicItems(nr) {
     }
 }
 
-export function changeStatus1(str) {
-    $(".statusText1").html(str);
-}
-
-export function changeStatus2(str) {
-    $(".statusText2").html(str);
-}
-
-export function changeStatus3(str) {
-    $(".statusText3").html("&nbsp; " + str);
-}
-
-export function setStatus2Warning(text) {
-    changeStatus2(text);
-    $(".statusbar2").css("background-color", "#dd0000");
-    $(".statusbar2").css("color", "#ffffff");
-    setTimeout(() => {
-        changeStatus2("");
-        $(".statusbar2").css("color", "#000000");
-        $(".statusbar2").css("background-color", "#c2e2ec");
-        changeStatus2(localStorage.getItem("mainHeadline_14"));
-    }, 5000);
-}
-
-export function setStatus2WarningPermanent(text) {
-    changeStatus2(text);
-    $(".statusbar2").css("background-color", "#dd0000");
-    $(".statusbar2").css("color", "#ffffff");
-}
-
-export function setStatus2Information(text) {
-    changeStatus2(text);
-    $(".statusbar2").css("background-color", "#00dd00");
-    $(".statusbar2").css("color", "#000000");
-    setTimeout(() => {
-        changeStatus2("");
-        $(".statusbar2").css("color", "#000000");
-        $(".statusbar2").css("background-color", "#c2e2ec");
-        changeStatus2(localStorage.getItem("mainHeadline_14"));
-    }, 5000);
-}
-
-export function setStatus2Todo(text) {
-    changeStatus2(text);
-    $(".statusbar2").css("background-color", "#0000dd");
-    $(".statusbar2").css("color", "#ffffff");
-    setTimeout(() => {
-        changeStatus2("");
-        $(".statusbar2").css("color", "#000000");
-        $(".statusbar2").css("background-color", "#c2e2ec");
-        changeStatus2(localStorage.getItem("mainHeadline_14"));
-    }, 5000);
-}
-
-export function setStatus2TodoPermanent(text) {
-    changeStatus2(text);
-    $(".statusbar2").css("background-color", "#0000dd");
-    $(".statusbar2").css("color", "#ffffff");
-}
 
 function publisherSchool(str) {
     localStorage.setItem("publisherIsOutput", localStorage.getItem("school"));
@@ -272,6 +258,7 @@ function publisherSchool(str) {
     $(".freeLabel").css("backgroundColor", "#ffffff");
     $(".schoolLabel").css("backgroundColor", "#00bb00");
     $(".schoolLabel").css("color", "#000000");
+    setDatasetChanged();
     //console.log("out: " + localStorage.getItem("publisherIsOutput") + "     Save: " + localStorage.getItem("publisherIsSave"));
 }
 
@@ -281,6 +268,7 @@ function publisherFree(str) {
     $(".freeLabel").css("backgroundColor", "#00bb00");
     $(".freeLabel").css("color", "#000000");
     $(".schoolLabel").css("backgroundColor", "#ffffff");
+    setDatasetChanged();
     //console.log("out: " + localStorage.getItem("publisherIsOutput") + "     Save: " + localStorage.getItem("publisherIsSave"));
 }
 
@@ -358,19 +346,21 @@ function yearReset() {
 
 
 export function setToNew() {
-    $(".statusbar2").css("color", "#000000");
-    $(".statusbar2").css("background-color", "#c2e2ec");
+    $(".statusbar3").css("color", "#000000");
+    $(".statusbar3").css("background-color", "#c2e2ec");
     $(".doButtonDatasetDelete").addClass('disabled');
-    $(".doButtonDatasetSave").removeClass('disabled');
+    $(".doButtonDatasetSave").addClass('disabled');
+    $(".doButtonDatasetRemember").addClass('disabled');
     localStorage.setItem("changeDatasetNumber", null);
     localStorage.setItem("datasetNumber", null);
-    changeStatus2(localStorage.getItem("mainHeadline_14"));
+    setStatus3(localStorage.getItem("enterData"));
 }
 
 
 function doNewClick() {
     clearInput();
     setToNew();
+    setDatasetUnchanged();
     $(".doButtonNew").trigger("blur");
 }
 
@@ -410,15 +400,15 @@ function doDatasetRemember() {
     let pnr = prepareNumber(datasetNumber);
 
     if (checkTab(pnr) == true)
-        return;
+        removeTab(selectCnt - 1);
 
     if (isNaN(datasetNumber)) {
-        setStatus2Warning("Bitte Datensatznummer eingeben");
+        setStatusWarning(3, "Bitte Datensatznummer eingeben");
         return;
     }
 
     if (checkForDataset(datasetNumber) == 0) {
-        setStatus2Warning("Datensatz " + datasetNumber + " nicht vorhanden");
+        setStatusWarning(3, "Datensatz " + datasetNumber + " nicht vorhanden");
         return;
     }
 
@@ -459,7 +449,7 @@ function doDatasetRemember() {
 
     newTab(selectCnt, datasetFileName, pnr);
     selectCnt++;
-    setStatus2Information("Datensatz " + datasetNumber + " gemerkt");
+    setStatusInformation(3, "Datensatz " + datasetNumber + " gemerkt");
 }
 
 function removeTab(tab) {
