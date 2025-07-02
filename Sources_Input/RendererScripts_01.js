@@ -408,7 +408,7 @@ function doDatasetRemember() {
     }
 
     if (checkForDataset(datasetNumber) == 0) {
-        setStatusWarning(3, "Datensatz " + datasetNumber + " nicht vorhanden");
+        setStatusWarning(3, localStorage.getItem('dataset') + " " + datasetNumber + " " + localStorage.getItem('notFound'));
         return;
     }
 

@@ -91,6 +91,12 @@ export function doFetch() {
         setStatusWarning(3, "Bitte Datensatznummer eingeben");
         return;
     }
+
+    if (nr > 99999) {
+        setStatusWarning(3, localStorage.getItem('dataset') + " " + nr + " " + localStorage.getItem('toLarge'));
+        return;
+    }
+
     let pnr = prepareNumber(nr);
     $(".dsNumber").val(pnr);
 
