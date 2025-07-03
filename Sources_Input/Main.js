@@ -207,10 +207,19 @@ function backup() {
   const srcDir = "../MySql-Data";
   const backupDate = new Date();
   const destDir = initData["backupDir"] + "_" + backupDate.getFullYear() + "-" + (backupDate.getMonth() + 1) + "-" + backupDate.getDate();
-  //console.log("../backup/MySqlData_" + backupDate.getFullYear() + "-" + (backupDate.getMonth()+1) + "-" + backupDate.getDate());
-  fs.cp(srcDir, destDir, { recursive: true }, (err) => {
-    if (err) throw err;
-  });
+  if (destDir != store.get("lastBackup")) {
+    console.log("New Backup: " + destDir);
+    fs.cp(srcDir, destDir, { recursive: true }, (err) => {
+      if (err) throw err;
+    });
+  }
+  store.put("lastBackup", destDir);
 }
 
 //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+// electron-packager . Archiv --overwrite --asar=true --platform=win32 --arch=ia32 --icon=assets / icons /winMain / icon.ico --prune=true --out=release-builds --version-string.CompanyName=CE --version-string.FileDescription=CE --version-string.ProductName="ArchivDerJugendzeitschriften"
+// Build EXE in C:\Projects\Electron\LSV\
+// Result in c:\Projects\Electron\LSV\release-builds\
+
+// Start/Stop MySQL in PowerShell: net start[stop] mySQL80 oder MySQL_Start.cmd / MySQL_Stop.cmd
+// Daten in c:\Projects\Electron\LSV\MySQL-Data\

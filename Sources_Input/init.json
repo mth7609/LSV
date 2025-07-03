@@ -12,5 +12,5 @@
   "mysqlPassword": "mzkti29b",
   "mysqlDatabase": "prolabor",
   "maxSearchSets": "10",
-  "backupDir": "../backup/MySql-Data"
+  "backupDir": "d:/Backup_Windows/LSV/backup/MySql-Data"
   }
