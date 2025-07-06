@@ -4,6 +4,6 @@
 /out/
 /backup/
 /release-builds/
-/MySQL-Data/
+/MySQL-Data*
 /MySQL-Server-8.0/
 /MySQL Workbench 8.0 CE/
