@@ -1,8 +1,7 @@
 const serverFunctions = require('./ServerFunctions');
 const EventEmitter = require('events');
 var storage = require('node-storage');
-
-var store = new storage('./storage');
+var store = new storage('./storage.dat');
 let tableNames = [];
 let con;
 

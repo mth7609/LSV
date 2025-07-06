@@ -1,10 +1,27 @@
 
 
 $('.logoImage').html("<img src='./images/LOGO1_blau_250.gif'></img>");
-$('.canc').on('click', aboardLogin);
 
+$(".login").on('click', function (event) {
+    const username = $('.us').val();
+    const password = $('.pw').val();
+    if (username == "admin" && password == "admin")
+        window.electronAPI.closeLogin("admin", "ok");
+    else {
+        window.electronAPI.closeLogin("admin", "ok");
+    }
+});
 
-function aboardLogin() {
-    console.log("cancel");
-    window.electronAPI.closeLogin("admin", "failed");
-}
+$(".cancel").on('click', function (event) {
+    const username = $('.us').val();
+    const password = $('.pw').val();
+    if (username == "admin" && password == "admin")
+        window.electronAPI.closeLogin("admin", "nok");
+    else {
+        window.electronAPI.closeLogin("admin", "nok");
+    }
+});
+
+window.electronAPI.getStatusLogin((value) => {
+    console.log("Splash");
+});

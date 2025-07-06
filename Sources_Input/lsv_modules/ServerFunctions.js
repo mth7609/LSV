@@ -13,7 +13,7 @@ function serverClose() {
     if (server.listening)
         console.log('ERROR: HTTP server still running');
     else
-        console.log('HTTP server stoppt');
+        console.log('HTTP server stopped');
 }
 
 

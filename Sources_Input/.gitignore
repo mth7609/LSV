@@ -1,6 +1,7 @@
 /node_modules/.bin
 /node_modules/
-/out
+/experimental/
+/out/
 /backup/
 /release-builds/
 /MySQL-Data/

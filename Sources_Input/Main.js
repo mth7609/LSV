@@ -1,5 +1,5 @@
 const { Worker, isMainThread, parentPort, workerData } = require('node:worker_threads')
-const { app, BrowserWindow, Menu, shell, ipcMain, MessageChannelMain } = require('electron')
+const { app, BrowserWindow, Menu, Notification, ipcMain, MessageChannelMain } = require('electron')
 const electronLocalshortcut = require('electron-localshortcut');
 const path = require('node:path')
 const serverResponses = require('./lsv_modules/ServerResponses');
@@ -14,11 +14,14 @@ const fs = require('fs');
 const loadingEvents = new EventEmitter();
 let winMain = null;
 let splashWindow = null;
+let messageWindow = null;
+let databaseCheckWorker = null;
+let frontPagesWorker = null;
+let storage = require('node-storage');
+let store = new storage('./storage.dat');
+store.put("dbconnect", "NOK");
+//backup();
 
-var storage = require('node-storage');
-var store = new storage('./storage');
-
-backup();
 
 
 //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ createMainWindow()
@@ -38,8 +41,14 @@ const createMainWindow = () => {
   })
 
   // winMain.webContents.session.setSpellCheckerEnabled(false);
-  store.put("dbconnect", "NOK");
   serverFunctions.createDatasetFiles();
+
+
+  ipcMain.on('closeMessageWindowCMD', (event) => {
+    //console.log(username + "    " + credential);
+    quitAPP();
+  })
+
 
   ipcMain.on('loginCMD', (event, username, credential) => {
     //console.log(username + "    " + credential);
@@ -49,12 +58,20 @@ const createMainWindow = () => {
       quitAPP();
   })
 
+
   winMain.once('ready-to-show', () => {
     winMain.webContents.send('httpPort', initData["httpPort"]);
   })
 
   ipcMain.on('sendDatasetCMD', (event, query) => {
     serverResponses.executeSimpleSQL(query);
+  })
+
+  winMain.on('closed', (event, query) => {
+    console.log("Threads terminated");
+    databaseCheckWorker.terminate();
+    frontPagesWorker.terminate();
+    quitAPP();
   })
 
   winMain.webContents.on("focus", (event, zoomDirection) => {
@@ -96,69 +113,111 @@ const createMainWindow = () => {
     width: 500,
     height: 450,
     frame: false,
-    //show: false,
+    show: false,
     alwaysOnTop: true,
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
       nodeIntegration: true,
-      contextIsolation: true
+      contextIsolation: true,
     }
   });
+
+
+  messageWindow = new BrowserWindow({                   // +++++++++++++++ Uncomment when login or not
+    width: 500,
+    height: 250,
+    frame: false,
+    show: false,
+    alwaysOnTop: true,
+    webPreferences: {
+      preload: path.join(__dirname, 'preload.js'),
+      nodeIntegration: true,
+      contextIsolation: true,
+    }
+  });
+
+
+  messageWindow.loadFile('./messageWindow.html').then(() => {
+    messageWindow.center();
+  }).catch(error => {
+    console.error('Error loading message window:', error);
+  });
+
+
+  messageWindow.on('closed', () => {
+    messageWindow.removeAllListeners()
+    messageWindow = null;
+  })
+
+  messageWindow.isEnabled
 
 
 
   loadingEvents.on('finishedLogin', async () => {         // +++++++++++++++ Uncomment when login
     try {
       splashWindow.close();
-      await winMain.loadFile('./index.html');
+      winMain.loadFile('./index.html');
       winMain.center();
       setTimeout(() => {
         winMain.show();
       }, 1000);
-
-
     } catch (error) {
       console.error('Error loading index.html: ', error);
     }
   })
 
-
-  // Load splash screen file
   splashWindow.loadFile('./login.html').then(() => {
     splashWindow.center();
   }).catch(error => {
     console.error('Error loading splash window:', error);
   });
 
-  // Clean up ressources when splash window is closed
   splashWindow.on('closed', () => {
     splashWindow.removeAllListeners()
     splashWindow = null;
   })
+
+  splashWindow.isEnabled
+
+
 }
 
-//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ End createMainWindow(), start 
+//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ End createMainWindow(), start
 
 
 if (isMainThread) {
-  const worker = new Worker("./lsv_modules/DatabaseThread.js");
-  worker.on('message', (message) => {                   // receive from worker, send to renderer
+  databaseCheckWorker = new Worker("./lsv_modules/DatabaseThread.js");
+  databaseCheckWorker.on('message', (message) => {                   // receive from worker, send to renderer
     console.log(message);
     if (winMain)
       winMain.webContents.send('status1', message);
+    if (message == "NOK") {
+      if (messageWindow) {
+        if (splashWindow) splashWindow.hide();
+
+        messageWindow.webContents.send('message', "Test...");
+        messageWindow.show();
+      }
+    }
+    else {
+      if (messageWindow) messageWindow.hide();
+      if (splashWindow) splashWindow.show();
+    }
   });
-  worker.postMessage("Start");
+  databaseCheckWorker.postMessage("Start");
 }
 
+
 if (isMainThread) {
-  const worker = new Worker("./lsv_modules/FrontPagesThread.js");
-  worker.on('message', (message) => {                     // receive from worker, send to renderer
+  frontPagesWorker = new Worker("./lsv_modules/FrontPagesThread.js");
+  frontPagesWorker.on('message', (message) => {
     console.log(message);
     if (winMain)
       winMain.webContents.send('frontPage', message);
   });
-  worker.postMessage("Start");
+  frontPagesWorker.postMessage("Start");
 }
+
 
 app.whenReady().then(() => {
   serverFunctions.serverOpen();
@@ -204,7 +263,10 @@ function quitAPP() {
 }
 
 function backup() {
-  const srcDir = "../MySql-Data";
+  if (initData["backupAllow"] == "no")
+    return;
+
+  const srcDir = initData["dbSourceDir"];
   const backupDate = new Date();
   const destDir = initData["backupDir"] + "_" + backupDate.getFullYear() + "-" + (backupDate.getMonth() + 1) + "-" + backupDate.getDate();
   if (destDir != store.get("lastBackup")) {
@@ -217,7 +279,7 @@ function backup() {
 }
 
 //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-// electron-packager . Archiv --overwrite --asar=true --platform=win32 --arch=ia32 --icon=assets / icons /winMain / icon.ico --prune=true --out=release-builds --version-string.CompanyName=CE --version-string.FileDescription=CE --version-string.ProductName="ArchivDerJugendzeitschriften"
+// electron-packager . Archiv --overwrite --platform=win32 --arch=ia32 --prune=true --out=release-builds --version-string.CompanyName=CE --version-string.FileDescription=CE --version-string.ProductName="ArchivDerJugendzeitschriften"
 // Build EXE in C:\Projects\Electron\LSV\
 // Result in c:\Projects\Electron\LSV\release-builds\
 

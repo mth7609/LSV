@@ -1,6 +1,6 @@
-const { Worker, isMainThread, parentPort, workerData } = require('node:worker_threads')
+const { Worker, isMainThread } = require('node:worker_threads')
 const { app, BrowserWindow, Menu, shell, ipcMain, MessageChannelMain } = require('electron')
-const electronLocalshortcut = require('electron-localshortcut');
+
 const path = require('node:path')
 
 
@@ -22,16 +22,6 @@ const createMainWindow = () => {              // Main window
     //winMain.webContents.send('httpPort', initData["httpPort"]);
   })
 
-  ipcMain.on('closeSearchProcessCMD', (event) => {
-    if (winSearch)
-      winSearch.close();
-  })
-
-
-  ipcMain.on('CMD', (event, t) => {
-    console.log("CMD: ", t);
-  })
-
 
   setTimeout(function () {
     winMain.loadFile('./login.html');
@@ -45,7 +35,7 @@ const createMainWindow = () => {              // Main window
 
 
   if (isMainThread) {
-    const worker = new Worker("./FrontPagesThread.js");
+    const worker = new Worker("./lsv_modules/FrontPagesThread.js");
     worker.on('message', (message) => {                     // receive from worker, send to renderer
       console.log(message);
       if (winMain)

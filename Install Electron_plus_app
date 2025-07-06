@@ -1,0 +1,9 @@
+
+
+Download node-v22.17.0-x64 or better
+
+npm install electron --save-dev
+
+npm install --save-dev electron-packager -g
+
+electron-packager . Archiv --overwrite --prune=false --out=release-builds --version-string.CompanyName=CE --version-string.FileDescription=CE --version-string.ProductName="ArchivDerJugendzeitschriften"
