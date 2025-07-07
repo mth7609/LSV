@@ -9,7 +9,7 @@ const dsn = {
   host: 'localhost',
   database: "prolabor",
   user: 'prolabor',
-  password: "mzkti29b",
+  password: "mzkti29b#",
 };
 
 

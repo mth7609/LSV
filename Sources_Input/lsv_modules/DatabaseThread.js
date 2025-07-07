@@ -12,7 +12,7 @@ function checkDBLoop(i) {
         con = mysql.createConnection({
             host: "localhost",
             user: "prolabor",
-            password: "mzkti29b",
+            password: "mzkti29b#",
             database: "prolabor"
         });
 

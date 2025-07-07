@@ -2,7 +2,6 @@ const express = require('express');
 const appx = express();
 const http = require('http');
 const server = http.createServer(appx);               // a http server is always created on localhost
-const { PowerShell } = require('node-powershell');
 const initData = require('../init.json');
 const mysql = require('mysql2');
 const fs = require('fs');

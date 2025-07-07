@@ -1,5 +1,5 @@
 {
-  "name": "LSV-Archiv",
+  "name": "lsv-archiv",
   "version": "1.0.0",
   "description": "Archiv der Jugendzeitschriften von der LandesSchülerVertretung",
   "keywords": [],
@@ -7,10 +7,9 @@
   "license": "ISC",
   "author": "Michael Thiele",
   "type": "commonjs",
-  "main": "main.js",
+  "main": "./main.js",
   "scripts": {
-    "start": "electron .",
-    "package": "electron-packager"
+    "start": "electron ."
   },
   "dependencies": {
     "@popperjs/core": "^2.11.8",

@@ -1,5 +1,5 @@
 const { Worker, isMainThread, parentPort, workerData } = require('node:worker_threads')
-const { app, BrowserWindow, Menu, Notification, ipcMain, MessageChannelMain } = require('electron')
+const { app, BrowserWindow, Menu, ipcMain, MessageChannelMain } = require('electron')
 const electronLocalshortcut = require('electron-localshortcut');
 const path = require('node:path')
 const serverResponses = require('./lsv_modules/ServerResponses');
@@ -7,8 +7,6 @@ const serverFunctions = require('./lsv_modules/ServerFunctions');
 const initData = require('./init.json');
 const EventEmitter = require('events')
 const electron = require('electron');
-const dialog = electron.dialog;
-const child_process = require('child_process');
 const fs = require('fs');
 
 const loadingEvents = new EventEmitter();
@@ -21,7 +19,6 @@ let storage = require('node-storage');
 let store = new storage('./storage.dat');
 store.put("dbconnect", "NOK");
 //backup();
-
 
 
 //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ createMainWindow()
@@ -61,6 +58,8 @@ const createMainWindow = () => {
 
   winMain.once('ready-to-show', () => {
     winMain.webContents.send('httpPort', initData["httpPort"]);
+    console.log("ready");
+    winMain.show();
   })
 
   ipcMain.on('sendDatasetCMD', (event, query) => {
@@ -158,9 +157,6 @@ const createMainWindow = () => {
       splashWindow.close();
       winMain.loadFile('./index.html');
       winMain.center();
-      setTimeout(() => {
-        winMain.show();
-      }, 1000);
     } catch (error) {
       console.error('Error loading index.html: ', error);
     }
@@ -224,8 +220,6 @@ app.whenReady().then(() => {
   console.log("Local HTTP server started");
   app.commandLine.appendSwitch('high-dpi-support', 1)
   app.commandLine.appendSwitch('force-device-scale-factor', 1)
-
-  //run_script("xcopy ..\MySql-Data ..\MySql-Data_copy /s /y", null, null);
 
   setTimeout(() => {
     serverResponses.databaseServerConnect();

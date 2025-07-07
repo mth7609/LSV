@@ -1,4 +1,3 @@
-
 import { globalDataset, globalStates, globalTopHeadlines, globalTopicItems, globalTopicHeadlines, globalInfoLabels } from "./Globals.js";
 
 

@@ -1,7 +1,7 @@
-import { requestCheckDatasetNumber, requestStates, requestTopHeadlines, requestTopicHeadlinesInfo, requestConstValues, requestTopicItems, requestInitValues, requestInfoLabels, requestImages, requestOutputText } from "./ServerRequests.js";
-import { globalTopicHeadlines, globalTopicItems, globalInfoLabels, globalTopHeadlines } from "./Globals.js";
+import { requestStates, requestTopHeadlines, requestTopicHeadlinesInfo, requestConstValues, requestTopicItems, requestInitValues, requestInfoLabels, requestImages, requestOutputText } from "./ServerRequests.js";
+import { globalTopicHeadlines, globalTopicItems, globalTopHeadlines } from "./Globals.js";
 import { checkTab, checkForDataset, doFetch, doDatasetSave, doDatasetDelete, newTab, showDBStatus } from "./RendererScripts_02.js";
-import { setStatusWarning, setStatusWarningPermanent, setStatusTodoPermanent, setStatusInformation, setStatusTodo, setStatus3, setStatus2 } from "./RendererScripts_03.js";
+import { setStatusWarning, setStatusWarningPermanent, setStatusInformation, setStatus3, setStatus2 } from "./RendererScripts_03.js";
 
 var selectedDropdown = 0;
 let selectCnt = 1;
@@ -10,7 +10,7 @@ var maxDatasetTabs = 10;
 var lastTopicName = "null";
 
 localStorage.clear();
-localStorage.setItem("httpPort", "8088");
+localStorage.setItem("httpPort", "8089");
 localStorage.setItem("tabCount", 0);
 localStorage.setItem("selectCnt", selectCnt);
 localStorage.setItem("maxDatasetTabs", maxDatasetTabs)
