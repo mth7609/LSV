@@ -13,6 +13,6 @@
     "mysqlDatabase": "prolabor",
     "maxSearchSets": "10",
     "backupDir": "d:/Backup_Windows/LSV/backup/MySql-Data",
-    "backupAllow": "no",
+    "backupAllow": "yes",
     "dbSourceDir": "../MySql-Data"
   }

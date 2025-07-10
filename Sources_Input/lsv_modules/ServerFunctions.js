@@ -1,10 +1,12 @@
 const express = require('express');
 const appx = express();
 const http = require('http');
-const server = http.createServer(appx);               // a http server is always created on localhost
+const server = http.createServer(appx);
 const initData = require('../init.json');
 const mysql = require('mysql2');
 const fs = require('fs');
+const storage = require('node-storage');
+const store = new storage('./storage2.dat');
 
 function serverClose() {
     server.closeAllConnections();
@@ -57,16 +59,6 @@ async function runForeverSecs(callCnt) {
 };
 
 
-
-function readFrontPageFiles() {
-    let i;
-    let f = [];
-    var fs = require('fs');
-    var files = fs.readdirSync('./images/').filter(fn => fn.startsWith('front_page_'));
-    return files;
-}
-
-
 function createDatasetFiles() {
     let maxSearchSets = initData["maxSearchSets"];
     for (let i = 1; i <= maxSearchSets; i++) {
@@ -90,4 +82,4 @@ function createDatasetFiles() {
     }
 }
 
-module.exports = { appx, serverClose, serverOpen, readFrontPageFiles, sleepSecs, runForeverSecs, createDatasetFiles, mysql };
+module.exports = { store, appx, serverClose, serverOpen, sleepSecs, runForeverSecs, createDatasetFiles, mysql };

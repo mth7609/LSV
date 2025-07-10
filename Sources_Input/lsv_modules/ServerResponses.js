@@ -1,9 +1,8 @@
 const serverFunctions = require('./ServerFunctions');
 const EventEmitter = require('events');
-var storage = require('node-storage');
-var store = new storage('./storage.dat');
 let tableNames = [];
 let con;
+
 
 const dsn = {
   host: 'localhost',
@@ -16,14 +15,14 @@ const dsn = {
 function databaseServerConnect() {
   con = serverFunctions.mysql.createConnection(dsn);
 
-  store.put("dbconnect", "NOK");
+  serverFunctions.store.put("dbconnect", "NOK");
   con.connect(function (err) {
     if (err) {
-      store.put("dbconnect", "NOK");
+      serverFunctions.store.put("dbconnect", "NOK");
       //console.log("dbconnect " + store.get("dbconnect"));
     }
     else {
-      store.put("dbconnect", "OK");
+      serverFunctions.store.put("dbconnect", "OK");
       //console.log("dbconnect " + store.get("dbconnect"));
     }
   });
@@ -33,7 +32,7 @@ function databaseServerConnect() {
 
 function responseDBStatus() {
   serverFunctions.appx.get('/requestDBStatus', (req, res) => {
-    if (store.get("dbconnect") == "OK")
+    if (serverFunctions.store.get("dbconnect") == "OK")
       res.send('command1');
     else
       res.send('command2');

@@ -38,7 +38,6 @@ $(".doButtonDatasetDelete").addClass('disabled');
 //$(".doButtonDatasetSave").addClass('disabled');
 $(".doButtonDatasetRemember").addClass('disabled');
 
-
 setToNew();
 
 const datasetTopItems = Array.from({ length: maxDatasetTabs + 1 }, () => new Array(elementsOnForm).fill(0));
@@ -455,6 +454,7 @@ function doDatasetRemember() {
     setStatusInformation(3, "Datensatz " + datasetNumber + " gemerkt");
 }
 
+
 function removeTab(tab) {
     $(".navtab-" + tab).removeClass("active");
     $(".navtab-" + tab).remove();
@@ -466,3 +466,28 @@ function removeTab(tab) {
 }
 
 
+function printPage() {
+    var w = window.open();
+
+    var headers = $("#headers").html();
+    var field = $("#field1").html();
+    var field2 = $("#field2").html();
+
+    var html = "<!DOCTYPE HTML>";
+    html += '<html lang="en-us">';
+    html += '<head><style></style></head>';
+    html += "<body>";
+
+    //check to see if they are null so "undefined" doesnt print on the page. <br>s optional, just to give space
+    if (headers != null) html += headers + "<br/><br/>";
+    if (field != null) html += field + "<br/><br/>";
+    if (field2 != null) html += field2 + "<br/><br/>";
+
+    html += "fdgr jgör jkaöä kaör glkoma ölkm</body>";
+    w.document.write(html);
+    w.window.print();
+    w.document.close();
+};
+
+
+//printPage();

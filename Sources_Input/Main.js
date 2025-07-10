@@ -8,6 +8,9 @@ const initData = require('./init.json');
 const EventEmitter = require('events')
 const electron = require('electron');
 const fs = require('fs');
+const ipp = require("ipp");
+var Printer = require('ipp-printer')
+var PDFDocument = require('pdfkit');
 
 const loadingEvents = new EventEmitter();
 let winMain = null;
@@ -15,12 +18,32 @@ let splashWindow = null;
 let messageWindow = null;
 let databaseCheckWorker = null;
 let frontPagesWorker = null;
-let storage = require('node-storage');
-let store = new storage('./storage.dat');
-store.put("dbconnect", "NOK");
-//backup();
+
+serverFunctions.store.put("dbconnect", "NOK");
+backup();
 
 
+/*
+
+fs.readFile('./init.json', function (err, data) {
+  if (err)
+    throw err;
+
+  var printer = ipp.Printer("Samsung C480FW");
+  var msg = {
+    "operation-attributes-tag": {
+      "requesting-user-name": "MTH",
+      "job-name": "My Test Job"
+      //"document-format": "application/pdf"
+    },
+    data: data
+  };
+  //console.log(msg);
+  printer.execute("Print-Job", msg, function (err, res) {
+    console.log(res);
+  });
+});
+*/
 //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ createMainWindow()
 
 const createMainWindow = () => {
@@ -37,7 +60,7 @@ const createMainWindow = () => {
     },
   })
 
-  // winMain.webContents.session.setSpellCheckerEnabled(false);
+  winMain.webContents.session.setSpellCheckerEnabled(false);
   serverFunctions.createDatasetFiles();
 
 
@@ -58,7 +81,7 @@ const createMainWindow = () => {
 
   winMain.once('ready-to-show', () => {
     winMain.webContents.send('httpPort', initData["httpPort"]);
-    console.log("ready");
+    //console.log("ready");
     winMain.show();
   })
 
@@ -263,13 +286,14 @@ function backup() {
   const srcDir = initData["dbSourceDir"];
   const backupDate = new Date();
   const destDir = initData["backupDir"] + "_" + backupDate.getFullYear() + "-" + (backupDate.getMonth() + 1) + "-" + backupDate.getDate();
-  if (destDir != store.get("lastBackup")) {
-    console.log("New Backup: " + destDir);
+  console.log("Last backup on: " + serverFunctions.store.get("lastBackup"))
+  if (destDir != serverFunctions.store.get("lastBackup")) {
     fs.cp(srcDir, destDir, { recursive: true }, (err) => {
       if (err) throw err;
     });
+    console.log("New backup to: " + destDir + ",  from source: " + srcDir);
   }
-  store.put("lastBackup", destDir);
+  serverFunctions.store.put("lastBackup", destDir);
 }
 
 //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

@@ -185,8 +185,8 @@ body {
     background: #555555;
     color: #ffffff;
     box-shadow: 0px 37px 20px -20px rgba(0, 0, 0, 0.2);
-    -webkit-transform: translate(0px, -3px) scale(1.1);
-    transform: translate(0px, -3px) scale(1.1);
+    -webkit-transform: translate(0px, -2px) scale(1.1);
+    transform: translate(0px, -2px) scale(1.1);
 }
 
 .schoolLabel {
@@ -262,7 +262,7 @@ body {
     font-size: 12px;
     color: #dddddd;
     background-color: #056289;
-    height: 30px;
+    height: 25px;
     padding: 1px;
     margin-top: 10px;
     margin-left: 30px;
@@ -273,8 +273,8 @@ body {
 
 .nav-link:hover {
     box-shadow: 0px 37px 20px -20px rgba(0, 0, 0, 0.2);
-    -webkit-transform: translate(0px, -3px) scale(1.1);
-    transform: translate(0px, -3px) scale(1.1);
+    -webkit-transform: translate(0px, -2px) scale(1.1);
+    transform: translate(0px, -2px) scale(1.1);
     background: #008800;
     color: #ffffff;
 }
@@ -290,7 +290,7 @@ body {
     font-size: 12px;
     color: #dddddd;
     background-color: #056289;
-    height: 30px;
+    height: 25px;
     padding: 1px;
     margin-top: 10px;
     margin-left: 5px;

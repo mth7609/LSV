@@ -27,12 +27,15 @@
     "git": "^0.1.5",
     "hugo-extended": "^0.144.1",
     "i": "^0.3.7",
+    "ipp": "^1.1.0",
+    "ipp-printer": "^1.0.0",
     "jquery": "^3.7.1",
     "mysql-events": "^0.0.11",
     "mysql2": "^3.13.0",
     "node-powershell": "^5.0.1",
     "node-storage": "^0.0.9",
     "npm": "^11.1.0",
+    "pdfkit": "^0.17.1",
     "utf8": "^3.0.0"
   },
   "devDependencies": {
