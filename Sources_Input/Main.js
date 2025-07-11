@@ -159,7 +159,7 @@ const createMainWindow = () => {
   });
 
 
-  messageWindow.loadFile('./messageWindow.html').then(() => {
+  messageWindow.loadFile('./dbMessageWindow.html').then(() => {
     messageWindow.center();
   }).catch(error => {
     console.error('Error loading message window:', error);
@@ -172,8 +172,6 @@ const createMainWindow = () => {
   })
 
   messageWindow.isEnabled
-
-
 
   loadingEvents.on('finishedLogin', async () => {         // +++++++++++++++ Uncomment when login
     try {

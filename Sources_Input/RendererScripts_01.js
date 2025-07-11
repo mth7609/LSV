@@ -68,6 +68,7 @@ $(".comment").on('focus', setDatasetChanged);
 
 $("title").text(localStorage.getItem("title"));
 
+// buttons for model dialogs
 $(".confirmSaveCancel").on('click', function () {
     localStorage.setItem("confirmSaveCancel", 1);
     localStorage.setItem("confirmSaveOverwrite", 0);
@@ -78,10 +79,20 @@ $(".confirmSaveOverwrite").on('click', function () {
     localStorage.setItem("confirmSaveOverwrite", 1);
 })
 
+$(".confirmDelete").on('click', function () {
+    localStorage.setItem("confirmDeleteCancel", 0);
+    localStorage.setItem("confirmDelete", 1);
+})
+
+$(".confirmDeleteCancel").on('click', function () {
+    localStorage.setItem("confirmDeleteCancel", 1);
+    localStorage.setItem("confirmDelete", 0);
+})
+
 
 export function setDatasetChanged() {
     setStatusWarningPermanent(2, "Geändert, nicht gespeichert!");
-    $(".doButtonDatasetDelete").removeClass('disabled');
+    $(".doButtonDatasetDelete").addClass('disabled');
     $(".doButtonDatasetSave").removeClass('disabled');
     $(".doButtonDatasetRemember").addClass('disabled');
 }
@@ -89,6 +100,7 @@ export function setDatasetChanged() {
 
 export function setDatasetUnchanged() {
     setStatus2("Gespeichert");
+    $(".doButtonDatasetDelete").removeClass('disabled');
 }
 
 
@@ -332,7 +344,7 @@ export function prepareNumber(nr) {
             break;
         case 5: res1 = str.substr(0, 2) + "." + str.substr(2, 3);
             break;
-        default: res1 = "Number too large";
+        default: res1 = "Too large";
     }
 
     return res1;
@@ -452,17 +464,6 @@ function doDatasetRemember() {
     newTab(selectCnt, datasetFileName, pnr);
     selectCnt++;
     setStatusInformation(3, "Datensatz " + datasetNumber + " gemerkt");
-}
-
-
-function removeTab(tab) {
-    $(".navtab-" + tab).removeClass("active");
-    $(".navtab-" + tab).remove();
-    let selectCnt = localStorage.getItem("selectCnt");
-    selectCnt--;
-    localStorage.setItem("selectCnt", selectCnt);
-    $(".navtab-0").addClass("active");
-    $(".tab-0").show();
 }
 
 

@@ -26,7 +26,7 @@
                     <h1 class="modal-title fs-5 confirmSaveHeadline">Überschreiben bestätigen</h1>
                     <button type="button" class="btn-close"></button>
                 </div>
-                <div class="modal-body">
+                <div class="modal-body ps-3">
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn confirmSaveCancel selectButton ps-2 pe-2" data-bs-dismiss="modal">Abbrechen</button>
@@ -35,14 +35,33 @@
             </div>
         </div>
     </div>
-
     <script>
         $(".buttonOpenConfirmSaveModal").hide();
     </script>
 
+    <button type="button" class="buttonOpenConfirmDeleteModal" data-bs-toggle="modal" data-bs-target=".confirmDeleteModal" aria-hidden="true"></button>
+    <div class="modal fade confirmDeleteModal" data-bs-backdrop="static" role="dialog">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5 confirmDeleteHeadline">Löschen bestätigen</h1>
+                    <button type="button" class="btn-close"></button>
+                </div>
+                <div class="modal-body-delete ps-3">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn confirmDeleteCancel selectButton ps-2 pe-2" data-bs-dismiss="modal">Abbrechen</button>
+                    <button type="button" class="btn confirmDelete selectButton ps-2 pe-2" data-bs-dismiss="modal">Löschen</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        $(".buttonOpenConfirmDeleteModal").hide();
+    </script>
+
     <br>
     <div class="m-1 ps-4 pt-2 position-absolute z-n2 logoImage"></div>
-
     <br>
 
     <p class="text-center fs-2 pt-3 fw-bold mainWindowHeadlineInput"></p>

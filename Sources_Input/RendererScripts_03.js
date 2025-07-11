@@ -1,6 +1,6 @@
-import { saveDataset } from "./RendererScripts_02.js";
+import { saveDataset, deleteDataset } from "./RendererScripts_02.js";
 
-
+// for modal window save
 export async function runForeverConfirmDoSave(callCnt) {
     callCnt++;
     setTimeout(function () {
@@ -12,6 +12,21 @@ export async function runForeverConfirmDoSave(callCnt) {
             return;
         }
         runForeverConfirmDoSave(callCnt);
+    }, 500);
+};
+
+// For modal window delete
+export async function runForeverConfirmDoDelete(callCnt) {
+    callCnt++;
+    setTimeout(function () {
+        if (localStorage.getItem("confirmDelete") == 1) {
+            console.log("Delete");
+            deleteDataset();
+            localStorage.setItem("changeDatasetNumber", null);
+            localStorage.setItem("datasetNumber", null);
+            return;
+        }
+        runForeverConfirmDoDelete(callCnt);
     }, 500);
 };
 

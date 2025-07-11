@@ -38,14 +38,16 @@ function updateDatasetTab(tab) {
     $('.topicDatasetItems_' + tab).html(el);
 }
 
+
 function removeTab(tab) {
+    $(".navtab-0").addClass("active");
+    $(".tab-0").show();
     $(".navtab-" + tab).removeClass("active");
     $(".navtab-" + tab).remove();
     let selectCnt = localStorage.getItem("selectCnt");
     selectCnt--;
     localStorage.setItem("selectCnt", selectCnt);
-    $(".navtab-0").addClass("active");
-    $(".tab-0").show();
+    $(".navtab-0").click();
 }
 
 

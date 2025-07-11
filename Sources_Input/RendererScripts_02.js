@@ -1,8 +1,7 @@
 import { getActualFullDate, setDatasetUnchanged, prepareNumber, clearInput, setToNew } from "./RendererScripts_01.js";
-import { setStatusWarning, setStatusWarningPermanent, setStatusTodoPermanent, setStatusInformation, setStatusInformationPermanent, setStatus1, setStatus3, setStatus2 } from "./RendererScripts_03.js";
+import { setStatusWarning, setStatusWarningPermanent, runForeverConfirmDoSave, runForeverConfirmDoDelete, setStatusInformation, setStatusInformationPermanent, setStatus1, setStatus2 } from "./RendererScripts_03.js";
 import { requestCheckDatasetNumber, requestDataset, requestComment } from "./ServerRequests.js";
 import { globalDataset } from "./Globals.js";
-import { runForeverConfirmDoSave } from "./RendererScripts_03.js";
 
 
 var hexDigits = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "a", "b", "c", "d", "e", "f"];
@@ -229,6 +228,24 @@ export function doDatasetDelete() {
         return;
 
     let nr = String($(".dsNumber").val()).replace(".", "");
+    nr = parseInt(nr);
+
+    if (checkForDataset(nr) != 1) {
+        setStatusWarning(3, "Datensatz " + prepareNumber(nr) + " nicht vorhanden");
+    }
+    else {
+        $(".modal-body-delete").text("Das Löschen von Datensatz " + prepareNumber(nr) + " bitte bestätigen.");
+        $(".buttonOpenConfirmDeleteModal").click();
+        localStorage.setItem("confirmDeleteCancel", 0);
+        localStorage.setItem("confirmDelete", 0);
+        localStorage.setItem("datasetNumber", nr);
+        runForeverConfirmDoDelete(1);
+    }
+}
+
+
+export function deleteDataset() {
+    let nr = localStorage.getItem("datasetNumber");
     let sqlQuery = "DELETE FROM prolabor.archive_data where dataset_number=" + nr;
     window.electronAPI.sendDataset(sqlQuery);
     setTimeout(() => {
