@@ -131,4 +131,30 @@ function executeReceiveDataset(sqlQuery) {
     .finally(function () { conSave.end() });
 }
 
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+Function printPage() {
+    var w = window.open();
+
+    var headers = $("#headers").html();
+    var field = $("#field1").html();
+    var field2 = $("#field2").html();
+
+    var html = "<!DOCTYPE HTML>";
+    html += '<html lang="en-us">';
+    html += '<head><style></style></head>';
+    html += "<body>";
+
+    //check to see if they are null so "undefined" doesnt print on the page. <br>s optional, just to give space
+    if (headers != null) html += headers + "<br/><br/>";
+    if (field != null) html += field + "<br/><br/>";
+    if (field2 != null) html += field2 + "<br/><br/>";
+
+    html += "fdgr jgör jkaöä kaör glkoma ölkm</body>";
+    w.document.write(html);
+    w.window.print();
+    w.document.close();
+};
+
+
 */

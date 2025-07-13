@@ -6,6 +6,7 @@ function updateDatasetTab(tab) {
     let datasetItems = [];
     let mainHeadline = [];
 
+
     for (i = 0; i < localStorage.getItem("datasetTopItemCount"); i++) {
         mainHeadline[i] = localStorage.getItem("mainHeadline_" + i);
         datasetItems[i] = localStorage.getItem("datasetItem_" + i);
@@ -23,19 +24,22 @@ function updateDatasetTab(tab) {
     let checkFound = false;
 
     for (n = 0; n < localStorage.getItem("topicHeadlineCnt"); n++) {
-        el = el + "<b>" + localStorage.getItem("topicHeadline_" + n) + "</b><br>";
-        checkFound = false;
         for (i = 0; i < localStorage.getItem("amountTopicsHeadline_" + n); i++) {
             if (localStorage.getItem("checked_topic_" + n + "_" + i) == "checked") {
-                checkFound = true;
-                el = el + "&nbsp; &nbsp; " + localStorage.getItem("topic_" + n + "_" + i) + " ";
+                el = el + "<b>" + localStorage.getItem("topicHeadline_" + n) + "</b><br>";
+                for (i = 0; i < localStorage.getItem("amountTopicsHeadline_" + n); i++) {
+                    if (localStorage.getItem("checked_topic_" + n + "_" + i) == "checked") {
+                        el = el + "&nbsp; &nbsp; " + localStorage.getItem("topic_" + n + "_" + i) + " ";
+                    }
+                }
+                el = el + "<br>";
+                break;
             }
         }
-        if (checkFound)
-            el = el + "<br>";
-    }
 
-    $('.topicDatasetItems_' + tab).html(el);
+        $(".topicsHeader").text("Schlagwörter");
+        $('.topicDatasetItems_' + tab).html(el);
+    }
 }
 
 

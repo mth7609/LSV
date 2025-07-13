@@ -34,6 +34,9 @@ export function showDBStatus(st) {
 
 export function hideTabContent(nr) {
     $(".tab-" + nr).hide();
+    $('.navtab-' + nr).css("background", "#ffffff");
+    $('.navtab-' + nr).css("color", "#000000");
+
 }
 
 
@@ -45,8 +48,6 @@ export function newTab(nr, link, name) {
     setTabActive(0);
 
     $(".navtab-" + nr).on('click', function (event) {
-        //$(".tab-" + nr).load('" + link + "');
-        //console.log("Tab clicked: " + nr + "   :   Link: " + link);
         setTabActive(nr);
         $(".tab-" + nr).show();
     });
@@ -54,11 +55,15 @@ export function newTab(nr, link, name) {
 
 
 export function setTabActive(nr) {
-    //console.log("nr: " + nr + "  Max: " + localStorage.getItem("maxDatasetTabs"));
+    console.log("nr: " + nr);
+
     for (let i = 0; i < localStorage.getItem("maxDatasetTabs"); i++) {
-        if (i != nr && $(".tab-" + i).show())
+        if (i != nr && $(".tab-" + i).show()) {
             hideTabContent(i);
+        }
     }
+    $('.navtab-' + nr).css("background", "#056289");
+    $('.navtab-' + nr).css("color", "#ffffff");
 }
 
 
@@ -83,6 +88,13 @@ export function checkForDataset(nr) {
 }
 
 
+export function doButtonFetchEnter(event) {
+    //console.log(event.which);
+    if (event.which == 13)
+        doFetch();
+}
+
+
 export function doFetch() {
     $(".doButtonFetch").trigger("blur");
     if ($(".doButtonFetch").hasClass('disabled'))
@@ -91,7 +103,7 @@ export function doFetch() {
     let nr = String($(".dsNumber").val()).replace(".", "");
 
     if (isNaN(parseInt(nr))) {
-        setStatusWarning(3, "Bitte Datensatznummer eingeben");
+        setStatusWarning(3, "Bitte Nummer der Zeitchrift eingeben");
         return;
     }
 
@@ -282,7 +294,7 @@ export function saveDataset() {
     el = el + ",'" + $('.city').val() + "'";
     el = el + ",'" + $(".dropdownState").text() + "'";
     el = el + ",'" + localStorage.getItem("publisherIsSave") + "'";
-    console.log("out: " + localStorage.getItem("publisherIsOutput") + "     Save: " + localStorage.getItem("publisherIsSave"));
+    //console.log("out: " + localStorage.getItem("publisherIsOutput") + "     Save: " + localStorage.getItem("publisherIsSave"));
     for (n = 0; n < localStorage.getItem("topicHeadlineCnt"); n++) {
         for (i = 0; i < localStorage.getItem("amountTopicsHeadline_" + n); i++) {
             if (localStorage.getItem("checked_topic_" + n + "_" + i) == "checked") {
@@ -308,20 +320,21 @@ export function saveDataset() {
         localStorage.setItem("changeDatasetNumber", null);
 
         if (nr != 0) {
-            setStatusInformation(3, "Datensatz " + pnr + " gespeichert");
+            setStatusInformation(3, localStorage.getItem("dataset") + " " + pnr + " " + localStorage.getItem("saved"));
             $(".dsNumber").val(prepareNumber(nr));
             localStorage.setItem("datasetNumber", nr);
             $(".doButtonDatasetDelete").removeClass('disabled');
-            $(".doButtonDatasetSave").removeClass('disabled');
+            $(".doButtonDatasetSave").addClass('disabled');
             $(".doButtonDatasetRemember").removeClass('disabled');
         }
         else {
-            setStatusWarningPermanent(3, "Datensatz " + prepareNumber(pnr) + " NICHT gespeichert");
+            setStatusWarningPermanent(3, localStorage.getItem("dataset") + " " + prepareNumber(pnr) + " " + localStorage.getItem("not_saved"));
         }
     }
     else {
         if (cnr > 0) {
             //console.log("Change: " + cnr);
+            $(".doButtonDatasetSave").addClass('disabled');
             sqlQuery = "DELETE FROM prolabor.archive_data where dataset_number=" + cnr;
             window.electronAPI.sendDataset(sqlQuery);
 
@@ -341,7 +354,6 @@ export function saveDataset() {
                 pnr = prepareNumber(cnr);
                 setStatusInformation(3, "Datensatz " + pnr + " geändert");
                 $(".doButtonDatasetDelete").removeClass('disabled');
-                $(".doButtonDatasetSave").addClass('disabled');
                 $(".doButtonDatasetRemember").removeClass('disabled');
             }, 2000);
         }

@@ -16,17 +16,42 @@
     </div>
     <br><br>
 
-    <div class="container ml-6 px-12">
-        <div class="row">
-            <div class="col-5">
-                <div class="input-group text-wrap">
-                    <div class="topDatasetItems_3"></div>
+    <div class="window">
+        <div class="container ml-6 px-12">
+            <div class="row">
+                <div class="col-5">
+                    <div class="input-group text-wrap">
+                        <div class="topDatasetItems_3"></div>
+                    </div>
+                </div>
+                <div class="col-7">
+                    <div class="input-group">
+                        <div class="topicDatasetItems_3 nobr">
+                            <div class="topicItems_3"></div>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div class="col-7">
-                <div class="input-group">
-                    <div class="topicDatasetItems_3 nobr">
-                        <div class="topicItems_3"></div>
+        </div>
+    </div>
+
+    <div class="printer">
+        <div class="container ml-6 px-12">
+            <div class="row">
+                <div class="col-5">
+                    <div class="input-group text-wrap">
+                        <div class="topDatasetItems_3"></div>
+                    </div>
+                </div>
+            </div>
+            <hr class="hr2">
+            <div class="topicsHeader text-center fw-bold"></div><br>
+            <div class="row">
+                <div class="col-7">
+                    <div class="input-group">
+                        <div class="topicDatasetItems_3 nobr">
+                            <div class="topicItems_3"></div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -42,9 +67,9 @@
             <div class="form-group">
                 <form>
                     <nobr>
-                        <input type="button" class="selectButtonDataset pri_3 btn btn-outline-secondary ps-2 pe-2 pt-0" value="Drucken">
-                        <input type="button" class="selectButtonDataset change_3 btn btn-outline-secondary ps-2 pe-2 pt-0" value="Ändern">
-                        <input type="button" class="selectButtonDataset remove_3 btn btn-outline-secondary ps-2 pe-2 pt-0" value="Entfernen">
+                        <input type="button" class="selectButtonDataset navtabCSS pri_3 btn btn-outline-secondary ps-2 pe-2 pt-0" value="Drucken">
+                        <input type="button" class="selectButtonDataset navtabCSS change_3 btn btn-outline-secondary ps-2 pe-2 pt-0" value="Ändern">
+                        <input type="button" class="selectButtonDataset navtabCSS remove_3 btn btn-outline-secondary ps-2 pe-2 pt-0" value="Entfernen">
                     </nobr>
                 </form>
             </div>
@@ -53,8 +78,23 @@
 
 
     <script>
+        $(".printer").hide();
+
         $(".pri_3").on('click', function (event) {
+            $(".pri_3").hide();
+            $(".remove_3").hide();
+            $(".change_3").hide();
+            $(".nav-tabs").hide();
+            $(".printer").show();
+            $(".window").hide();
             window.print();
+            $(".printer").hide();
+            $(".window").show();
+            $(".pri_3").show();
+            $(".remove_3").show();
+            $(".change_3").show();
+            $(".nav-tabs").show();
+
         });
         $(".remove_3").on('click', function (event) {
             removeTab(3);

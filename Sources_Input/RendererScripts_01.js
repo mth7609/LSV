@@ -1,6 +1,6 @@
 import { requestStates, requestTopHeadlines, requestTopicHeadlinesInfo, requestConstValues, requestTopicItems, requestInitValues, requestInfoLabels, requestImages, requestOutputText } from "./ServerRequests.js";
 import { globalTopicHeadlines, globalTopicItems, globalTopHeadlines } from "./Globals.js";
-import { checkTab, checkForDataset, doFetch, doDatasetSave, doDatasetDelete, newTab, showDBStatus } from "./RendererScripts_02.js";
+import { checkTab, checkForDataset, doFetch, doDatasetSave, doDatasetDelete, newTab, showDBStatus, doButtonFetchEnter } from "./RendererScripts_02.js";
 import { setStatusWarning, setStatusWarningPermanent, setStatusInformation, setStatus3, setStatus2 } from "./RendererScripts_03.js";
 
 var selectedDropdown = 0;
@@ -35,7 +35,6 @@ publisherReset();
 
 
 $(".doButtonDatasetDelete").addClass('disabled');
-//$(".doButtonDatasetSave").addClass('disabled');
 $(".doButtonDatasetRemember").addClass('disabled');
 
 setToNew();
@@ -65,6 +64,7 @@ $(".dropdownState").on('focus', setDatasetChanged);
 $(".freeLabel").on('focus', setDatasetChanged);
 $(".comment").on('focus', setDatasetChanged);
 
+$(".dsNumber").on('keypress', doButtonFetchEnter);
 
 $("title").text(localStorage.getItem("title"));
 
@@ -463,32 +463,7 @@ function doDatasetRemember() {
 
     newTab(selectCnt, datasetFileName, pnr);
     selectCnt++;
-    setStatusInformation(3, "Datensatz " + datasetNumber + " gemerkt");
+    setStatusInformation(3, localStorage.getItem("dataset") + " " + prepareNumber(datasetNumber) + " " + localStorage.getItem("remembered"));
 }
 
 
-function printPage() {
-    var w = window.open();
-
-    var headers = $("#headers").html();
-    var field = $("#field1").html();
-    var field2 = $("#field2").html();
-
-    var html = "<!DOCTYPE HTML>";
-    html += '<html lang="en-us">';
-    html += '<head><style></style></head>';
-    html += "<body>";
-
-    //check to see if they are null so "undefined" doesnt print on the page. <br>s optional, just to give space
-    if (headers != null) html += headers + "<br/><br/>";
-    if (field != null) html += field + "<br/><br/>";
-    if (field2 != null) html += field2 + "<br/><br/>";
-
-    html += "fdgr jgör jkaöä kaör glkoma ölkm</body>";
-    w.document.write(html);
-    w.window.print();
-    w.document.close();
-};
-
-
-//printPage();

@@ -22,7 +22,7 @@
 
   <nav>
     <div class="nav nav-tabs" role="tablist" id="nav-tabs">
-      <button class="nav-link navtabHomeCSS navtab-0 active" data-bs-toggle="tab" data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-home" aria-selected="true">Home</button>
+      <button class="nav-link navtabCSS navtab-0 active" data-bs-toggle="tab" data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-home" aria-selected="true">Home</button>
     </div>
   </nav>
   <div class="tab-content">
@@ -30,14 +30,22 @@
   </div>
 
   <script>
+
+    $('.navtab-0').css("color", "#ffffff");
+    $('.navtab-0').css("background", "#056289");
     $(".tab-0").load("./home.html");
 
     $(".navtab-0").on('click', function (event) {
       for (let i = 1; i <= localStorage.getItem("maxDatasetTabs"); i++) {
-        //console.log("i: " + i);
-        $(".tab-" + i).hide();
+        $('.tab-' + i).hide();
+        $('.navtab-' + i).css("background", "#ffffff");
+        $('.navtab-' + i).css("color", "#000000");
       }
       $(".tab-0").show();
+      $(".navtab-0").show();
+      $('.navtab-0').css("background", "#056289");
+      $('.navtab-0').css("color", "#ffffff");
+
     });
 
   </script>
