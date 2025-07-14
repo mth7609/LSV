@@ -1,6 +1,6 @@
-import { requestStates, requestTopHeadlines, requestTopicHeadlinesInfo, requestConstValues, requestTopicItems, requestInitValues, requestInfoLabels, requestImages, requestOutputText } from "./ServerRequests.js";
-import { globalTopicHeadlines, globalTopicItems, globalTopHeadlines } from "./Globals.js";
-import { checkTab, checkForDataset, doFetch, doDatasetSave, doDatasetDelete, newTab, showDBStatus, doButtonFetchEnter } from "./RendererScripts_02.js";
+import { requestAllDatasetNumbers, requestStates, requestTopHeadlines, requestTopicHeadlinesInfo, requestConstValues, requestTopicItems, requestInitValues, requestInfoLabels, requestImages, requestOutputText } from "./ServerRequests.js";
+import { globalDatasetNumbers, globalTopicHeadlines, globalTopicItems, globalTopHeadlines } from "./Globals.js";
+import { checkTab, checkForDataset, doFetch, doDatasetSave, doDatasetDelete, newTab, showDBStatus, doKeydown } from "./RendererScripts_02.js";
 import { setStatusWarning, setStatusWarningPermanent, setStatusInformation, setStatus3, setStatus2 } from "./RendererScripts_03.js";
 
 var selectedDropdown = 0;
@@ -26,6 +26,7 @@ requestTopicItems();
 requestTopHeadlines();
 requestImages();
 requestConstValues();
+requestAllDatasetNumbers();
 
 setOutputText();
 setYears();
@@ -39,8 +40,11 @@ $(".doButtonDatasetRemember").addClass('disabled');
 
 setToNew();
 
+console.log(globalDatasetNumbers);
+
 const datasetTopItems = Array.from({ length: maxDatasetTabs + 1 }, () => new Array(elementsOnForm).fill(0));
 const datasetTopicsItems = Array.from({ length: maxDatasetTabs + 1 }, () => new Array(elementsOnForm).fill(0));
+
 
 $(".dropdown-menu li a").on('click', updateValue);
 $(".doButtonFetch").on('click', doFetch);
@@ -64,7 +68,7 @@ $(".dropdownState").on('focus', setDatasetChanged);
 $(".freeLabel").on('focus', setDatasetChanged);
 $(".comment").on('focus', setDatasetChanged);
 
-$(".dsNumber").on('keypress', doButtonFetchEnter);
+$("body").on('keydown', doKeydown);
 
 $("title").text(localStorage.getItem("title"));
 
@@ -129,10 +133,10 @@ function addZero(i) {
 }
 
 export function getActualFullDate() {
-    var d = new Date();
-    var dow = d.getDay();
+    let d = new Date();
+    let dow = d.getDay();
     let outDay = "";
-
+    //console.log(dow);
     switch (dow) {
         case 1: outDay = localStorage.getItem("monday");
             break;
@@ -146,7 +150,7 @@ export function getActualFullDate() {
             break;
         case 6: outDay = localStorage.getItem("saturday");
             break;
-        case 7: outDay = localStorage.getItem("sunday");
+        case 0: outDay = localStorage.getItem("sunday");
             break;
     }
 
@@ -156,6 +160,8 @@ export function getActualFullDate() {
     var h = addZero(d.getHours());
     var m = addZero(d.getMinutes());
     var s = addZero(d.getSeconds());
+
+    //console.log(outDay + "\xa0\xa0\xa0" + day + "." + month + "." + year + "\xa0\xa0\xa0" + h + ":" + m + "\xa0");
     return outDay + "\xa0\xa0\xa0" + day + "." + month + "." + year + "\xa0\xa0\xa0" + h + ":" + m + "\xa0";
 }
 
@@ -267,8 +273,9 @@ function publisherSchool(str) {
     localStorage.setItem("publisherIsOutput", localStorage.getItem("school"));
     localStorage.setItem("publisherIsSave", "school");
     $(".freeLabel").css("backgroundColor", "#ffffff");
-    $(".schoolLabel").css("backgroundColor", "#00bb00");
-    $(".schoolLabel").css("color", "#000000");
+    $(".freeLabel").css("color", "#000000");
+    $(".schoolLabel").css("backgroundColor", "#007700");
+    $(".schoolLabel").css("color", "#ffffff");
     setDatasetChanged();
     //console.log("out: " + localStorage.getItem("publisherIsOutput") + "     Save: " + localStorage.getItem("publisherIsSave"));
 }
@@ -276,9 +283,10 @@ function publisherSchool(str) {
 function publisherFree(str) {
     localStorage.setItem("publisherIsOutput", localStorage.getItem("free"));
     localStorage.setItem("publisherIsSave", "free");
-    $(".freeLabel").css("backgroundColor", "#00bb00");
-    $(".freeLabel").css("color", "#000000");
+    $(".freeLabel").css("backgroundColor", "#007700");
+    $(".freeLabel").css("color", "#ffffff");
     $(".schoolLabel").css("backgroundColor", "#ffffff");
+    $(".schoolLabel").css("color", "#000000");
     setDatasetChanged();
     //console.log("out: " + localStorage.getItem("publisherIsOutput") + "     Save: " + localStorage.getItem("publisherIsSave"));
 }

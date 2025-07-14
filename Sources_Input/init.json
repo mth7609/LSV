@@ -14,6 +14,5 @@
     "maxSearchSets": "10",
     "backupDir": "d:/Backup_Windows/LSV/backup/MySql-Data",
     "backupAllow": "yes",
-    "dbSourceDir": "../MySql-Data",
-    "printer": "SEC842519615E66"
+    "dbSourceDir": "../MySql-Data"
   }

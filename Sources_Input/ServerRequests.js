@@ -1,4 +1,4 @@
-import { globalDataset, globalStates, globalTopHeadlines, globalTopicItems, globalTopicHeadlines, globalInfoLabels } from "./Globals.js";
+import { globalDatasetNumbers, globalDataset, globalStates, globalTopHeadlines, globalTopicItems, globalTopicHeadlines, globalInfoLabels } from "./Globals.js";
 
 
 export function requestInitValues() {
@@ -93,9 +93,7 @@ export function requestTopHeadlines() {
 
 
 export function requestTopicItems() {
-
     let i;
-
     for (i = 0; i < globalTopicHeadlines.contentValue.length; i++) {
         $.ajax({
             type: 'GET',
@@ -204,4 +202,22 @@ export function requestCheckDatasetNumber(nr) {
     });
 }
 
+export function requestAllDatasetNumbers() {
+    $.ajax({
+        type: 'GET',
+        url: 'http://localhost:' + localStorage.getItem("httpPort") + '/requestAllDatasetNumbers',
+        async: false,
+        success: function (data) {
+            if (data.length > 0) {
+                globalDatasetNumbers.content = data;
+                //console.log(data);
+                return true;
+            }
+            else {
+                globalDatasetNumbers.content = null;
+                return false;
+            }
+        }
+    });
+}
 

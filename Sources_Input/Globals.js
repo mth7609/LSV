@@ -17,7 +17,7 @@ let globalDatasetItems = [];
 let globalInfoLabels = new C();
 let globalTopHeadlines = new C();
 let globalDataset = new C();
-
+let globalDatasetNumbers = new C();
 let i;
 
 for (i = 0; i < 11; i++) {
@@ -28,4 +28,4 @@ for (i = 0; i < 32; i++) {
   globalDatasetItems[i] = new C();
 }
 
-export { globalDataset, globalStates, globalTopicHeadlines, globalTopicItems, globalDatasetItems, globalTopHeadlines, globalInfoLabels }
+export { globalDatasetNumbers, globalDataset, globalStates, globalTopicHeadlines, globalTopicItems, globalDatasetItems, globalTopHeadlines, globalInfoLabels }

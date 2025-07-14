@@ -1,6 +1,6 @@
 import { getActualFullDate, setDatasetUnchanged, prepareNumber, clearInput, setToNew } from "./RendererScripts_01.js";
 import { setStatusWarning, setStatusWarningPermanent, runForeverConfirmDoSave, runForeverConfirmDoDelete, setStatusInformation, setStatusInformationPermanent, setStatus1, setStatus2 } from "./RendererScripts_03.js";
-import { requestCheckDatasetNumber, requestDataset, requestComment } from "./ServerRequests.js";
+import { requestAllDatasetNumbers, requestCheckDatasetNumber, requestDataset, requestComment } from "./ServerRequests.js";
 import { globalDataset } from "./Globals.js";
 
 
@@ -31,7 +31,6 @@ export function showDBStatus(st) {
 }
 
 
-
 export function hideTabContent(nr) {
     $(".tab-" + nr).hide();
     $('.navtab-' + nr).css("background", "#ffffff");
@@ -55,7 +54,7 @@ export function newTab(nr, link, name) {
 
 
 export function setTabActive(nr) {
-    console.log("nr: " + nr);
+    //console.log("nr: " + nr);
 
     for (let i = 0; i < localStorage.getItem("maxDatasetTabs"); i++) {
         if (i != nr && $(".tab-" + i).show()) {
@@ -87,11 +86,30 @@ export function checkForDataset(nr) {
     return localStorage.getItem(nr);
 }
 
+let keyOld = 0;
 
-export function doButtonFetchEnter(event) {
-    //console.log(event.which);
-    if (event.which == 13)
+export function doKeydown(event) {
+    let key = event.which;
+    //console.log(key);
+    if (key == 13)
         doFetch();
+    else {
+        if (key == 17)
+            keyOld = 17;
+        else {
+            if (key != 37 && key != 39) {
+                keyOld = 0;
+                return;
+            }
+        }
+        if (key == 37 && keyOld == 17) {
+            console.log("Control-left");
+        }
+        else
+            if (key == 39 && keyOld == 17) {
+                console.log("Control-right");
+            }
+    }
 }
 
 
@@ -178,16 +196,22 @@ function showDataInForm() {
         localStorage.setItem("publisherIsOutput", localStorage.getItem("school"));
         localStorage.setItem("publisherIsSave", "school");
         $('.btnradio1').prop("checked", true);
-        $(".schoolLabel").css("backgroundColor", "#00bb00");
         $('.btnradio2').prop("checked", false);
+        $(".schoolLabel").css("backgroundColor", "#007700");
+        $(".schoolLabel").css("color", "#ffffff");
+        $(".freeLabel").css("backgroundColor", "#ffffff");
+        $(".freeLabel").css("color", "#000000");
     }
     else
         if (globalDataset.contentValue[0]["publisher_is"] == "free") {
             localStorage.setItem("publisherIsOutput", localStorage.getItem("free"));
             localStorage.setItem("publisherIsSave", "free");
             $('.btnradio1').prop("checked", false);
-            $(".freeLabel").css("backgroundColor", "#00bb00");
             $('.btnradio2').prop("checked", true);
+            $(".freeLabel").css("backgroundColor", "#007700");
+            $(".freeLabel").css("color", "#ffffff");
+            $(".schoolLabel").css("backgroundColor", "#ffffff");
+            $(".schoolLabel").css("color", "#000000");
         }
         else {
             $('.btnradio1').prop("checked", false);
@@ -230,6 +254,7 @@ export function doDatasetSave() {
         localStorage.setItem("changeDatasetNumber", null);
         localStorage.setItem("datasetNumber", nr);
         saveDataset();
+        requestAllDatasetNumbers();
     }
 }
 
@@ -268,6 +293,7 @@ export function deleteDataset() {
     setToNew();
     setStatusInformation(3, "Datensatz " + nr + " gelöscht");
     setStatus2("");
+    requestAllDatasetNumbers()
     $(".doButtonDatasetSave").addClass('disabled');
     $(".doButtonDatasetRemember").addClass('disabled');
 }

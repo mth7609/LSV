@@ -22,28 +22,6 @@ let frontPagesWorker = null;
 serverFunctions.store.put("dbconnect", "NOK");
 backup();
 
-
-/*
-
-fs.readFile('./init.json', function (err, data) {
-  if (err)
-    throw err;
-
-  var printer = ipp.Printer("Samsung C480FW");
-  var msg = {
-    "operation-attributes-tag": {
-      "requesting-user-name": "MTH",
-      "job-name": "My Test Job"
-      //"document-format": "application/pdf"
-    },
-    data: data
-  };
-  //console.log(msg);
-  printer.execute("Print-Job", msg, function (err, res) {
-    console.log(res);
-  });
-});
-*/
 //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ createMainWindow()
 
 const createMainWindow = () => {

@@ -295,7 +295,7 @@ function responseCheckDatasetNumber() {
             } else {
               res.send(Object(0));
             }
-            dsCon.end(); 
+            dsCon.end();
           });
         }*/
       });
@@ -320,6 +320,25 @@ function responseDataset() {
     });
   });
 }
+
+
+function responseAllDatasetNumbers() {
+  let dsNr;
+  serverFunctions.appx.get('/requestAllDatasetNumbers', (req, res) => {
+    const dataset_number = req.query.datasetNumber;
+    dsNr = serverFunctions.mysql.createConnection(dsn);
+    dsNr.connect((err) => {
+      if (err) throw err;
+      dsNr.query("SELECT dataset_number FROM prolabor.archive_data", function (err, result, fields) {
+        if (err) {
+          throw err;
+        }
+        res.send(result);
+      });
+    });
+  });
+}
+
 
 
 function executeSimpleSQL(sqlQuery) {
@@ -367,5 +386,6 @@ responseConstValues();
 responseDataset();
 responseCheckDatasetNumber();
 responseComment();
+responseAllDatasetNumbers();
 
-module.exports = { responseCheckDatasetNumber, responseComment, executeSimpleSQL, responseDataset, responseInitValues, responseDBStatus, responseDBRunning, responseStates, databaseServerConnect, responseTopicHeadlines, responseTopHeadlines, responseOutputText, responseImages, responseConstValues, responseInfoLabels };
+module.exports = { responseAllDatasetNumbers, responseCheckDatasetNumber, responseAllDatasetNumbers, responseComment, executeSimpleSQL, responseDataset, responseInitValues, responseDBStatus, responseDBRunning, responseStates, databaseServerConnect, responseTopicHeadlines, responseTopHeadlines, responseOutputText, responseImages, responseConstValues, responseInfoLabels };
