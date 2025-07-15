@@ -223,7 +223,7 @@ app.whenReady().then(() => {
   setTimeout(() => {
     serverResponses.databaseServerConnect();
     console.log("Connected to database");
-  }, 1000);
+  }, 500);
 
   setTimeout(() => {
     console.log("Starting application");
@@ -242,6 +242,8 @@ app.whenReady().then(() => {
 });
 
 function quitAPP() {
+  console.log("Disconnect database");
+  serverResponses.databaseServerClose();
   setTimeout(() => {
     serverFunctions.serverClose();
   }, 500);

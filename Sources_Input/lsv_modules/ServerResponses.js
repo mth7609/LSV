@@ -14,7 +14,6 @@ const dsn = {
 
 function databaseServerConnect() {
   con = serverFunctions.mysql.createConnection(dsn);
-
   serverFunctions.store.put("dbconnect", "NOK");
   con.connect(function (err) {
     if (err) {
@@ -30,6 +29,11 @@ function databaseServerConnect() {
 }
 
 
+function databaseServerClose() {
+  con.close();
+}
+
+
 function responseDBStatus() {
   serverFunctions.appx.get('/requestDBStatus', (req, res) => {
     if (serverFunctions.store.get("dbconnect") == "OK")
@@ -42,27 +46,22 @@ function responseDBStatus() {
 
 function responseDBRunning() {
   serverFunctions.appx.get('/requestDBRunning', (req, res) => {
-    con.connect(function (err) {
-      con.query("SELECT name FROM states", function (err, result, fields) {
-        if (err) {
-          databaseServerConnect();
-          res.send("command2");
-        }
-        else
-          res.send("command1");
-      });
+    con.query("SELECT name FROM states", function (err, result, fields) {
+      if (err) {
+        databaseServerConnect();
+        res.send("command2");
+      }
+      else
+        res.send("command1");
     });
   });
 }
 
 function responseStates() {
   serverFunctions.appx.get('/requestStates', (req, res) => {
-    con.connect(function (err) {
+    con.query("SELECT name FROM states", function (err, result, fields) {
       if (err) throw err;
-      con.query("SELECT name FROM states", function (err, result, fields) {
-        if (err) throw err;
-        res.send(result);
-      });
+      res.send(result);
     });
   });
 }
@@ -70,37 +69,28 @@ function responseStates() {
 
 function responseOutputText() {
   serverFunctions.appx.get('/requestOutputText', (req, res) => {
-    con.connect(function (err) {
+    con.query("SELECT * FROM output_text", function (err, result, fields) {
       if (err) throw err;
-      con.query("SELECT * FROM output_text", function (err, result, fields) {
-        if (err) throw err;
-        res.send(result);
-      });
+      res.send(result);
     });
   });
 }
 
 function responseTopicHeadlines() {
   serverFunctions.appx.get('/requestTopicHeadlinesInfo', (req, res) => {
-    con.connect(function (err) {
+    con.query("SELECT * FROM topic_headlines order by headline_nr", function (err, result, fields) {
       if (err) throw err;
-      con.query("SELECT * FROM topic_headlines order by headline_nr", function (err, result, fields) {
-        if (err) throw err;
-        tableNames = result;
-        res.send(result);
-      });
+      tableNames = result;
+      res.send(result);
     });
   });
 }
 
 function responseTopHeadlines() {
   serverFunctions.appx.get('/requestDatasetTopHeadlines', (req, res) => {
-    con.connect(function (err) {
+    con.query("SELECT * FROM dataset_top_headlines order by arraypos", function (err, result, fields) {
       if (err) throw err;
-      con.query("SELECT * FROM dataset_top_headlines order by arraypos", function (err, result, fields) {
-        if (err) throw err;
-        res.send(result);
-      });
+      res.send(result);
     });
   });
 }
@@ -108,130 +98,109 @@ function responseTopHeadlines() {
 
 function responseInfoLabels() {
   serverFunctions.appx.get('/requestInfoLabels', (req, res) => {
-    con.connect(function (err) {
+    con.query("SELECT * FROM info_labels", function (err, result, fields) {
       if (err) throw err;
-      con.query("SELECT * FROM info_labels", function (err, result, fields) {
-        if (err) throw err;
-        res.send(result);
-      });
+      res.send(result);
     });
   });
 }
 
 
-
 function responseTopicItems() {
   serverFunctions.appx.get('/0', (req, res) => {
-    con.connect(function (err) {
+    con.query("SELECT * FROM " + tableNames[0]["tablename"], function (err, result, fields) {
       if (err) throw err;
-      con.query("SELECT * FROM " + tableNames[0]["tablename"], function (err, result, fields) {
-        if (err) throw err;
-        res.send(result);
-      })
-    });
+      res.send(result);
+    })
   });
 
+
   serverFunctions.appx.get('/1', (req, res) => {
-    con.connect(function (err) {
+    con.query("SELECT * FROM " + tableNames[1]["tablename"], function (err, result, fields) {
       if (err) throw err;
-      con.query("SELECT * FROM " + tableNames[1]["tablename"], function (err, result, fields) {
-        if (err) throw err;
-        res.send(result);
-      })
-    });
+      res.send(result);
+    })
   });
+
+
   serverFunctions.appx.get('/2', (req, res) => {
-    con.connect(function (err) {
+    con.query("SELECT * FROM " + tableNames[2]["tablename"], function (err, result, fields) {
       if (err) throw err;
-      con.query("SELECT * FROM " + tableNames[2]["tablename"], function (err, result, fields) {
-        if (err) throw err;
-        res.send(result);
-      })
-    });
+      res.send(result);
+    })
   });
+
+
   serverFunctions.appx.get('/3', (req, res) => {
-    con.connect(function (err) {
+    con.query("SELECT * FROM " + tableNames[3]["tablename"], function (err, result, fields) {
       if (err) throw err;
-      con.query("SELECT * FROM " + tableNames[3]["tablename"], function (err, result, fields) {
-        if (err) throw err;
-        res.send(result);
-      })
-    });
+      res.send(result);
+    })
   });
+
+
   serverFunctions.appx.get('/4', (req, res) => {
-    con.connect(function (err) {
+    con.query("SELECT * FROM " + tableNames[4]["tablename"], function (err, result, fields) {
       if (err) throw err;
-      con.query("SELECT * FROM " + tableNames[4]["tablename"], function (err, result, fields) {
-        if (err) throw err;
-        res.send(result);
-      })
-    });
+      res.send(result);
+    })
   });
+
+
   serverFunctions.appx.get('/5', (req, res) => {
-    con.connect(function (err) {
+    con.query("SELECT * FROM " + tableNames[5]["tablename"], function (err, result, fields) {
       if (err) throw err;
-      con.query("SELECT * FROM " + tableNames[5]["tablename"], function (err, result, fields) {
-        if (err) throw err;
-        res.send(result);
-      })
-    });
+      res.send(result);
+    })
   });
+
+
   serverFunctions.appx.get('/6', (req, res) => {
-    con.connect(function (err) {
+    con.query("SELECT * FROM " + tableNames[6]["tablename"], function (err, result, fields) {
       if (err) throw err;
-      con.query("SELECT * FROM " + tableNames[6]["tablename"], function (err, result, fields) {
-        if (err) throw err;
-        res.send(result);
-      })
-    });
+      res.send(result);
+    })
   });
+
+
   serverFunctions.appx.get('/7', (req, res) => {
-    con.connect(function (err) {
+    con.query("SELECT * FROM " + tableNames[7]["tablename"], function (err, result, fields) {
       if (err) throw err;
-      con.query("SELECT * FROM " + tableNames[7]["tablename"], function (err, result, fields) {
-        if (err) throw err;
-        res.send(result);
-      })
-    });
+      res.send(result);
+    })
   });
+
+
   serverFunctions.appx.get('/8', (req, res) => {
-    con.connect(function (err) {
+    con.query("SELECT * FROM " + tableNames[8]["tablename"], function (err, result, fields) {
       if (err) throw err;
-      con.query("SELECT * FROM " + tableNames[8]["tablename"], function (err, result, fields) {
-        if (err) throw err;
-        res.send(result);
-      })
-    });
+      res.send(result);
+    })
   });
+
+
   serverFunctions.appx.get('/9', (req, res) => {
-    con.connect(function (err) {
+    con.query("SELECT * FROM " + tableNames[9]["tablename"], function (err, result, fields) {
       if (err) throw err;
-      con.query("SELECT * FROM " + tableNames[9]["tablename"], function (err, result, fields) {
-        if (err) throw err;
-        res.send(result);
-      })
-    });
+      res.send(result);
+    })
   });
+
+
   serverFunctions.appx.get('/10', (req, res) => {
-    con.connect(function (err) {
+    con.query("SELECT * FROM " + tableNames[10]["tablename"], function (err, result, fields) {
       if (err) throw err;
-      con.query("SELECT * FROM " + tableNames[10]["tablename"], function (err, result, fields) {
-        if (err) throw err;
-        res.send(result);
-      })
-    });
+      res.send(result);
+    })
   });
 }
 
 
 function responseImages() {
   serverFunctions.appx.get('/requestImages', (req, res) => {
-    con.connect(function (err) {
+    con.query("SELECT * FROM images", function (err, result, fields) {
       if (err) throw err;
-      con.query("SELECT * FROM images", function (err, result, fields) {
-        if (err) throw err;
-        res.send(result);
-      });
+      res.send(result);
     });
   });
 }
@@ -239,12 +208,9 @@ function responseImages() {
 
 function responseConstValues() {
   serverFunctions.appx.get('/requestConstants', (req, res) => {
-    con.connect(function (err) {
+    con.query("SELECT * FROM constants", function (err, result, fields) {
       if (err) throw err;
-      con.query("SELECT * FROM constants", function (err, result, fields) {
-        if (err) throw err;
-        res.send(result);
-      });
+      res.send(result);
     });
   });
 }
@@ -252,11 +218,8 @@ function responseConstValues() {
 
 function responseInitValues() {
   serverFunctions.appx.get('/requestInitValues', (req, res) => {
-    con.connect(function (err) {
-      if (err) throw err;
-      let initData = require('../init.json');
-      res.send(initData);
-    });
+    let initData = require('../init.json');
+    res.send(initData);
   });
 }
 
@@ -273,101 +236,59 @@ function ObjectLength(object) {
 
 
 function responseCheckDatasetNumber() {
-  let dsCon;
   serverFunctions.appx.get('/requestCheckDatasetNumber', (req, res) => {
     const dataset_number = req.query.datasetNumber;
-    dsCon = serverFunctions.mysql.createConnection(dsn);
-    dsCon.connect((err) => {
+    con.query("SELECT nr FROM prolabor.archive_data WHERE dataset_number=" + dataset_number, (err, result, fields) => {
       if (err) throw err;
-      dsCon.query("SELECT nr FROM prolabor.archive_data WHERE dataset_number=" + dataset_number, (err, result, fields) => {
-        if (err) throw err;
-        if (result.length == 1)
-          res.send(Object(1));
-        else
-          res.send(Object(0));
-        dsCon.end();
-        /*else {
-          dsCon.query("SELECT nr FROM prolabor.dataset_comments WHERE dataset_number=" + dataset_number, (err, result, fields) => {
-            console.log("dsNr: " + dataset_number + "           " + 1);
-            if (err) throw err;
-            if (result.length == 1) {
-              res.send(Object(1));
-            } else {
-              res.send(Object(0));
-            }
-            dsCon.end();
-          });
-        }*/
-      });
+      if (result.length == 1)
+        res.send(Object(1));
+      else
+        res.send(Object(0));
     });
   });
 }
 
 
 function responseDataset() {
-  let dsNr;
   serverFunctions.appx.get('/requestDataset', (req, res) => {
     const dataset_number = req.query.datasetNumber;
-    dsNr = serverFunctions.mysql.createConnection(dsn);
-    dsNr.connect((err) => {
-      if (err) throw err;
-      dsNr.query("SELECT * FROM archive_data where dataset_number=" + dataset_number, (err, result, fields) => {
-        if (err) {
-          throw err;
-        }
-        res.send(result);
-      });
+    con.query("SELECT * FROM archive_data where dataset_number=" + dataset_number, (err, result, fields) => {
+      if (err) { throw err; }
+      res.send(result);
     });
   });
 }
 
 
 function responseAllDatasetNumbers() {
-  let dsNr;
   serverFunctions.appx.get('/requestAllDatasetNumbers', (req, res) => {
     const dataset_number = req.query.datasetNumber;
-    dsNr = serverFunctions.mysql.createConnection(dsn);
-    dsNr.connect((err) => {
-      if (err) throw err;
-      dsNr.query("SELECT dataset_number FROM prolabor.archive_data", function (err, result, fields) {
-        if (err) {
-          throw err;
-        }
-        res.send(result);
-      });
+    con.query("SELECT dataset_number FROM prolabor.archive_data", function (err, result, fields) {
+      if (err) {
+        throw err;
+      }
+      res.send(result);
     });
   });
 }
 
 
-
 function executeSimpleSQL(sqlQuery) {
-  //console.log(sqlQuery);
-  let conSave = serverFunctions.mysql.createConnection(dsn);
-  conSave.connect(function (err) {
+  con.query(sqlQuery, function (err) {
     if (err) throw err;
-    conSave.query(sqlQuery, function (err) {
-      if (err) throw err;
-    });
-    conSave.end();
   });
 }
 
 
 function responseComment() {
-  let dsNr;
   serverFunctions.appx.get('/requestComment', (req, res) => {
     const dataset_number = req.query.datasetNumber;
     //console.log("nr: " + dataset_number);
-    dsNr = serverFunctions.mysql.createConnection(dsn);
-    dsNr.connect((err) => {
-      if (err) throw err;
-      dsNr.query("SELECT * FROM dataset_comments where dataset_number=" + dataset_number, (err, result, fields) => {
-        if (err) {
-          throw err;
-        }
-        res.send(result);
-      });
+    con.query("SELECT * FROM dataset_comments where dataset_number=" + dataset_number, (err, result, fields) => {
+      if (err) {
+        throw err;
+      }
+      res.send(result);
     });
   });
 }
@@ -388,4 +309,4 @@ responseCheckDatasetNumber();
 responseComment();
 responseAllDatasetNumbers();
 
-module.exports = { responseAllDatasetNumbers, responseCheckDatasetNumber, responseAllDatasetNumbers, responseComment, executeSimpleSQL, responseDataset, responseInitValues, responseDBStatus, responseDBRunning, responseStates, databaseServerConnect, responseTopicHeadlines, responseTopHeadlines, responseOutputText, responseImages, responseConstValues, responseInfoLabels };
+module.exports = { databaseServerClose, responseAllDatasetNumbers, responseCheckDatasetNumber, responseAllDatasetNumbers, responseComment, executeSimpleSQL, responseDataset, responseInitValues, responseDBStatus, responseDBRunning, responseStates, databaseServerConnect, responseTopicHeadlines, responseTopHeadlines, responseOutputText, responseImages, responseConstValues, responseInfoLabels };

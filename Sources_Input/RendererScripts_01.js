@@ -132,12 +132,28 @@ function addZero(i) {
     return i;
 }
 
-export function getActualFullDate() {
+
+export function getMilliseconds1970() {
     let d = new Date();
+    //console.log(d.valueOf());
+    return d.valueOf();
+}
+
+
+export function getActualFullDate(millis) {
+    let d;
+    if (millis)
+        d = new Date(millis);
+    else
+        d = new Date();
+    //console.log(d);
     let dow = d.getDay();
     let outDay = "";
+
     //console.log(dow);
     switch (dow) {
+        case 0: outDay = localStorage.getItem("sunday");
+            break;
         case 1: outDay = localStorage.getItem("monday");
             break;
         case 2: outDay = localStorage.getItem("tuesday");
@@ -149,8 +165,6 @@ export function getActualFullDate() {
         case 5: outDay = localStorage.getItem("friday");
             break;
         case 6: outDay = localStorage.getItem("saturday");
-            break;
-        case 0: outDay = localStorage.getItem("sunday");
             break;
     }
 
