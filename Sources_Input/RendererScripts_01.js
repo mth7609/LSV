@@ -4,15 +4,17 @@ import { checkTab, checkForDataset, doFetch, doDatasetSave, doDatasetDelete, new
 import { setStatusWarning, setStatusWarningPermanent, setStatusInformation, setStatus3, setStatus2 } from "./RendererScripts_03.js";
 
 var selectedDropdown = 0;
-let selectCnt = 1;
 var elementsOnForm = 1;
 var maxDatasetTabs = 10;
 var lastTopicName = "null";
 
+let ld = localStorage.getItem("lastDatasetNumber")
 localStorage.clear();
+localStorage.setItem("lastDatasetNumber", ld);
+
 localStorage.setItem("httpPort", "8089");
 localStorage.setItem("tabCount", 0);
-localStorage.setItem("selectCnt", selectCnt);
+localStorage.setItem("selectCnt", 1);
 localStorage.setItem("maxDatasetTabs", maxDatasetTabs)
 localStorage.setItem("changeDatasetNumber", null);
 
@@ -38,7 +40,7 @@ publisherReset();
 $(".doButtonDatasetDelete").addClass('disabled');
 $(".doButtonDatasetRemember").addClass('disabled');
 
-setToNew();
+setToLastDataset();
 
 console.log(globalDatasetNumbers);
 
@@ -56,7 +58,7 @@ $(".dropdownYear").on('click', yearSel);
 $(".schoolLabel").on('click', publisherSchool);
 $(".freeLabel").on('click', publisherFree);
 $(".topicListButtonInput").on('click', topicListButtonClick);
-$(".doButtonNew").on('click', doNewClick);
+$(".doButtonNew").on('click', doNew);
 
 $(".name").on('focus', setDatasetChanged);
 $(".schoolLabel").on('focus', setDatasetChanged);
@@ -92,6 +94,20 @@ $(".confirmDeleteCancel").on('click', function () {
     localStorage.setItem("confirmDeleteCancel", 1);
     localStorage.setItem("confirmDelete", 0);
 })
+
+
+export function setToLastDataset() {
+    let ld = localStorage.getItem("lastDatasetNumber");
+    if (ld == 0 || ld == null) {
+        $(".dsNumber").val("00.000");
+        setToNew();
+    }
+    else {
+        //console.log(ld);
+        $(".dsNumber").val(ld);
+        doFetch();
+    }
+}
 
 
 export function setDatasetChanged() {
@@ -390,7 +406,7 @@ export function setToNew() {
 }
 
 
-function doNewClick() {
+export function doNew() {
     clearInput();
     setToNew();
     setDatasetUnchanged();
@@ -419,15 +435,15 @@ export function clearInput() {
 }
 
 
-function doDatasetRemember() {
+export function doDatasetRemember() {
 
     $(".doButtonDatasetRemember").trigger("blur");
-
-    if ($(".doButtonDatasetRemember").hasClass('disabled'))
-        return;
+    let selectCnt = localStorage.getItem("selectCnt");
+    //console.log(selectCnt);
 
     if (selectCnt > maxDatasetTabs) {
-        console.log("Maximale Anzahl (10) der gemerkten Datensätze erreicht.\n\nBitte kontrollieren und Speichern.");
+        setStatusWarning(3, "Merkliste voll");
+        $(".doButtonDatasetRemember").addClass('disabled');
         return;
     }
 
@@ -435,8 +451,10 @@ function doDatasetRemember() {
     datasetNumber = parseInt(datasetNumber);
     let pnr = prepareNumber(datasetNumber);
 
-    if (checkTab(pnr) == true)
-        removeTab(selectCnt - 1);
+    if (checkTab(pnr) == true) {
+        setStatusWarning(3, "Zeitschrift schon auf Merkliste");
+        return;
+    }
 
     if (isNaN(datasetNumber)) {
         setStatusWarning(3, "Bitte Datensatznummer eingeben");
@@ -458,8 +476,6 @@ function doDatasetRemember() {
     datasetTopItems[selectCnt][7] = $('.comment').val();
 
     let i = 0, n = 0, itemCnt = 0;
-
-    localStorage.setItem("selectCnt", selectCnt);
 
     for (n = 0; n < globalTopicHeadlines.contentValue.length; n++) {        // Save selected topics in the topics dataset array
         for (i = 0; i < globalTopicItems[n].contentValue.length; i++) {
@@ -485,6 +501,7 @@ function doDatasetRemember() {
 
     newTab(selectCnt, datasetFileName, pnr);
     selectCnt++;
+    localStorage.setItem("selectCnt", selectCnt);
     setStatusInformation(3, localStorage.getItem("dataset") + " " + prepareNumber(datasetNumber) + " " + localStorage.getItem("remembered"));
 }
 

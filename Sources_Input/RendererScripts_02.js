@@ -1,4 +1,4 @@
-import { getMilliseconds1970, setDatasetUnchanged, prepareNumber, clearInput, setToNew } from "./RendererScripts_01.js";
+import { doDatasetRemember, getMilliseconds1970, setDatasetUnchanged, prepareNumber, clearInput, setToNew, doNew } from "./RendererScripts_01.js";
 import { setStatusWarning, setStatusWarningPermanent, runForeverConfirmDoSave, runForeverConfirmDoDelete, setStatusInformation, setStatusInformationPermanent, setStatus1, setStatus2 } from "./RendererScripts_03.js";
 import { requestAllDatasetNumbers, requestCheckDatasetNumber, requestDataset, requestComment } from "./ServerRequests.js";
 import { globalDatasetNumbers, globalDataset } from "./Globals.js";
@@ -56,7 +56,7 @@ export function newTab(nr, link, name) {
 export function setTabActive(nr) {
     //console.log("nr: " + nr);
 
-    for (let i = 0; i < localStorage.getItem("maxDatasetTabs"); i++) {
+    for (let i = 0; i <= localStorage.getItem("maxDatasetTabs"); i++) {
         if (i != nr && $(".tab-" + i).show()) {
             hideTabContent(i);
         }
@@ -68,16 +68,12 @@ export function setTabActive(nr) {
 
 export function checkTab(pnr) {
     let i;
-    for (i = 0; i < localStorage.getItem("maxDatasetTabs"); i++) {
+    for (i = 0; i <= localStorage.getItem("maxDatasetTabs"); i++) {
         if ($(".navtab-" + i).text() === pnr) {
-            //setStatus3Warning("Datensatz schon in Merkliste");
             return true;
         }
     }
-    if (i == localStorage.getItem("maxDatasetTabs"))
-        return false;
-    else
-        return true;
+    return false;
 }
 
 
@@ -86,36 +82,85 @@ export function checkForDataset(nr) {
     return localStorage.getItem(nr);
 }
 
+
 let keyOld = 0;
+let keyCtrl = 17;
 
 export function doKeydown(event) {
     let key = event.which;
     let i, nr;
     //console.log(key);
-    if (key == 13)
+
+    if (key == 13) {
         doFetch();
-    else {
-        if (key == 17)
-            keyOld = 17;
-        else {
-            if (key != 37 && key != 39) {
-                keyOld = 0;
-                return;
+        return;
+    }
+
+    switch (key) {
+        case keyCtrl: keyOld = keyCtrl; return;
+        case 37: break;
+        case 39: break;
+        case 77: break;
+        case 76: break;
+        case 83: break;
+        case 78: break;
+        default: keyOld = 0; return;
+    }
+
+    if (key == 77 && keyOld == keyCtrl) {
+        doDatasetRemember();
+        return;
+    }
+
+    if (key == 76 && keyOld == keyCtrl) {
+        doDatasetDelete();
+        return;
+    }
+
+    if (key == 83 && keyOld == keyCtrl) {
+        doDatasetSave();
+        return;
+    }
+
+    if (key == 78 && keyOld == keyCtrl) {
+        $(".dsNumber").val("00.000");
+        doNew();
+        return;
+    }
+
+    if (key == 37 && keyOld == keyCtrl) {
+        nr = String($(".dsNumber").val()).replace(".", "");
+        let l = globalDatasetNumbers.contentValue.length;
+        for (i = 0; i < l; i++) {
+            //console.log("l: " + l + "   i: " + i + "   nr: " + globalDatasetNumbers.contentValue[i]["dataset_number"]);
+            if (globalDatasetNumbers.contentValue[i]["dataset_number"] == nr) {
+                if (i > 0) {
+                    //console.log("111 i: " + i + "   nr: " + globalDatasetNumbers.contentValue[i]["dataset_number"]);
+                    $(".dsNumber").val(prepareNumber(globalDatasetNumbers.contentValue[i - 1]["dataset_number"]));
+                }
+                else {
+                    //console.log("222 i: " + i + "   nr: " + globalDatasetNumbers.contentValue[i]["dataset_number"]);
+                    $(".dsNumber").val(prepareNumber(globalDatasetNumbers.contentValue[l - 1]["dataset_number"]));
+                }
+                setTimeout(function () {
+                    doFetch();
+                }, 200);
+                break;
             }
         }
-        if (key == 37 && keyOld == 17) {
+        //console.log("Control-right");
+    }
+    else {
+        if (key == 39 && keyOld == keyCtrl) {
             nr = String($(".dsNumber").val()).replace(".", "");
             let l = globalDatasetNumbers.contentValue.length;
             for (i = 0; i < l; i++) {
-                //console.log("l: " + l + "   i: " + i + "   nr: " + globalDatasetNumbers.contentValue[i]["dataset_number"]);
                 if (globalDatasetNumbers.contentValue[i]["dataset_number"] == nr) {
-                    if (i > 0) {
-                        //console.log("111 i: " + i + "   nr: " + globalDatasetNumbers.contentValue[i]["dataset_number"]);
-                        $(".dsNumber").val(prepareNumber(globalDatasetNumbers.contentValue[i - 1]["dataset_number"]));
+                    if (i < (l - 1)) {
+                        $(".dsNumber").val(prepareNumber(globalDatasetNumbers.contentValue[i + 1]["dataset_number"]));
                     }
                     else {
-                        //console.log("222 i: " + i + "   nr: " + globalDatasetNumbers.contentValue[i]["dataset_number"]);
-                        $(".dsNumber").val(prepareNumber(globalDatasetNumbers.contentValue[l - 1]["dataset_number"]));
+                        $(".dsNumber").val(prepareNumber(globalDatasetNumbers.contentValue[0]["dataset_number"]));
                     }
                     setTimeout(function () {
                         doFetch();
@@ -123,28 +168,7 @@ export function doKeydown(event) {
                     break;
                 }
             }
-            console.log("Control-right");
-        }
-        else {
-            if (key == 39 && keyOld == 17) {
-                nr = String($(".dsNumber").val()).replace(".", "");
-                let l = globalDatasetNumbers.contentValue.length;
-                for (i = 0; i < l; i++) {
-                    if (globalDatasetNumbers.contentValue[i]["dataset_number"] == nr) {
-                        if (i < (l - 1)) {
-                            $(".dsNumber").val(prepareNumber(globalDatasetNumbers.contentValue[i + 1]["dataset_number"]));
-                        }
-                        else {
-                            $(".dsNumber").val(prepareNumber(globalDatasetNumbers.contentValue[0]["dataset_number"]));
-                        }
-                        setTimeout(function () {
-                            doFetch();
-                        }, 200);
-                        break;
-                    }
-                }
-                console.log("Control-right");
-            }
+            //console.log("Control-right");
         }
     }
 }
@@ -186,6 +210,8 @@ export function doFetch() {
     requestComment(nr);
     showDataInForm();
     setDatasetUnchanged();
+    localStorage.setItem("lastDatasetNumber", nr);
+    $(".statusText3").html(localStorage.getItem("enterData"));
     $(".doButtonDatasetSave").addClass('disabled');
 }
 
@@ -289,10 +315,10 @@ export function doDatasetDelete() {
     nr = parseInt(nr);
 
     if (checkForDataset(nr) != 1) {
-        setStatusWarning(3, "Datensatz " + prepareNumber(nr) + " nicht vorhanden");
+        setStatusWarning(3, "Zeitschrift " + prepareNumber(nr) + " nicht vorhanden");
     }
     else {
-        $(".modal-body-delete").text("Das Löschen von Datensatz " + prepareNumber(nr) + " bitte bestätigen.");
+        $(".modal-body-delete").text("Das Löschen von Zeitschrift " + prepareNumber(nr) + " bitte bestätigen.");
         $(".buttonOpenConfirmDeleteModal").click();
         localStorage.setItem("confirmDeleteCancel", 0);
         localStorage.setItem("confirmDelete", 0);
@@ -312,7 +338,7 @@ export function deleteDataset() {
     }, 1000);
     clearInput();
     setToNew();
-    setStatusInformation(3, "Datensatz " + nr + " gelöscht");
+    setStatusInformation(3, "Zeitschrift " + nr + " gelöscht");
     setStatus2("");
     requestAllDatasetNumbers();
     $(".doButtonDatasetSave").addClass('disabled');

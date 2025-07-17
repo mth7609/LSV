@@ -189,7 +189,6 @@ if (isMainThread) {
     if (message == "NOK") {
       if (messageWindow) {
         if (splashWindow) splashWindow.hide();
-
         messageWindow.webContents.send('message', "Test...");
         messageWindow.show();
       }
@@ -241,6 +240,7 @@ app.whenReady().then(() => {
   })
 });
 
+
 function quitAPP() {
   console.log("Disconnect database");
   serverResponses.databaseServerClose();
@@ -257,10 +257,10 @@ function quitAPP() {
   }, 1500);
 }
 
+
 function backup() {
   if (initData["backupAllow"] == "no")
     return;
-
   const srcDir = initData["dbSourceDir"];
   const backupDate = new Date();
   const destDir = initData["backupDir"] + "_" + backupDate.getFullYear() + "-" + (backupDate.getMonth() + 1) + "-" + backupDate.getDate();

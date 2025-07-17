@@ -1,3 +1,4 @@
+
 function updateDatasetTab(tab) {
     let i;
     let n;
@@ -48,13 +49,35 @@ function removeTab(tab) {
     $(".tab-0").show();
     $(".navtab-" + tab).removeClass("active");
     $(".navtab-" + tab).remove();
+    $(".navtab-0").click();
     let selectCnt = localStorage.getItem("selectCnt");
     selectCnt--;
     localStorage.setItem("selectCnt", selectCnt);
-    $(".navtab-0").click();
+    $(".doButtonDatasetRemember").removeClass('disabled');
 }
 
 
+function changeHomeContent(tab) {
+    $(".navtab-0").addClass("active");
+    $(".tab-0").show();
+    $(".navtab-0").click();
+    $(".dsNumber").val($('.datasetWindowSubheadline_' + tab).text());
+    $(".doButtonFetch").click();
+    setStatusTodo("Daten können jetzt geändert werden");
+    console.log($('.datasetWindowSubheadline_' + tab).text());
+}
+
+
+function setStatusTodo(text) {
+    $(".statusText3").html("&nbsp; " + text);
+    $(".statusbar3").css("background-color", "#0000dd");
+    $(".statusbar3").css("color", "#ffffff");
+    setTimeout(() => {
+        $(".statusbar3").css("color", "#000000");
+        $(".statusbar3").css("background-color", "#c2e2ec");
+        $(".statusText3").html("&nbsp; " + localStorage.getItem("enterData"));
+    }, 5000);
+}
 
 
 
