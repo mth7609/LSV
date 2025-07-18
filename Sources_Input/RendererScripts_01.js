@@ -1,6 +1,6 @@
 import { requestAllDatasetNumbers, requestStates, requestTopHeadlines, requestTopicHeadlinesInfo, requestConstValues, requestTopicItems, requestInitValues, requestInfoLabels, requestImages, requestOutputText } from "./ServerRequests.js";
 import { globalDatasetNumbers, globalTopicHeadlines, globalTopicItems, globalTopHeadlines } from "./Globals.js";
-import { checkTab, checkForDataset, doFetch, doDatasetSave, doDatasetDelete, newTab, showDBStatus, doKeydown } from "./RendererScripts_02.js";
+import { getNextDatasetNumber, checkTab, checkForDataset, doFetch, doDatasetSave, doDatasetDelete, newTab, showDBStatus, doKeydown } from "./RendererScripts_02.js";
 import { setStatusWarning, setStatusWarningPermanent, setStatusInformation, setStatus3, setStatus2 } from "./RendererScripts_03.js";
 
 var selectedDropdown = 0;
@@ -8,10 +8,9 @@ var elementsOnForm = 1;
 var maxDatasetTabs = 10;
 var lastTopicName = "null";
 
-let ld = localStorage.getItem("lastDatasetNumber")
+let ld = localStorage.getItem("lastDatasetNumberUsed")
 localStorage.clear();
-localStorage.setItem("lastDatasetNumber", ld);
-
+localStorage.setItem("lastDatasetNumberUsed", ld);
 localStorage.setItem("httpPort", "8089");
 localStorage.setItem("tabCount", 0);
 localStorage.setItem("selectCnt", 1);
@@ -40,9 +39,9 @@ publisherReset();
 $(".doButtonDatasetDelete").addClass('disabled');
 $(".doButtonDatasetRemember").addClass('disabled');
 
-setToLastDataset();
+setToLastDatasetUsed();
 
-console.log(globalDatasetNumbers);
+//console.log(globalDatasetNumbers);
 
 const datasetTopItems = Array.from({ length: maxDatasetTabs + 1 }, () => new Array(elementsOnForm).fill(0));
 const datasetTopicsItems = Array.from({ length: maxDatasetTabs + 1 }, () => new Array(elementsOnForm).fill(0));
@@ -96,8 +95,8 @@ $(".confirmDeleteCancel").on('click', function () {
 })
 
 
-export function setToLastDataset() {
-    let ld = localStorage.getItem("lastDatasetNumber");
+export function setToLastDatasetUsed() {
+    let ld = localStorage.getItem("lastDatasetNumberUsed");
     if (ld == 0 || ld == null) {
         $(".dsNumber").val("00.000");
         setToNew();
@@ -409,7 +408,7 @@ export function setToNew() {
 export function doNew() {
     clearInput();
     setToNew();
-    setDatasetUnchanged();
+    //setDatasetUnchanged();
     $(".doButtonNew").trigger("blur");
 }
 
@@ -422,7 +421,7 @@ export function clearInput() {
     publisherReset();
     yearReset();
     stateReset();
-    $(".dsNumber").val("");
+    $(".dsNumber").val("00.000");
 
     for (n = 0; n < localStorage.getItem("topicHeadlineCnt"); n++) {
         for (i = 0; i < localStorage.getItem("amountTopicsHeadline_" + n); i++) {

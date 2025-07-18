@@ -89,9 +89,8 @@ let keyCtrl = 17;
 export function doKeydown(event) {
     let key = event.which;
     let i, nr;
-    //console.log(key);
 
-    if (key == 13) {
+    if (key == 13) {    Nur bei Nummer!
         doFetch();
         return;
     }
@@ -107,29 +106,41 @@ export function doKeydown(event) {
         default: keyOld = 0; return;
     }
 
+    console.log("key: " + key + "   keyOld: " + keyOld);
+
     if (key == 77 && keyOld == keyCtrl) {
         doDatasetRemember();
+        keyOld = 0;
         return;
     }
 
     if (key == 76 && keyOld == keyCtrl) {
         doDatasetDelete();
+        keyOld = 0;
         return;
     }
 
     if (key == 83 && keyOld == keyCtrl) {
         doDatasetSave();
+        keyOld = 0;
         return;
     }
 
     if (key == 78 && keyOld == keyCtrl) {
         $(".dsNumber").val("00.000");
         doNew();
+        keyOld = 0;
         return;
     }
 
+    nr = String($(".dsNumber").val()).replace(".", "");
+
+    if (nr == 0) {
+        console.log(nr);
+        nr = getNextDatasetNumber(0);
+    }
+
     if (key == 37 && keyOld == keyCtrl) {
-        nr = String($(".dsNumber").val()).replace(".", "");
         let l = globalDatasetNumbers.contentValue.length;
         for (i = 0; i < l; i++) {
             //console.log("l: " + l + "   i: " + i + "   nr: " + globalDatasetNumbers.contentValue[i]["dataset_number"]);
@@ -152,7 +163,6 @@ export function doKeydown(event) {
     }
     else {
         if (key == 39 && keyOld == keyCtrl) {
-            nr = String($(".dsNumber").val()).replace(".", "");
             let l = globalDatasetNumbers.contentValue.length;
             for (i = 0; i < l; i++) {
                 if (globalDatasetNumbers.contentValue[i]["dataset_number"] == nr) {
@@ -169,6 +179,20 @@ export function doKeydown(event) {
                 }
             }
             //console.log("Control-right");
+        }
+    }
+}
+
+
+export function getNextDatasetNumber(nr) {
+    let i;
+    for (i = nr; i < globalDatasetNumbers.contentValue.length; i++) {
+        let ds = globalDatasetNumbers.contentValue[i]["dataset_number"];
+        console.log(ds);
+        if (ds != null) {
+            $(".dsNumber").val(prepareNumber(ds));
+            doFetch();
+            return ds;
         }
     }
 }
@@ -210,7 +234,7 @@ export function doFetch() {
     requestComment(nr);
     showDataInForm();
     setDatasetUnchanged();
-    localStorage.setItem("lastDatasetNumber", nr);
+    localStorage.setItem("lastDatasetNumberUsed", nr);
     $(".statusText3").html(localStorage.getItem("enterData"));
     $(".doButtonDatasetSave").addClass('disabled');
 }
@@ -279,10 +303,16 @@ export function doDatasetSave() {
         return;
 
     let nr = String($(".dsNumber").val()).replace(".", "");
+
+    if (nr == 0) {
+        setStatusWarning(3, "Bitte gültige Nummer eingeben");
+        return;
+    }
+
     nr = parseInt(nr);
 
     if (isNaN(nr)) {
-        setStatusWarning(3, "Bitte Datensatznummer eingeben");
+        setStatusWarning(3, "Bitte Nummer der Zeitschrift eingeben");
         $(".doButtonDatasetSave").trigger("blur");
         return;
     }
@@ -313,12 +343,13 @@ export function doDatasetDelete() {
 
     let nr = String($(".dsNumber").val()).replace(".", "");
     nr = parseInt(nr);
+    let pnr = prepareNumber(nr);
 
     if (checkForDataset(nr) != 1) {
-        setStatusWarning(3, "Zeitschrift " + prepareNumber(nr) + " nicht vorhanden");
+        setStatusWarning(3, "Zeitschrift " + pnr + " nicht vorhanden");
     }
     else {
-        $(".modal-body-delete").text("Das Löschen von Zeitschrift " + prepareNumber(nr) + " bitte bestätigen.");
+        $(".modal-body-delete").text("Das Löschen von Zeitschrift " + pnr + " bitte bestätigen.");
         $(".buttonOpenConfirmDeleteModal").click();
         localStorage.setItem("confirmDeleteCancel", 0);
         localStorage.setItem("confirmDelete", 0);
@@ -338,7 +369,7 @@ export function deleteDataset() {
     }, 1000);
     clearInput();
     setToNew();
-    setStatusInformation(3, "Zeitschrift " + nr + " gelöscht");
+    setStatusInformation(3, "Zeitschrift " + prepareNumber(nr) + " gelöscht");
     setStatus2("");
     requestAllDatasetNumbers();
     $(".doButtonDatasetSave").addClass('disabled');
