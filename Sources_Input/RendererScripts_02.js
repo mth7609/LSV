@@ -40,8 +40,8 @@ export function hideTabContent(nr) {
 
 
 export function newTab(nr, link, name) {
-    $(".nav").append('<button class="nav-link navtabCSS navtab-' + nr + '" data-bs-toggle="tab" data-bs-target="#cnt-' + nr + '" type="button" role="tab" aria-controls="nav-profile" aria-selected="false">' + name + '</button>');
-    $(".tab-content").append('<div class="tab-pane tab-' + nr + '" id="cnt-' + nr + '" role="tabpanel" aria-labelledby="nav-home-tab">' + name + '</div >');
+    $(".nav").append('<button class="nav-link navtabCSS navtab-' + nr + '" data-bs-toggle="tab" data-bs-target="#cnt-' + nr + '" type="button" role="tab">' + name + '</button>');
+    $(".tab-content").append('<div class="tab-pane tab-' + nr + '" id="cnt-' + nr + '" role="tabpanel"' + name + '</div >');
     $(".tab-content").after('<script>$(".tab-' + nr + '").load("' + link + '")</script>');
 
     setTabActive(0);
@@ -90,7 +90,7 @@ export function doKeydown(event) {
     let key = event.which;
     let i, nr;
 
-    if (key == 13) {    Nur bei Nummer!
+    if (key == 13 && $(".dsNumber").is(":focus")) {
         doFetch();
         return;
     }
@@ -103,10 +103,17 @@ export function doKeydown(event) {
         case 76: break;
         case 83: break;
         case 78: break;
+        case 65: break;
         default: keyOld = 0; return;
     }
 
-    console.log("key: " + key + "   keyOld: " + keyOld);
+    //console.log("key: " + key + "   keyOld: " + keyOld);
+
+    if (key == 65 && keyOld == keyCtrl) {
+        doFetch();
+        keyOld = 0;
+        return;
+    }
 
     if (key == 77 && keyOld == keyCtrl) {
         doDatasetRemember();
