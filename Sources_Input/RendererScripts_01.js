@@ -70,7 +70,6 @@ $(".freeLabel").on('focus', setDatasetChanged);
 $(".comment").on('focus', setDatasetChanged);
 
 $("body").on('keydown', doKeydown);
-
 $("title").text(localStorage.getItem("title"));
 
 // buttons for model dialogs

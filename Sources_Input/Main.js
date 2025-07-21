@@ -9,6 +9,7 @@ const EventEmitter = require('events')
 const electron = require('electron');
 const fs = require('fs');
 const ipp = require("ipp");
+const crypto = require('crypto')
 var Printer = require('ipp-printer')
 var PDFDocument = require('pdfkit');
 
@@ -43,17 +44,19 @@ const createMainWindow = () => {
 
 
   ipcMain.on('closeMessageWindowCMD', (event) => {
-    //console.log(username + "    " + credential);
     quitAPP();
   })
 
 
-  ipcMain.on('loginCMD', (event, username, credential) => {
-    //console.log(username + "    " + credential);
-    if (credential == "ok")
-      loadingEvents.emit('finishedLogin');
-    else
+  ipcMain.on('loginCMD', (event, user, pwd, pwdSHA) => {
+    console.log(user + "    " + pwd + "    " + pwdSHA);
+
+    if (pwd === "nok")
       quitAPP();
+
+    let hash = crypto.createHash('sha256').update(pwd).digest('hex');
+
+    console.log(hash);
   })
 
 
@@ -101,25 +104,17 @@ const createMainWindow = () => {
 
   //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++  // Add splash file and load index.html
 
-
-  /*  winMain.loadFile('./index.html');                       // +++++++++++++++ Without login
-    winMain.center();
-    setTimeout(() => {
-      winMain.show();
-    }, 1000);
-  */
-
   splashWindow = new BrowserWindow({                   // +++++++++++++++ Uncomment when login or not
-    width: 500,
-    height: 450,
-    frame: false,
+    width: 1600,
+    height: 950,
     show: false,
-    alwaysOnTop: true,
-    webPreferences: {
-      preload: path.join(__dirname, 'preload.js'),
-      nodeIntegration: true,
-      contextIsolation: true,
-    }
+    "webPreferences": {
+      "web-security": false,
+      "nodeIntegration": true,
+      "webviewTag": true,
+      "contextIsolation": true,
+      preload: path.join(__dirname, 'preload.js')
+    },
   });
 
 
@@ -135,7 +130,6 @@ const createMainWindow = () => {
       contextIsolation: true,
     }
   });
-
 
   messageWindow.loadFile('./dbMessageWindow.html').then(() => {
     messageWindow.center();
@@ -173,8 +167,6 @@ const createMainWindow = () => {
   })
 
   splashWindow.isEnabled
-
-
 }
 
 //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ End createMainWindow(), start
