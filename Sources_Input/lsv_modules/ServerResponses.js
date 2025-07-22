@@ -293,6 +293,20 @@ function responseComment() {
   });
 }
 
+function responseSHA() {
+  serverFunctions.appx.get('/requestSHA', (req, res) => {
+    const user = req.query.user;
+    console.log("user: " + user);
+    con.query("SELECT * FROM sha2 where userName='" + user + "'", (err, result, fields) => {
+      if (err) {
+        throw err;
+      }
+      res.send(result);
+    });
+  });
+}
+
+
 responseDBStatus();
 responseStates();
 responseTopicHeadlines();
@@ -308,5 +322,6 @@ responseDataset();
 responseCheckDatasetNumber();
 responseComment();
 responseAllDatasetNumbers();
+responseSHA();
 
 module.exports = { databaseServerClose, responseAllDatasetNumbers, responseCheckDatasetNumber, responseAllDatasetNumbers, responseComment, executeSimpleSQL, responseDataset, responseInitValues, responseDBStatus, responseDBRunning, responseStates, databaseServerConnect, responseTopicHeadlines, responseTopHeadlines, responseOutputText, responseImages, responseConstValues, responseInfoLabels };

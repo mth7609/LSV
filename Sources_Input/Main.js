@@ -15,8 +15,9 @@ var PDFDocument = require('pdfkit');
 
 const loadingEvents = new EventEmitter();
 let winMain = null;
-let splashWindow = null;
-let messageWindow = null;
+let loginWindow = null;
+let loginErrorWindow = null;
+let dbMessageWindow = null;
 let databaseCheckWorker = null;
 let frontPagesWorker = null;
 
@@ -30,38 +31,47 @@ const createMainWindow = () => {
     width: 1600,
     height: 950,
     show: false,
-    "webPreferences": {
+    webPreferences: {
       "web-security": false,
       "nodeIntegration": true,
       "webviewTag": true,
       "contextIsolation": true,
-      preload: path.join(__dirname, 'preload.js')
+      "preload": path.join(__dirname, 'preload.js')
     },
   })
 
   winMain.webContents.session.setSpellCheckerEnabled(false);
   serverFunctions.createDatasetFiles();
 
-
-  ipcMain.on('closeMessageWindowCMD', (event) => {
-    quitAPP();
-  })
-
-
   ipcMain.on('loginCMD', (event, user, pwd, pwdSHA) => {
-    console.log(user + "    " + pwd + "    " + pwdSHA);
-
-    if (pwd === "nok")
+    if (pwd === "nok") {
+      loginErrorWindow.close();
+      loginWindow.close();
       quitAPP();
+    }
 
-    let hash = crypto.createHash('sha256').update(pwd).digest('hex');
+    if (user == "loginErrorClose") {
+      loginWindow.show();
+      loginErrorWindow.hide();
+      return;
+    }
 
-    console.log(hash);
+    //console.log(user + "    " + pwd + "    " + pwdSHA);
+    let inputSHA = crypto.createHash('sha256').update(pwd).digest('hex');
+    pwd = "";
+    //console.log("InputSHA: " + inputSHA);
+    if (inputSHA === pwdSHA)
+      loadingEvents.emit('finishedLogin');
+    else {
+      loginWindow.hide();
+      loginErrorWindow.show();
+    }
   })
 
 
   winMain.once('ready-to-show', () => {
     winMain.webContents.send('httpPort', initData["httpPort"]);
+    winMain.webContents.send('initDate', initData["initDate"]);
     //console.log("ready");
     winMain.show();
   })
@@ -101,24 +111,35 @@ const createMainWindow = () => {
 
   winMain.removeMenu();
 
-
   //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++  // Add splash file and load index.html
 
-  splashWindow = new BrowserWindow({                   // +++++++++++++++ Uncomment when login or not
-    width: 1600,
-    height: 950,
-    show: false,
-    "webPreferences": {
-      "web-security": false,
-      "nodeIntegration": true,
-      "webviewTag": true,
-      "contextIsolation": true,
-      preload: path.join(__dirname, 'preload.js')
-    },
+  loginWindow = new BrowserWindow({
+    width: 500,
+    height: 450,
+    frame: false,
+    show: true,
+    alwaysOnTop: false,
+    webPreferences: {
+      preload: path.join(__dirname, 'preload.js'),
+      nodeIntegration: true,
+      contextIsolation: true,
+    }
   });
 
+  loginWindow.loadFile('./login.html').then(() => {
+    loginWindow.center();
+  }).catch(error => {
+    console.error('Error loading splash window:', error);
+  });
 
-  messageWindow = new BrowserWindow({                   // +++++++++++++++ Uncomment when login or not
+  loginWindow.on('closed', () => {
+    loginWindow.removeAllListeners()
+    loginWindow = null;
+  })
+
+  //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+  dbMessageWindow = new BrowserWindow({
     width: 500,
     height: 250,
     frame: false,
@@ -131,23 +152,50 @@ const createMainWindow = () => {
     }
   });
 
-  messageWindow.loadFile('./dbMessageWindow.html').then(() => {
-    messageWindow.center();
+  dbMessageWindow.loadFile('./DbMessageWindow.html').then(() => {
+    dbMessageWindow.center();
   }).catch(error => {
     console.error('Error loading message window:', error);
   });
 
 
-  messageWindow.on('closed', () => {
-    messageWindow.removeAllListeners()
-    messageWindow = null;
+  dbMessageWindow.on('closed', () => {
+    dbMessageWindow.removeAllListeners()
+    dbMessageWindow = null;
   })
 
-  messageWindow.isEnabled
+  //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-  loadingEvents.on('finishedLogin', async () => {         // +++++++++++++++ Uncomment when login
+  loginErrorWindow = new BrowserWindow({
+    width: 500,
+    height: 230,
+    frame: false,
+    show: false,
+    alwaysOnTop: true,
+    webPreferences: {
+      preload: path.join(__dirname, 'preload.js'),
+      nodeIntegration: true,
+      contextIsolation: true,
+    }
+  });
+
+  loginErrorWindow.loadFile('./loginErrorWindow.html').then(() => {
+    loginErrorWindow.center();
+  }).catch(error => {
+    console.error('Error loading message window:', error);
+  });
+
+  loginErrorWindow.on('loginErrorCancel', () => {
+    console.log("cancel");
+    loginWindow.show();
+    loginErrorWindow.hide();
+  })
+
+  //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+  loadingEvents.on('finishedLogin', async () => {
     try {
-      splashWindow.close();
+      loginWindow.close();
       winMain.loadFile('./index.html');
       winMain.center();
     } catch (error) {
@@ -155,21 +203,11 @@ const createMainWindow = () => {
     }
   })
 
-  splashWindow.loadFile('./login.html').then(() => {
-    splashWindow.center();
-  }).catch(error => {
-    console.error('Error loading splash window:', error);
-  });
+  //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-  splashWindow.on('closed', () => {
-    splashWindow.removeAllListeners()
-    splashWindow = null;
-  })
+} // winMain
 
-  splashWindow.isEnabled
-}
-
-//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ End createMainWindow(), start
+//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ End createMainWindow()
 
 
 if (isMainThread) {
@@ -179,15 +217,14 @@ if (isMainThread) {
     if (winMain)
       winMain.webContents.send('status1', message);
     if (message == "NOK") {
-      if (messageWindow) {
-        if (splashWindow) splashWindow.hide();
-        messageWindow.webContents.send('message', "Test...");
-        messageWindow.show();
+      if (dbMessageWindow) {
+        if (loginWindow) loginWindow.hide();
+        if (loginErrorWindow) loginErrorWindow.hide();
+        dbMessageWindow.show();
       }
     }
     else {
-      if (messageWindow) messageWindow.hide();
-      if (splashWindow) splashWindow.show();
+      if (dbMessageWindow) dbMessageWindow.hide();
     }
   });
   databaseCheckWorker.postMessage("Start");

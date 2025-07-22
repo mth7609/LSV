@@ -9,35 +9,26 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.3/css/bootstrap.min.css">
     <link rel="stylesheet" href="lsv.css">
+    <script type="module" src="./RendererScripts_01.js"></script>
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script type="module" src="./login.js"></script>
 </head>
 
-<body class="loginBody">
+<body class="loginErrorBody">
     <div class="pt-4 ps-5 position-absolute logoImage"></div>
     <br><br><br><br>
     <div class="container px-5">
         <div class="row justify-content-center">
-            <div class="col-md-4 pt-4">
-                <h2 class="text-center databaseLogin"></h2><br>
-                <form class="loginForm" id="loginForm">
+            <div class="col-md-4 pt-3">
+                <form class="Form" id="Form">
                     <div class="form-group">
-                        <label for="username" class="userName"></label>
-                        <input type="text" class="form-control username us" value="admin1" placeholder="" required>
+                        <label class="message">Benutzername oder Passwort falsch!</label>
                     </div>
-                    <div class="form-group">
-                        <label for="password" class="passwordLabel"></label>
-                        <input type="password" class="form-control password pw" value="mzkti29b#" placeholder="" required> <!-- remove value -->
-                    </div>
-                    <button type="button" class="btn btn-primary cancel nowrap dialogButton"></button>
-                    <button type="submit" class="btn btn-primary login dialogButton"></button>
+                    <button type="button" class="btn selectButton btn-primary loginErrorCancel nowrap">&nbsp;&nbsp; Schließen &nbsp;&nbsp;</button>
                 </form>
             </div>
         </div>
     </div>
-
-
-
 </body>
 
 </html>

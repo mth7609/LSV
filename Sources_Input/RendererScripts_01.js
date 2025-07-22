@@ -122,6 +122,11 @@ export function setDatasetUnchanged() {
 }
 
 
+window.electronAPI.getInitDate((value) => {
+    localStorage.setItem("initDate", value);
+})
+
+
 window.electronAPI.getStatus1((value) => {
     showDBStatus(value);
 })

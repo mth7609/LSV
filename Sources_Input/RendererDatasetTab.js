@@ -1,4 +1,3 @@
-
 function updateDatasetTab(tab) {
     let i;
     let n;
@@ -38,7 +37,7 @@ function updateDatasetTab(tab) {
             }
         }
 
-        $(".topicsHeader").text("Schlagwörter");
+        $(".topicsHeader").text(localStorage.getItem("topics"));
         $('.topicDatasetItems_' + tab).html(el);
     }
 }
@@ -63,8 +62,8 @@ function changeHomeContent(tab) {
     $(".navtab-0").click();
     $(".dsNumber").val($('.datasetWindowSubheadline_' + tab).text());
     $(".doButtonFetch").click();
-    setStatusTodo("Daten können jetzt geändert werden");
-    console.log($('.datasetWindowSubheadline_' + tab).text());
+    setStatusTodo(localStorage.getItem("dataCouldBeChanged"));
+    console.log("1: " + $('.datasetWindowSubheadline_' + tab).text());
 }
 
 

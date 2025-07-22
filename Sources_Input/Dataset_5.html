@@ -7,6 +7,10 @@
 </head>
 
 <script>
+    $(".print_5").val(localStorage.getItem("print"));
+    $(".change_5").val(localStorage.getItem("change"));
+    $(".remove_5").val(localStorage.getItem("remove"));
+    $(".editField_5").text(localStorage.getItem("editField"));
     updateDatasetTab(5);
 </script>
 
@@ -17,7 +21,7 @@
     </div>
     <br><br>
 
-    <div class="window">
+    <div class="window_5">
         <div class="container">
             <div class="row">
                 <div class="col-4">
@@ -36,7 +40,7 @@
         </div>
     </div>
 
-    <div class="printer">
+    <div class="printer_5">
         <div class="container">
             <div class="row">
                 <div class="col-12">
@@ -62,29 +66,21 @@
     <br>
     <br>
 
-
-
     <div class="container ml-6">
         <br>
         <div class="row">
             <div class="col-4">
                 <form>
                     <nobr>
-                        <input type="button"
-                            class="selectButtonDataset selectButton m-3 pri_5 btn btn-outline-secondary ps-2 pe-2 pt-0"
-                            value="Drucken">
-                        <input type="button"
-                            class="selectButtonDataset selectButton m-3 change_5 btn btn-outline-secondary ps-2 pe-2 pt-0"
-                            value="Ändern">
-                        <input type="button"
-                            class="selectButtonDataset selectButton m-3 remove_5 btn btn-outline-secondary ps-2 pe-2 pt-0"
-                            value="Entfernen">
+                        <input type="button" class="selectButtonDataset selectButton m-3 print_5 btn btn-outline-secondary ps-2 pe-2 pt-0">
+                        <input type="button" class="selectButtonDataset selectButton m-3 change_5 btn btn-outline-secondary ps-2 pe-2 pt-0">
+                        <input type="button" class="selectButtonDataset selectButton m-3 remove_5 btn btn-outline-secondary ps-2 pe-2 pt-0">
                     </nobr>
                 </form>
             </div>
             <div class="col-8">
                 <form method="POST" class="form-horizontal formEditing mx-3 ps-4 pe-3 pt-2 rounded-4 nobr">
-                    <label for="text" class="col-form-label editField_5 fw-bold">Bearbeitung</label>
+                    <label for="text" class="col-form-label editField_5 fw-bold"></label>
                 </form>
             </div>
         </div>
@@ -92,23 +88,22 @@
 
 
     <script>
-        $(".printer").hide();
+        $(".printer_5").hide();
 
-        $(".pri_5").on('click', function (event) {
-            $(".pri_5").hide();
+        $(".print_5").on('click', function (event) {
+            $(".print_5").hide();
             $(".remove_5").hide();
             $(".change_5").hide();
             $(".nav-tabs").hide();
             $(".printer").show();
-            $(".window").hide();
+            $(".window_5").hide();
             window.print();
-            $(".printer").hide();
-            $(".window").show();
-            $(".pri_5").show();
+            $(".printer_5").hide();
+            $(".window_5").show();
+            $(".print_5").show();
             $(".remove_5").show();
             $(".change_5").show();
             $(".nav-tabs").show();
-
         });
         $(".remove_5").on('click', function (event) {
             removeTab(5);

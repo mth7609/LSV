@@ -221,3 +221,15 @@ export function requestAllDatasetNumbers() {
         }
     });
 }
+
+export function requestSHA(user) {
+    $.ajax({
+        type: 'GET',
+        url: 'http://localhost:' + localStorage.getItem("httpPort") + '/requestSHA?user=' + user,
+        async: false,
+        success: function (data) {
+            console.log("data: " + data[0]["sha2val"]);
+            localStorage.setItem(user, data[0]["sha2val"]);
+        }
+    });
+}
