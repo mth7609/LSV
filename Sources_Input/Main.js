@@ -116,7 +116,7 @@ const createMainWindow = () => {
   loginWindow = new BrowserWindow({
     width: 500,
     height: 450,
-    frame: false,
+    frame: true,
     show: true,
     alwaysOnTop: false,
     webPreferences: {
@@ -142,7 +142,7 @@ const createMainWindow = () => {
   dbMessageWindow = new BrowserWindow({
     width: 500,
     height: 250,
-    frame: false,
+    frame: true,
     show: false,
     alwaysOnTop: true,
     webPreferences: {
