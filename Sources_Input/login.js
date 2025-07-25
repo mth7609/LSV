@@ -1,7 +1,7 @@
 
 import { requestSHA } from "./ServerRequests.js";
 
-$('.logoImage').html("<img src='./images/LOGO1_blau_250.gif'></img>");
+$('.logoImage').html("<img src='" + localStorage.getItem("image_1") + "'></img>");
 $(".us").on('keydown', checkUserKeydown);
 $(".pw").on('keydown', checkUserKeydown);
 $(".loginBody").on('keydown', checkUserKeydown);

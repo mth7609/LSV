@@ -116,7 +116,7 @@ const createMainWindow = () => {
   loginWindow = new BrowserWindow({
     width: 500,
     height: 450,
-    frame: true,
+    frame: false,
     show: true,
     alwaysOnTop: false,
     webPreferences: {
@@ -142,7 +142,7 @@ const createMainWindow = () => {
   dbMessageWindow = new BrowserWindow({
     width: 500,
     height: 250,
-    frame: true,
+    frame: false,
     show: false,
     alwaysOnTop: true,
     webPreferences: {
@@ -186,7 +186,7 @@ const createMainWindow = () => {
   });
 
   loginErrorWindow.on('loginErrorCancel', () => {
-    console.log("cancel");
+    //console.log("cancel");
     loginWindow.show();
     loginErrorWindow.hide();
   })

@@ -8,5 +8,7 @@
     "editor.mouseWheelZoom": true,
     "editor.wordWrapColumn": 500,
     "editor.wrappingIndent": "indent",
-    "editor.codeActionsOnSave": {}
+    "editor.codeActionsOnSave": {},
+    "diffEditor.wordWrap": "off",
+    "editor.formatOnSaveMode": "file"
 }
