@@ -292,7 +292,7 @@ function backup() {
     return;
   const srcDir = initData["dbSourceDir"];
   const backupDate = new Date();
-  const destDir = initData["backupDir"] + "_" + backupDate.getFullYear() + "-" + (backupDate.getMonth() + 1) + "-" + backupDate.getDate();
+  const destDir = initData["backupDir"] + backupDate.getFullYear() + "-" + (backupDate.getMonth() + 1) + "-" + backupDate.getDate();
   console.log("Last backup on: " + serverFunctions.store.get("lastBackup"))
   if (destDir != serverFunctions.store.get("lastBackup")) {
     fs.cp(srcDir, destDir, { recursive: true }, (err) => {

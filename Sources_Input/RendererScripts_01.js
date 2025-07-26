@@ -442,7 +442,7 @@ export function doDatasetRemember() {
 
     $(".doButtonDatasetRemember").trigger("blur");
     let selectCnt = localStorage.getItem("selectCnt");
-    //console.log(selectCnt);
+    // console.log("1 cnt: " + selectCnt);
 
     if (selectCnt > maxDatasetTabs) {
         setStatusWarning(3, "Merkliste voll");
@@ -494,16 +494,14 @@ export function doDatasetRemember() {
     }
 
     localStorage.setItem("datasetItem_7", datasetTopItems[selectCnt][7]); // Special handling for comment
-
     let datasetFileName = "./Dataset_" + selectCnt + ".html";
 
-    //console.log("cnt: " + selectCnt + ",  maxDatasetTabs: " + maxDatasetTabs + "  datasetFile: " + datasetFileName);
+    //console.log("2 cnt: " + selectCnt + ",  maxDatasetTabs: " + maxDatasetTabs + "  datasetFile: " + datasetFileName);
 
     localStorage.setItem("datasetWindowSubheadline", pnr.toString());
-    $(".navtab-" + selectCnt).text(pnr);
-
     newTab(selectCnt, datasetFileName, pnr);
     selectCnt++;
+    console.log("3 cnt: " + selectCnt);
     localStorage.setItem("selectCnt", selectCnt);
     setStatusInformation(3, localStorage.getItem("dataset") + " " + prepareNumber(datasetNumber) + " " + localStorage.getItem("remembered"));
 }
