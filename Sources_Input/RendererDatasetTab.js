@@ -1,4 +1,4 @@
-function updateDatasetTab(tab) {
+function updateDatasetTabContent(tab) {
     let i;
     let n;
     let el = "";
@@ -51,11 +51,11 @@ function removeTab(tab) {
     $(".navtab-" + tab).remove();
     $(".tab-" + tab).remove();
     $(".navtab-0").click();
-    $(".tab-content").before('<script>$(".tab-' + tab + '").load("empty.hml")</script>');
+    //$(".tab-content").before('<script>$(".tab-' + tab + '").load("empty.hml")</script>');
 
     let selectCnt = localStorage.getItem("selectCnt");
     selectCnt--;
-    //    console.log("4 cnt:" + selectCnt);
+    console.log("Remove Tab cnt:" + selectCnt);
     localStorage.setItem("selectCnt", selectCnt);
     $(".doButtonDatasetRemember").removeClass('disabled');
 }

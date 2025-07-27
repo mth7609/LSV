@@ -45,10 +45,12 @@ export function newTab(nr, link, name) {
     $(".tab-content").after('<script>$(".tab-' + nr + '").load("' + link + '")</script>');
 
     setTabActive(0);
+    console.log("Append new tab nr: " + nr);
 
     $(".navtab-" + nr).on('click', function (event) {
         setTabActive(nr);
         $(".tab-" + nr).show();
+        console.log("Tab nr: " + nr);
     });
 }
 
@@ -69,7 +71,7 @@ export function setTabActive(nr) {
 export function checkTab(pnr) {
     let i;
     for (i = 0; i <= localStorage.getItem("maxDatasetTabs"); i++) {
-        if ($(".navtab-" + i).text() === pnr) {
+        if ($(".navtab-" + i).text() == pnr) {
             return true;
         }
     }

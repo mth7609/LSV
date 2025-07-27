@@ -499,11 +499,24 @@ export function doDatasetRemember() {
     //console.log("2 cnt: " + selectCnt + ",  maxDatasetTabs: " + maxDatasetTabs + "  datasetFile: " + datasetFileName);
 
     localStorage.setItem("datasetWindowSubheadline", pnr.toString());
+
+    let ii = getFreeTab();
+    console.log("Free Tab: " + ii);
+    selectCnt = ii;
+
     newTab(selectCnt, datasetFileName, pnr);
     selectCnt++;
     console.log("3 cnt: " + selectCnt);
     localStorage.setItem("selectCnt", selectCnt);
     setStatusInformation(3, localStorage.getItem("dataset") + " " + prepareNumber(datasetNumber) + " " + localStorage.getItem("remembered"));
+}
+
+function getFreeTab() {
+    let i;
+    for (i = 1; i <= localStorage.getItem("maxDatasetTabs"); i++) {
+        if (!$(".navtab-" + i).text())
+            return i;
+    }
 }
 
 
