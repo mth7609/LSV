@@ -108,16 +108,17 @@ const createMainWindow = () => {
   electronLocalshortcut.register('CommandOrControl+R', () => {
     winMain.reload();
   })
-
   winMain.removeMenu();
+}
 
-  //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++  // Add splash file and load index.html
+//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++  // Add splash file and load index.html
 
+const createLoginWindow = () => {
   loginWindow = new BrowserWindow({
     width: 500,
     height: 450,
     frame: false,
-    show: true,
+    show: false,
     alwaysOnTop: false,
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
@@ -136,9 +137,11 @@ const createMainWindow = () => {
     loginWindow.removeAllListeners()
     loginWindow = null;
   })
+}
 
-  //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
+const createDbMessageWindow = () => {
   dbMessageWindow = new BrowserWindow({
     width: 500,
     height: 250,
@@ -163,9 +166,11 @@ const createMainWindow = () => {
     dbMessageWindow.removeAllListeners()
     dbMessageWindow = null;
   })
+}
 
-  //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
+const createLoginErrorWindow = () => {
   loginErrorWindow = new BrowserWindow({
     width: 500,
     height: 230,
@@ -190,59 +195,62 @@ const createMainWindow = () => {
     loginWindow.show();
     loginErrorWindow.hide();
   })
+}
 
-  //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-  loadingEvents.on('finishedLogin', async () => {
-    try {
-      loginWindow.close();
-      winMain.loadFile('./index.html');
-      winMain.center();
-    } catch (error) {
-      console.error('Error loading index.html: ', error);
-    }
-  })
+loadingEvents.on('finishedLogin', async () => {
+  try {
+    loginWindow.close();
+    winMain.loadFile('./index.html');
+    winMain.center();
+  } catch (error) {
+    console.error('Error loading index.html: ', error);
+  }
+})
 
-  //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-} // winMain
+
 
 //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ End createMainWindow()
 
-
-if (isMainThread) {
-  databaseCheckWorker = new Worker("./lsv_modules/DatabaseThread.js");
-  databaseCheckWorker.on('message', (message) => {                   // receive from worker, send to renderer
-    console.log(message);
-    if (winMain)
-      winMain.webContents.send('status1', message);
-    if (message == "NOK") {
-      if (dbMessageWindow) {
-        if (loginWindow) loginWindow.hide();
-        if (loginErrorWindow) loginErrorWindow.hide();
-        dbMessageWindow.show();
+const createWorkerThread = () => {
+  if (isMainThread) {
+    databaseCheckWorker = new Worker("./lsv_modules/DatabaseThread.js");
+    databaseCheckWorker.on('message', (message) => {
+      //console.log(message);
+      if (winMain)
+        winMain.webContents.send('dbStatus', message);
+      if (message == "NOK") {
+        if (dbMessageWindow) {
+          if (loginWindow) loginWindow.hide();
+          if (loginErrorWindow) loginErrorWindow.hide();
+          dbMessageWindow.show();
+        }
       }
-    }
-    else {
-      if (dbMessageWindow) dbMessageWindow.hide();
-    }
-  });
-  databaseCheckWorker.postMessage("Start");
-}
+      else {
+        if (dbMessageWindow) dbMessageWindow.hide();
+        console.log("Database is running");
+      }
+    });
+    databaseCheckWorker.postMessage("Start");
 
-
-if (isMainThread) {
-  frontPagesWorker = new Worker("./lsv_modules/FrontPagesThread.js");
-  frontPagesWorker.on('message', (message) => {
-    console.log(message);
-    if (winMain)
-      winMain.webContents.send('frontPage', message);
-  });
-  frontPagesWorker.postMessage("Start");
+    frontPagesWorker = new Worker("./lsv_modules/FrontPagesThread.js");
+    frontPagesWorker.on('message', (message) => {
+      console.log(message);
+      if (winMain)
+        winMain.webContents.send('frontPage', message);
+    });
+    frontPagesWorker.postMessage("Start");
+  }
 }
 
 
 app.whenReady().then(() => {
+
+  console.log("Starting application");
+
   serverFunctions.serverOpen();
   console.log("Local HTTP server started");
   app.commandLine.appendSwitch('high-dpi-support', 1)
@@ -254,9 +262,35 @@ app.whenReady().then(() => {
   }, 500);
 
   setTimeout(() => {
-    console.log("Starting application");
-    createMainWindow();
+    createLoginWindow();
+    console.log("Login window created");
   }, 1500);
+
+  setTimeout(() => {
+    createDbMessageWindow();
+    console.log("DB message window created");
+  }, 2500);
+
+  setTimeout(() => {
+    createLoginErrorWindow();
+    console.log("Login error window created");
+  }, 3500);
+
+  setTimeout(() => {
+    createMainWindow();
+    console.log("Main window created");
+    winMain.webContents.send('dbStatus', "checking...");
+  }, 4500);
+
+  setTimeout(() => {
+    createWorkerThread();
+    console.log("Threads started");
+  }, 5500);
+
+  setTimeout(() => {
+    loginWindow.show();
+    console.log("Login window running");
+  }, 6500);
 
   app.on('activate', () => {
     if (BrowserWindow.getAllWindows().length === 0) {
@@ -283,7 +317,7 @@ function quitAPP() {
       app.quit();
       console.log("The End");
     }
-  }, 1500);
+  }, 500);
 }
 
 

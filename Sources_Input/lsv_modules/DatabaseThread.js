@@ -6,6 +6,8 @@ parentPort.on('message', (message) => {
     checkDBLoop();
 });
 
+parentPort.postMessage('OK');
+
 function checkDBLoop(i) {
 
     setTimeout(function () {
@@ -28,7 +30,7 @@ function checkDBLoop(i) {
         con.end();
         checkDBLoop();
 
-    }, 3000);
+    }, 10000);
 };
 
 

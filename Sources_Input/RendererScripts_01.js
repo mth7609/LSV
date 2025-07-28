@@ -127,7 +127,8 @@ window.electronAPI.getInitDate((value) => {
 })
 
 
-window.electronAPI.getStatus1((value) => {
+window.electronAPI.getDbStatus((value) => {
+    console.log("db: " + value);
     showDBStatus(value);
 })
 
@@ -439,8 +440,11 @@ export function clearInput() {
 
 
 export function doDatasetRemember() {
+    if ($(".doButtonDatasetRemember").hasClass('disabled'))
+        return;
 
     $(".doButtonDatasetRemember").trigger("blur");
+
     let selectCnt = localStorage.getItem("selectCnt");
     // console.log("1 cnt: " + selectCnt);
 
@@ -501,12 +505,11 @@ export function doDatasetRemember() {
     localStorage.setItem("datasetWindowSubheadline", pnr.toString());
 
     let ii = getFreeTab();
-    console.log("Free Tab: " + ii);
     selectCnt = ii;
 
     newTab(selectCnt, datasetFileName, pnr);
     selectCnt++;
-    console.log("3 cnt: " + selectCnt);
+    //console.log("3 cnt: " + selectCnt);
     localStorage.setItem("selectCnt", selectCnt);
     setStatusInformation(3, localStorage.getItem("dataset") + " " + prepareNumber(datasetNumber) + " " + localStorage.getItem("remembered"));
 }
