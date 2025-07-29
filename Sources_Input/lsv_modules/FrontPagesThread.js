@@ -2,7 +2,6 @@ const { Worker, parentPort, workerData } = require('node:worker_threads')
 
 
 parentPort.on('message', (message) => {
-    parentPort.postMessage('Hello from the front pages worker thread!');
     frontPagesLoop(0);
 });
 

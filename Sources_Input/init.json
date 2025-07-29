@@ -12,8 +12,7 @@
     "mysqlPassword": "mzkti29b#",
     "mysqlDatabase": "prolabor",
     "maxSearchSets": "10",
-    "initDate": "28.07.2025",
+    "initDate": "29.07.2025",
     "backupDir": "c:/Projects/LSV/backup/MySQL/",
-    "backupAllow": "yes",
-    "dbSourceDir": "c:/ProgramData/MySQL/MySQL Server 8.0/Data/"
+    "backupAllow": "yes"
   }

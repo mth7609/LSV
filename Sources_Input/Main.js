@@ -1,7 +1,8 @@
-const { Worker, isMainThread, parentPort, workerData } = require('node:worker_threads')
-const { app, BrowserWindow, Menu, ipcMain, MessageChannelMain } = require('electron')
+const mysqldump = require('mysqldump');
+const { Worker, isMainThread, parentPort, workerData } = require('node:worker_threads');
+const { app, BrowserWindow, Menu, ipcMain, MessageChannelMain } = require('electron');
 const electronLocalshortcut = require('electron-localshortcut');
-const path = require('node:path')
+const path = require('node:path');
 const serverResponses = require('./lsv_modules/ServerResponses');
 const serverFunctions = require('./lsv_modules/ServerFunctions');
 const initData = require('./init.json');
@@ -204,6 +205,7 @@ loadingEvents.on('finishedLogin', async () => {
     loginWindow.close();
     winMain.loadFile('./index.html');
     winMain.center();
+    winMain.reload();
   } catch (error) {
     console.error('Error loading index.html: ', error);
   }
@@ -218,11 +220,12 @@ loadingEvents.on('finishedLogin', async () => {
 const createWorkerThread = () => {
   if (isMainThread) {
     databaseCheckWorker = new Worker("./lsv_modules/DatabaseThread.js");
+    databaseCheckWorker.postMessage("Start");
+
     databaseCheckWorker.on('message', (message) => {
-      //console.log(message);
       if (winMain)
         winMain.webContents.send('dbStatus', message);
-      if (message == "NOK") {
+      if (message === "NOK") {
         if (dbMessageWindow) {
           if (loginWindow) loginWindow.hide();
           if (loginErrorWindow) loginErrorWindow.hide();
@@ -231,10 +234,9 @@ const createWorkerThread = () => {
       }
       else {
         if (dbMessageWindow) dbMessageWindow.hide();
-        console.log("Database is running");
+        console.log("Database running");
       }
     });
-    databaseCheckWorker.postMessage("Start");
 
     frontPagesWorker = new Worker("./lsv_modules/FrontPagesThread.js");
     frontPagesWorker.on('message', (message) => {
@@ -322,20 +324,26 @@ function quitAPP() {
 
 
 function backup() {
-  if (initData["backupAllow"] == "no")
+  if (initData["backupAllow"] === "no")
     return;
-  const srcDir = initData["dbSourceDir"];
+
+  console.log("Last backup on: " + serverFunctions.store.get("lastBackup"));
   const backupDate = new Date();
-  const destDir = initData["backupDir"] + backupDate.getFullYear() + "-" + (backupDate.getMonth() + 1) + "-" + backupDate.getDate();
-  console.log("Last backup on: " + serverFunctions.store.get("lastBackup"))
-  if (destDir != serverFunctions.store.get("lastBackup")) {
-    fs.cp(srcDir, destDir, { recursive: true }, (err) => {
-      if (err) throw err;
-    });
-    console.log("New backup to: " + destDir + ",  from source: " + srcDir);
-  }
+  let destDir = initData["backupDir"];
+
+  mysqldump({
+    connection: {
+      host: 'localhost',
+      user: 'prolabor',
+      password: 'mzkti29b#',
+      database: 'prolabor',
+    },
+    dumpToFile: destDir + backupDate.getFullYear() + "-" + (backupDate.getMonth() + 1) + "-" + backupDate.getDate() + '_dump.sql'
+  });
+
   serverFunctions.store.put("lastBackup", destDir);
 }
+
 
 //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 // electron-packager . Archiv --overwrite --platform=win32 --arch=ia32 --prune=true --out=release-builds --version-string.CompanyName=CE --version-string.FileDescription=CE --version-string.ProductName="ArchivDerJugendzeitschriften"

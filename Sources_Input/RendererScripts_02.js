@@ -18,7 +18,7 @@ export function rgb2hex(rgb) {
 
 
 export function showDBStatus(st) {
-    if (st == "OK") {
+    if (st === "OK") {
         setStatus1(localStorage.getItem("dbConnected") + ". " + localStorage.getItem("versionOfProgram") + " " + localStorage.getItem("initDate"));
         $(".statusbar1").css("background-color", "#c2e2ec");
         $(".statusbar1").css("color", "#000000");

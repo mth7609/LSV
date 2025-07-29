@@ -2,6 +2,24 @@
 
 /*
 
+function backup() {                        // From dir to dir
+  if (initData["backupAllow"] == "no")
+    return;
+  const srcDir = initData["dbSourceDir"];
+  const backupDate = new Date();
+  const destDir = initData["backupDir"] + backupDate.getFullYear() + "-" + (backupDate.getMonth() + 1) + "-" + backupDate.getDate();
+  console.log("Last backup on: " + serverFunctions.store.get("lastBackup"))
+  if (destDir != serverFunctions.store.get("lastBackup")) {
+    fs.cp(srcDir, destDir, { recursive: true }, (err) => {
+      if (err) throw err;
+    });
+    console.log("New backup to: " + destDir + ",  from source: " + srcDir);
+  }
+  serverFunctions.store.put("lastBackup", destDir);
+}
+
+
+
 function wait(timeout) {
   return new Promise((resolve) => {
     setTimeout(() => {

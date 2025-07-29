@@ -33,13 +33,11 @@ setOutputText();
 setYears();
 setTopicHeadlines();
 setTopHeadlines();
+setToLastDatasetUsed();
 publisherReset();
-
 
 $(".doButtonDatasetDelete").addClass('disabled');
 $(".doButtonDatasetRemember").addClass('disabled');
-
-setToLastDatasetUsed();
 
 //console.log(globalDatasetNumbers);
 
