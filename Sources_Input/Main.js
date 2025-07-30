@@ -205,7 +205,6 @@ loadingEvents.on('finishedLogin', async () => {
     loginWindow.close();
     winMain.loadFile('./index.html');
     winMain.center();
-    winMain.reload();
   } catch (error) {
     console.error('Error loading index.html: ', error);
   }
@@ -266,33 +265,33 @@ app.whenReady().then(() => {
   setTimeout(() => {
     createLoginWindow();
     console.log("Login window created");
-  }, 1500);
+  }, 1000);
 
   setTimeout(() => {
     createDbMessageWindow();
     console.log("DB message window created");
-  }, 2500);
+  }, 1500);
 
   setTimeout(() => {
     createLoginErrorWindow();
     console.log("Login error window created");
-  }, 3500);
+  }, 2000);
 
   setTimeout(() => {
     createMainWindow();
     console.log("Main window created");
     winMain.webContents.send('dbStatus', "checking...");
-  }, 4500);
+  }, 2500);
 
   setTimeout(() => {
     createWorkerThread();
     console.log("Threads started");
-  }, 5500);
+  }, 3000);
 
   setTimeout(() => {
     loginWindow.show();
     console.log("Login window running");
-  }, 6500);
+  }, 3500);
 
   app.on('activate', () => {
     if (BrowserWindow.getAllWindows().length === 0) {
@@ -327,9 +326,15 @@ function backup() {
   if (initData["backupAllow"] === "no")
     return;
 
-  console.log("Last backup on: " + serverFunctions.store.get("lastBackup"));
   const backupDate = new Date();
-  let destDir = initData["backupDir"];
+  let destDir = initData["backupDir"] + backupDate.getFullYear() + "-" + (backupDate.getMonth() + 1) + "-" + backupDate.getDate() + '_dump.sql';
+
+  if (destDir == serverFunctions.store.get("lastBackup")) {
+    console.log("Database backup already done for today");
+    return;
+  }
+
+  console.log("Last database backup stored in: " + destDir);
 
   mysqldump({
     connection: {
@@ -338,7 +343,7 @@ function backup() {
       password: 'mzkti29b#',
       database: 'prolabor',
     },
-    dumpToFile: destDir + backupDate.getFullYear() + "-" + (backupDate.getMonth() + 1) + "-" + backupDate.getDate() + '_dump.sql'
+    dumpToFile: destDir
   });
 
   serverFunctions.store.put("lastBackup", destDir);

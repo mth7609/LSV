@@ -36,8 +36,8 @@ setTopHeadlines();
 setToLastDatasetUsed();
 publisherReset();
 
-$(".doButtonDatasetDelete").addClass('disabled');
-$(".doButtonDatasetRemember").addClass('disabled');
+$(".doButtonDatasetDelete").removeClass('disabled');
+$(".doButtonDatasetRemember").removeClass('disabled');
 
 //console.log(globalDatasetNumbers);
 
@@ -107,7 +107,8 @@ export function setToLastDatasetUsed() {
 
 
 export function setDatasetChanged() {
-    setStatusWarningPermanent(2, "Geändert, nicht gespeichert!");
+
+    setStatusWarningPermanent(2, localStorage.getItem("changedNotSaved"));
     $(".doButtonDatasetDelete").addClass('disabled');
     $(".doButtonDatasetSave").removeClass('disabled');
     $(".doButtonDatasetRemember").addClass('disabled');
@@ -115,7 +116,7 @@ export function setDatasetChanged() {
 
 
 export function setDatasetUnchanged() {
-    setStatus2("Gespeichert");
+    setStatus2(capitalizeFirstLetter(localStorage.getItem("saved"), 0));
     $(".doButtonDatasetDelete").removeClass('disabled');
 }
 
@@ -520,4 +521,7 @@ function getFreeTab() {
     }
 }
 
-
+export function capitalizeFirstLetter(str, nr) {
+    const capitalized = str.charAt(nr).toUpperCase() + str.slice(nr + 1);
+    return capitalized;
+}
