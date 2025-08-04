@@ -1,9 +1,13 @@
 /node_modules/.bin
-/node_modules
-/out
+/node_modules/
+/experimental/
+/out/
+/backup/
 /release-builds/
-/MySQL-Data*/
+/MySQL-Data*
 /MySQL-Server-8.0/
 /MySQL Workbench 8.0 CE/
-/00100/
-/backup/
+/MySQL_Dump/
+/Dataset_*
+LSV*
+00100/
