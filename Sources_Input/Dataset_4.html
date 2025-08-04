@@ -11,7 +11,7 @@
     $(".change_4").val(localStorage.getItem("change"));
     $(".remove_4").val(localStorage.getItem("remove"));
     $(".editField_4").text(localStorage.getItem("editField"));
-    updateDatasetTab(4);
+    updateDatasetTabContent(4);
 </script>
 
 <body>
@@ -95,7 +95,7 @@
             $(".remove_4").hide();
             $(".change_4").hide();
             $(".nav-tabs").hide();
-            $(".printer").show();
+            $(".printer_4").show();
             $(".window_4").hide();
             window.print();
             $(".printer_4").hide();

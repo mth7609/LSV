@@ -1,4 +1,4 @@
-function updateDatasetTab(tab) {
+function updateDatasetTabContent(tab) {
     let i;
     let n;
     let el = "";
@@ -47,10 +47,15 @@ function removeTab(tab) {
     $(".navtab-0").addClass("active");
     $(".tab-0").show();
     $(".navtab-" + tab).removeClass("active");
+    $(".tab-" + tab).removeClass("active");
     $(".navtab-" + tab).remove();
+    $(".tab-" + tab).remove();
     $(".navtab-0").click();
+    //$(".tab-content").before('<script>$(".tab-' + tab + '").load("empty.hml")</script>');
+
     let selectCnt = localStorage.getItem("selectCnt");
     selectCnt--;
+    console.log("Remove Tab cnt:" + selectCnt);
     localStorage.setItem("selectCnt", selectCnt);
     $(".doButtonDatasetRemember").removeClass('disabled');
 }
@@ -63,7 +68,6 @@ function changeHomeContent(tab) {
     $(".dsNumber").val($('.datasetWindowSubheadline_' + tab).text());
     $(".doButtonFetch").click();
     setStatusTodo(localStorage.getItem("dataCouldBeChanged"));
-    console.log("1: " + $('.datasetWindowSubheadline_' + tab).text());
 }
 
 

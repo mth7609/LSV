@@ -14,6 +14,15 @@
     <script type="module" src="./RendererScripts_02.js"></script>
     <script type="module" src="./RendererScripts_03.js"></script>
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
+    <script>
+        $(".confirmSaveCancel").text(localStorage.getItem("cancel"));
+        $(".confirmSaveOverwrite").text(localStorage.getItem("overwrite"));
+        $(".confirmSaveHeadline").text(localStorage.getItem("overwrite") + " " + localStorage.getItem("confirm"));
+        $(".confirmDeleteHeadline").text(localStorage.getItem("delete"));
+        $(".confirmDelete").text(localStorage.getItem("delete"));
+        $(".confirmDeleteCancel").text(localStorage.getItem("cancel"));
+    </script>
 </head>
 
 <body>
@@ -23,14 +32,14 @@
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h1 class="modal-title fs-5 confirmSaveHeadline">Überschreiben bestätigen</h1>
+                    <h1 class="modal-title fs-5 confirmSaveHeadline"></h1>
                     <button type="button" class="btn-close"></button>
                 </div>
                 <div class="modal-body ps-3">
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn confirmSaveCancel selectButton ps-2 pe-2" data-bs-dismiss="modal">Abbrechen</button>
-                    <button type="button" class="btn confirmSaveOverwrite selectButton ps-2 pe-2" data-bs-dismiss="modal">Überschreiben</button>
+                    <button type="button" class="btn confirmSaveCancel selectButton ps-2 pe-2" data-bs-dismiss="modal"></button>
+                    <button type="button" class="btn confirmSaveOverwrite selectButton ps-2 pe-2" data-bs-dismiss="modal"></button>
                 </div>
             </div>
         </div>
@@ -44,14 +53,14 @@
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h1 class="modal-title fs-5 confirmDeleteHeadline">Löschen bestätigen</h1>
+                    <h1 class="modal-title fs-5 confirmDeleteHeadline"></h1>
                     <button type="button" class="btn-close"></button>
                 </div>
                 <div class="modal-body-delete ps-3">
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn confirmDeleteCancel selectButton ps-2 pe-2" data-bs-dismiss="modal">Abbrechen</button>
-                    <button type="button" class="btn confirmDelete selectButton ps-2 pe-2" data-bs-dismiss="modal">Löschen</button>
+                    <button type="button" class="btn confirmDeleteCancel selectButton ps-2 pe-2" data-bs-dismiss="modal"></button>
+                    <button type="button" class="btn confirmDelete selectButton ps-2 pe-2" data-bs-dismiss="modal"></button>
                 </div>
             </div>
         </div>

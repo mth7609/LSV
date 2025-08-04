@@ -1,4 +1,4 @@
-import { doDatasetRemember, getMilliseconds1970, setDatasetUnchanged, prepareNumber, clearInput, setToNew, doNew } from "./RendererScripts_01.js";
+import { doDatasetRemember, getMilliseconds1970, setDatasetUnchanged, prepareNumber, clearInput, setToNew, doNew, capitalizeFirstLetter } from "./RendererScripts_01.js";
 import { setStatusWarning, setStatusWarningPermanent, runForeverConfirmDoSave, runForeverConfirmDoDelete, setStatusInformation, setStatusInformationPermanent, setStatus1, setStatus2 } from "./RendererScripts_03.js";
 import { requestAllDatasetNumbers, requestCheckDatasetNumber, requestDataset, requestComment } from "./ServerRequests.js";
 import { globalDatasetNumbers, globalDataset } from "./Globals.js";
@@ -9,6 +9,8 @@ var hex = function (x) {
     return isNaN(x) ? "00" : hexDigits[(x - x % 16) / 16] + hexDigits[x % 16];
 }
 
+setStatus1("Checking...");
+
 export function rgb2hex(rgb) {
     rgb = rgb.match(/^rgb\((\d+),\s*(\d+),\s*(\d+)\)$/);
     return "#" + hex(rgb[1]) + hex(rgb[2]) + hex(rgb[3]);
@@ -16,8 +18,8 @@ export function rgb2hex(rgb) {
 
 
 export function showDBStatus(st) {
-    if (st == "OK") {
-        setStatus1(localStorage.getItem("dbConnected") + '. Stand des Programms vom ' + localStorage.getItem("initDate"));
+    if (st === "OK") {
+        setStatus1(localStorage.getItem("dbConnected") + ". " + localStorage.getItem("versionOfProgram") + " " + localStorage.getItem("initDate"));
         $(".statusbar1").css("background-color", "#c2e2ec");
         $(".statusbar1").css("color", "#000000");
         return true;
@@ -45,10 +47,12 @@ export function newTab(nr, link, name) {
     $(".tab-content").after('<script>$(".tab-' + nr + '").load("' + link + '")</script>');
 
     setTabActive(0);
+    console.log("Append new tab nr: " + nr);
 
     $(".navtab-" + nr).on('click', function (event) {
         setTabActive(nr);
         $(".tab-" + nr).show();
+        console.log("Tab nr: " + nr);
     });
 }
 
@@ -69,7 +73,7 @@ export function setTabActive(nr) {
 export function checkTab(pnr) {
     let i;
     for (i = 0; i <= localStorage.getItem("maxDatasetTabs"); i++) {
-        if ($(".navtab-" + i).text() === pnr) {
+        if ($(".navtab-" + i).text() == pnr) {
             return true;
         }
     }
@@ -213,7 +217,7 @@ export function doFetch() {
     let nr = String($(".dsNumber").val()).replace(".", "");
 
     if (isNaN(parseInt(nr))) {
-        setStatusWarning(3, "Bitte Nummer der Zeitchrift eingeben");
+        setStatusWarning(3, localStorage.getItem("statusDatasetNumberInput"));
         return;
     }
 
@@ -312,14 +316,14 @@ export function doDatasetSave() {
     let nr = String($(".dsNumber").val()).replace(".", "");
 
     if (nr == 0) {
-        setStatusWarning(3, "Bitte gültige Nummer eingeben");
+        setStatusWarning(3, localStorage.getItem("statusDatasetNumberInput"));
         return;
     }
 
     nr = parseInt(nr);
 
     if (isNaN(nr)) {
-        setStatusWarning(3, "Bitte Nummer der Zeitschrift eingeben");
+        setStatusWarning(3, localStorage.getItem("statusDatasetNumberInput"));
         $(".doButtonDatasetSave").trigger("blur");
         return;
     }
@@ -327,7 +331,7 @@ export function doDatasetSave() {
 
     if (checkForDataset(nr) == 1) {
         localStorage.setItem("changeDatasetNumber", nr);
-        $(".modal-body").text("Der Datensatz " + prepareNumber(nr) + " ist vorhanden.");
+        $(".modal-body").text(localStorage.getItem("dataset") + " " + prepareNumber(nr) + " " + localStorage.getItem("exists"));
         localStorage.setItem("confirmSaveCancel", 0);
         localStorage.setItem("confirmSaveOverwrite", 0);
         $(".buttonOpenConfirmSaveModal").click();
@@ -353,10 +357,10 @@ export function doDatasetDelete() {
     let pnr = prepareNumber(nr);
 
     if (checkForDataset(nr) != 1) {
-        setStatusWarning(3, "Zeitschrift " + pnr + " nicht vorhanden");
+        setStatusWarning(3, localStorage.getItem("dataset") + " " + pnr + " " + localStorage.getItem("notExists"));
     }
     else {
-        $(".modal-body-delete").text("Das Löschen von Zeitschrift " + pnr + " bitte bestätigen.");
+        $(".modal-body-delete").text(localStorage.getItem("deletingOfDataset") + " " + pnr + " " + localStorage.getItem("confirm"));
         $(".buttonOpenConfirmDeleteModal").click();
         localStorage.setItem("confirmDeleteCancel", 0);
         localStorage.setItem("confirmDelete", 0);
@@ -376,7 +380,7 @@ export function deleteDataset() {
     }, 1000);
     clearInput();
     setToNew();
-    setStatusInformation(3, "Zeitschrift " + prepareNumber(nr) + " gelöscht");
+    setStatusInformation(3, localStorage.getItem("dataset") + " " + prepareNumber(nr) + " " + localStorage.getItem("confirm"));
     setStatus2("");
     requestAllDatasetNumbers();
     $(".doButtonDatasetSave").addClass('disabled');
@@ -389,7 +393,7 @@ export function saveDataset() {
     let n;
     let el2 = "", el = "";
 
-    setStatusInformationPermanent(3, "Einen Moment...");
+    setStatusInformationPermanent(3, localStorage.getItem("oneMoment"));
     let cnr = localStorage.getItem("changeDatasetNumber");
     let nr = localStorage.getItem("datasetNumber")
 
@@ -439,7 +443,7 @@ export function saveDataset() {
             $(".doButtonDatasetRemember").removeClass('disabled');
         }
         else {
-            setStatusWarningPermanent(3, localStorage.getItem("dataset") + " " + prepareNumber(pnr) + " " + localStorage.getItem("not_saved"));
+            setStatusWarningPermanent(3, localStorage.getItem("dataset") + " " + prepareNumber(pnr) + " " + localStorage.getItem("notSaved"));
         }
     }
     else {
@@ -463,14 +467,13 @@ export function saveDataset() {
                 sqlQuery = "INSERT INTO prolabor.dataset_comments (dataset_number, comment) values(" + cnr + ",'" + enc + "')";
                 window.electronAPI.sendDataset(sqlQuery);
                 pnr = prepareNumber(cnr);
-                setStatusInformation(3, "Datensatz " + pnr + " geändert");
+                setStatusInformation(3, localStorage.getItem("dataset") + " " + pnr + " " + localStorage.getItem("changed"));
                 $(".doButtonDatasetDelete").removeClass('disabled');
                 $(".doButtonDatasetRemember").removeClass('disabled');
             }, 2000);
         }
     }
     setDatasetUnchanged();
-    setStatus2("Gespeichert");
 }
 
 

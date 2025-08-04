@@ -12,6 +12,11 @@
     <script type="module" src="./RendererScripts_01.js"></script>
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script type="module" src="./login.js"></script>
+
+    <script>
+        $(".message").text("localStorage.getItem(dbDisconnected" + "<br>" + localStorage.getItem("programMustEnd"));
+        $(".close").text(localStorage.getItem("close"));
+    </script>
 </head>
 
 <body>
@@ -22,9 +27,9 @@
             <div class="col-md-4 pt-3">
                 <form class="Form" id="Form">
                     <div class="form-group">
-                        <label class="message">Keine Verbindung zur Datenbank!<br>Das Programm muss beendet werden.</label>
+                        <label class="message"></label>
                     </div>
-                    <button type="button" class="btn selectButton btn-primary cancel nowrap">&nbsp;&nbsp; Schließen &nbsp;&nbsp;</button>
+                    <button type="button" class="btn selectButton btn-primary close nowrap">&nbsp;&nbsp; Schließen &nbsp;&nbsp;</button>
                 </form>
             </div>
         </div>

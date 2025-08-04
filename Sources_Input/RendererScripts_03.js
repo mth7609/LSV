@@ -136,3 +136,4 @@ export function setStatusTodoPermanent(pos, text) {
     $(".statusbar" + pos).css("background-color", "#0000dd");
     $(".statusbar" + pos).css("color", "#ffffff");
 }
+

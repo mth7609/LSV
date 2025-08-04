@@ -1,7 +1,8 @@
-const { Worker, isMainThread, parentPort, workerData } = require('node:worker_threads')
-const { app, BrowserWindow, Menu, ipcMain, MessageChannelMain } = require('electron')
+const mysqldump = require('mysqldump');
+const { Worker, isMainThread, parentPort, workerData } = require('node:worker_threads');
+const { app, BrowserWindow, Menu, ipcMain, MessageChannelMain } = require('electron');
 const electronLocalshortcut = require('electron-localshortcut');
-const path = require('node:path')
+const path = require('node:path');
 const serverResponses = require('./lsv_modules/ServerResponses');
 const serverFunctions = require('./lsv_modules/ServerFunctions');
 const initData = require('./init.json');
@@ -108,16 +109,17 @@ const createMainWindow = () => {
   electronLocalshortcut.register('CommandOrControl+R', () => {
     winMain.reload();
   })
-
   winMain.removeMenu();
+}
 
-  //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++  // Add splash file and load index.html
+//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++  // Add splash file and load index.html
 
+const createLoginWindow = () => {
   loginWindow = new BrowserWindow({
     width: 500,
     height: 450,
     frame: false,
-    show: true,
+    show: false,
     alwaysOnTop: false,
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
@@ -136,9 +138,11 @@ const createMainWindow = () => {
     loginWindow.removeAllListeners()
     loginWindow = null;
   })
+}
 
-  //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
+const createDbMessageWindow = () => {
   dbMessageWindow = new BrowserWindow({
     width: 500,
     height: 250,
@@ -163,9 +167,11 @@ const createMainWindow = () => {
     dbMessageWindow.removeAllListeners()
     dbMessageWindow = null;
   })
+}
 
-  //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
+const createLoginErrorWindow = () => {
   loginErrorWindow = new BrowserWindow({
     width: 500,
     height: 230,
@@ -186,63 +192,66 @@ const createMainWindow = () => {
   });
 
   loginErrorWindow.on('loginErrorCancel', () => {
-    console.log("cancel");
+    //console.log("cancel");
     loginWindow.show();
     loginErrorWindow.hide();
   })
+}
 
-  //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-  loadingEvents.on('finishedLogin', async () => {
-    try {
-      loginWindow.close();
-      winMain.loadFile('./index.html');
-      winMain.center();
-    } catch (error) {
-      console.error('Error loading index.html: ', error);
-    }
-  })
+loadingEvents.on('finishedLogin', async () => {
+  try {
+    loginWindow.close();
+    winMain.loadFile('./index.html');
+    winMain.center();
+  } catch (error) {
+    console.error('Error loading index.html: ', error);
+  }
+})
 
-  //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-} // winMain
+
 
 //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ End createMainWindow()
 
+const createWorkerThread = () => {
+  if (isMainThread) {
+    databaseCheckWorker = new Worker("./lsv_modules/DatabaseThread.js");
+    databaseCheckWorker.postMessage("Start");
 
-if (isMainThread) {
-  databaseCheckWorker = new Worker("./lsv_modules/DatabaseThread.js");
-  databaseCheckWorker.on('message', (message) => {                   // receive from worker, send to renderer
-    console.log(message);
-    if (winMain)
-      winMain.webContents.send('status1', message);
-    if (message == "NOK") {
-      if (dbMessageWindow) {
-        if (loginWindow) loginWindow.hide();
-        if (loginErrorWindow) loginErrorWindow.hide();
-        dbMessageWindow.show();
+    databaseCheckWorker.on('message', (message) => {
+      if (winMain)
+        winMain.webContents.send('dbStatus', message);
+      if (message === "NOK") {
+        if (dbMessageWindow) {
+          if (loginWindow) loginWindow.hide();
+          if (loginErrorWindow) loginErrorWindow.hide();
+          dbMessageWindow.show();
+        }
       }
-    }
-    else {
-      if (dbMessageWindow) dbMessageWindow.hide();
-    }
-  });
-  databaseCheckWorker.postMessage("Start");
-}
+      else {
+        if (dbMessageWindow) dbMessageWindow.hide();
+        console.log("Database running");
+      }
+    });
 
-
-if (isMainThread) {
-  frontPagesWorker = new Worker("./lsv_modules/FrontPagesThread.js");
-  frontPagesWorker.on('message', (message) => {
-    console.log(message);
-    if (winMain)
-      winMain.webContents.send('frontPage', message);
-  });
-  frontPagesWorker.postMessage("Start");
+    frontPagesWorker = new Worker("./lsv_modules/FrontPagesThread.js");
+    frontPagesWorker.on('message', (message) => {
+      console.log(message);
+      if (winMain)
+        winMain.webContents.send('frontPage', message);
+    });
+    frontPagesWorker.postMessage("Start");
+  }
 }
 
 
 app.whenReady().then(() => {
+
+  console.log("Starting application");
+
   serverFunctions.serverOpen();
   console.log("Local HTTP server started");
   app.commandLine.appendSwitch('high-dpi-support', 1)
@@ -254,9 +263,35 @@ app.whenReady().then(() => {
   }, 500);
 
   setTimeout(() => {
-    console.log("Starting application");
-    createMainWindow();
+    createLoginWindow();
+    console.log("Login window created");
+  }, 1000);
+
+  setTimeout(() => {
+    createDbMessageWindow();
+    console.log("DB message window created");
   }, 1500);
+
+  setTimeout(() => {
+    createLoginErrorWindow();
+    console.log("Login error window created");
+  }, 2000);
+
+  setTimeout(() => {
+    createMainWindow();
+    console.log("Main window created");
+    winMain.webContents.send('dbStatus', "checking...");
+  }, 2500);
+
+  setTimeout(() => {
+    createWorkerThread();
+    console.log("Threads started");
+  }, 3000);
+
+  setTimeout(() => {
+    loginWindow.show();
+    console.log("Login window running");
+  }, 3500);
 
   app.on('activate', () => {
     if (BrowserWindow.getAllWindows().length === 0) {
@@ -283,25 +318,37 @@ function quitAPP() {
       app.quit();
       console.log("The End");
     }
-  }, 1500);
+  }, 500);
 }
 
 
 function backup() {
-  if (initData["backupAllow"] == "no")
+  if (initData["backupAllow"] === "no")
     return;
-  const srcDir = initData["dbSourceDir"];
+
   const backupDate = new Date();
-  const destDir = initData["backupDir"] + "_" + backupDate.getFullYear() + "-" + (backupDate.getMonth() + 1) + "-" + backupDate.getDate();
-  console.log("Last backup on: " + serverFunctions.store.get("lastBackup"))
-  if (destDir != serverFunctions.store.get("lastBackup")) {
-    fs.cp(srcDir, destDir, { recursive: true }, (err) => {
-      if (err) throw err;
-    });
-    console.log("New backup to: " + destDir + ",  from source: " + srcDir);
+  let destDir = initData["backupDir"] + backupDate.getFullYear() + "-" + (backupDate.getMonth() + 1) + "-" + backupDate.getDate() + '_dump.sql';
+
+  if (destDir == serverFunctions.store.get("lastBackup")) {
+    console.log("Database backup already done for today");
+    return;
   }
+
+  console.log("Last database backup stored in: " + destDir);
+
+  mysqldump({
+    connection: {
+      host: 'localhost',
+      user: 'prolabor',
+      password: 'mzkti29b#',
+      database: 'prolabor',
+    },
+    dumpToFile: destDir
+  });
+
   serverFunctions.store.put("lastBackup", destDir);
 }
+
 
 //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 // electron-packager . Archiv --overwrite --platform=win32 --arch=ia32 --prune=true --out=release-builds --version-string.CompanyName=CE --version-string.FileDescription=CE --version-string.ProductName="ArchivDerJugendzeitschriften"

@@ -33,13 +33,11 @@ setOutputText();
 setYears();
 setTopicHeadlines();
 setTopHeadlines();
+setToLastDatasetUsed();
 publisherReset();
 
-
-$(".doButtonDatasetDelete").addClass('disabled');
-$(".doButtonDatasetRemember").addClass('disabled');
-
-setToLastDatasetUsed();
+$(".doButtonDatasetDelete").removeClass('disabled');
+$(".doButtonDatasetRemember").removeClass('disabled');
 
 //console.log(globalDatasetNumbers);
 
@@ -109,7 +107,8 @@ export function setToLastDatasetUsed() {
 
 
 export function setDatasetChanged() {
-    setStatusWarningPermanent(2, "Geändert, nicht gespeichert!");
+
+    setStatusWarningPermanent(2, localStorage.getItem("changedNotSaved"));
     $(".doButtonDatasetDelete").addClass('disabled');
     $(".doButtonDatasetSave").removeClass('disabled');
     $(".doButtonDatasetRemember").addClass('disabled');
@@ -117,7 +116,7 @@ export function setDatasetChanged() {
 
 
 export function setDatasetUnchanged() {
-    setStatus2("Gespeichert");
+    setStatus2(capitalizeFirstLetter(localStorage.getItem("saved"), 0));
     $(".doButtonDatasetDelete").removeClass('disabled');
 }
 
@@ -127,7 +126,8 @@ window.electronAPI.getInitDate((value) => {
 })
 
 
-window.electronAPI.getStatus1((value) => {
+window.electronAPI.getDbStatus((value) => {
+    console.log("db: " + value);
     showDBStatus(value);
 })
 
@@ -439,10 +439,13 @@ export function clearInput() {
 
 
 export function doDatasetRemember() {
+    if ($(".doButtonDatasetRemember").hasClass('disabled'))
+        return;
 
     $(".doButtonDatasetRemember").trigger("blur");
+
     let selectCnt = localStorage.getItem("selectCnt");
-    //console.log(selectCnt);
+    // console.log("1 cnt: " + selectCnt);
 
     if (selectCnt > maxDatasetTabs) {
         setStatusWarning(3, "Merkliste voll");
@@ -494,18 +497,31 @@ export function doDatasetRemember() {
     }
 
     localStorage.setItem("datasetItem_7", datasetTopItems[selectCnt][7]); // Special handling for comment
-
     let datasetFileName = "./Dataset_" + selectCnt + ".html";
 
-    //console.log("cnt: " + selectCnt + ",  maxDatasetTabs: " + maxDatasetTabs + "  datasetFile: " + datasetFileName);
+    //console.log("2 cnt: " + selectCnt + ",  maxDatasetTabs: " + maxDatasetTabs + "  datasetFile: " + datasetFileName);
 
     localStorage.setItem("datasetWindowSubheadline", pnr.toString());
-    $(".navtab-" + selectCnt).text(pnr);
+
+    let ii = getFreeTab();
+    selectCnt = ii;
 
     newTab(selectCnt, datasetFileName, pnr);
     selectCnt++;
+    //console.log("3 cnt: " + selectCnt);
     localStorage.setItem("selectCnt", selectCnt);
     setStatusInformation(3, localStorage.getItem("dataset") + " " + prepareNumber(datasetNumber) + " " + localStorage.getItem("remembered"));
 }
 
+function getFreeTab() {
+    let i;
+    for (i = 1; i <= localStorage.getItem("maxDatasetTabs"); i++) {
+        if (!$(".navtab-" + i).text())
+            return i;
+    }
+}
 
+export function capitalizeFirstLetter(str, nr) {
+    const capitalized = str.charAt(nr).toUpperCase() + str.slice(nr + 1);
+    return capitalized;
+}

@@ -2,7 +2,6 @@ const { Worker, isMainThread, parentPort, workerData } = require('node:worker_th
 const mysql = require('mysql2');
 
 parentPort.on('message', (message) => {
-    parentPort.postMessage('Hello from the database worker thread!');
     checkDBLoop();
 });
 
@@ -28,7 +27,7 @@ function checkDBLoop(i) {
         con.end();
         checkDBLoop();
 
-    }, 3000);
+    }, 20000);
 };
 
 
