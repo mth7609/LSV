@@ -1,0 +1,55 @@
+Install Electron development system
+
+
+1. Install TotalCommander
+
+2. Only for Windows11 Home Edition
+	To enable policy manager, run lines in CMD as admin:
+	FOR %F IN ("%SystemRoot%\servicing\Packages\Microsoft-Windows-GroupPolicy-ClientTools-Package~*.mum") DO ( DISM /Online /NoRestart /Add-Package:"%F" )
+	FOR %F IN ("%SystemRoot%\servicing\Packages\Microsoft-Windows-GroupPolicy-ClientExtensions-Package~*.mum") DO ( DISM /Online /NoRestart /Add-Package:"%F" )
+	Only for check: WIN-R -> gpedit.msc <Enter>
+
+3. Start programs as admin automaticaly by setting "Start as Adminitrator" on the Compatibility tab in the settings of the executable (e.g. for TOTALCMD64.exe) 
+
+4. Install VisualStudioCode
+	https://code.visualstudio.com/docs/?dv=win64user
+
+5. Uninstall VisualStudio Community if not used
+
+6. Install latest Powershell
+	e.g. https://github.com/PowerShell/PowerShell/releases/download/v7.5.2/PowerShell-7.5.2-win-x64.msi
+        Check with $PSVersionTable
+
+7. Change user account notification in System Control to lowest level (only own account) 
+
+8. Msi installer nodejs with tools: 
+	https://nodejs.org/en/download/
+	Start as admin
+
+9. In PowerShell: npm install -g npm
+
+10. npm install --save-dev electron 
+
+11. install --save-dev electron-packager -g
+
+12. Create a project folder like c:\Projects\LSV. Set maximum user permission for it
+ 
+13. Start a new project using VisualStudioCode or copy LSV project files and MySQL installation files to that folder
+
+14. Install MySQL Server, Workbench and Shell
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
