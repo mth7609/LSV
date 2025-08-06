@@ -1,4 +1,3 @@
-const mysqldump = require('mysqldump');
 const { Worker, isMainThread, parentPort, workerData } = require('node:worker_threads');
 const { app, BrowserWindow, Menu, ipcMain, MessageChannelMain } = require('electron');
 const electronLocalshortcut = require('electron-localshortcut');
@@ -336,14 +335,11 @@ function backup() {
 
   console.log("Last database backup stored in: " + destDir);
 
-  mysqldump({
-    connection: {
-      host: 'localhost',
-      user: 'prolabor',
-      password: 'mzkti29b#',
-      database: 'prolabor',
-    },
-    dumpToFile: destDir
+  let exec = require('child_process').exec;
+  let cmd = 'mysqldump --host=localhost --port=3306 --default-character-set=utf8 --user=prolabor --password=mzkti29b# --protocol=tcp --skip-triggers "prolabor" > ' + destDir;
+
+  exec(cmd, function (err, stdout, stderr) {
+    if (err) throw err;
   });
 
   serverFunctions.store.put("lastBackup", destDir);
