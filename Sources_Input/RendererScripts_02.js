@@ -1,4 +1,4 @@
-import { doDatasetRemember, getMilliseconds1970, setDatasetUnchanged, prepareNumber, clearInput, setToNew, doNew, capitalizeFirstLetter } from "./RendererScripts_01.js";
+import { doDatasetRemember, getMilliseconds1970, setDatasetUnchanged, prepareNumber, clearInput, setToNew, doNew } from "./RendererScripts_01.js";
 import { setStatusWarning, setStatusWarningPermanent, runForeverConfirmDoSave, runForeverConfirmDoDelete, setStatusInformation, setStatusInformationPermanent, setStatus1, setStatus2 } from "./RendererScripts_03.js";
 import { requestAllDatasetNumbers, requestCheckDatasetNumber, requestDataset, requestComment } from "./ServerRequests.js";
 import { globalDatasetNumbers, globalDataset } from "./Globals.js";

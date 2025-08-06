@@ -108,7 +108,7 @@ export function setToLastDatasetUsed() {
 
 export function setDatasetChanged() {
 
-    setStatusWarningPermanent(2, localStorage.getItem("changedNotSaved"));
+    setStatusWarningPermanent(2, upperLetter(localStorage.getItem("changed"), 0));
     $(".doButtonDatasetDelete").addClass('disabled');
     $(".doButtonDatasetSave").removeClass('disabled');
     $(".doButtonDatasetRemember").addClass('disabled');
@@ -116,7 +116,7 @@ export function setDatasetChanged() {
 
 
 export function setDatasetUnchanged() {
-    setStatus2(capitalizeFirstLetter(localStorage.getItem("saved"), 0));
+    setStatus2(upperLetter(localStorage.getItem("saved"), 0));
     $(".doButtonDatasetDelete").removeClass('disabled');
 }
 
@@ -521,7 +521,11 @@ function getFreeTab() {
     }
 }
 
-export function capitalizeFirstLetter(str, nr) {
-    const capitalized = str.charAt(nr).toUpperCase() + str.slice(nr + 1);
-    return capitalized;
+export function upperLetter(str, nr) {
+    return str.charAt(nr).toUpperCase() + str.slice(nr + 1);
+}
+
+
+export function lowerLetter(str, nr) {
+    return str.charAt(nr).toLowerCase() + str.slice(nr + 1);
 }

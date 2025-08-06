@@ -11,6 +11,8 @@ $(".userName").text(localStorage.getItem("userName"));
 $(".cancel").text(localStorage.getItem("cancel"));
 $(".login").text(localStorage.getItem("login"));
 $(".databaseLogin").text(localStorage.getItem("databaseLogin"));
+$(".loginErrorCancel").text(localStorage.getItem("close"));
+$(".message").text(localStorage.getItem("wrongUserOrPassword"));
 
 
 $(".cancel").on('click', function (event) {
