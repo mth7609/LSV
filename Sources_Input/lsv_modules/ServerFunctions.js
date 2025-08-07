@@ -53,7 +53,6 @@ async function runForeverSecs(callCnt) {
     callCnt++;
     console.log('Step forever: ' + callCnt);
     setTimeout(function () {
-        // do something in the loop
         runForeverSecs(callCnt);
     }, 1000);
 };

@@ -55,6 +55,7 @@ $(".dropdownYear").on('click', yearSel);
 $(".schoolLabel").on('click', publisherSchool);
 $(".freeLabel").on('click', publisherFree);
 $(".topicListButtonInput").on('click', topicListButtonClick);
+$(".topicListLabel").on('click', topicListLabelClick);
 $(".doButtonNew").on('click', doNew);
 
 $(".name").on('focus', setDatasetChanged);
@@ -249,10 +250,9 @@ function setTopHeadlines() {
 }
 
 
-
 function topicListButtonClick() {
     var topicName = this.attributes[4].value;
-    //console.log(topicName + "    " + $(`#${topicName}`).prop("checked") + "    " + lastTopicName);
+    //console.log("1 " + topicName + "    " + $(`#${topicName}`).prop("checked") + "    " + lastTopicName);
     globalTopicItems[this.attributes[2].value].contentValue[this.attributes[3].value]["active"] = true;
     localStorage.setItem("checked_" + topicName, "checked");
 
@@ -263,6 +263,28 @@ function topicListButtonClick() {
         lastTopicName = "null";
         $("." + topicName).css("backgroundColor", "#660000").css("border", "solid 1px #111111");
         globalTopicItems[this.attributes[2].value].contentValue[this.attributes[3].value]["active"] = false;
+        localStorage.setItem("checked_" + topicName, "unchecked");
+    }
+    else {
+        $("." + topicName).css("backgroundColor", "#00dd00").css("border", "solid 1px #111111");
+        lastTopicName = topicName;
+    }
+    $("." + topicName).trigger("blur");
+    setDatasetChanged();
+}
+
+
+
+function topicListLabelClick() {
+    let topicName = this.attributes[1].value.replace("Label", "");
+    //console.log("2 " + topicName + "    " + $(`#${topicName}`).prop("checked") + "    " + lastTopicName);
+    $("." + topicName).css("backgroundColor", "#00dd00").css("border", "solid 1px #111111");
+    localStorage.setItem("checked_" + topicName, "checked");
+
+    if (topicName == lastTopicName) {
+        $("." + topicName).prop("checked", false);
+        lastTopicName = "null";
+        $("." + topicName).css("backgroundColor", "#660000").css("border", "solid 1px #111111");
         localStorage.setItem("checked_" + topicName, "unchecked");
     }
     else {
@@ -524,7 +546,6 @@ function getFreeTab() {
 export function upperLetter(str, nr) {
     return str.charAt(nr).toUpperCase() + str.slice(nr + 1);
 }
-
 
 export function lowerLetter(str, nr) {
     return str.charAt(nr).toLowerCase() + str.slice(nr + 1);

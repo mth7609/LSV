@@ -327,6 +327,7 @@ export function doDatasetSave() {
         $(".doButtonDatasetSave").trigger("blur");
         return;
     }
+
     $(".dsNumber").val(prepareNumber(nr));
 
     if (checkForDataset(nr) == 1) {
@@ -450,18 +451,19 @@ export function saveDataset() {
         if (cnr > 0) {
             //console.log("Change: " + cnr);
             $(".doButtonDatasetSave").addClass('disabled');
+            $(".doButtonFetch").addClass("disabled");
             sqlQuery = "DELETE FROM prolabor.archive_data where dataset_number=" + cnr;
             window.electronAPI.sendDataset(sqlQuery);
 
             setTimeout(() => {
                 sqlQuery = "DELETE FROM prolabor.dataset_comments where dataset_number=" + cnr;
                 window.electronAPI.sendDataset(sqlQuery);
-            }, 1000);
+            }, 500);
 
             setTimeout(() => {
                 sqlQuery = "INSERT INTO prolabor.archive_data (dataset_number,name,school_publisher,year,number,city,state,publisher_is,topics_list, timestamp) values(" + cnr + el + ",'" + el2.trimStart() + "'," + getMilliseconds1970() + ")";
                 window.electronAPI.sendDataset(sqlQuery);
-            }, 1500);
+            }, 1000);
 
             setTimeout(() => {
                 sqlQuery = "INSERT INTO prolabor.dataset_comments (dataset_number, comment) values(" + cnr + ",'" + enc + "')";
@@ -470,7 +472,8 @@ export function saveDataset() {
                 setStatusInformation(3, localStorage.getItem("dataset") + " " + pnr + " " + localStorage.getItem("changed"));
                 $(".doButtonDatasetDelete").removeClass('disabled');
                 $(".doButtonDatasetRemember").removeClass('disabled');
-            }, 2000);
+                $(".doButtonFetch").removeClass("disabled");
+            }, 1500);
         }
     }
     setDatasetUnchanged();

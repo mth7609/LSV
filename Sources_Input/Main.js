@@ -20,9 +20,9 @@ let loginErrorWindow = null;
 let dbMessageWindow = null;
 let databaseCheckWorker = null;
 let frontPagesWorker = null;
+let DbBackupWorker = null;
 
 serverFunctions.store.put("dbconnect", "NOK");
-backup();
 
 //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ createMainWindow()
 
@@ -111,7 +111,7 @@ const createMainWindow = () => {
   winMain.removeMenu();
 }
 
-//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++  // Add splash file and load index.html
+//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++  
 
 const createLoginWindow = () => {
   loginWindow = new BrowserWindow({
@@ -212,9 +212,6 @@ loadingEvents.on('finishedLogin', async () => {
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 
-
-//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ End createMainWindow()
-
 const createWorkerThread = () => {
   if (isMainThread) {
     databaseCheckWorker = new Worker("./lsv_modules/DatabaseThread.js");
@@ -243,8 +240,18 @@ const createWorkerThread = () => {
         winMain.webContents.send('frontPage', message);
     });
     frontPagesWorker.postMessage("Start");
+
+
+    DbBackupWorker = new Worker("./lsv_modules/DatabaseBackupThread.js");
+    DbBackupWorker.on('message', (message) => {
+      console.log(message);
+    });
+    DbBackupWorker.postMessage("Start");
   }
 }
+
+
+//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ 
 
 
 app.whenReady().then(() => {
@@ -317,39 +324,10 @@ function quitAPP() {
       app.quit();
       console.log("The End");
     }
-  }, 500);
-}
-
-
-function backup() {
-  if (initData["backupAllow"] === "no")
-    return;
-
-  const backupDate = new Date();
-  let destDir = initData["backupDir"] + backupDate.getFullYear() + "-" + (backupDate.getMonth() + 1) + "-" + backupDate.getDate() + '_dump.sql';
-
-  if (destDir == serverFunctions.store.get("lastBackup")) {
-    console.log("Database backup already done for today");
-    return;
-  }
-
-  console.log("Last database backup stored in: " + destDir);
-
-  let exec = require('child_process').exec;
-  let cmd = 'mysqldump --host=localhost --port=3306 --default-character-set=utf8 --user=prolabor --password=mzkti29b# --protocol=tcp --skip-triggers "prolabor" > ' + destDir;
-
-  exec(cmd, function (err, stdout, stderr) {
-    if (err) throw err;
-  });
-
-  serverFunctions.store.put("lastBackup", destDir);
+  }, 1000);
 }
 
 
 //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-// electron-packager . Archiv --overwrite --platform=win32 --arch=ia32 --prune=true --out=release-builds --version-string.CompanyName=CE --version-string.FileDescription=CE --version-string.ProductName="ArchivDerJugendzeitschriften"
-// Build EXE in C:\Projects\Electron\LSV\
-// Result in c:\Projects\Electron\LSV\release-builds\
-
-// Start/Stop MySQL in PowerShell: net start[stop] mySQL80 oder MySQL_Start.cmd / MySQL_Stop.cmd
-// Daten in c:\Projects\Electron\LSV\MySQL-Data\
+//electron-packager . LSV-Archiv --overwrite--prune=false
+// 
