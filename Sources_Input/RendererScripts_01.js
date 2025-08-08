@@ -101,8 +101,10 @@ export function setToLastDatasetUsed() {
     }
     else {
         //console.log(ld);
-        $(".dsNumber").val(ld);
-        doFetch();
+        setTimeout(() => {
+            $(".dsNumber").val(ld);
+            $(".doButtonFetch").click();
+        }, 1000);
     }
 }
 

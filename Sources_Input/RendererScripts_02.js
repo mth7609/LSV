@@ -251,6 +251,7 @@ export function doFetch() {
 }
 
 
+
 function showDataInForm() {
     if (localStorage.getItem("changeDatasetNumber") == null)
         return;
@@ -274,7 +275,7 @@ function showDataInForm() {
         localStorage.setItem("checked_topic_" + ar[i], "checked");
     }
 
-    if (globalDataset.contentValue[0]["publisher_is"] == "school") {
+    if (globalDataset.contentValue[0]["publisher_is"] === "school") {
         localStorage.setItem("publisherIsOutput", localStorage.getItem("school"));
         localStorage.setItem("publisherIsSave", "school");
         $('.btnradio1').prop("checked", true);
@@ -285,7 +286,7 @@ function showDataInForm() {
         $(".freeLabel").css("color", "#000000");
     }
     else
-        if (globalDataset.contentValue[0]["publisher_is"] == "free") {
+        if (globalDataset.contentValue[0]["publisher_is"] === "free") {
             localStorage.setItem("publisherIsOutput", localStorage.getItem("free"));
             localStorage.setItem("publisherIsSave", "free");
             $('.btnradio1').prop("checked", false);

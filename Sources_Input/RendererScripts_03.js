@@ -1,7 +1,6 @@
 import { saveDataset, deleteDataset } from "./RendererScripts_02.js";
 
 
-
 // for modal window save
 export async function runForeverConfirmDoSave(callCnt) {
     callCnt++;
@@ -55,6 +54,7 @@ export function setStatus3(str) {
     $(".statusText3").html("&nbsp; " + str);
 }
 
+
 export function setStatus4(str) {
     $(".statusbar4").css("color", "#000000");
     $(".statusbar4").css("background-color", "#c2e2ec");
@@ -78,6 +78,7 @@ export function setStatusWarning(pos, text) {
             setStatus3(localStorage.getItem("enterData"));
     }, 4000);
 }
+
 
 export function setStatusWarningPermanent(pos, text) {
     let fkt = "setStatus" + pos + "('" + text + "')";

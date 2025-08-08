@@ -10,8 +10,13 @@
     $(".print_SC").val(localStorage.getItem("print"));
     $(".change_SC").val(localStorage.getItem("change"));
     $(".remove_SC").val(localStorage.getItem("remove"));
-    $(".editField_SC").text(localStorage.getItem("editField"));
+    $(".editFieldLabel_SC").text(localStorage.getItem("editField"));
+    $(".editFieldLabelWhen_SC").text(localStorage.getItem("when") + ":");
+    $(".editFieldLabelWho_SC").text(localStorage.getItem("who") + ":");
+    $(".released_SC").val(localStorage.getItem("released"));
+    $(".releasedRemove_SC").val(localStorage.getItem("releasedRemove"));
     updateDatasetTabContent(SC);
+
 </script>
 
 <body>
@@ -78,9 +83,15 @@
                     </nobr>
                 </form>
             </div>
-            <div class="col-8">
-                <form method="POST" class="form-horizontal formEditing mx-3 ps-4 pe-3 pt-2 rounded-4 nobr">
-                    <label for="text" class="col-form-label editField_SC fw-bold"></label>
+            <div class="col-4">
+                <form method="POST" class="form-horizontal formEditing mx-3 ps-4 pe-3 pt-2 rounded-4">
+                    <label for="text" class="col-form-label editFieldLabel_SC fw-bold"></label><br>
+                    <label for="text" class="col-form-label editFieldLabelWhen_SC fw-bold"></label>
+                    <input type="text" class="form-control inputField inputFieldWhen_SC text-label">
+                    <label for="text" class="col-form-label editFieldLabelWho_SC fw-bold"></label>
+                    <input type="text" class="form-control inputField inputFieldWho_SC">
+                    <input type="button" class="selectButtonDataset selectButton released_SC btn btn-outline-secondary mt-3 ps-2 pe-2 pt-0">
+                    <input type="button" class="selectButtonDataset selectButton releasedRemove_SC btn btn-outline-secondary mt-3 ps-2 pe-2 pt-0">
                 </form>
             </div>
         </div>
@@ -97,6 +108,14 @@
             $(".nav-tabs").hide();
             $(".printer_SC").show();
             $(".window_SC").hide();
+            $(".formEditing").hide();
+            $(".editFieldLabel_SC").hide();
+            $(".editFieldLabelWhen_SC").hide();
+            $(".inputFieldWhen_SC").hide();
+            $(".inputFieldWho_SC").hide();
+            $(".editFieldLabelWho_SC").hide();
+            $(".released_SC").hide();
+            $(".releasedRemove_SC").hide();
             window.print();
             $(".printer_SC").hide();
             $(".window_SC").show();
@@ -104,12 +123,24 @@
             $(".remove_SC").show();
             $(".change_SC").show();
             $(".nav-tabs").show();
+            $(".editFieldLabel_SC").show();
+            $(".formEditing").show();
+            $(".editFieldLabel_SC").show();
+            $(".editFieldLabelWhen_SC").show();
+            $(".inputFieldWhen_SC").show();
+            $(".inputFieldWho_SC").show();
+            $(".editFieldLabelWho_SC").show();
+            $(".released_SC").show();
+            $(".releasedRemove_SC").show();
         });
         $(".remove_SC").on('click', function (event) {
             removeTab(SC);
         });
         $(".change_SC").on('click', function (event) {
             changeHomeContent(SC);
+        });
+        $(".released_SC").on('click', function (event) {
+            saveReleased(SC);
         });
     </script>
 

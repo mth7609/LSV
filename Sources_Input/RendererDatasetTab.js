@@ -1,3 +1,6 @@
+
+
+
 function updateDatasetTabContent(tab) {
     let i;
     let n;
@@ -6,6 +9,8 @@ function updateDatasetTabContent(tab) {
     let datasetItems = [];
     let mainHeadline = [];
 
+    $(".inputFieldWhen_" + tab).attr("placeholder", localStorage.getItem("placeholderWhen"));
+    $(".inputFieldWho_" + tab).attr("placeholder", localStorage.getItem("placeholderWho"));
 
     for (i = 0; i < localStorage.getItem("datasetTopItemCount"); i++) {
         mainHeadline[i] = localStorage.getItem("mainHeadline_" + i);
@@ -55,7 +60,7 @@ function removeTab(tab) {
 
     let selectCnt = localStorage.getItem("selectCnt");
     selectCnt--;
-    console.log("Remove Tab cnt:" + selectCnt);
+    //console.log("Remove Tab cnt:" + selectCnt);
     localStorage.setItem("selectCnt", selectCnt);
     $(".doButtonDatasetRemember").removeClass('disabled');
 }
@@ -82,6 +87,34 @@ function setStatusTodo(text) {
     }, 5000);
 }
 
+
+function saveReleased(tab) {
+    //console.log("+++++  " + $(".inputFieldWhen_" + tab).val());
+    let when = $(".inputFieldWhen_" + tab).val();
+    let who = $(".inputFieldWho_" + tab).val();
+
+    if (when == "" || when.length < 4) {
+        $(".inputFieldWhen_" + tab).removeAttr("placeholder");
+        $(".inputFieldWhen_" + tab).attr("placeholder", localStorage.getItem("placeholderWhen"));
+        $(".inputFieldWhen_" + tab).val("");
+        return;
+    }
+
+    if (who == "" || who.length > 4) {
+        $(".inputFieldWho_" + tab).removeAttr("placeholder");
+        $(".inputFieldWho_" + tab).attr("placeholder", localStorage.getItem("placeholderWho"));
+        $(".inputFieldWho_" + tab).val("");
+        return;
+    }
+
+    let query = "update prolabor.archive_data set releasedWho = '" + who + "' where dataset_number = " + localStorage.getItem("datasetWindowSubheadline").replace(".", "");
+    console.log(query);
+    window.electronAPI.executeSimpleSQL(query);
+
+    query = "update prolabor.archive_data set releasedWhen = '" + when + "' where dataset_number = " + localStorage.getItem("datasetWindowSubheadline").replace(".", "");
+    console.log(query);
+    window.electronAPI.executeSimpleSQL(query);
+}
 
 
 
