@@ -24,8 +24,7 @@ $(".login").on('click', function (event) {
     const user = $('.us').val();
     const password = $('.pw').val();
     requestSHA(user);
-    //    console.log(user + "    " + password + "    " + localStorage.getItem(user));
-    window.electronAPI.closeLogin(user, password, localStorage.getItem(user));
+    window.electronAPI.closeLogin(user, password, localStorage.getItem(user + "SHA"));
 });
 
 

@@ -224,17 +224,6 @@ function responseInitValues() {
 }
 
 
-function ObjectLength(object) {
-  var length = 0;
-  for (var key in object) {
-    if (object.hasOwnProperty(key)) {
-      ++length;
-    }
-  }
-  return length;
-};
-
-
 function responseCheckDatasetNumber() {
   serverFunctions.appx.get('/requestCheckDatasetNumber', (req, res) => {
     const dataset_number = req.query.datasetNumber;
@@ -274,8 +263,9 @@ function responseAllDatasetNumbers() {
 
 
 function executeSimpleSQL(sqlQuery) {
-  con.query(sqlQuery, function (err) {
+  con.query(sqlQuery, function (err, result) {
     if (err) throw err;
+    return result;
   });
 }
 
@@ -293,14 +283,27 @@ function responseComment() {
   });
 }
 
+
 function responseSHA() {
   serverFunctions.appx.get('/requestSHA', (req, res) => {
     const user = req.query.user;
-    console.log("user: " + user);
+    //    console.log("user: " + user);
     con.query("SELECT * FROM sha2 where userName='" + user + "'", (err, result, fields) => {
       if (err) {
         throw err;
       }
+      res.send(result);
+    });
+  });
+}
+
+
+function responseReleased() {
+  serverFunctions.appx.get('/requestReleased', (req, res) => {
+    const dataset_number = req.query.datasetNumber;
+    console.log("dataset_number: " + dataset_number);
+    con.query("SELECT releasedWho FROM archive_data where dataset_number" + dataset_number + "'", (err, result, fields) => {
+      if (err) throw err;
       res.send(result);
     });
   });
@@ -323,5 +326,6 @@ responseCheckDatasetNumber();
 responseComment();
 responseAllDatasetNumbers();
 responseSHA();
+responseReleased();
 
-module.exports = { databaseServerClose, responseAllDatasetNumbers, responseCheckDatasetNumber, responseAllDatasetNumbers, responseComment, executeSimpleSQL, responseDataset, responseInitValues, responseDBStatus, responseDBRunning, responseStates, databaseServerConnect, responseTopicHeadlines, responseTopHeadlines, responseOutputText, responseImages, responseConstValues, responseInfoLabels };
+module.exports = { responseReleased, databaseServerClose, responseAllDatasetNumbers, responseCheckDatasetNumber, responseAllDatasetNumbers, responseComment, executeSimpleSQL, responseDataset, responseInitValues, responseDBStatus, responseDBRunning, responseStates, databaseServerConnect, responseTopicHeadlines, responseTopHeadlines, responseOutputText, responseImages, responseConstValues, responseInfoLabels };

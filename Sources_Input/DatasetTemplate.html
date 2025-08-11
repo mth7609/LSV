@@ -7,16 +7,15 @@
 </head>
 
 <script>
-    $(".print_SC").val(localStorage.getItem("print"));
-    $(".change_SC").val(localStorage.getItem("change"));
-    $(".remove_SC").val(localStorage.getItem("remove"));
+    $(".printButton_SC").val(localStorage.getItem("print"));
+    $(".changeButton_SC").val(localStorage.getItem("change"));
+    $(".removeButton_SC").val(localStorage.getItem("remove"));
     $(".editFieldLabel_SC").text(localStorage.getItem("editField"));
     $(".editFieldLabelWhen_SC").text(localStorage.getItem("when") + ":");
     $(".editFieldLabelWho_SC").text(localStorage.getItem("who") + ":");
-    $(".released_SC").val(localStorage.getItem("released"));
-    $(".releasedRemove_SC").val(localStorage.getItem("releasedRemove"));
+    $(".releasedButton_SC").val(localStorage.getItem("released"));
+    $(".removeReleasedButton_SC").val(localStorage.getItem("releasedRemove"));
     updateDatasetTabContent(SC);
-
 </script>
 
 <body>
@@ -33,6 +32,18 @@
                     <div class="input-group text-wrap">
                         <div class="topDatasetItems_SC"></div>
                     </div>
+                    <div><br>
+                        <hr><br>
+                        <form method="POST" class="form-horizontal formEditing mx-3 ps-4 pe-3 pt-2 rounded-4">
+                            <label for="text" class="col-form-label editFieldLabel_SC fw-bold"></label><br>
+                            <label for="text" class="col-form-label editFieldLabelWhen_SC fw-bold"></label>
+                            <input type="text" class="form-control inputFieldRemember inputFieldWhen_SC text-label">
+                            <label for="text" class="col-form-label editFieldLabelWho_SC fw-bold"></label>
+                            <input type="text" class="form-control inputFieldRemember inputFieldWho_SC">
+                            <input type="button" class="selectButtonDataset selectButton releasedButton_SC btn btn-outline-secondary mt-3 ps-2 pe-2 pt-0">
+                            <input type="button" class="selectButtonDataset selectButton removeReleasedButton_SC btn btn-outline-secondary mt-3 ps-2 pe-2 pt-0"><br>
+                        </form>
+                    </div>
                 </div>
                 <div class="col-8">
                     <div class="input-group">
@@ -45,7 +56,7 @@
         </div>
     </div>
 
-    <div class="printer_SC">
+    <div class="printerLayout_SC">
         <div class="container">
             <div class="row">
                 <div class="col-12">
@@ -69,44 +80,33 @@
     </div>
 
     <br>
-    <br>
 
     <div class="container ml-6">
-        <br>
         <div class="row">
             <div class="col-4">
                 <form>
                     <nobr>
-                        <input type="button" class="selectButtonDataset selectButton m-3 print_SC btn btn-outline-secondary ps-2 pe-2 pt-0">
-                        <input type="button" class="selectButtonDataset selectButton m-3 change_SC btn btn-outline-secondary ps-2 pe-2 pt-0">
-                        <input type="button" class="selectButtonDataset selectButton m-3 remove_SC btn btn-outline-secondary ps-2 pe-2 pt-0">
+                        <input type="button" class="selectButtonDataset selectButton m-3 printButton_SC btn btn-outline-secondary ps-2 pe-2 pt-0">
+                        <input type="button" class="selectButtonDataset selectButton m-3 changeButton_SC btn btn-outline-secondary ps-2 pe-2 pt-0">
+                        <input type="button" class="selectButtonDataset selectButton m-3 removeButton_SC btn btn-outline-secondary ps-2 pe-2 pt-0">
                     </nobr>
                 </form>
             </div>
             <div class="col-4">
-                <form method="POST" class="form-horizontal formEditing mx-3 ps-4 pe-3 pt-2 rounded-4">
-                    <label for="text" class="col-form-label editFieldLabel_SC fw-bold"></label><br>
-                    <label for="text" class="col-form-label editFieldLabelWhen_SC fw-bold"></label>
-                    <input type="text" class="form-control inputField inputFieldWhen_SC text-label">
-                    <label for="text" class="col-form-label editFieldLabelWho_SC fw-bold"></label>
-                    <input type="text" class="form-control inputField inputFieldWho_SC">
-                    <input type="button" class="selectButtonDataset selectButton released_SC btn btn-outline-secondary mt-3 ps-2 pe-2 pt-0">
-                    <input type="button" class="selectButtonDataset selectButton releasedRemove_SC btn btn-outline-secondary mt-3 ps-2 pe-2 pt-0">
-                </form>
             </div>
         </div>
     </div>
 
 
     <script>
-        $(".printer_SC").hide();
+        $(".printerLayout_SC").hide();
 
-        $(".print_SC").on('click', function (event) {
-            $(".print_SC").hide();
-            $(".remove_SC").hide();
-            $(".change_SC").hide();
+        $(".printButton_SC").on('click', function (event) {
+            $(".printButton_SC").hide();
+            $(".removeButton_SC").hide();
+            $(".changeButton_SC").hide();
             $(".nav-tabs").hide();
-            $(".printer_SC").show();
+            $(".printerLayout_SC").show();
             $(".window_SC").hide();
             $(".formEditing").hide();
             $(".editFieldLabel_SC").hide();
@@ -114,14 +114,14 @@
             $(".inputFieldWhen_SC").hide();
             $(".inputFieldWho_SC").hide();
             $(".editFieldLabelWho_SC").hide();
-            $(".released_SC").hide();
-            $(".releasedRemove_SC").hide();
+            $(".releasedButton_SC").hide();
+            $(".removeReleasedButton_SC").hide();
             window.print();
-            $(".printer_SC").hide();
+            $(".printerLayout_SC").hide();
             $(".window_SC").show();
-            $(".print_SC").show();
-            $(".remove_SC").show();
-            $(".change_SC").show();
+            $(".printButton_SC").show();
+            $(".removeButton_SC").show();
+            $(".changeButton_SC").show();
             $(".nav-tabs").show();
             $(".editFieldLabel_SC").show();
             $(".formEditing").show();
@@ -130,17 +130,20 @@
             $(".inputFieldWhen_SC").show();
             $(".inputFieldWho_SC").show();
             $(".editFieldLabelWho_SC").show();
-            $(".released_SC").show();
-            $(".releasedRemove_SC").show();
+            $(".releasedButton_SC").show();
+            $(".removeReleasedButton_SC").show();
         });
-        $(".remove_SC").on('click', function (event) {
+        $(".removeButton_SC").on('click', function (event) {
             removeTab(SC);
         });
-        $(".change_SC").on('click', function (event) {
+        $(".changeButton_SC").on('click', function (event) {
             changeHomeContent(SC);
         });
-        $(".released_SC").on('click', function (event) {
+        $(".releasedButton_SC").on('click', function (event) {
             saveReleased(SC);
+        });
+        $(".removeReleasedButton_SC").on('click', function (event) {
+            removeReleased(SC);
         });
     </script>
 

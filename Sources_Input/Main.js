@@ -16,6 +16,7 @@ var PDFDocument = require('pdfkit');
 const loadingEvents = new EventEmitter();
 let winMain = null;
 let loginWindow = null;
+let loginUser = "";
 let loginErrorWindow = null;
 let dbMessageWindow = null;
 let databaseCheckWorker = null;
@@ -55,8 +56,8 @@ const createMainWindow = () => {
       loginErrorWindow.hide();
       return;
     }
-
-    //console.log(user + "    " + pwd + "    " + pwdSHA);
+    loginUser = user;
+    console.log(user + "    " + pwd + "    " + pwdSHA);
     let inputSHA = crypto.createHash('sha256').update(pwd).digest('hex');
     pwd = "";
     //console.log("InputSHA: " + inputSHA);
@@ -70,14 +71,16 @@ const createMainWindow = () => {
 
 
   winMain.once('ready-to-show', () => {
+    winMain.webContents.send('loginUser', loginUser);
     winMain.webContents.send('httpPort', initData["httpPort"]);
     winMain.webContents.send('initDate', initData["initDate"]);
     //console.log("ready");
     winMain.show();
   })
 
-  ipcMain.on('sendDatasetCMD', (event, query) => {
-    serverResponses.executeSimpleSQL(query);
+  ipcMain.on('executeSimpleSQLCMD', (event, query) => {
+    let ret = serverResponses.executeSimpleSQL(query);
+    console.log("ret: " + ret);
   })
 
   winMain.on('closed', (event, query) => {

@@ -1,6 +1,3 @@
-
-
-
 function updateDatasetTabContent(tab) {
     let i;
     let n;
@@ -23,6 +20,21 @@ function updateDatasetTabContent(tab) {
     $('.datasetWindowHeadline_' + tab).html(localStorage.getItem("datasetWindowHeadline"));
     $('.datasetWindowSubheadline_' + tab).html(localStorage.getItem("datasetWindowSubheadline"));
     $('.topDatasetItems_' + tab).html(el);
+
+    let when = localStorage.getItem("releasedWhen");
+    let who = localStorage.getItem("releasedWho");
+
+    if (!who || who == "null") {
+        $(".releasedButton_" + tab).removeClass('disabled');
+        $(".removeReleasedButton_" + tab).addClass('disabled');
+    }
+    else {
+        $(".releasedButton_" + tab).addClass('disabled');
+        $(".removeReleasedButton_" + tab).removeClass('disabled');
+        $('.inputFieldWho_' + tab).val(who);
+        $('.inputFieldWhen_' + tab).val(when);
+    }
+
     //$('.comment_' + tab).val(localStorage.getItem("datasetItem_7"));   // Special handling for comment that should be shown in textarea
 
     el = "";
@@ -93,7 +105,7 @@ function saveReleased(tab) {
     let when = $(".inputFieldWhen_" + tab).val();
     let who = $(".inputFieldWho_" + tab).val();
 
-    if (when == "" || when.length < 4) {
+    if ((when.split("/").length - 1) != 2 && (when.split("-").length - 1) != 2 && (when.split(".").length - 1) != 2) {
         $(".inputFieldWhen_" + tab).removeAttr("placeholder");
         $(".inputFieldWhen_" + tab).attr("placeholder", localStorage.getItem("placeholderWhen"));
         $(".inputFieldWhen_" + tab).val("");
@@ -107,13 +119,40 @@ function saveReleased(tab) {
         return;
     }
 
-    let query = "update prolabor.archive_data set releasedWho = '" + who + "' where dataset_number = " + localStorage.getItem("datasetWindowSubheadline").replace(".", "");
-    console.log(query);
+    let dataset_number = localStorage.getItem("datasetWindowSubheadline").replace(".", "");
+
+    let query = "update prolabor.archive_data set releasedWho = '" + who + "' where dataset_number = " + dataset_number;
+    window.electronAPI.executeSimpleSQL(query);
+    query = "update prolabor.archive_data set releasedWhen = '" + when + "' where dataset_number = " + dataset_number;
+    window.electronAPI.executeSimpleSQL(query);
+    query = "update prolabor.archive_data set released = 1 where dataset_number = " + dataset_number;
     window.electronAPI.executeSimpleSQL(query);
 
-    query = "update prolabor.archive_data set releasedWhen = '" + when + "' where dataset_number = " + localStorage.getItem("datasetWindowSubheadline").replace(".", "");
-    console.log(query);
+    localStorage.setItem("releasedWhen", when);
+    localStorage.setItem("releasedWho", who);
+    updateDatasetTabContent(tab)
+}
+
+
+function removeReleased(tab) {
+    let dataset_number = localStorage.getItem("datasetWindowSubheadline").replace(".", "");
+
+    let query = "update prolabor.archive_data set releasedWho = '' where dataset_number = " + dataset_number;
     window.electronAPI.executeSimpleSQL(query);
+    query = "update prolabor.archive_data set releasedWhen = '' where dataset_number = " + dataset_number;
+    window.electronAPI.executeSimpleSQL(query);
+    query = "update prolabor.archive_data set released = 0 where dataset_number = " + dataset_number;
+    window.electronAPI.executeSimpleSQL(query);
+
+    localStorage.setItem("releasedWhen", "");
+    localStorage.setItem("releasedWho", "");
+    $(".inputFieldWho_" + tab).removeAttr("placeholder");
+    $(".inputFieldWho_" + tab).attr("placeholder", localStorage.getItem("placeholderWho"));
+    $(".inputFieldWho_" + tab).val("");
+    $(".inputFieldWhen_" + tab).removeAttr("placeholder");
+    $(".inputFieldWhen_" + tab).attr("placeholder", localStorage.getItem("placeholderWhen"));
+    $(".inputFieldWhen_" + tab).val("");
+    updateDatasetTabContent(tab)
 }
 
 

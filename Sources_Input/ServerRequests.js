@@ -152,6 +152,7 @@ export function requestConstValues() {
     });
 }
 
+
 export function requestDataset(nr) {
     let ret;
     $.ajax({
@@ -170,6 +171,7 @@ export function requestDataset(nr) {
         }
     });
 }
+
 
 export function requestComment(nr) {
     let ret;
@@ -222,14 +224,17 @@ export function requestAllDatasetNumbers() {
     });
 }
 
+
 export function requestSHA(user) {
     $.ajax({
         type: 'GET',
         url: 'http://localhost:' + localStorage.getItem("httpPort") + '/requestSHA?user=' + user,
         async: false,
         success: function (data) {
-            console.log("data: " + data[0]["sha2val"]);
-            localStorage.setItem(user, data[0]["sha2val"]);
+            //console.log("data: " + data[0]["sha2val"]);
+            localStorage.setItem(user + "SHA", data[0]["sha2val"]);
         }
     });
 }
+
+

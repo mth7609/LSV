@@ -171,6 +171,14 @@ body {
     height: 30px;
 }
 
+.inputFieldRemember {
+    background: #ffffff;
+    border: solid 2px #bbbbbb;
+    color: #000000;
+    height: 30px;
+    width: 200px;
+}
+
 .selectButtonDataset {
     height: 30px;
     background: #008800;

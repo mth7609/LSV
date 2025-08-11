@@ -12,7 +12,7 @@
     "mysqlPassword": "mzkti29b#",
     "mysqlDatabase": "prolabor",
     "maxSearchSets": "10",
-    "initDate": "07.08.2025 (1)",
+    "initDate": "10.08.2025 (1)",
     "backupDir": "./MySQL_Dump/",
     "backupAllow": "yes"
   }

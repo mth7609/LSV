@@ -130,7 +130,6 @@ window.electronAPI.getInitDate((value) => {
 
 
 window.electronAPI.getDbStatus((value) => {
-    console.log("db: " + value);
     showDBStatus(value);
 })
 
@@ -140,10 +139,12 @@ window.electronAPI.getFrontPages((value) => {
         $('.frontImage').html("<img src='./images/" + value + "' width='350px'></img>")
     else
         $('.frontImage').html("");
-
-    //    console.log("nr: " + localStorage.getItem("datasetNumber"));
-    //    console.log("cdn: " + localStorage.getItem("changeDatasetNumber"));
     setOtherContent();
+})
+
+
+window.electronAPI.getLoginUser((value) => {
+    localStorage.setItem("loginUser", value);
 })
 
 
@@ -505,6 +506,8 @@ export function doDatasetRemember() {
     datasetTopItems[selectCnt][6] = $('.publishNo').val();
     datasetTopItems[selectCnt][7] = $('.comment').val();
 
+    console.log("who: " + localStorage.getItem("releasedWho"));
+
     let i = 0, n = 0, itemCnt = 0;
 
     for (n = 0; n < globalTopicHeadlines.contentValue.length; n++) {        // Save selected topics in the topics dataset array
@@ -537,6 +540,7 @@ export function doDatasetRemember() {
     setStatusInformation(3, localStorage.getItem("dataset") + " " + prepareNumber(datasetNumber) + " " + localStorage.getItem("remembered"));
 }
 
+
 function getFreeTab() {
     let i;
     for (i = 1; i <= localStorage.getItem("maxDatasetTabs"); i++) {
@@ -544,6 +548,7 @@ function getFreeTab() {
             return i;
     }
 }
+
 
 export function upperLetter(str, nr) {
     return str.charAt(nr).toUpperCase() + str.slice(nr + 1);

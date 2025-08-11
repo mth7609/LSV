@@ -47,12 +47,12 @@ export function newTab(nr, link, name) {
     $(".tab-content").after('<script>$(".tab-' + nr + '").load("' + link + '")</script>');
 
     setTabActive(0);
-    console.log("Append new tab nr: " + nr);
+    //console.log("Append new tab nr: " + nr);
 
     $(".navtab-" + nr).on('click', function (event) {
         setTabActive(nr);
         $(".tab-" + nr).show();
-        console.log("Tab nr: " + nr);
+        //  console.log("Tab nr: " + nr);
     });
 }
 
@@ -239,6 +239,7 @@ export function doFetch() {
     }
 
     requestDataset(parseInt(nr));
+
     $(".doButtonDatasetDelete").removeClass('disabled');
     $(".doButtonDatasetSave").removeClass('disabled');
     $(".doButtonDatasetRemember").removeClass('disabled');
@@ -306,6 +307,9 @@ function showDataInForm() {
 
     var enc = decodeURIComponent(localStorage.getItem("datasetComment"));
     $('.comment').val(enc);
+
+    localStorage.setItem("releasedWho", globalDataset.contentValue[0]["releasedWho"]);
+    localStorage.setItem("releasedWhen", globalDataset.contentValue[0]["releasedWhen"]);
 }
 
 
@@ -375,10 +379,10 @@ export function doDatasetDelete() {
 export function deleteDataset() {
     let nr = localStorage.getItem("datasetNumber");
     let sqlQuery = "DELETE FROM prolabor.archive_data where dataset_number=" + nr;
-    window.electronAPI.sendDataset(sqlQuery);
+    window.electronAPI.executeSimpleSQL(sqlQuery);
     setTimeout(() => {
         sqlQuery = "DELETE FROM prolabor.dataset_comments where dataset_number=" + nr;
-        window.electronAPI.sendDataset(sqlQuery);
+        window.electronAPI.executeSimpleSQL(sqlQuery);
     }, 1000);
     clearInput();
     setToNew();
@@ -423,13 +427,14 @@ export function saveDataset() {
     var enc = encodeURIComponent($('.comment').val());
 
     if (nr > 0) {
-        //console.log("New: " + nr);
-        sqlQuery = "INSERT INTO prolabor.archive_data (dataset_number,name,school_publisher,year,number,city,state,publisher_is,topics_list, timestamp) values(" + nr + el + ",'" + el2.trimStart() + "'," + getMilliseconds1970() + ")";
-        window.electronAPI.sendDataset(sqlQuery);
+        sqlQuery = "INSERT INTO prolabor.archive_data (dataset_number,name,school_publisher,year,number,city,state,publisher_is,topics_list,timestamp,lastUser) values(" + nr + el + ",'" + el2.trimStart() + "'," + getMilliseconds1970() + ",'" + localStorage.getItem("loginUser") + "')";
+        //console.log("New: " + sqlQuery);
+
+        window.electronAPI.executeSimpleSQL(sqlQuery);
 
         setTimeout(() => {
             sqlQuery = "INSERT INTO prolabor.dataset_comments (dataset_number, comment) values(" + nr + ",'" + enc + "')";
-            window.electronAPI.sendDataset(sqlQuery);
+            window.electronAPI.executeSimpleSQL(sqlQuery);
         }, 1000);
 
         nr = localStorage.getItem("datasetNumber");
@@ -454,21 +459,21 @@ export function saveDataset() {
             $(".doButtonDatasetSave").addClass('disabled');
             $(".doButtonFetch").addClass("disabled");
             sqlQuery = "DELETE FROM prolabor.archive_data where dataset_number=" + cnr;
-            window.electronAPI.sendDataset(sqlQuery);
+            window.electronAPI.executeSimpleSQL(sqlQuery);
 
             setTimeout(() => {
                 sqlQuery = "DELETE FROM prolabor.dataset_comments where dataset_number=" + cnr;
-                window.electronAPI.sendDataset(sqlQuery);
+                window.electronAPI.executeSimpleSQL(sqlQuery);
             }, 500);
 
             setTimeout(() => {
-                sqlQuery = "INSERT INTO prolabor.archive_data (dataset_number,name,school_publisher,year,number,city,state,publisher_is,topics_list, timestamp) values(" + cnr + el + ",'" + el2.trimStart() + "'," + getMilliseconds1970() + ")";
-                window.electronAPI.sendDataset(sqlQuery);
+                sqlQuery = "INSERT INTO prolabor.archive_data (dataset_number,name,school_publisher,year,number,city,state,publisher_is,topics_list,timestamp,lastUser) values(" + cnr + el + ",'" + el2.trimStart() + "'," + getMilliseconds1970() + ",'" + localStorage.getItem("loginUser") + "')";
+                window.electronAPI.executeSimpleSQL(sqlQuery);
             }, 1000);
 
             setTimeout(() => {
                 sqlQuery = "INSERT INTO prolabor.dataset_comments (dataset_number, comment) values(" + cnr + ",'" + enc + "')";
-                window.electronAPI.sendDataset(sqlQuery);
+                window.electronAPI.executeSimpleSQL(sqlQuery);
                 pnr = prepareNumber(cnr);
                 setStatusInformation(3, localStorage.getItem("dataset") + " " + pnr + " " + localStorage.getItem("changed"));
                 $(".doButtonDatasetDelete").removeClass('disabled');
