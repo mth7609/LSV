@@ -1,6 +1,5 @@
 import { saveDataset, deleteDataset } from "./RendererScripts_02.js";
 
-
 // for modal window save
 export async function runForeverConfirmDoSave(callCnt) {
     callCnt++;
@@ -61,6 +60,11 @@ export function setStatus4(str) {
     $(".statusText4").html(str);
 }
 
+export function setStatus5(str) {
+    $(".statusbar5").css("color", "#000000");
+    $(".statusbar5").css("background-color", "#c2e2ec");
+    $(".statusText5").html(str);
+}
 
 export function setStatusWarning(pos, text) {
     let fkt = "setStatus" + pos + "('" + text + "')";

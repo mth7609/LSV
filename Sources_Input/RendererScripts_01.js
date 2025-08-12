@@ -1,7 +1,7 @@
 import { requestAllDatasetNumbers, requestStates, requestTopHeadlines, requestTopicHeadlinesInfo, requestConstValues, requestTopicItems, requestInitValues, requestInfoLabels, requestImages, requestOutputText } from "./ServerRequests.js";
 import { globalDatasetNumbers, globalTopicHeadlines, globalTopicItems, globalTopHeadlines } from "./Globals.js";
 import { getNextDatasetNumber, checkTab, checkForDataset, doFetch, doDatasetSave, doDatasetDelete, newTab, showDBStatus, doKeydown } from "./RendererScripts_02.js";
-import { setStatusWarning, setStatusWarningPermanent, setStatusInformation, setStatus3, setStatus2 } from "./RendererScripts_03.js";
+import { setStatusWarning, setStatusWarningPermanent, setStatusInformation, setStatus3, setStatus2, setStatus5 } from "./RendererScripts_03.js";
 
 var selectedDropdown = 0;
 var elementsOnForm = 1;
@@ -145,6 +145,8 @@ window.electronAPI.getFrontPages((value) => {
 
 window.electronAPI.getLoginUser((value) => {
     localStorage.setItem("loginUser", value);
+    console.log("lll" + value);
+    setStatus5(value);
 })
 
 
@@ -206,7 +208,7 @@ export function getActualFullDate(millis) {
 
 function setOtherContent() {            // using the front pages ticks
     //$('.statusText2').text(self.innerWidth);
-    if (self.innerWidth > 1715) {
+    if (self.innerWidth > 1615) {
         //$('.logoImage').html("<img src='" + localStorage.getItem("image_1") + "'></img>");
         $(".selectButton").css("font-size", "14px");
         $(".selectButton").css.apply;

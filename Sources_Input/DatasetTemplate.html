@@ -100,7 +100,30 @@
 
     <script>
         $(".printerLayout_SC").hide();
+        let usr_SC = localStorage.getItem("loginUser");
 
+        if (usr_SC === "admin1" || usr_SC === "admin2") {
+            $(".formEditing").show();
+            $(".editFieldLabel_SC").show();
+            $(".editFieldLabelWhen_SC").show();
+            $(".inputFieldWhen_SC").show();
+            $(".inputFieldWho_SC").show();
+            $(".editFieldLabelWho_SC").show();
+            $(".releasedButton_SC").show();
+            $(".removeReleasedButton_SC").show();
+        }
+        else {
+            $(".formEditing").hide();
+            $(".editFieldLabel_SC").hide();
+            $(".editFieldLabelWhen_SC").hide();
+            $(".inputFieldWhen_SC").hide();
+            $(".inputFieldWho_SC").hide();
+            $(".editFieldLabelWho_SC").hide();
+            $(".releasedButton_SC").hide();
+            $(".removeReleasedButton_SC").hide();
+        }
+
+        console.log(usr_SC);
         $(".printButton_SC").on('click', function (event) {
             $(".printButton_SC").hide();
             $(".removeButton_SC").hide();
@@ -124,8 +147,16 @@
             $(".changeButton_SC").show();
             $(".nav-tabs").show();
             $(".editFieldLabel_SC").show();
-            $(".formEditing").show();
-            $(".editFieldLabel_SC").show();
+            if (usr_SC === "admin1" || usr_SC === "admin2") {
+                $(".formEditing").show();
+                $(".editFieldLabel_SC").show();
+                $(".editFieldLabelWhen_SC").show();
+                $(".inputFieldWhen_SC").show();
+                $(".inputFieldWho_SC").show();
+                $(".editFieldLabelWho_SC").show();
+                $(".releasedButton_SC").show();
+                $(".removeReleasedButton_SC").show();
+            } $(".editFieldLabel_SC").show();
             $(".editFieldLabelWhen_SC").show();
             $(".inputFieldWhen_SC").show();
             $(".inputFieldWho_SC").show();

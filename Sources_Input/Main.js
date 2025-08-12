@@ -56,11 +56,17 @@ const createMainWindow = () => {
       loginErrorWindow.hide();
       return;
     }
+
+    if (!pwdSHA) return;
+
     loginUser = user;
-    console.log(user + "    " + pwd + "    " + pwdSHA);
     let inputSHA = crypto.createHash('sha256').update(pwd).digest('hex');
+
+    //console.log(user + "   " + pwd + "      InputSHA: " + inputSHA);
+    //return;
+
     pwd = "";
-    //console.log("InputSHA: " + inputSHA);
+
     if (inputSHA === pwdSHA)
       loadingEvents.emit('finishedLogin');
     else {

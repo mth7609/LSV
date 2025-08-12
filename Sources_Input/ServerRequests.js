@@ -238,3 +238,17 @@ export function requestSHA(user) {
 }
 
 
+
+export function requestLastUser(datasetNumber) {
+    $.ajax({
+        type: 'GET',
+        url: 'http://localhost:' + localStorage.getItem("httpPort") + '/requestLastUser?datasetNumber=' + datasetNumber,
+        async: false,
+        success: function (data) {
+            console.log("datasetUser_" + datasetNumber, data[0]["lastUser"]);
+            localStorage.setItem("datasetUser_" + datasetNumber, data[0]["lastUser"]);
+        }
+    });
+}
+
+

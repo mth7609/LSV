@@ -301,13 +301,25 @@ function responseSHA() {
 function responseReleased() {
   serverFunctions.appx.get('/requestReleased', (req, res) => {
     const dataset_number = req.query.datasetNumber;
-    console.log("dataset_number: " + dataset_number);
-    con.query("SELECT releasedWho FROM archive_data where dataset_number" + dataset_number + "'", (err, result, fields) => {
+    con.query("SELECT releasedWho FROM archive_data where dataset_number=" + dataset_number, (err, result, fields) => {
       if (err) throw err;
       res.send(result);
     });
   });
 }
+
+
+function responseLastUser() {
+  serverFunctions.appx.get('/requestLastUser', (req, res) => {
+    const dataset_number = req.query.datasetNumber;
+    //console.log("dataset_number: " + dataset_number);
+    con.query("SELECT lastUser FROM archive_data where dataset_number=" + dataset_number, (err, result, fields) => {
+      if (err) throw err;
+      res.send(result);
+    });
+  });
+}
+
 
 
 responseDBStatus();
@@ -327,5 +339,6 @@ responseComment();
 responseAllDatasetNumbers();
 responseSHA();
 responseReleased();
+responseLastUser();
 
-module.exports = { responseReleased, databaseServerClose, responseAllDatasetNumbers, responseCheckDatasetNumber, responseAllDatasetNumbers, responseComment, executeSimpleSQL, responseDataset, responseInitValues, responseDBStatus, responseDBRunning, responseStates, databaseServerConnect, responseTopicHeadlines, responseTopHeadlines, responseOutputText, responseImages, responseConstValues, responseInfoLabels };
+module.exports = { responseLastUser, responseReleased, databaseServerClose, responseAllDatasetNumbers, responseCheckDatasetNumber, responseAllDatasetNumbers, responseComment, executeSimpleSQL, responseDataset, responseInitValues, responseDBStatus, responseDBRunning, responseStates, databaseServerConnect, responseTopicHeadlines, responseTopHeadlines, responseOutputText, responseImages, responseConstValues, responseInfoLabels };

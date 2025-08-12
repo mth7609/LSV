@@ -1,6 +1,6 @@
 import { doDatasetRemember, getMilliseconds1970, setDatasetUnchanged, prepareNumber, clearInput, setToNew, doNew } from "./RendererScripts_01.js";
 import { setStatusWarning, setStatusWarningPermanent, runForeverConfirmDoSave, runForeverConfirmDoDelete, setStatusInformation, setStatusInformationPermanent, setStatus1, setStatus2 } from "./RendererScripts_03.js";
-import { requestAllDatasetNumbers, requestCheckDatasetNumber, requestDataset, requestComment } from "./ServerRequests.js";
+import { requestAllDatasetNumbers, requestCheckDatasetNumber, requestDataset, requestLastUser, requestComment } from "./ServerRequests.js";
 import { globalDatasetNumbers, globalDataset } from "./Globals.js";
 
 
@@ -238,7 +238,15 @@ export function doFetch() {
         return;
     }
 
-    requestDataset(parseInt(nr));
+    let intNr = parseInt(nr);
+    requestDataset(intNr);
+    requestLastUser(intNr);
+    //datasetUser_" + datasetNumber,
+    let loginUser = localStorage.getItem("loginUser");
+    let actualDatasetUser = localStorage.getItem("datasetUser_" + intNr);
+
+    console.log("loginUser: " + loginUser);
+    console.log("Actual Dataset User: " + actualDatasetUser);
 
     $(".doButtonDatasetDelete").removeClass('disabled');
     $(".doButtonDatasetSave").removeClass('disabled');
