@@ -228,11 +228,10 @@ export function requestAllDatasetNumbers() {
 export function requestSHA(user) {
     $.ajax({
         type: 'GET',
-        url: 'http://localhost:' + localStorage.getItem("httpPort") + '/requestSHA?user=' + user,
-        async: false,
+        url: 'http://localhost:' + localStorage.getItem("httpPort") + '/requestSHA?user=' + user, async: false,
         success: function (data) {
-            //console.log("data: " + data[0]["sha2val"]);
             localStorage.setItem(user + "SHA", data[0]["sha2val"]);
+            localStorage.setItem("userPolicy", data[0]["userPolicy"]);
         }
     });
 }
@@ -242,10 +241,9 @@ export function requestSHA(user) {
 export function requestLastUser(datasetNumber) {
     $.ajax({
         type: 'GET',
-        url: 'http://localhost:' + localStorage.getItem("httpPort") + '/requestLastUser?datasetNumber=' + datasetNumber,
-        async: false,
+        url: 'http://localhost:' + localStorage.getItem("httpPort") + '/requestLastUser?datasetNumber=' + datasetNumber, async: false,
         success: function (data) {
-            console.log("datasetUser_" + datasetNumber, data[0]["lastUser"]);
+            //console.log("datasetUser_" + datasetNumber, data[0]["lastUser"]);
             localStorage.setItem("datasetUser_" + datasetNumber, data[0]["lastUser"]);
         }
     });

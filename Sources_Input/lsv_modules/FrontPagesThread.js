@@ -16,7 +16,6 @@ function frontPagesLoop(i) {
 };
 
 
-
 function readFrontPageFiles() {
     let i;
     let f = [];

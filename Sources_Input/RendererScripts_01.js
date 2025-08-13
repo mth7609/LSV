@@ -1,7 +1,7 @@
 import { requestAllDatasetNumbers, requestStates, requestTopHeadlines, requestTopicHeadlinesInfo, requestConstValues, requestTopicItems, requestInitValues, requestInfoLabels, requestImages, requestOutputText } from "./ServerRequests.js";
 import { globalDatasetNumbers, globalTopicHeadlines, globalTopicItems, globalTopHeadlines } from "./Globals.js";
 import { getNextDatasetNumber, checkTab, checkForDataset, doFetch, doDatasetSave, doDatasetDelete, newTab, showDBStatus, doKeydown } from "./RendererScripts_02.js";
-import { setStatusWarning, setStatusWarningPermanent, setStatusInformation, setStatus3, setStatus2, setStatus5 } from "./RendererScripts_03.js";
+import { setStatusWarning, setStatusWarningPermanent, setStatusInformation, setStatus3, setStatus2, setStatus6, setStatus5 } from "./RendererScripts_03.js";
 
 var selectedDropdown = 0;
 var elementsOnForm = 1;
@@ -38,6 +38,8 @@ publisherReset();
 
 $(".doButtonDatasetDelete").removeClass('disabled');
 $(".doButtonDatasetRemember").removeClass('disabled');
+
+$(".navtab-0").text(localStorage.getItem("homeLabel"));
 
 //console.log(globalDatasetNumbers);
 
@@ -145,8 +147,13 @@ window.electronAPI.getFrontPages((value) => {
 
 window.electronAPI.getLoginUser((value) => {
     localStorage.setItem("loginUser", value);
-    console.log("lll" + value);
-    setStatus5(value);
+    setStatus5("Angemeldet: " + value);
+})
+
+
+window.electronAPI.getUserPolicy((value) => {
+    localStorage.setItem("userPolicy", value);
+    console.log("Policy: " + value);
 })
 
 
@@ -218,7 +225,7 @@ function setOtherContent() {            // using the front pages ticks
         $(".selectButton").css("fontSize", "11px");
         $(".selectButton").css.apply;
     }
-    $('.statusText4').text(getActualFullDate());
+    $('.statusText6').text(getActualFullDate());
 }
 
 
@@ -279,7 +286,6 @@ function topicListButtonClick() {
 }
 
 
-
 function topicListLabelClick() {
     let topicName = this.attributes[1].value.replace("Label", "");
     //console.log("2 " + topicName + "    " + $(`#${topicName}`).prop("checked") + "    " + lastTopicName);
@@ -311,6 +317,7 @@ export function setTopicHeadlines() {
     }
 }
 
+
 export function setTopicItems(nr) {
     let i, n;
     let el = "";
@@ -340,6 +347,7 @@ function publisherSchool(str) {
     //console.log("out: " + localStorage.getItem("publisherIsOutput") + "     Save: " + localStorage.getItem("publisherIsSave"));
 }
 
+
 function publisherFree(str) {
     localStorage.setItem("publisherIsOutput", localStorage.getItem("free"));
     localStorage.setItem("publisherIsSave", "free");
@@ -351,6 +359,7 @@ function publisherFree(str) {
     //console.log("out: " + localStorage.getItem("publisherIsOutput") + "     Save: " + localStorage.getItem("publisherIsSave"));
 }
 
+
 function publisherReset() {
     localStorage.setItem("publisherIsOutput", "");
     localStorage.setItem("publisherIsSave", "");
@@ -358,13 +367,16 @@ function publisherReset() {
     $(".freeLabel").css("backgroundColor", "#ffffff");
 }
 
+
 function stateSel(str) {
     selectedDropdown = 1;
 }
 
+
 function stateReset() {
     $(".dropdownState").text("...");
 }
+
 
 function yearSel(str) {
     selectedDropdown = 2;
@@ -383,6 +395,7 @@ function updateValue(str) {
     }
 }
 
+
 function setYears() {
     let str = "";
     let i;
@@ -393,7 +406,6 @@ function setYears() {
     }
     $(".years").html(str);
 }
-
 
 
 export function prepareNumber(nr) {
@@ -508,7 +520,7 @@ export function doDatasetRemember() {
     datasetTopItems[selectCnt][6] = $('.publishNo').val();
     datasetTopItems[selectCnt][7] = $('.comment').val();
 
-    console.log("who: " + localStorage.getItem("releasedWho"));
+    //console.log("who: " + localStorage.getItem("releasedWho"));
 
     let i = 0, n = 0, itemCnt = 0;
 
@@ -555,6 +567,7 @@ function getFreeTab() {
 export function upperLetter(str, nr) {
     return str.charAt(nr).toUpperCase() + str.slice(nr + 1);
 }
+
 
 export function lowerLetter(str, nr) {
     return str.charAt(nr).toLowerCase() + str.slice(nr + 1);

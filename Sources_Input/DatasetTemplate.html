@@ -100,7 +100,7 @@
 
     <script>
         $(".printerLayout_SC").hide();
-        let usr_SC = localStorage.getItem("loginUser");
+        usr_SC = localStorage.getItem("loginUser");
 
         if (usr_SC === "admin1" || usr_SC === "admin2") {
             $(".formEditing").show();
@@ -123,7 +123,6 @@
             $(".removeReleasedButton_SC").hide();
         }
 
-        console.log(usr_SC);
         $(".printButton_SC").on('click', function (event) {
             $(".printButton_SC").hide();
             $(".removeButton_SC").hide();
@@ -177,7 +176,6 @@
             removeReleased(SC);
         });
     </script>
-
 </body>
 
 </html>

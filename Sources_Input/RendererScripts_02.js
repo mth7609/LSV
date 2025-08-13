@@ -1,5 +1,5 @@
 import { doDatasetRemember, getMilliseconds1970, setDatasetUnchanged, prepareNumber, clearInput, setToNew, doNew } from "./RendererScripts_01.js";
-import { setStatusWarning, setStatusWarningPermanent, runForeverConfirmDoSave, runForeverConfirmDoDelete, setStatusInformation, setStatusInformationPermanent, setStatus1, setStatus2 } from "./RendererScripts_03.js";
+import { setStatusWarning, setStatusWarningPermanent, runForeverConfirmDoSave, runForeverConfirmDoDelete, setStatusInformation, setStatusInformationPermanent, setStatus1, setStatus2, setStatus4, setStatus5 } from "./RendererScripts_03.js";
 import { requestAllDatasetNumbers, requestCheckDatasetNumber, requestDataset, requestLastUser, requestComment } from "./ServerRequests.js";
 import { globalDatasetNumbers, globalDataset } from "./Globals.js";
 
@@ -221,7 +221,7 @@ export function doFetch() {
         return;
     }
 
-    if (nr > 99999) {
+    if (nr > localStorage.getItem("maxDatasets")) {
         setStatusWarning(3, localStorage.getItem('dataset') + " " + nr + " " + localStorage.getItem('toLarge'));
         return;
     }
@@ -240,13 +240,19 @@ export function doFetch() {
 
     let intNr = parseInt(nr);
     requestDataset(intNr);
-    requestLastUser(intNr);
+
     //datasetUser_" + datasetNumber,
     let loginUser = localStorage.getItem("loginUser");
     let actualDatasetUser = localStorage.getItem("datasetUser_" + intNr);
 
-    console.log("loginUser: " + loginUser);
-    console.log("Actual Dataset User: " + actualDatasetUser);
+    if (globalDataset.contentValue[0]["released"] == 0)
+        setStatus4("Bearbeitet von: " + globalDataset.contentValue[0]["lastUser"]);
+    else
+        setStatus4("Freigegeben von: " + globalDataset.contentValue[0]["releasedWho"]);
+
+    setStatus5("Angemeldet als: " + loginUser);
+
+    requestLastUser(intNr);
 
     $(".doButtonDatasetDelete").removeClass('disabled');
     $(".doButtonDatasetSave").removeClass('disabled');
@@ -435,7 +441,7 @@ export function saveDataset() {
     var enc = encodeURIComponent($('.comment').val());
 
     if (nr > 0) {
-        sqlQuery = "INSERT INTO prolabor.archive_data (dataset_number,name,school_publisher,year,number,city,state,publisher_is,topics_list,timestamp,lastUser) values(" + nr + el + ",'" + el2.trimStart() + "'," + getMilliseconds1970() + ",'" + localStorage.getItem("loginUser") + "')";
+        sqlQuery = "INSERT INTO prolabor.archive_data (dataset_number,name,school_publisher,year,number,city,state,publisher_is,topics_list,timestamp,lastUser,released) values(" + nr + el + ",'" + el2.trimStart() + "'," + getMilliseconds1970() + ",'" + localStorage.getItem("loginUser") + "',0)";
         //console.log("New: " + sqlQuery);
 
         window.electronAPI.executeSimpleSQL(sqlQuery);
@@ -475,7 +481,7 @@ export function saveDataset() {
             }, 500);
 
             setTimeout(() => {
-                sqlQuery = "INSERT INTO prolabor.archive_data (dataset_number,name,school_publisher,year,number,city,state,publisher_is,topics_list,timestamp,lastUser) values(" + cnr + el + ",'" + el2.trimStart() + "'," + getMilliseconds1970() + ",'" + localStorage.getItem("loginUser") + "')";
+                sqlQuery = "INSERT INTO prolabor.archive_data (dataset_number,name,school_publisher,year,number,city,state,publisher_is,topics_list,timestamp,lastUser,released) values(" + cnr + el + ",'" + el2.trimStart() + "'," + getMilliseconds1970() + ",'" + localStorage.getItem("loginUser") + "',0)";
                 window.electronAPI.executeSimpleSQL(sqlQuery);
             }, 1000);
 

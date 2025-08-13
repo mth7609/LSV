@@ -24,12 +24,12 @@ $(".login").on('click', function (event) {
     const user = $('.us').val();
     const password = $('.pw').val();
     requestSHA(user);
-    window.electronAPI.closeLogin(user, password, localStorage.getItem(user + "SHA"));
+    window.electronAPI.closeLogin(user, password, localStorage.getItem(user + "SHA"), localStorage.getItem("userPolicy"));
 });
 
 
 $(".loginErrorCancel").on('click', function (event) {
-    window.electronAPI.closeLogin("loginErrorClose", "-", "-");
+    window.electronAPI.closeLogin("loginErrorClose", "-", "-", "-");
 });
 
 
@@ -45,7 +45,7 @@ function checkUserKeydown(event) {
     const user = $('.us').val();
     const password = $('.pw').val();
     requestSHA(user);
-    window.electronAPI.closeLogin(user, password, localStorage.getItem(user));
+    window.electronAPI.closeLogin(user, password, localStorage.getItem(user + "SHA"), localStorage.getItem(userPolicy));
 }
 
 

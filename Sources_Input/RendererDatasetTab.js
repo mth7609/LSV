@@ -24,7 +24,7 @@ function updateDatasetTabContent(tab) {
     let when = localStorage.getItem("releasedWhen");
     let who = localStorage.getItem("releasedWho");
 
-    if (!who || who == "null") {
+    if (!who || who == "-") {
         $(".releasedButton_" + tab).removeClass('disabled');
         $(".removeReleasedButton_" + tab).addClass('disabled');
     }

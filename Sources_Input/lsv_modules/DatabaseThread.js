@@ -9,7 +9,7 @@ function checkDBLoop(i) {
 
     setTimeout(function () {
         con = mysql.createConnection({
-            host: "localhost",
+            host: "prolabor",
             user: "prolabor",
             password: "mzkti29b#",
             database: "prolabor"

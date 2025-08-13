@@ -5,7 +5,7 @@ let con;
 
 
 const dsn = {
-  host: 'localhost',
+  host: 'prolabor',
   database: "prolabor",
   user: 'prolabor',
   password: "mzkti29b#",
@@ -18,11 +18,10 @@ function databaseServerConnect() {
   con.connect(function (err) {
     if (err) {
       serverFunctions.store.put("dbconnect", "NOK");
-      //console.log("dbconnect " + store.get("dbconnect"));
+      throw err;
     }
     else {
       serverFunctions.store.put("dbconnect", "OK");
-      //console.log("dbconnect " + store.get("dbconnect"));
     }
   });
   return con;
@@ -287,11 +286,12 @@ function responseComment() {
 function responseSHA() {
   serverFunctions.appx.get('/requestSHA', (req, res) => {
     const user = req.query.user;
-    //    console.log("user: " + user);
+    console.log("user: " + user);
     con.query("SELECT * FROM sha2 where userName='" + user + "'", (err, result, fields) => {
       if (err) {
         throw err;
       }
+      console.log(result);
       res.send(result);
     });
   });

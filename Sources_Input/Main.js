@@ -17,6 +17,7 @@ const loadingEvents = new EventEmitter();
 let winMain = null;
 let loginWindow = null;
 let loginUser = "";
+let userPolicy = "";
 let loginErrorWindow = null;
 let dbMessageWindow = null;
 let databaseCheckWorker = null;
@@ -44,7 +45,7 @@ const createMainWindow = () => {
   winMain.webContents.session.setSpellCheckerEnabled(false);
   serverFunctions.createDatasetFiles();
 
-  ipcMain.on('loginCMD', (event, user, pwd, pwdSHA) => {
+  ipcMain.on('loginCMD', (event, user, pwd, pwdSHA, policy) => {
     if (pwd === "nok") {
       loginErrorWindow.close();
       loginWindow.close();
@@ -59,10 +60,11 @@ const createMainWindow = () => {
 
     if (!pwdSHA) return;
 
+    userPolicy = policy;
     loginUser = user;
     let inputSHA = crypto.createHash('sha256').update(pwd).digest('hex');
 
-    //console.log(user + "   " + pwd + "      InputSHA: " + inputSHA);
+    console.log(user + "   " + pwd + "      InputSHA: " + inputSHA + "      Policy: " + userPolicy);
     //return;
 
     pwd = "";
@@ -75,9 +77,9 @@ const createMainWindow = () => {
     }
   })
 
-
   winMain.once('ready-to-show', () => {
     winMain.webContents.send('loginUser', loginUser);
+    winMain.webContents.send('userPolicy', userPolicy);
     winMain.webContents.send('httpPort', initData["httpPort"]);
     winMain.webContents.send('initDate', initData["initDate"]);
     //console.log("ready");
@@ -126,7 +128,7 @@ const createLoginWindow = () => {
   loginWindow = new BrowserWindow({
     width: 500,
     height: 450,
-    frame: false,
+    frame: true,
     show: false,
     alwaysOnTop: false,
     webPreferences: {

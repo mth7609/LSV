@@ -60,11 +60,20 @@ export function setStatus4(str) {
     $(".statusText4").html(str);
 }
 
+
 export function setStatus5(str) {
     $(".statusbar5").css("color", "#000000");
     $(".statusbar5").css("background-color", "#c2e2ec");
     $(".statusText5").html(str);
 }
+
+
+export function setStatus6(str) {
+    $(".statusbar6").css("color", "#000000");
+    $(".statusbar6").css("background-color", "#c2e2ec");
+    $(".statusText6").html(str);
+}
+
 
 export function setStatusWarning(pos, text) {
     let fkt = "setStatus" + pos + "('" + text + "')";
@@ -134,6 +143,7 @@ export function setStatusTodo(pos, text) {
             setStatus3(localStorage.getItem("enterData"));
     }, 4000);
 }
+
 
 export function setStatusTodoPermanent(pos, text) {
     let fkt = "setStatus" + pos + "('" + text + "')";
