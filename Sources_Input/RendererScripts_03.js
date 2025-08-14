@@ -1,6 +1,19 @@
 import { saveDataset, deleteDataset } from "./RendererScripts_02.js";
+import { globalDataset } from "./Globals.js";
+
 
 // for modal window save
+export async function runForeverShowMessage(callCnt) {
+    callCnt++;
+    setTimeout(function () {
+        if (localStorage.getItem("messageOK") == 1) {
+            return;
+        }
+        runForeverShowMessage(callCnt);
+    }, 500);
+};
+
+
 export async function runForeverConfirmDoSave(callCnt) {
     callCnt++;
     setTimeout(function () {
@@ -12,12 +25,10 @@ export async function runForeverConfirmDoSave(callCnt) {
             return;
         }
         runForeverConfirmDoSave(callCnt);
-
     }, 500);
 };
 
 
-// For modal window delete
 export async function runForeverConfirmDoDelete(callCnt) {
     callCnt++;
     setTimeout(function () {
@@ -152,3 +163,21 @@ export function setStatusTodoPermanent(pos, text) {
     $(".statusbar" + pos).css("color", "#ffffff");
 }
 
+
+export function setUserStatus(nr) {
+    let loginUser = localStorage.getItem("loginUser");
+    setStatus5("Angemeldet als: " + loginUser);
+    if (globalDataset.contentValue[0]["released"] == 0)
+        setStatus4("Bearbeitet von: " + globalDataset.contentValue[0]["lastUser"]);
+    else
+        setStatus4("Freigegeben von: " + globalDataset.contentValue[0]["releasedWho"]);
+}
+
+
+export function checkAdmin() {
+    let user = new String(localStorage.getItem("loginUser").toLowerCase());
+    if (user.includes("admin"))
+        return true;
+    else
+        return false
+}

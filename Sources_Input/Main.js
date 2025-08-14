@@ -64,7 +64,7 @@ const createMainWindow = () => {
     loginUser = user;
     let inputSHA = crypto.createHash('sha256').update(pwd).digest('hex');
 
-    console.log(user + "   " + pwd + "      InputSHA: " + inputSHA + "      Policy: " + userPolicy);
+    //console.log(user + "   " + pwd + "      InputSHA: " + inputSHA + "      Policy: " + userPolicy);
     //return;
 
     pwd = "";
@@ -128,7 +128,7 @@ const createLoginWindow = () => {
   loginWindow = new BrowserWindow({
     width: 500,
     height: 450,
-    frame: true,
+    frame: false,
     show: false,
     alwaysOnTop: false,
     webPreferences: {

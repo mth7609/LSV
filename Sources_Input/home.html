@@ -23,10 +23,31 @@
         $(".confirmDeleteHeadline").text(localStorage.getItem("buttonDelete"));
         $(".confirmDelete").text(localStorage.getItem("buttonDelete"));
         $(".confirmDeleteCancel").text(localStorage.getItem("cancel"));
+        $(".messageOK").text(localStorage.getItem("okLabel"));
     </script>
 </head>
 
 <body>
+
+    <button type="button" class="buttonMessageModal" data-bs-toggle="modal" data-bs-target=".messageModal"></button>
+    <div class="modal fade messageModal" data-bs-backdrop="static" role="dialog">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5 messageHeadline"></h1>
+                </div>
+                <div class="modal-body ps-3">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn messageOK selectButton ps-2 pe-2" data-bs-dismiss="modal"></button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        $(".buttonMessageModal").hide();
+    </script>
+
 
     <button type="button" class="buttonOpenConfirmSaveModal" data-bs-toggle="modal" data-bs-target=".confirmSaveModal"></button>
     <div class="modal fade confirmSaveModal" data-bs-backdrop="static" role="dialog">

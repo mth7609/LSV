@@ -8,9 +8,12 @@ var elementsOnForm = 1;
 var maxDatasetTabs = 10;
 var lastTopicName = "null";
 
+let user = localStorage.getItem("loginUser")
 let ld = localStorage.getItem("lastDatasetNumberUsed")
 localStorage.clear();
+localStorage.setItem("loginUser", user);
 localStorage.setItem("lastDatasetNumberUsed", ld);
+
 localStorage.setItem("httpPort", "8089");
 localStorage.setItem("tabCount", 0);
 localStorage.setItem("selectCnt", 1);
@@ -74,6 +77,10 @@ $("body").on('keydown', doKeydown);
 $("title").text(localStorage.getItem("title"));
 
 // buttons for model dialogs
+$(".messageOK").on('click', function () {
+    localStorage.setItem("messageOK", 1);
+})
+
 $(".confirmSaveCancel").on('click', function () {
     localStorage.setItem("confirmSaveCancel", 1);
     localStorage.setItem("confirmSaveOverwrite", 0);
@@ -147,7 +154,6 @@ window.electronAPI.getFrontPages((value) => {
 
 window.electronAPI.getLoginUser((value) => {
     localStorage.setItem("loginUser", value);
-    setStatus5("Angemeldet: " + value);
 })
 
 

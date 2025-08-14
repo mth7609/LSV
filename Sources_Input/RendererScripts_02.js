@@ -1,5 +1,5 @@
 import { doDatasetRemember, getMilliseconds1970, setDatasetUnchanged, prepareNumber, clearInput, setToNew, doNew } from "./RendererScripts_01.js";
-import { setStatusWarning, setStatusWarningPermanent, runForeverConfirmDoSave, runForeverConfirmDoDelete, setStatusInformation, setStatusInformationPermanent, setStatus1, setStatus2, setStatus4, setStatus5 } from "./RendererScripts_03.js";
+import { checkAdmin, setStatusWarning, setStatusWarningPermanent, runForeverConfirmDoSave, setUserStatus, runForeverShowMessage, runForeverConfirmDoDelete, setStatusInformation, setStatusInformationPermanent, setStatus1, setStatus2 } from "./RendererScripts_03.js";
 import { requestAllDatasetNumbers, requestCheckDatasetNumber, requestDataset, requestLastUser, requestComment } from "./ServerRequests.js";
 import { globalDatasetNumbers, globalDataset } from "./Globals.js";
 
@@ -240,19 +240,7 @@ export function doFetch() {
 
     let intNr = parseInt(nr);
     requestDataset(intNr);
-
-    //datasetUser_" + datasetNumber,
-    let loginUser = localStorage.getItem("loginUser");
-    let actualDatasetUser = localStorage.getItem("datasetUser_" + intNr);
-
-    if (globalDataset.contentValue[0]["released"] == 0)
-        setStatus4("Bearbeitet von: " + globalDataset.contentValue[0]["lastUser"]);
-    else
-        setStatus4("Freigegeben von: " + globalDataset.contentValue[0]["releasedWho"]);
-
-    setStatus5("Angemeldet als: " + loginUser);
-
-    requestLastUser(intNr);
+    setUserStatus(intNr);
 
     $(".doButtonDatasetDelete").removeClass('disabled');
     $(".doButtonDatasetSave").removeClass('disabled');
@@ -334,6 +322,30 @@ export function doDatasetSave() {
 
     let nr = String($(".dsNumber").val()).replace(".", "");
 
+    if (nr == localStorage.getItem("lastDatasetNumberUsed")) {
+        if (!checkAdmin()) {
+            if (globalDataset.contentValue[0]["released"] == 1) {
+                $(".modal-body").text(localStorage.getItem("saveNotAllowed"));
+                localStorage.setItem("messageOK", 0);
+                $(".buttonMessageModal").click();
+                $(".messageHeadline").text(localStorage.getItem("datasetIsReleased"));
+                $(".doButtonDatasetSave").addClass('disabled')
+                runForeverShowMessage(1);
+                return;
+            }
+        }
+
+        if (localStorage.getItem("loginUser") != globalDataset.contentValue[0]["lastUser"]) {
+            $(".modal-body").text(localStorage.getItem("saveNotAllowed"));
+            localStorage.setItem("messageOK", 0);
+            $(".buttonMessageModal").click();
+            $(".messageHeadline").text(localStorage.getItem("notYourDataset"));
+            $(".doButtonDatasetSave").addClass('disabled');
+            runForeverShowMessage(1);
+            return;
+        }
+    }
+
     if (nr == 0) {
         setStatusWarning(3, localStorage.getItem("statusDatasetNumberInput"));
         return;
@@ -357,12 +369,14 @@ export function doDatasetSave() {
         $(".buttonOpenConfirmSaveModal").click();
         localStorage.setItem("datasetNumber", null);
         runForeverConfirmDoSave(1);
+        //doFetch();                Change? Compare?
     }
     else {
         localStorage.setItem("changeDatasetNumber", null);
         localStorage.setItem("datasetNumber", nr);
         saveDataset();
         requestAllDatasetNumbers();
+        //doFetch();
     }
 }
 
@@ -373,6 +387,29 @@ export function doDatasetDelete() {
         return;
 
     let nr = String($(".dsNumber").val()).replace(".", "");
+
+    if (!checkAdmin()) {
+        if (globalDataset.contentValue[0]["released"] == 1) {
+            $(".modal-body").text(localStorage.getItem("deleteNotAllowed"));
+            localStorage.setItem("messageOK", 0);
+            $(".buttonMessageModal").click();
+            $(".messageHeadline").text(localStorage.getItem("datasetIsReleased"));
+            $(".doButtonDatasetSave").addClass('disabled')
+            runForeverShowMessage(1);
+            return;
+        }
+
+        if (localStorage.getItem("loginUser") != globalDataset.contentValue[0]["lastUser"]) {
+            $(".modal-body").text(localStorage.getItem("deleteNotAllowed"));
+            localStorage.setItem("messageOK", 0);
+            $(".buttonMessageModal").click();
+            $(".messageHeadline").text(localStorage.getItem("notYourDataset"));
+            $(".doButtonDatasetSave").addClass('disabled');
+            runForeverShowMessage(1);
+            return;
+        }
+    }
+
     nr = parseInt(nr);
     let pnr = prepareNumber(nr);
 
@@ -449,7 +486,7 @@ export function saveDataset() {
         setTimeout(() => {
             sqlQuery = "INSERT INTO prolabor.dataset_comments (dataset_number, comment) values(" + nr + ",'" + enc + "')";
             window.electronAPI.executeSimpleSQL(sqlQuery);
-        }, 1000);
+        }, 500);
 
         nr = localStorage.getItem("datasetNumber");
         pnr = prepareNumber(nr);

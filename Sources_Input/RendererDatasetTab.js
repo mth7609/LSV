@@ -130,7 +130,7 @@ function saveReleased(tab) {
 
     localStorage.setItem("releasedWhen", when);
     localStorage.setItem("releasedWho", who);
-    updateDatasetTabContent(tab)
+    changeHomeContent(tab);
 }
 
 
