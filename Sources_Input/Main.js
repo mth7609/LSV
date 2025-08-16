@@ -19,12 +19,13 @@ let loginWindow = null;
 let loginUser = "";
 let userPolicy = "";
 let loginErrorWindow = null;
-let dbMessageWindow = null;
+let dbErrorWindow = null;
 let databaseCheckWorker = null;
 let frontPagesWorker = null;
 let DbBackupWorker = null;
 
 serverFunctions.store.put("dbconnect", "NOK");
+
 
 //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ createMainWindow()
 
@@ -63,10 +64,6 @@ const createMainWindow = () => {
     userPolicy = policy;
     loginUser = user;
     let inputSHA = crypto.createHash('sha256').update(pwd).digest('hex');
-
-    //console.log(user + "   " + pwd + "      InputSHA: " + inputSHA + "      Policy: " + userPolicy);
-    //return;
-
     pwd = "";
 
     if (inputSHA === pwdSHA)
@@ -80,15 +77,13 @@ const createMainWindow = () => {
   winMain.once('ready-to-show', () => {
     winMain.webContents.send('loginUser', loginUser);
     winMain.webContents.send('userPolicy', userPolicy);
-    winMain.webContents.send('httpPort', initData["httpPort"]);
-    winMain.webContents.send('initDate', initData["initDate"]);
-    //console.log("ready");
+    winMain.webContents.send("initData", initData);
     winMain.show();
   })
 
   ipcMain.on('executeSimpleSQLCMD', (event, query) => {
     let ret = serverResponses.executeSimpleSQL(query);
-    console.log("ret: " + ret);
+    //console.log("ret: " + ret);
   })
 
   winMain.on('closed', (event, query) => {
@@ -152,8 +147,8 @@ const createLoginWindow = () => {
 
 //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-const createDbMessageWindow = () => {
-  dbMessageWindow = new BrowserWindow({
+const createDbErrorWindow = () => {
+  dbErrorWindow = new BrowserWindow({
     width: 500,
     height: 250,
     frame: false,
@@ -166,16 +161,15 @@ const createDbMessageWindow = () => {
     }
   });
 
-  dbMessageWindow.loadFile('./DbMessageWindow.html').then(() => {
-    dbMessageWindow.center();
+  dbErrorWindow.loadFile('./dbErrorWindow.html').then(() => {
+    dbErrorWindow.center();
   }).catch(error => {
-    console.error('Error loading message window:', error);
+    console.error('Error loading database error message window: ', error);
   });
 
-
-  dbMessageWindow.on('closed', () => {
-    dbMessageWindow.removeAllListeners()
-    dbMessageWindow = null;
+  dbErrorWindow.on('closed', () => {
+    dbErrorWindow.removeAllListeners()
+    app.quit();
   })
 }
 
@@ -198,7 +192,7 @@ const createLoginErrorWindow = () => {
   loginErrorWindow.loadFile('./loginErrorWindow.html').then(() => {
     loginErrorWindow.center();
   }).catch(error => {
-    console.error('Error loading message window:', error);
+    console.error('Error loading login message window:', error);
   });
 
   loginErrorWindow.on('loginErrorCancel', () => {
@@ -222,7 +216,6 @@ loadingEvents.on('finishedLogin', async () => {
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-
 const createWorkerThread = () => {
   if (isMainThread) {
     databaseCheckWorker = new Worker("./lsv_modules/DatabaseThread.js");
@@ -232,14 +225,14 @@ const createWorkerThread = () => {
       if (winMain)
         winMain.webContents.send('dbStatus', message);
       if (message === "NOK") {
-        if (dbMessageWindow) {
+        if (dbErrorWindow) {
           if (loginWindow) loginWindow.hide();
           if (loginErrorWindow) loginErrorWindow.hide();
-          dbMessageWindow.show();
+          dbErrorWindow.show();
         }
       }
       else {
-        if (dbMessageWindow) dbMessageWindow.hide();
+        if (dbErrorWindow) dbErrorWindow.hide();
         console.log("Database running");
       }
     });
@@ -251,7 +244,6 @@ const createWorkerThread = () => {
         winMain.webContents.send('frontPage', message);
     });
     frontPagesWorker.postMessage("Start");
-
 
     DbBackupWorker = new Worker("./lsv_modules/DatabaseBackupThread.js");
     DbBackupWorker.on('message', (message) => {
@@ -266,49 +258,61 @@ const createWorkerThread = () => {
 
 
 app.whenReady().then(() => {
-
   console.log("Starting application");
-
   serverFunctions.serverOpen();
   console.log("Local HTTP server started");
+  serverResponses.databaseServerConnect();
+  createDbErrorWindow();
+
   app.commandLine.appendSwitch('high-dpi-support', 1)
   app.commandLine.appendSwitch('force-device-scale-factor', 1)
 
   setTimeout(() => {
-    serverResponses.databaseServerConnect();
-    console.log("Connected to database");
+    if (serverFunctions.store.get("dbconnect") == "NOK") {
+      console.log("NOT connected to database");
+      serverResponses.databaseServerClose();
+      dbErrorWindow.show();
+    }
+    else
+      console.log("Connected to database");
   }, 500);
 
   setTimeout(() => {
-    createLoginWindow();
-    console.log("Login window created");
+    if (serverFunctions.store.get("dbconnect") != "NOK") {
+      createLoginWindow();
+      console.log("Login window created");
+    }
   }, 1000);
 
   setTimeout(() => {
-    createDbMessageWindow();
-    console.log("DB message window created");
-  }, 1500);
-
-  setTimeout(() => {
-    createLoginErrorWindow();
-    console.log("Login error window created");
+    if (serverFunctions.store.get("dbconnect") != "NOK") {
+      createLoginErrorWindow();
+      console.log("Login error window created");
+    }
   }, 2000);
 
   setTimeout(() => {
-    createMainWindow();
-    console.log("Main window created");
-    winMain.webContents.send('dbStatus', "checking...");
+    if (serverFunctions.store.get("dbconnect") != "NOK") {
+      createMainWindow();
+      console.log("Main window created");
+      winMain.webContents.send('dbStatus', "checking...");
+    }
   }, 2500);
 
   setTimeout(() => {
-    createWorkerThread();
-    console.log("Threads started");
+    if (serverFunctions.store.get("dbconnect") != "NOK") {
+      createWorkerThread();
+      console.log("Threads started");
+    }
   }, 3000);
 
   setTimeout(() => {
-    loginWindow.show();
-    console.log("Login window running");
+    if (serverFunctions.store.get("dbconnect") != "NOK") {
+      loginWindow.show();
+      console.log("Login window running");
+    }
   }, 3500);
+
 
   app.on('activate', () => {
     if (BrowserWindow.getAllWindows().length === 0) {

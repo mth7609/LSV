@@ -8,13 +8,6 @@ var elementsOnForm = 1;
 var maxDatasetTabs = 10;
 var lastTopicName = "null";
 
-let user = localStorage.getItem("loginUser")
-let ld = localStorage.getItem("lastDatasetNumberUsed")
-localStorage.clear();
-localStorage.setItem("loginUser", user);
-localStorage.setItem("lastDatasetNumberUsed", ld);
-
-localStorage.setItem("httpPort", "8089");
 localStorage.setItem("tabCount", 0);
 localStorage.setItem("selectCnt", 1);
 localStorage.setItem("maxDatasetTabs", maxDatasetTabs)
@@ -132,9 +125,23 @@ export function setDatasetUnchanged() {
     $(".doButtonDatasetDelete").removeClass('disabled');
 }
 
-
-window.electronAPI.getInitDate((value) => {
-    localStorage.setItem("initDate", value);
+window.electronAPI.getInitData((value) => {
+    localStorage.setItem("initTitle", value["title"]);
+    localStorage.setItem("initVersion", value["version"]);
+    localStorage.setItem("initDescription", value["description"]);
+    localStorage.setItem("initAuthor", value["author"]);
+    localStorage.setItem("initURL", value["URL"]);
+    localStorage.setItem("initHttpPort", value["httpPort"]);
+    localStorage.setItem("initHttpHost", value["httpHost"]);
+    localStorage.setItem("initMysqlPort", value["mysqlPort"]);
+    localStorage.setItem("initMysqlHost", value["mysqlHost"]);
+    localStorage.setItem("initMysqlUser", value["mysqlUser"]);
+    localStorage.setItem("initMysqlPassword", value["mysqlPassword"]);
+    localStorage.setItem("initMysqlDatabase", value["mysqlDatabase"]);
+    localStorage.setItem("initMaxSearchSets", value["maxSearchSets"]);
+    localStorage.setItem("initDate", value["initDate"]);
+    localStorage.setItem("initBackupDir", value["backupDir"]);
+    localStorage.setItem("InitBackupAllow", value["backupAllow"]);
 })
 
 
@@ -242,6 +249,7 @@ function setOutputText() {
             <label class="col-lg-3 ps-0 pt-2 fixed control-label nowrap commentLabel"></label><br>\
             <textarea class="comment" rows="6" style="width:100%"></textarea></form>');
 }
+
 
 function setTopHeadlines() {
     localStorage.setItem("datasetTopHeadlineCnt", globalTopHeadlines.contentValue.length);
@@ -504,7 +512,7 @@ export function doDatasetRemember() {
 
     if (checkTab(pnr) == true) {
         setStatusWarning(3, "Zeitschrift schon auf Merkliste");
-        return;
+        return selectCnt - 1;
     }
 
     if (isNaN(datasetNumber)) {
@@ -558,6 +566,7 @@ export function doDatasetRemember() {
     //console.log("3 cnt: " + selectCnt);
     localStorage.setItem("selectCnt", selectCnt);
     setStatusInformation(3, localStorage.getItem("dataset") + " " + prepareNumber(datasetNumber) + " " + localStorage.getItem("remembered"));
+    return selectCnt - 1;
 }
 
 

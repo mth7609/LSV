@@ -1,7 +1,9 @@
 const { Worker, isMainThread, parentPort, workerData } = require('node:worker_threads')
 const mysql = require('mysql2');
+const initData = require('../init.json');
 
 parentPort.on('message', (message) => {
+    //console.log("asd: " + localStorage.getItem("initHttpPort"));
     checkDBLoop();
 });
 
@@ -9,10 +11,11 @@ function checkDBLoop(i) {
 
     setTimeout(function () {
         con = mysql.createConnection({
-            host: "prolabor",
-            user: "prolabor",
-            password: "mzkti29b#",
-            database: "prolabor"
+            host: initData['mysqlHost'],
+            database: initData["mysqlDatabase"],
+            user: initData["mysqlUser"],
+            password: initData["mysqlPassword"],
+            port: initData["mysqlPort"]
         });
 
         con.connect(function (err) {
@@ -27,7 +30,7 @@ function checkDBLoop(i) {
         con.end();
         checkDBLoop();
 
-    }, 20000);
+    }, 5000);
 };
 
 

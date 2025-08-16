@@ -52,7 +52,7 @@ export function newTab(nr, link, name) {
     $(".navtab-" + nr).on('click', function (event) {
         setTabActive(nr);
         $(".tab-" + nr).show();
-        //  console.log("Tab nr: " + nr);
+        console.log("Tab nr: " + nr);
     });
 }
 
@@ -99,6 +99,8 @@ export function doKeydown(event) {
         return;
     }
 
+    console.log("key: " + key + "   keyOld: " + keyOld);
+
     switch (key) {
         case keyCtrl: keyOld = keyCtrl; return;
         case 37: break;
@@ -108,10 +110,9 @@ export function doKeydown(event) {
         case 83: break;
         case 78: break;
         case 65: break;
+        case 73: break;
         default: keyOld = 0; return;
     }
-
-    //console.log("key: " + key + "   keyOld: " + keyOld);
 
     if (key == 65 && keyOld == keyCtrl) {
         doFetch();
@@ -144,10 +145,18 @@ export function doKeydown(event) {
         return;
     }
 
+    if (key == 73 && keyOld == keyCtrl) {
+        let tab = doDatasetRemember();
+        console.log(tab);
+        $(".navtab-" + tab).click();
+        keyOld = 0;
+        return;
+    }
+
     nr = String($(".dsNumber").val()).replace(".", "");
 
     if (nr == 0) {
-        console.log(nr);
+        //console.log(nr);
         nr = getNextDatasetNumber(0);
     }
 
@@ -335,7 +344,7 @@ export function doDatasetSave() {
             }
         }
 
-        if (localStorage.getItem("loginUser") != globalDataset.contentValue[0]["lastUser"]) {
+        if ((localStorage.getItem("loginUser") != globalDataset.contentValue[0]["lastUser"]) && localStorage.getItem("userPolicy") != "admin") {
             $(".modal-body").text(localStorage.getItem("saveNotAllowed"));
             localStorage.setItem("messageOK", 0);
             $(".buttonMessageModal").click();

@@ -1,6 +1,5 @@
 const { Worker, isMainThread, parentPort, workerData } = require('node:worker_threads')
 const serverFunctions = require('../lsv_modules/ServerFunctions');
-
 const initData = require('../init.json');
 
 parentPort.on('message', (message) => {

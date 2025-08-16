@@ -9,14 +9,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.3/css/bootstrap.min.css">
     <link rel="stylesheet" href="lsv.css">
-    <script type="module" src="./RendererScripts_01.js"></script>
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-    <script type="module" src="./login.js"></script>
-
-    <script>
-        $(".message").text("localStorage.getItem(dbDisconnected" + "<br>" + localStorage.getItem("programMustEnd"));
-        $(".close").text(localStorage.getItem("close"));
-    </script>
+    <script type="module" src="./dbErrorWindow.js"></script>
 </head>
 
 <body>
@@ -27,9 +21,9 @@
             <div class="col-md-4 pt-3">
                 <form class="Form" id="Form">
                     <div class="form-group">
-                        <label class="message"></label>
+                        <label class="message">No connection to the database!<br>Program must be canceled</label>
                     </div>
-                    <button type="button" class="btn selectButton btn-primary close nowrap">&nbsp;&nbsp; Schließen &nbsp;&nbsp;</button>
+                    <button type="button" class="btn selectButton btn-primary cancel nowrap">&nbsp;&nbsp; Close &nbsp;&nbsp;</button>
                 </form>
             </div>
         </div>

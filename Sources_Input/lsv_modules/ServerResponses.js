@@ -1,16 +1,19 @@
 const serverFunctions = require('./ServerFunctions');
 const EventEmitter = require('events');
+const initData = require('../init.json');
 let tableNames = [];
 let con;
 
 
 const dsn = {
-  host: 'prolabor',
-  database: "prolabor",
-  user: 'prolabor',
-  password: "mzkti29b#",
+  host: initData['mysqlHost'],
+  database: initData["mysqlDatabase"],
+  user: initData["mysqlUser"],
+  password: initData["mysqlPassword"],
+  port: initData["mysqlPort"]
 };
 
+//console.log(dsn);
 
 function databaseServerConnect() {
   con = serverFunctions.mysql.createConnection(dsn);
@@ -18,7 +21,8 @@ function databaseServerConnect() {
   con.connect(function (err) {
     if (err) {
       serverFunctions.store.put("dbconnect", "NOK");
-      throw err;
+      return null;
+      //throw err;
     }
     else {
       serverFunctions.store.put("dbconnect", "OK");
@@ -32,29 +36,6 @@ function databaseServerClose() {
   con.close();
 }
 
-
-function responseDBStatus() {
-  serverFunctions.appx.get('/requestDBStatus', (req, res) => {
-    if (serverFunctions.store.get("dbconnect") == "OK")
-      res.send('command1');
-    else
-      res.send('command2');
-  });
-}
-
-
-function responseDBRunning() {
-  serverFunctions.appx.get('/requestDBRunning', (req, res) => {
-    con.query("SELECT name FROM states", function (err, result, fields) {
-      if (err) {
-        databaseServerConnect();
-        res.send("command2");
-      }
-      else
-        res.send("command1");
-    });
-  });
-}
 
 function responseStates() {
   serverFunctions.appx.get('/requestStates', (req, res) => {
@@ -322,14 +303,12 @@ function responseLastUser() {
 
 
 
-responseDBStatus();
 responseStates();
 responseTopicHeadlines();
 responseTopHeadlines();
 responseTopicItems();
 responseOutputText();
 responseInfoLabels();
-responseDBRunning();
 responseImages();
 responseInitValues();
 responseConstValues();
@@ -341,4 +320,4 @@ responseSHA();
 responseReleased();
 responseLastUser();
 
-module.exports = { responseLastUser, responseReleased, databaseServerClose, responseAllDatasetNumbers, responseCheckDatasetNumber, responseAllDatasetNumbers, responseComment, executeSimpleSQL, responseDataset, responseInitValues, responseDBStatus, responseDBRunning, responseStates, databaseServerConnect, responseTopicHeadlines, responseTopHeadlines, responseOutputText, responseImages, responseConstValues, responseInfoLabels };
+module.exports = { responseLastUser, responseReleased, databaseServerClose, responseAllDatasetNumbers, responseCheckDatasetNumber, responseAllDatasetNumbers, responseComment, executeSimpleSQL, responseDataset, responseInitValues, responseStates, databaseServerConnect, responseTopicHeadlines, responseTopHeadlines, responseOutputText, responseImages, responseConstValues, responseInfoLabels };
